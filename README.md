@@ -131,6 +131,17 @@ sudo python runserver.py
 ```
 
 
-## Hardware Setup
+## Hardware Setup für den Testaufbau
+
+* 1 x 1-wire Temperatursensor DS1820
+* 1 x 4.7k Ohm Widerstand
+* Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum)
+* 2 x Solid-State Relais XURUI
+* Strangkühlkörper KAB-60
+* Labor-Steckboard SYB-46
+* Raspberry Pi (Model A+, 2 Model B) + Netzkabel + passende SDCard
+* 2 x Steckdose
+* Schrauben zum befestingen der Bauteile
+
 
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
