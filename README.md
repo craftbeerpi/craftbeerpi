@@ -1,4 +1,17 @@
-# CraftBeer PI
+# CraftBeer PI v0.1
+
+## Features
+
+* Temperaturverlaufsanzeige (Real-Time)
+* Frei Konfigurierbarer Ablaufplan mit manuellen und automatischen Schritten
+* Timer mit automatischem Start bei erreichen der Zieltemperatur
+* Digitales Brauprotokoll
+* Smartphone und Tablet optimiert 
+* WebSocket Push Notification für Real-Time Update
+* Admin Oberfläche
+* WLAN Zugriff
+* Automatische Heizsteuerung (PID Controller)
+* Sud Import aus dem "kleinen Brauhelfer"
 
 
 ## Installation
@@ -58,3 +71,4 @@ Ins CraftBeerPI Verzeichnis wechseln und folgenden Befehlt ausführen
 ```
 sudo pip install -r requirements.txt
 ```
+### Configuration
