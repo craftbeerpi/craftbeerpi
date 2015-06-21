@@ -27,6 +27,7 @@ WLAN Adapter stoppen
 sudo ifdown wlan0
 ```
 WLAN Adapter starten
+```
 sudo ifup wlan
 ```
 ### WiringPi installieren
