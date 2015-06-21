@@ -5,6 +5,12 @@
 
 ### Raspbian installieren (Noobs)
 
+Hier findet ihr eine Anleitung zur Installation von Noobs.
+
+https://www.raspberrypi.org/help/noobs-setup/
+
+Bitte als Betriebsystem Raspbian auswählen.
+
 ### WIFI Auf dem Raspberry PI konfigurieren
 
 Nach WLAN scannen
