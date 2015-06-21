@@ -7,6 +7,28 @@
 
 ### WIFI Auf dem Raspberry PI konfigurieren
 
+Nach WLAN scannen
+```
+sudo iwlist wlan0 scan
+```
+WLAN Config Datei öffnen
+```
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+```
+Netzwerk und Passwort eingeben
+```
+network={
+    ssid="The_ESSID_from_earlier"
+    psk="Your_wifi_password"
+}
+```
+WLAN Adapter stoppen
+```
+sudo ifdown wlan0
+```
+WLAN Adapter starten
+sudo ifup wlan
+```
 ### WiringPi installieren
 ```
 sudo apt-get update
