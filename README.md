@@ -130,6 +130,27 @@ In das carfbeerpi verzeichnis wechseln
 sudo python runserver.py
 ```
 
+```
+
+   _____            __ _   ____                 _____ _____ 	_.._..,_,_	
+  / ____|          / _| | |  _ \               |  __ \_   _|   (          )	
+ | |     _ __ __ _| |_| |_| |_) | ___  ___ _ __| |__) || |      ]~,"-.-~~[	
+ | |    | '__/ _` |  _| __|  _ < / _ \/ _ \ '__|  ___/ | |    .=])' (;  ([			
+ | |____| | | (_| | | | |_| |_) |  __/  __/ |  | |    _| |_   | ]:: '    [			
+  \_____|_|  \__,_|_|  \__|____/ \___|\___|_|  |_|   |_____|  '=]): .)  ([		
+                                                                |:: '    |
+ ---------------------------------------- (C) 2015 Manuel F.     ~~----~~
+
+SET GPIO AGITATOR
+AGITATOR GPIO ERROR
+SET GPIO HEATING
+HEATING GPIO ERROR
+START PID
+ START TEMP JOB
+START STEP JOB
+ * Running on http://0.0.0.0:5000/
+```
+
 
 ## Hardware Setup für den Testaufbau
 
