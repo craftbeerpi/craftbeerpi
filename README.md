@@ -69,7 +69,10 @@ cd wiringPi
 sudo apt-get install python-pip
 ```
 ### CraftBeer PI herunterladen
-
+Am einfachsten ist wenn man die Software in das Home Verzeichnis des Benutzers pi wie folgt kopiert
+```
+git clone https://github.com/Manuel83/craftbeerpi.git
+```
 ### Python Pakete Installieren
 
 Ins CraftBeerPI Verzeichnis wechseln und folgenden Befehlt ausführen
@@ -77,6 +80,55 @@ Ins CraftBeerPI Verzeichnis wechseln und folgenden Befehlt ausführen
 sudo pip install -r requirements.txt
 ```
 ### Konfiguration
+
+Die Konfiguraitonsdatei ist in folgenen Verzeichnis zu finden
+
+craftbeerpi/brewapp/globalprops.py
+
+```
+nano globalprops.py
+```
+
+
+Konfiguraitonsdatei
+
+```
+## if test mode
+testMode = True
+
+### File name of sonder file
+tempSensorId = '28-03146215acff'
+
+### GPIO Number for Heating
+heating_pin = 17
+
+## GPIO Number Agitator
+agitator_pin = 18
+
+## interval in which the new temperatur is read
+temp_db_interval = 5
+
+## heating interval in seconds
+pid_interval = 10
+
+## PATH WHERE THE kleiner Brauhelfer DB is stored after upload
+kb_path = '/Users/manuelfritsch/Documents/git/python'
+
+###################################################################
+#### INTERNAL DO NOT CHANGE PARAMETERS BELOW
+gpioMode = False
+heatingState = False
+agitatorState = False
+pidState = False
+```
+
+
+### Start der Anwendung
+
+In das carfbeerpi verzeichnis wechseln 
+```
+sudo python runserver.py
+```
 
 
 ## Hardware Setup
