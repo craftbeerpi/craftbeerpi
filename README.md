@@ -15,6 +15,7 @@
 
 ## Screenshots
 
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
 
 
 ## Installation
@@ -74,4 +75,9 @@ Ins CraftBeerPI Verzeichnis wechseln und folgenden Befehlt ausführen
 ```
 sudo pip install -r requirements.txt
 ```
-### Configuration
+### Konfiguration
+
+
+## Hardware Setup
+
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
