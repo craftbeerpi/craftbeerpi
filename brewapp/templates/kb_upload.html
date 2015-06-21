@@ -1,0 +1,19 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <h3>Bitte Datenbank vom kleinen Brauhelfer auswaehlen</h3>
+    <form action="/admin/kbupload/upload" class="admin-form form-horizontal" method=post enctype=multipart/form-data>
+
+   
+   
+
+    <div>
+      <input type=file name=file>
+      <input class="btn btn-primary btn-large" type=submit value="Hochladen">
+    </div>
+    
+    
+    
+         
+    </form>
+{% endblock %}
