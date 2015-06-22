@@ -9,6 +9,8 @@ from brewapp.model import db, Step, Temperatur, Log
 import time
 from views import getAsArray, nextStep
 from pidcontroller import PIDController
+from pidypi import pidpy
+
 
 PIN = globalprops.heating_pin
 
@@ -91,7 +93,21 @@ def pidjob():
     print "START PID"
     global current_temp
     global target_temp
+
     pid = PIDController()
+    
+    pid = pidpy(globalprops.pid_interval,44,165,4)
+    enable = True
+#sampleTime = 5
+#    pid = pidpy(sampleTime,44,165,4)
+#    temp = 5
+#    setpoint = 25
+#    enable = True
+#    for index in range(len(temps)):
+#        print pid.calcPID_reg4(temps[index], setpoint, enable)
+#        time.sleep(sampleTime)
+
+
     while True:
         
         ## PID NOT ACTIVE SKIP
@@ -100,10 +116,14 @@ def pidjob():
             continue
 
         ## Set the target temp to pid controller
-        pid.setPoint(target_temp)
+        #pid.setPoint(target_temp)
         ## calculate the heating time in seconds
-        heating_time =  pid.calcualte(current_temp) / 100
+        #heating_time =  pid.calcualte(current_temp) / 100
+        heat_percent = pid.calcPID_reg4(current_temp, target_temp, True)
+        heating_time = globalprops.pid_interval * heat_percent / 100
         wait_time = globalprops.pid_interval - heating_time
+        print heating_time
+        print wait_time
         if(globalprops.gpioMode):
             GPIO.output(PIN, True)
         ## HEATING ON

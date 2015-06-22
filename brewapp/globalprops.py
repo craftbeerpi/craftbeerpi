@@ -14,7 +14,7 @@ agitator_pin = 18
 temp_db_interval = 5
 
 ## heating interval in seconds
-pid_interval = 10
+pid_interval = 5
 
 ## PATH WHERE THE kleiner Brauhelfer DB is stored after upload
 kb_path = '/Users/manuelfritsch/Documents/git/python'
