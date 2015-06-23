@@ -1,7 +1,8 @@
 ## if test mode
 testMode = False
 
-### File name of sonder file
+### File name of sensor file
+## /sys/bus/w1/devices/<temp_sensor_id>
 tempSensorId = '28-03146215acff'
 
 ### GPIO Number for Heating

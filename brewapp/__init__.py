@@ -8,6 +8,10 @@ import globalprops
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+if globalprops.testMode == False:
+        call(["modprobe", "w1-gpio"])
+        call(["modprobe", "w1-therm"])
+
 import brewapp.banner
 
 import brewapp.views
