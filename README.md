@@ -138,7 +138,7 @@ pidState = False
 
 In das carfbeerpi verzeichnis wechseln 
 ```
-sudo python runserver.py
+sudo nohub python runserver.py &
 ```
 
 ```

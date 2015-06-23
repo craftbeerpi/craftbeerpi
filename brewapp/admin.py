@@ -28,7 +28,7 @@ class LogAdmin(sqla.ModelView):
 class KBSelect(BaseView):
     @expose('/')
     def index(self):
-        conn = sqlite3.connect('./myapp/dbimport/import.db')
+        conn = sqlite3.connect('./brewapp/dbimport/import.db')
         c = conn.cursor()
         arr = []
         for row in c.execute('SELECT * FROM Sud'):
@@ -44,7 +44,7 @@ class KBSelect(BaseView):
 
 
 		id = request.args.get("id")
-		conn = sqlite3.connect('./myapp/dbimport/import.db')
+		conn = sqlite3.connect('./brewapp/dbimport/import.db')
 		c = conn.cursor()
 		order = 0
 
@@ -100,7 +100,7 @@ class KBUpload(BaseView):
     	if request.method == 'POST':
     		file = request.files['file']
     		filename = secure_filename(file.filename)
-    		file.save(os.path.join('./myapp/dbimport/', 'import.db'))
+    		file.save(os.path.join('./brewapp/dbimport/', 'import.db'))
         	return self.render('imp_result.html')
 
 class Back(BaseView):

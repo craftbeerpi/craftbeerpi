@@ -84,7 +84,7 @@ def ws_start():
 def ws_next():
     nextStep()
     socketio.emit('steps', getAsArray(Step), namespace ='/brew')
-    addMessage("Naechster Schritt")
+    
 
 @socketio.on('reset', namespace='/brew')
 def ws_reset():
