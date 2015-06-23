@@ -94,7 +94,7 @@ Konfiguraitonsdatei
 
 ```
 ## if test mode
-testMode = True
+testMode = False
 
 ### File name of sonder file
 tempSensorId = '28-03146215acff'
@@ -109,10 +109,21 @@ agitator_pin = 18
 temp_db_interval = 5
 
 ## heating interval in seconds
-pid_interval = 10
+pid_interval = 5
 
-## PATH WHERE THE kleiner Brauhelfer DB is stored after upload
-kb_path = '/Users/manuelfritsch/Documents/git/python'
+## PID tuning parameter
+pipP=102
+
+pidI=100
+
+pidD=5
+
+## hysteresis parameter in degrees celsius
+## For exmpale. If current temperatur is more than 2 degrees below the traget temp turn the heating 100% on
+hysteresis_min=2
+## For exmpale. If current temperatur is more than 0.5 degrees higher the traget temp turn the heating 100% off
+hysteresis_max=0.5
+
 
 ###################################################################
 #### INTERNAL DO NOT CHANGE PARAMETERS BELOW
