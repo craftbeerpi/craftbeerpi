@@ -164,13 +164,13 @@ START STEP JOB
 ## Bedienung
 
 ### Kleiner Brauhelfer Import
-Der import ist noch recht einfach gehalten. Klick oben rechts auf Admin dann auf "kleiner Brauhelfer" und wähle "Import" aus. Dann wähslt du die Datei "kb_daten.sqlite" aus. 
+Der Import ist noch recht einfach gehalten. Klick oben rechts auf Admin dann auf "kleiner Brauhelfer" und wähle "Import" aus. Dann wähslt du die Datei "kb_daten.sqlite" aus. 
 
 Windows:
-<User_Home>/.kleiner-brauhelfer
+USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 
 Mac:
-<User_Home>/.kleiner-brauhelfer
+USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 
 Nach dem Import findest du in der Admin Oberfläche auf "Kleiner Brauhelfer->Liste". Wenn der import erfolgreich war siehst du jetzt alle Sude aus der importierten Datenbank. 
 Wenn du auf "Laden" klickst werden die Schritte im CraftBeerPI überschrieben.
