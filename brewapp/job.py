@@ -98,15 +98,6 @@ def pidjob():
     
     pid = pidpy(globalprops.pid_interval,44,165,4)
     enable = True
-#sampleTime = 5
-#    pid = pidpy(sampleTime,44,165,4)
-#    temp = 5
-#    setpoint = 25
-#    enable = True
-#    for index in range(len(temps)):
-#        print pid.calcPID_reg4(temps[index], setpoint, enable)
-#        time.sleep(sampleTime)
-
 
     while True:
         
@@ -115,10 +106,19 @@ def pidjob():
             time.sleep(1)
             continue
 
-        ## Set the target temp to pid controller
-        #pid.setPoint(target_temp)
-        ## calculate the heating time in seconds
-        #heating_time =  pid.calcualte(current_temp) / 100
+        # hysteresis 
+        # if the temp is to low target teamp heating 100 % on
+        if(current_temp < target_temp - globalprops.hysteresis_min):
+            GPIO.output(PIN, True)
+            time.sleep(heating_time)
+            return
+
+        # if the temp is to high target teamp heating 100 % on
+        if(current_temp > target_temp + globalprops.hysteresis_max):
+            GPIO.output(PIN, False)
+            time.sleep(heating_time)
+            return
+
         heat_percent = pid.calcPID_reg4(current_temp, target_temp, True)
         heating_time = globalprops.pid_interval * heat_percent / 100
         wait_time = globalprops.pid_interval - heating_time
