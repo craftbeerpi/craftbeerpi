@@ -42,6 +42,8 @@ def stepjob():
      
         if(current_step != None):
             target_temp = current_step.temp
+        else:
+            continue
             
         update_step = False
         if(current_step != None and current_step.type == 'A'):
