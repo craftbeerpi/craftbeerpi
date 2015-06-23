@@ -172,15 +172,14 @@ USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 Mac:
 USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 
-Nach dem Import findest du in der Admin Oberfläche auf "Kleiner Brauhelfer->Liste". Wenn der import erfolgreich war siehst du jetzt alle Sude aus der importierten Datenbank. 
-Wenn du auf "Laden" klickst werden die Schritte im CraftBeerPI überschrieben.
+Nach dem Import findest du in der Admin Oberfläche auf "Kleiner Brauhelfer->Liste" eine Liste aller Importierten Sude.
+Wenn du auf "Laden" klickst werden die Schritte im CraftBeerPI mit den gewählen Sud überschrieben.
 
-Standardmäßig wird als erster Schritt ein "manueller Schritt" bei CraftBeerPI für die Einmaischtemperatur hinzugefügt. Anschließend kommen alle Rasten aus dem "kleinen Brauhelfer". Abschließend wird noch die längste Kochezeit aus des gewählten Sudes als Koch Schritt hinzugefügt.
+Standardmäßig wird als erster Schritt ein "manueller Schritt" bei CraftBeerPI für die Einmaischtemperatur hinzugefügt. Anschließend kommen alle Rasten aus dem "kleinen Brauhelfer". Abschließend wird noch die längste Kochezeit aus des gewählten Sudes als "Koch-Schritt" mit hinzugefügt.
 
 ## Schritte Bearbeiten
 Die Schritte können auf dem Tab "Schritte" in der Admin Oberfläche des CraftBeerPI bearbeitet werden.
 Die Reihenfolge kann durch das Feld "order" definiert werden.
-
 
 ## Hardware Setup für den Testaufbau
 
