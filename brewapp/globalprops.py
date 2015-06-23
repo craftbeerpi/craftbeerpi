@@ -1,5 +1,5 @@
 ## if test mode
-testMode = True
+testMode = False
 
 ### File name of sonder file
 tempSensorId = '28-03146215acff'

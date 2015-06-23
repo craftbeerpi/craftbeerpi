@@ -110,14 +110,14 @@ def pidjob():
         # if the temp is to low target teamp heating 100 % on
         if(current_temp < target_temp - globalprops.hysteresis_min):
             GPIO.output(PIN, True)
-            time.sleep(heating_time)
+            time.sleep(globalprops.pid_interval)
             print "FULL HEATING"
             return
 
         # if the temp is to high target teamp heating 100 % on
         if(current_temp > target_temp + globalprops.hysteresis_max):
             GPIO.output(PIN, False)
-            time.sleep(heating_time)
+            time.sleep(globalprops.pid_interval)
             print "NO HEATING"
             return
 
