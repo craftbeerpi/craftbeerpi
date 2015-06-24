@@ -101,7 +101,7 @@ def pidjob():
     global target_temp
     global current_step
 
-    pid = pidpy(globalprops.pid_interval,44,165,4)
+    pid = pidpy(globalprops.pid_interval,102,80,5)
 
     while True:
         
