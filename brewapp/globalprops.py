@@ -26,7 +26,7 @@ pidD=5
 
 ## hysteresis parameter in degrees celsius
 ## For exmpale. If current temperatur is more than 2 degrees below the traget temp turn the heating 100% on
-hysteresis_min=2
+hysteresis_min=4
 
 
 
