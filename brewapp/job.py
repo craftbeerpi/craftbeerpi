@@ -8,26 +8,14 @@ from flask.ext.socketio import SocketIO, emit
 from brewapp.model import db, Step, Temperatur, Log
 import time
 from views import getAsArray, nextStep
-from pidcontroller import PIDController
 from pidypi import pidpy
-
-
-PIN = globalprops.heating_pin
-
-try:
-    import RPi.GPIO as GPIO # Import GPIO
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(PIN, GPIO.OUT)
-    globalprops.gpioMode = True
-except ImportError:
-    globalprops.gpioMode = False
-
-
+from heating import setHeating
+from agitator import setAgitator
 
 ## GLOBALS
 current_temp = 0
 target_temp = 0
-
+current_step = None
 
 # STEP CONTROL JOB
 def stepjob():
@@ -37,27 +25,41 @@ def stepjob():
     temp_count = 0
     global temp
     global target_temp
+    global current_step
     while True:
         current_step = Step.query.filter_by(state='A').first()
      
         if(current_step != None):
             target_temp = current_step.temp
         else:
+            target_temp = -1;
+            time.sleep(1)
             continue
             
         update_step = False
-        if(current_step != None and current_step.type == 'A'):
-            
-            # Start Timer
+
+        
+        if(current_step != None):
+
+            ## Switch agiator on for heating phase
+            if(current_step.timer_start == None  and current_temp < current_step.temp and globalprops.pidState == True):
+                setAgitator(True)
+
+            # Target temp reached! Start Timer
             if(current_step.timer > 0 and current_step.timer_start == None and current_temp >= current_step.temp):
                 print "START TIMER"
+
+                # stop the agiator if target temp reached
+                if(globalprops.pidState == True):
+                    setAgitator(False)
+                
                 current_step.timer_start = datetime.utcnow()
                 db.session.add(current_step)
                 db.session.commit()
                 update_step = True
                 
 
-            if(current_step.timer_start != None):
+            if(current_step.type == 'A' and current_step.timer_start != None):
                 # check if timer elapsed
                 end = current_step.timer_start + timedelta(minutes=current_step.timer)
                 now = datetime.utcnow()
@@ -66,6 +68,7 @@ def stepjob():
                     update_step = True
                     nextStep()
 
+        ## Push steps to connected clients
         if(update_step == True):
             socketio.emit('steps', getAsArray(Step), namespace ='/brew')
 
@@ -91,50 +94,39 @@ def tempjob():
         time.sleep( 5 )
 
 ## PID JOB 
+##
 def pidjob():
     print "START PID"
     global current_temp
     global target_temp
+    global current_step
 
-    pid = PIDController()
-    
     pid = pidpy(globalprops.pid_interval,44,165,4)
-    enable = True
 
     while True:
         
-        ## PID NOT ACTIVE SKIP
-        if(globalprops.pidState == False):
+        ## PID NOT or no current step ACTIVE SKIP
+        if(globalprops.pidState == False or current_step == None):
             time.sleep(1)
             continue
 
         # hysteresis 
-        # if the temp is to low target teamp heating 100 % on
+        # if the temp is to below the target temp. heating 100 % on
+        # PID Not needed
         if(current_temp < target_temp - globalprops.hysteresis_min):
-            GPIO.output(PIN, True)
+            setHeating(True)
             time.sleep(globalprops.pid_interval)
-            print "FULL HEATING"
             continue
 
-        ## if the temp is to high target teamp heating 100 % on
-        #if(current_temp > target_temp + globalprops.hysteresis_max):
-        #    GPIO.output(PIN, False)
-        #    time.sleep(globalprops.pid_interval)
-        #    print "NO HEATING"
-        #    continue
-
+        ## Calculate heating
         heat_percent = pid.calcPID_reg4(current_temp, target_temp, True)
         heating_time = globalprops.pid_interval * heat_percent / 100
         wait_time = globalprops.pid_interval - heating_time
-        print heating_time
-        print wait_time
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, True)
         ## HEATING ON
+        setHeating(True)
         time.sleep(heating_time)
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, False)
-        ## HEATING ON
+        ## HEATING OFF
+        setHeating(False)
         time.sleep(wait_time)
 
 

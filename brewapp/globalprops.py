@@ -1,5 +1,5 @@
 ## if test mode
-testMode = False
+testMode = True
 
 ### File name of sensor file
 ## /sys/bus/w1/devices/<temp_sensor_id>
@@ -27,8 +27,7 @@ pidD=5
 ## hysteresis parameter in degrees celsius
 ## For exmpale. If current temperatur is more than 2 degrees below the traget temp turn the heating 100% on
 hysteresis_min=2
-## For exmpale. If current temperatur is more than 0.5 degrees higher the traget temp turn the heating 100% off
-hysteresis_max=0.5
+
 
 
 ###################################################################

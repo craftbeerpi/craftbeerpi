@@ -18,6 +18,15 @@ except ImportError:
     print "AGITATOR GPIO ERROR"
     globalprops.gpioMode = False
 
+def setAgitator(state):
+    # do nothing if state is already set
+    if(state == globalprops.agitatorState):
+        return
+    globalprops.agitatorState = state
+    socketio.emit('agitatorupdate', globalprops.agitatorState, namespace ='/brew')
+    if(globalprops.gpioMode):
+        GPIO.output(PIN, globalprops.agitatorState)
+
 ## HTTP Endpoints for agitator
 @app.route("/agitator")
 def agitatorBase():
@@ -25,41 +34,29 @@ def agitatorBase():
 
 @app.route("/agitator/on")
 def agitatorON():
-    globalprops.agitatorState = True
-    if(globalprops.gpioMode):
-        GPIO.output(PIN, globalprops.agitatorState)
+    setAgitator(True)
     return json.dumps({"state": globalprops.agitatorState})
 
 @app.route("/agitator/off")
 def agitatorOFF():
-    globalprops.agitatorState = False
-    if(globalprops.gpioMode):
-        GPIO.output(PIN, globalprops.agitatorState)
+    setAgitator(False)
     return json.dumps({"state": globalprops.agitatorState})
 
 @app.route("/agitator/toggle")
 def agitatorTOGGLE():
     if(globalprops.agitatorState):
-        globalprops.agitatorState = False
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.agitatorState)
+        setAgitator(False)
     else:
-        globalprops.agitatorState = True
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.agitatorState)
+        setAgitator(True)
     return json.dumps({"state": globalprops.agitatorState})
 
 ## WebSocket Endpoints for agiator
 @socketio.on('agitator', namespace='/brew')
 def ws_agitator():
     if(globalprops.agitatorState):
-        globalprops.agitatorState = False
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.agitatorState)
+        setAgitator(False)
         addMessage("Ruehrwerk aus")
     else:
-        globalprops.agitatorState = True
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.agitatorState)
+        setAgitator(True)
         addMessage("Ruehrwerk ein")
-    socketio.emit('agitatorupdate', globalprops.agitatorState, namespace ='/brew')
+    

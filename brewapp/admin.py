@@ -48,7 +48,7 @@ class KBSelect(BaseView):
 		c = conn.cursor()
 		order = 0
 
-
+		### Add einmaisch step
 		for row in c.execute('SELECT EinmaischenTemp FROM Sud WHERE ID = ?', id):
 			s = Step()
 			s.name = "Einmaischen"
@@ -61,7 +61,7 @@ class KBSelect(BaseView):
 			db.session.commit()
 			order +=1
 
-		
+		### add rest step
 		for row in c.execute('SELECT * FROM Rasten WHERE SudID = ?', id):
 			s = Step()
 			s.name = row[5]
@@ -74,6 +74,7 @@ class KBSelect(BaseView):
 			db.session.commit()
 			order +=1
 
+		## Add cooking step 
 		for row in c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', id):
 			s = Step()
 			s.name = "Kochen"

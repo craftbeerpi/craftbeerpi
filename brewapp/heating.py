@@ -19,46 +19,45 @@ except ImportError:
     globalprops.gpioMode = False
 
 
+def setHeating(state):
+    ## do nothing if the state is already set
+    if(state == globalprops.heatingState):
+        return
+    globalprops.heatingState = state
+    socketio.emit('heatingupdate', globalprops.heatingState, namespace ='/brew')
+    if(globalprops.gpioMode):
+        GPIO.output(PIN, globalprops.heatingState)
+
 @app.route("/heating")
 def heatingBase():
     return json.dumps({"state": globalprops.heatingState})
 
 @app.route("/heating/on")
-def heatingON():
-    globalprops.heatingState = True
-    if(globalprops.gpioMode):
-        GPIO.output(PIN, globalprops.heatingState)
+def restHeatingON():
+    setHeating(True)
     return json.dumps({"state": globalprops.heatingState})
 
 @app.route("/heating/off")
-def heatingOFF():
-    globalprops.heatingState = False
-    if(globalprops.gpioMode):
-        GPIO.output(PIN, globalprops.heatingState)
+def restHeatingOFF():
+    setHeating(False)
     return json.dumps({"state": globalprops.heatingState})
 
 @app.route("/heating/toggle")
 def heatingTOGGLE():
     if(globalprops.heatingState):
-        globalprops.heatingState = False
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.heatingState)
+        setHeating(False)
     else:
-        globalprops.heatingState = True
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.heatingState)
+        setHeating(True)
     return json.dumps({"state": globalprops.heatingState})
 
 @socketio.on('heating', namespace='/brew')
 def ws_heating():
     if(globalprops.heatingState):
-        globalprops.heatingState = False
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.heatingState)
+        setHeating(False)
         addMessage("Heizung aus")
     else:
-        globalprops.heatingState = True
-        if(globalprops.gpioMode):
-            GPIO.output(PIN, globalprops.heatingState)
+        setHeating(True)
         addMessage("Heizung ein")
-    socketio.emit('heatingupdate', globalprops.heatingState, namespace ='/brew')
+    
+
+
