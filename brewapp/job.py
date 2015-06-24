@@ -101,10 +101,9 @@ def pidjob():
     global target_temp
     global current_step
 
-    pid = pidpy(globalprops.pid_interval,102,80,5)
+    pid = pidpy(globalprops.pid_interval,globalprops.pipP,globalprops.pidI,globalprops.pidD)
 
     while True:
-        
         ## PID NOT or no current step ACTIVE SKIP
         if(globalprops.pidState == False or current_step == None):
             time.sleep(1)
