@@ -1,5 +1,5 @@
 ## if test mode
-testMode = True
+testMode = False
 
 ### File name of sensor file
 ## /sys/bus/w1/devices/<temp_sensor_id>
