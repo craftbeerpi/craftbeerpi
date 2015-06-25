@@ -169,6 +169,9 @@ START PID
 START STEP JOB
  * Running on http://0.0.0.0:5000/
 ```
+
+Die Anwedung ist jetzt über http://<server_id>:5000 im Browser aufrufbar.
+
 ## Bedienung
 
 ### Kleiner Brauhelfer Import
