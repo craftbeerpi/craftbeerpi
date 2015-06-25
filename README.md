@@ -137,8 +137,22 @@ pidState = False
 ### Start der Anwendung
 
 In das carfbeerpi verzeichnis wechseln 
+
+#### Starten
 ```
 sudo nohub python runserver.py &
+```
+Jetzt läuft die Anwendung im Hintergrund.
+
+#### Stoppen
+
+```
+sudo netstat -ntlp
+```
+Hier den Python Process suchen und wie folgt stoppen
+
+```
+sudo kill <Process_Id>
 ```
 
 ```
@@ -153,9 +167,9 @@ sudo nohub python runserver.py &
  ---------------------------------------- (C) 2015 Manuel F.     ~~----~~
 
 SET GPIO AGITATOR
-AGITATOR GPIO ERROR
+AGITATOR GPIO OK
 SET GPIO HEATING
-HEATING GPIO ERROR
+HEATING GPIO OK
 START PID
  START TEMP JOB
 START STEP JOB
