@@ -33,9 +33,9 @@ def pidTOGGLE():
 def ws_pid():
     if(globalprops.pidState):
         globalprops.pidState = False
-        addMessage("PID aus")
+        addMessage("Automatik aus")
     else:
         globalprops.pidState = True
-        addMessage("PID an")
+        addMessage("Automatik an")
     socketio.emit('pidupdate', globalprops.pidState, namespace ='/brew')
 
