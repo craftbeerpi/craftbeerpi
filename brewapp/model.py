@@ -6,7 +6,6 @@ import os.path as op
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 db = SQLAlchemy(app)
 
-
 class Step(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -107,19 +106,6 @@ class Log(db.Model):
             return  int((field - datetime(1970,1,1)).total_seconds())*1000
         else:
             return  None
-
-#class Sud(db.Model):
-#    id = db.Column(db.Integer, primary_key=True)
-#    time = db.Column(db.DateTime())
-#    type = db.Column(db.String(1))
-#    text = db.Column(db.String(255))
-#
-#
-#    def __repr__(self):
-#        return '<Log %r>' % self.text
-#
-#    def __unicode__(self):
-#        return self.text
 
 ## Drop all tables
 #db.drop_all()
