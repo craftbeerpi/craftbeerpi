@@ -1,9 +1,9 @@
 from brewapp import app
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
+import os.path as op
 
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 db = SQLAlchemy(app)
 
 
@@ -122,7 +122,7 @@ class Log(db.Model):
 #        return self.text
 
 ## Drop all tables
-db.drop_all()
+#db.drop_all()
 
 ## Helper Method
 def addStep(order, name, temp, type, timer, state='I'):
@@ -135,20 +135,22 @@ def addStep(order, name, temp, type, timer, state='I'):
     s.state = state
     db.session.add(s)
 
-
+db_exists = op.isfile("craftbeerpi.db") 
 ## Create db model
 db.create_all()
 
-
-## DUMMY DATA
-addStep(0, 'Einmaischen', 43.0, 'M', 10)
-addStep(1, 'Eiweisrast', 43.0, 'A', 1)
-addStep(2, 'Maltoserast', 62.0, 'A', 1)
-addStep(3, 'Verzuckerung', 73.0, 'A', 10)
-addStep(4, 'Abmaischen', 78.0, 'M', 10)
-addStep(5, 'Laeutern', 0, 'M', 10)
-addStep(6, 'Laeutern Ruhe', 0, 'A', 15)
-addStep(7, 'Vorderwuerzehopfung', 0, 'M', 10)
-addStep(8, 'Kochen', 99, 'A', 90)
-addStep(9, 'Kuehlen', 23, 'M', 20)
-db.session.commit()
+if(db_exists == False):
+    ## DUMMY DATA
+    print "IMPORT DUMMY STEPS"
+    addStep(0, 'Einmaischen', 45.0, 'M', 10)
+    addStep(1, 'Eiweisrast', 43.0, 'A', 20)
+    addStep(2, 'Maltoserast', 62.0, 'A', 30)
+    addStep(3, 'Verzuckerung', 73.0, 'A', 30)
+    addStep(4, 'Abmaischen', 78.0, 'M', 1)
+    addStep(5, 'Laeutern', 0, 'M', 0)
+    addStep(6, 'Laeutern Ruhe', 0, 'A', 15)
+    addStep(7, 'Vorderwuerzehopfung', 0, 'M', 10)
+    addStep(8, 'Kochen', 99, 'A', 90)
+    addStep(9, 'Kuehlen', 23, 'M', 20)
+    db.session.commit()
+    

@@ -112,10 +112,10 @@ def pidjob():
         # hysteresis 
         # if the temp is to below the target temp. heating 100 % on
         # PID Not needed
-        if(current_temp < target_temp - globalprops.hysteresis_min):
-            setHeating(True)
-            time.sleep(globalprops.pid_interval)
-            continue
+        #if(current_temp < target_temp - globalprops.hysteresis_min):
+        #    setHeating(True)
+        #    time.sleep(globalprops.pid_interval)
+        #    continue
 
         ## Calculate heating
         heat_percent = pid.calcPID_reg4(current_temp, target_temp, True)
