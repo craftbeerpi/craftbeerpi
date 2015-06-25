@@ -195,7 +195,7 @@ Die Reihenfolge kann durch das Feld "order" definiert werden.
 ## Hardware Setup für den Testaufbau
 
 * 1 x 1-wire Temperatursensor DS1820 Wasserdicht! (ebay)
-* Tauchhülse Edelstahl - in gewünchter Länge (sensorshop24.de) 
+* Tauchhülse Edelstahl - in gewünschter Länge (sensorshop24.de) 
 * 1 x 4.7k Ohm Widerstand (Pollin.de, Conrad.de, Reichelt.de)
 * Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum) 
 * 2 x Solid-State Relais XURUI (Pollin.de, Conrad.de, Reichelt.de)
