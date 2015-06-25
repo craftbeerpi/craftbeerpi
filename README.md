@@ -200,7 +200,7 @@ Die Reihenfolge kann durch das Feld "order" definiert werden.
 * 2 x Solid-State Relais XURUI
 * Strangkühlkörper KAB-60
 * Labor-Steckboard SYB-46
-* Raspberry Pi (Model A+, 2 Model B) + Netzkabel + passende SDCard
+* Raspberry Pi (Model A+, 2 Model B) + Netzkabel + passende SDCard http://www.pollin.de/shop/dt/Mzg1NzkyOTk-/Bausaetze_Module/Entwicklerboards/Raspberry_Pi_2_Model_B.html
 * 2 x Steckdose
 * Schrauben zum befestingen der Bauteile
 
