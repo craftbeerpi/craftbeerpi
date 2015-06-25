@@ -194,15 +194,16 @@ Die Reihenfolge kann durch das Feld "order" definiert werden.
 
 ## Hardware Setup für den Testaufbau
 
-* 1 x 1-wire Temperatursensor DS1820
-* 1 x 4.7k Ohm Widerstand
-* Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum)
-* 2 x Solid-State Relais XURUI
-* Strangkühlkörper KAB-60
-* Labor-Steckboard SYB-46
-* Raspberry Pi (Model A+, 2 Model B) + Netzkabel + passende SDCard http://www.pollin.de/shop/dt/Mzg1NzkyOTk-/Bausaetze_Module/Entwicklerboards/Raspberry_Pi_2_Model_B.html
-* 2 x Steckdose
-* Schrauben zum befestingen der Bauteile
+* 1 x 1-wire Temperatursensor DS1820 Wasserdicht! (ebay)
+* Tauchhülse Edelstahl - in gewünchter Länge (sensorshop24.de) 
+* 1 x 4.7k Ohm Widerstand (Pollin.de, Conrad.de, Reichelt.de)
+* Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum) 
+* 2 x Solid-State Relais XURUI (Pollin.de, Conrad.de, Reichelt.de)
+* Strangkühlkörper KAB-60 (Pollin.de, Conrad.de, Reichelt.de)
+* Labor-Steckboard SYB-46 (Pollin.de, Conrad.de, Reichelt.de)
+* Raspberry Pi (Model A+, 2 Model B) + Netzkabel + passende SDCard (Pollin.de, Conrad.de, Reichelt.de)
+* 2 x Steckdose (Baumarkt)
+* Schrauben zum befestingen der Bauteile (Baumarkt)
 
 
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
