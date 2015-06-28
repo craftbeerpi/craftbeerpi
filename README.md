@@ -66,6 +66,7 @@ cd wiringPi
 ```
 ### Pip für Python 2.7 installieren
 ```
+sudo apt-get install python-dev
 sudo apt-get install python-pip
 ```
 ### CraftBeer PI herunterladen
