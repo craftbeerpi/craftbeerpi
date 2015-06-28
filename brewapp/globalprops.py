@@ -1,4 +1,4 @@
-
+from brewapp.model import db, Step, Temperatur, Log, Config, getAsArray
 ## if test mode
 testMode = True
 ###################################################################
@@ -7,6 +7,7 @@ gpioMode = False
 heatingState = False
 agitatorState = False
 pidState = False
-
+current_temp = 0.0
 heatLog = []
-tempLog = []
+temp_cache = getAsArray(Temperatur)
+

@@ -139,6 +139,9 @@ class ClearLogs(BaseView):
     	db.session.commit()
     	Temperatur.query.delete()
     	db.session.commit()
+    	globalprops.temp_cache = getAsArray(Temperatur)
+
+
         return self.render('admin/imp_result.html')
 
 ## Register Views	

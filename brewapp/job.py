@@ -15,7 +15,7 @@ from brewapp.gpio import setState
 #from agitator import setAgitator
 
 ## GLOBALS
-current_temp = 0
+#current_temp = 0
 target_temp = 0
 current_step = None 
 
@@ -44,12 +44,12 @@ def stepjob():
 
             pid_agitator  = Config.getParameter("pid_agitator", False)
             ## Switch agiator on for heating phase            
-            if(pid_agitator == True and current_step.timer_start == None  and current_temp < current_step.temp and globalprops.pidState == True):
+            if(pid_agitator == True and current_step.timer_start == None  and  globalprops.current_temp < current_step.temp and globalprops.pidState == True):
                 print "SWITCH ON"
                 setState("agitator", "on", False)
 
             # Target temp reached! Start Timer
-            if(current_step.timer > 0 and current_step.timer_start == None and current_temp >= current_step.temp):
+            if(current_step.timer > 0 and current_step.timer_start == None and  globalprops.current_temp >= current_step.temp):
                 print "START TIMER"
                 # stop the agiator if target temp reached
                 if(pid_agitator and globalprops.pidState == True):
@@ -79,18 +79,48 @@ def stepjob():
 ## READ TEMP JOB 
 def tempjob():
     print "START TEMP JOB"
-    global current_temp
+    #global current_temp
     while True:
-        sensorId =Config.getParameter("tempSensorId", "28-03146215acff")
-        current_temp = thermometer.tempData1Wire(sensorId)
+        sensorId1 = Config.getParameter("tempSensorId1", "{\"name\": \"no\"}", True)
+        sensorId2 = Config.getParameter("tempSensorId2", "{\"name\": \"no\"}", True)
+        sensorId3 = Config.getParameter("tempSensorId3", "{\"name\": \"no\"}", True)
+        sensorId4 = Config.getParameter("tempSensorId4", "{\"name\": \"no\"}", True)
+        sensorId5 = Config.getParameter("tempSensorId5", "{\"name\": \"no\"}", True)
+  
         t = Temperatur()
-        t.name1 = "P1"
         t.time = datetime.utcnow()
-        t.value1 = current_temp
+        
+        if(sensorId1["name"] != "no"):
+            globalprops.current_temp = thermometer.tempData1Wire(sensorId1)
+            t.name1 = sensorId1["name"]
+            t.value1 = globalprops.current_temp 
+
+        if(sensorId2["name"] != "no"):
+            globalprops.current_temp = thermometer.tempData1Wire(sensorId2)
+            t.name2 = sensorId2["name"]
+            t.value2 = globalprops.current_temp 
+
+        if(sensorId3["name"] != "no"):
+            globalprops.current_temp = thermometer.tempData1Wire(sensorId3)
+            t.name3 = sensorId3["name"]
+            t.value3 = globalprops.current_temp 
+
+        if(sensorId4["name"] != "no"):
+            globalprops.current_temp = thermometer.tempData1Wire(sensorId4)
+            t.name4 = sensorId4["name"]
+            t.value4 = globalprops.current_temp 
+
+        if(sensorId5["name"] != "no"):
+            globalprops.current_temp = thermometer.tempData1Wire(sensorId5)
+            t.name5 = sensorId5["name"]
+            t.value5 = globalprops.current_temp 
         
         ## Save temperatur in database
         db.session.add(t)
         db.session.commit()
+
+        ## Add to cache
+        globalprops.temp_cache.append(t.to_json())
     
         ## push temperatur update to all connected clients
         socketio.emit('temp', {'temp': t.value1, 'time': t.to_unixTime(t.time)}, namespace='/brew')
@@ -101,7 +131,7 @@ def tempjob():
 ##
 def pidjob():
     print "START PID"
-    global current_temp
+    #global current_temp
     global target_temp
 
     p = Config.getParameter("p", 102)
@@ -129,7 +159,7 @@ def pidjob():
         #    continue
 
         ## Calculate heating
-        heat_percent = pid.calcPID_reg4(current_temp, target_temp, True)
+        heat_percent = pid.calcPID_reg4(globalprops.current_temp, target_temp, True)
         heating_time = interval * heat_percent / 100
         wait_time = interval - heating_time
    

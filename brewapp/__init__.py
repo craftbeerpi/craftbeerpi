@@ -28,9 +28,8 @@ import brewapp.globalprops
 import brewapp.views
 ## Database models
 ## Agitator HTTP and WebSocket Endpoints
-import brewapp.agitator
 ## Heating HTTP and WebSocket Endpoints
-import brewapp.heating
+
 ## PID HTTP and WebSocket Endpoints
 import brewapp.pid
 ## Background Jobs

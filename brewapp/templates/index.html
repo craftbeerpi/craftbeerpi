@@ -25,6 +25,8 @@
     text-align: right;
 }
 
+
+
 body {
     padding-top: 70px;
 }
@@ -38,7 +40,7 @@ body {
 <script type="text/javascript" src="/static/app.js"></script>
 <script type="text/javascript" src="/static/addon/largest-triangle-three-buckets.v0.1.0.js"></script>
 <script type="text/javascript" src="/static/addon/angular-timer-all.min.js"></script>
-
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 <body ng-app="myApp">
     <div class="container" ng-controller="ArticlesCtrl">
         {% include 'navigation.html' %}
@@ -46,7 +48,7 @@ body {
             <div class="col-md-6">
                 {% include 'chart.html' %}
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 {% include 'button.html' %}
             </div>
         </div>

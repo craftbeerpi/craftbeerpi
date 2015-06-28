@@ -128,7 +128,7 @@ class Config(db.Model):
 
     @staticmethod
     def getParameter(parameter_name, default, isJson=False):
-    
+        
         result = None
         if(Config.config_cache.get(parameter_name) != None):
             result = Config.config_cache.get(parameter_name);
@@ -170,6 +170,14 @@ class Config(db.Model):
 
 def str2bool(v):
   return v.lower() in ("yes", "true", "t", "1")
+
+
+def getAsArray(obj):
+    steps=obj.query.all()
+    ar = []
+    for t in steps:
+        ar.append(t.to_json())
+    return ar
 
 ## Drop all tables
 #db.drop_all()

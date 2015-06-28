@@ -123,7 +123,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         $scope.agitatorState = data.agitator;
         $scope.heatingState = data.heating;
         $scope.pidState = data.pid;
-        $scope.temp = data.temp;
+        $scope.temp = data.temp.toFixed(2);
         $scope.auto = data.auto;
         $scope.steps = data.steps;
         $scope.data = data.temps;

@@ -13,4 +13,11 @@
      font-style: normal;
      background: #fff;
  }
- 
+ #gpio_buttons {
+     font-size: 18px;
+ }
+ #gpio_buttons button {
+    
+    width: 50px;
+    text-align: left;
+}

@@ -2,10 +2,12 @@ from brewapp import app, socketio
 from flask import render_template
 from flask.ext.socketio import SocketIO, emit
 import json
-from brewapp.model import db, Step, Temperatur, Log, Config
+from brewapp.model import db, Step, Temperatur, Log, Config, getAsArray
 import globalprops
 from datetime import datetime, timedelta
 from brewapp.gpio import gpio_state, getAllGPIO
+
+
 
 
 ## Index View
@@ -13,13 +15,7 @@ from brewapp.gpio import gpio_state, getAllGPIO
 def index():
     return render_template("index.html" )
 
-## Helper method to transform db model to json
-def getAsArray(obj):
-    steps=obj.query.all()
-    ar = []
-    for t in steps:
-        ar.append(t.to_json())
-    return ar
+
 
 ## Helpr method to start the next step
 def nextStep():
@@ -52,9 +48,10 @@ def addMessage(message):
 ## REST Endpoints
 @app.route("/data")
 def data():
-
+    #app.logger.debug('A value for debugging')
     return json.dumps({"steps":getAsArray(Step), 
-        "temps": getAsArray(Temperatur), 
+        "temps": globalprops.temp_cache, 
+        "temp":  globalprops.current_temp,
         "brew_name": Config.getParameter("brew_name", "No Name"),
         "heats": globalprops.heatLog,
         "gpios": getAllGPIO(),
@@ -73,7 +70,7 @@ def steps():
 ## Get all stored temps
 @app.route("/temps")
 def temps():
-	return json.dumps(getAsArray(Temperatur))
+    return json.dumps(globalprops.temp_cache)
 
 @app.route("/heats")
 def heats():
@@ -84,6 +81,9 @@ def heats():
 def logs():
 	return json.dumps(getAsArray(Log))
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('error.html'), 404
 
 ## WebSocket Endpoints
 @socketio.on('connect', namespace='/brew')

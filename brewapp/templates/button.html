@@ -3,11 +3,11 @@
     
     <div class="panel-heading"><i class="fa fa-power-off"></i> Button</span>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped" id="gpio_buttons">
         <tr ng-repeat="item in gpios track by $index">
             
-            <td><button ng-class="buttonState(item)" ng-click="gpio(item.id)" class="btn btn-default btn-sm"><i class="fa fa-power-off"></i>
-                </button> {{item.label}}</td>
+            <td><button ng-class="buttonState(item)" ng-click="gpio(item.id)" class="btn btn-default btn-lg"><i class="fa fa-power-off"> </i>
+                </button> {{item.label}} </td>
             
         </tr>
     </table>
