@@ -1,0 +1,15 @@
+{% raw %}
+<div class="panel panel-default" data-toggle="tooltip" data-placement="top">
+    
+    <div class="panel-heading"><i class="fa fa-power-off"></i> Button</span>
+    </div>
+    <table class="table table-striped">
+        <tr ng-repeat="item in gpios track by $index">
+            
+            <td><button ng-class="buttonState(item)" ng-click="gpio(item.id)" class="btn btn-default btn-sm"><i class="fa fa-power-off"></i>
+                </button> {{item.label}}</td>
+            
+        </tr>
+    </table>
+</div>
+{% endraw %}

@@ -3,19 +3,30 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask.ext.admin import Admin
 from flask import Flask, render_template
 from flask.ext.socketio import SocketIO, emit
-import globalprops
 from subprocess import call
+import json
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-if globalprops.testMode == False:
-        call(["modprobe", "w1-gpio"])
-        call(["modprobe", "w1-therm"])
+try:
+	call(["modprobe", "w1-gpio"])
+	call(["modprobe", "w1-therm"])
+except: 
+	print "ModeProbe Failed"
+
+
+
 
 import brewapp.banner
+import brewapp.model
+import brewapp.globalprops
+
+
+
 
 import brewapp.views
+## Database models
 ## Agitator HTTP and WebSocket Endpoints
 import brewapp.agitator
 ## Heating HTTP and WebSocket Endpoints
@@ -24,8 +35,8 @@ import brewapp.heating
 import brewapp.pid
 ## Background Jobs
 import brewapp.job
-## Database models
-import brewapp.model
 ## Admin Console Config
 import brewapp.admin
+
+import brewapp.gpio
 

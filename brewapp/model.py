@@ -2,7 +2,8 @@ from brewapp import app
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import os.path as op
-
+import json
+    
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 db = SQLAlchemy(app)
 
@@ -20,7 +21,7 @@ class Step(db.Model):
     end = db.Column(db.DateTime())
     stir_interval = db.Column(db.Integer())
     stir_time = db.Column(db.Integer())
-
+    
     def __repr__(self):
         return '<Step %r>' % self.name
 
@@ -28,8 +29,6 @@ class Step(db.Model):
         return self.name
 
     def to_json(self):
-
-
         return {
             'type' : self.type,
             'name' : self.name,
@@ -64,7 +63,7 @@ class Temperatur(db.Model):
     value5 = db.Column(db.Float())
 
     def __repr__(self):
-        return '<Log %r>' % self.name1
+        return '<Temp %r>' % self.name1
 
     def __unicode__(self):
         return self.name1
@@ -107,6 +106,71 @@ class Log(db.Model):
         else:
             return  None
 
+class Config(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    value = db.Column(db.String(255))
+
+    config_cache = {}
+
+    def __repr__(self):
+        return '<Config %r>' % self.value
+
+    def __unicode__(self):
+        return self.name
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'value': self.value
+        }
+
+    @staticmethod
+    def getParameter(parameter_name, default, isJson=False):
+    
+        result = None
+        if(Config.config_cache.get(parameter_name) != None):
+            result = Config.config_cache.get(parameter_name);
+           
+        else:
+            # Try to read from db
+            c = Config.query.filter_by(name=parameter_name).first()
+            if(c == None):
+                result = default
+            else:
+                Config.config_cache[parameter_name] = c.value
+                result = c.value
+
+        try:
+            if(isJson == True):
+                return json.loads(result)
+            elif(type(default) is str):
+                return str(result)
+            elif(type(default) is float): 
+                return float(result)
+            elif(type(default) is int): 
+                return int(result)
+            elif(type(default) is bool): 
+                return str2bool(result)
+        except:
+            if(isJson == True):
+                return json.loads(default)
+            else:
+                return default
+    
+    @staticmethod
+    def setParameter(config):
+        Config.config_cache[config.name] = config.value
+
+    @staticmethod
+    def clearParameter(parameter_name):
+        config_cache[parameter_name] = None
+
+
+def str2bool(v):
+  return v.lower() in ("yes", "true", "t", "1")
+
 ## Drop all tables
 #db.drop_all()
 
@@ -120,6 +184,7 @@ def addStep(order, name, temp, type, timer, state='I'):
     s.timer = timer
     s.state = state
     db.session.add(s)
+    db.session.commit()
 
 db_exists = op.isfile("craftbeerpi.db") 
 ## Create db model
@@ -138,5 +203,6 @@ if(db_exists == False):
     addStep(7, 'Vorderwuerzehopfung', 0, 'M', 10)
     addStep(8, 'Kochen', 99, 'A', 90)
     addStep(9, 'Kuehlen', 23, 'M', 20)
-    db.session.commit()
+
+    
     

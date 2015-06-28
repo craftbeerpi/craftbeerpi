@@ -10,8 +10,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     $scope.data = [];
     $scope.log = [];
 
-    $scope.agitatorState = false;
-    $scope.heatingState = false;
+    $scope.gpiosState = {};
     $scope.pidState = false;
 
     $scope.addlog = function() {
@@ -25,8 +24,31 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
            
     }
 
+    $scope.gpio = function(item) {
+        ws.emit("gpio", item)
+    }
 
 
+
+    $scope.gpioState = function(item) {
+        if($scope.gpios == undefined) {
+            return false;
+        }
+        for (var i = 0; i < $scope.gpios.length; i++) {
+            if($scope.gpios[i].id == item) {
+                return $scope.gpios[i].state;
+            }
+        }
+    }
+
+    $scope.buttonState = function(item) {
+        if(item.state == true) {
+            return "btn-success"
+        }
+        else {
+            return "btn-danger"
+        }
+    }
 
     $scope.whatClassIsIt = function(item) {
 
@@ -46,8 +68,6 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     }
 
     $scope.stateClassIcon = function(item) {
-
-
         if (item.state == "A")
             return "fa fa-spinner fa-spin"
         else if (item.state == "D")
@@ -60,13 +80,17 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     $scope.chart = c3.generate({
             bindto: '#chart',
             data: {
-                x: 'x',
+                xs: {
+                    temp: 'x1',
+                },
                 //xFormat: '%Y-%m-%d %H:%M:%S',
                 type: 'area',
                 columns: [
-                    ['P1', 0],
-                    ['x', 0]
-                ]
+                    ['temp', 0],
+                    ['x1', 0],
+                ],
+                
+
             },
             point: {
                 show: false
@@ -95,6 +119,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     $http.get('/data').
     success(function(data, status, headers, config) {
 
+
         $scope.agitatorState = data.agitator;
         $scope.heatingState = data.heating;
         $scope.pidState = data.pid;
@@ -103,10 +128,14 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         $scope.steps = data.steps;
         $scope.data = data.temps;
         $scope.log = data.logs
+        $scope.brew_name = data.brew_name
+        //$scope.gpiosState = data.gpio;
       
- 
+        $scope.gpios = data.gpios;
+        chart_data = $scope.downsample(data.temps, "temp", "x1");        
+
         $scope.chart.load({
-            columns: $scope.downsample(data.temp),
+            columns: chart_data,
             length: 0
         });
     }).
@@ -115,11 +144,19 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     });
 
 
-    $scope.downsample = function(data) {
+    $scope.downsample = function(data, x, y) {
+
+
+        if (typeof(x)==='undefined') x = "P1";
+        if (typeof(y)==='undefined') y = "x";
+
+        if(data ==undefined) {
+            return
+        }
         var down = largestTriangleThreeBuckets(data, 250, 0, 1);
 
-        p1 = ["P1"];
-        x = ["x"];
+        p1 = [x];
+        x = [y];
 
         for (var i = 0; i < down.length; i++) {
 
@@ -152,27 +189,18 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
 
     }
 
-    $scope.agitator = function() {
-
-        ws.emit("agitator");
-    }
-
-     $scope.heating = function() {
-
-        ws.emit("heating");
-    }
-
     $scope.pid = function() {
 
         ws.emit("pid");
     }
+
     $scope.update = function(value) {
 
         $scope.temp = value.temp.toFixed(2);
         $scope.data.push([value.time, value.temp]);
 
         $scope.chart.load({
-            columns: $scope.downsample($scope.data),
+            columns: $scope.downsample($scope.data, "temp", "x1"),
             length: 0
         });
     }
@@ -183,9 +211,12 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     }
 
     $scope.updateLog = function(data) {
-
-
         $scope.log.push(data)
+    }
+
+    $scope.gpio_update = function(data) {
+
+        $scope.gpios = data;
     }
 
     $scope.agitatorupdate = function(data) {
@@ -203,9 +234,8 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     ws.on('temp', $scope.update);
     ws.on('steps', $scope.updateSteps);
     ws.on('logupdate', $scope.updateLog);
-    ws.on('agitatorupdate', $scope.agitatorupdate);
-    ws.on('heatingupdate', $scope.heatingState);
     ws.on('pidupdate', $scope.pidState);
+    ws.on('gpio_update', $scope.gpio_update);
 
 }]);
 
@@ -229,7 +259,6 @@ app.factory('ws', ['$rootScope', function($rootScope) {
             });
         },
         emit: function(event, data) {
-
             if(data == undefined) {
                 socket.emit(event);
             }

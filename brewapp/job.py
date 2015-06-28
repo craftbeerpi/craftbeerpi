@@ -5,17 +5,19 @@ from datetime import datetime, timedelta
 import globalprops
 import thermometer
 from flask.ext.socketio import SocketIO, emit
-from brewapp.model import db, Step, Temperatur, Log
+from brewapp.model import db, Step, Temperatur, Log, Config
 import time
 from views import getAsArray, nextStep
 from pidypi import pidpy
-from heating import setHeating
-from agitator import setAgitator
+from brewapp.gpio import setState
+
+#from heating import setHeating
+#from agitator import setAgitator
 
 ## GLOBALS
 current_temp = 0
 target_temp = 0
-current_step = None
+current_step = None 
 
 # STEP CONTROL JOB
 def stepjob():
@@ -28,7 +30,7 @@ def stepjob():
     global current_step
     while True:
         current_step = Step.query.filter_by(state='A').first()
-     
+
         if(current_step != None):
             target_temp = current_step.temp
         else:
@@ -38,20 +40,20 @@ def stepjob():
             
         update_step = False
 
-        
         if(current_step != None):
 
-            ## Switch agiator on for heating phase
-            if(current_step.timer_start == None  and current_temp < current_step.temp and globalprops.pidState == True):
-                setAgitator(True)
+            pid_agitator  = Config.getParameter("pid_agitator", False)
+            ## Switch agiator on for heating phase            
+            if(pid_agitator == True and current_step.timer_start == None  and current_temp < current_step.temp and globalprops.pidState == True):
+                print "SWITCH ON"
+                setState("agitator", "on", False)
 
             # Target temp reached! Start Timer
             if(current_step.timer > 0 and current_step.timer_start == None and current_temp >= current_step.temp):
                 print "START TIMER"
-
                 # stop the agiator if target temp reached
-                if(globalprops.pidState == True):
-                    setAgitator(False)
+                if(pid_agitator and globalprops.pidState == True):
+                    setState("agitator", "off", False)
                 
                 current_step.timer_start = datetime.utcnow()
                 db.session.add(current_step)
@@ -79,7 +81,8 @@ def tempjob():
     print "START TEMP JOB"
     global current_temp
     while True:
-        current_temp = thermometer.tempData1Wire(globalprops.tempSensorId)
+        sensorId =Config.getParameter("tempSensorId", "28-03146215acff")
+        current_temp = thermometer.tempData1Wire(sensorId)
         t = Temperatur()
         t.name1 = "P1"
         t.time = datetime.utcnow()
@@ -91,7 +94,8 @@ def tempjob():
     
         ## push temperatur update to all connected clients
         socketio.emit('temp', {'temp': t.value1, 'time': t.to_unixTime(t.time)}, namespace='/brew')
-        time.sleep( 5 )
+        time.sleep( Config.getParameter("temp_db_interval", 5) )
+
 
 ## PID JOB 
 ##
@@ -99,14 +103,21 @@ def pidjob():
     print "START PID"
     global current_temp
     global target_temp
-    global current_step
 
-    pid = pidpy(globalprops.pid_interval,globalprops.pipP,globalprops.pidI,globalprops.pidD)
+    p = Config.getParameter("p", 102)
+    i = Config.getParameter("i", 100)
+    d = Config.getParameter("d", 5)
+    interval = Config.getParameter("pid_interval", 5)
+
+
+    pid = pidpy(interval,p,i,d)
 
     while True:
         ## PID NOT or no current step ACTIVE SKIP
         if(globalprops.pidState == False or current_step == None):
-            time.sleep(1)
+            timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000 
+            globalprops.heatLog.append([timestamp,0])
+            time.sleep(interval)
             continue
 
         # hysteresis 
@@ -119,13 +130,14 @@ def pidjob():
 
         ## Calculate heating
         heat_percent = pid.calcPID_reg4(current_temp, target_temp, True)
-        heating_time = globalprops.pid_interval * heat_percent / 100
-        wait_time = globalprops.pid_interval - heating_time
+        heating_time = interval * heat_percent / 100
+        wait_time = interval - heating_time
+   
         ## HEATING ON
-        setHeating(True)
+        setState("heat", "on", False)
         time.sleep(heating_time)
         ## HEATING OFF
-        setHeating(False)
+        setState("heat", "off", False)
         time.sleep(wait_time)
 
 
@@ -133,3 +145,4 @@ def pidjob():
 start_new_thread(tempjob,())
 start_new_thread(stepjob,())
 start_new_thread(pidjob,())
+

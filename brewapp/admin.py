@@ -11,12 +11,16 @@ from flask_admin import BaseView, expose
 import sqlite3
 from flask import Flask, redirect, request, url_for
 from werkzeug import secure_filename
-from brewapp.model import db, Step, Temperatur, Log
+from brewapp.model import db, Step, Temperatur, Log, Config
 from flask.ext.admin import base
+import globalprops
+from wtforms.fields import SelectField
 
 ## Standard Admin UI for Database models
 class StepAdmin(sqla.ModelView):
 	form_columns = ['name', 'temp', 'timer', 'type','state','timer_start','start','end','order']
+	form_overrides = dict(state=SelectField, type=SelectField)
+	form_args = dict(state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),type=dict(choices=[("A", 'Automatisch'), ("M", 'Manuell')],))
 
 class TempAdmin(sqla.ModelView):
 	form_columns = ['time', 'name1', 'value1']
@@ -24,16 +28,27 @@ class TempAdmin(sqla.ModelView):
 class LogAdmin(sqla.ModelView):
 	form_columns = ['time', 'text', 'type']
 
+class ConfigAdmin(sqla.ModelView):
+	form_columns = ['name', 'value']
+	column_searchable_list = ['name']
+
+	def after_model_change(self, form, model, is_created):
+		Config.setParameter(model)
+		pass
+
 ## Admin View to select a brew 
 class KBSelect(BaseView):
     @expose('/')
     def index(self):
-        conn = sqlite3.connect('./brewapp/dbimport/import.db')
-        c = conn.cursor()
-        arr = []
-        for row in c.execute('SELECT * FROM Sud'):
-        	arr.append(row)
-        return self.render('imp.html', x= arr)
+    	arr = []
+    	try:
+        	conn = sqlite3.connect('./brewapp/dbimport/import.db')
+        	c = conn.cursor()
+        	for row in c.execute('SELECT * FROM Sud'):
+        		arr.append(row)
+        except:
+        	pass
+        return self.render('admin/imp.html', x= arr)
 
     # Import brew from kleiner brauhelfer
     @expose('/select')
@@ -49,7 +64,7 @@ class KBSelect(BaseView):
 		order = 0
 
 		### Add einmaisch step
-		for row in c.execute('SELECT EinmaischenTemp FROM Sud WHERE ID = ?', id):
+		for row in c.execute('SELECT EinmaischenTemp, Sudname FROM Sud WHERE ID = ?', id):
 			s = Step()
 			s.name = "Einmaischen"
 			s.order = order
@@ -59,6 +74,18 @@ class KBSelect(BaseView):
 			s.timer = 0
 			db.session.add(s)
 			db.session.commit()
+
+			brew_name = Config.query.filter_by(name='brew_name').first()
+			if(brew_name == None):
+				brew_name = Confg()
+				brew_name.name = "brew_name"
+				brew_name.value = row[1]
+			else:
+				brew_name.value = row[1]
+			Config.setParameter(brew_name)
+			db.session.add(brew_name)
+			db.session.commit()
+
 			order +=1
 
 		### add rest step
@@ -87,14 +114,14 @@ class KBSelect(BaseView):
 			db.session.commit()
 			order +=1
 
-		return self.render('imp_result.html')
+		return self.render('admin/imp_result.html')
 
 ## View to import database from kleiner brauhelfer
 class KBUpload(BaseView):
 
     @expose('/')
     def index(self):
-        return self.render('kb_upload.html')
+        return self.render('admin/kb_upload.html')
 
     @expose('/upload',methods=('POST', ))
     def upload(self):
@@ -102,26 +129,28 @@ class KBUpload(BaseView):
     		file = request.files['file']
     		filename = secure_filename(file.filename)
     		file.save(os.path.join('./brewapp/dbimport/', 'import.db'))
-        	return self.render('imp_result.html')
+        	return self.render('admin/imp_result.html')
 
-class Back(BaseView):
+class ClearLogs(BaseView):
 
     @expose('/')
     def index(self):
-        return redirect(url_for('login', next=request.url))
-
+    	Log.query.delete()
+    	db.session.commit()
+    	Temperatur.query.delete()
+    	db.session.commit()
+        return self.render('admin/imp_result.html')
 
 ## Register Views	
 
 admin = admin.Admin(name="CraftBeerPI")
 admin.add_link(base.MenuLink("Zurueck", url="/"))
-admin.add_view(StepAdmin(Step, db.session, name="Schritte"))
-admin.add_view(TempAdmin(Temperatur, db.session, name="Temperatur Log"))
-admin.add_view(LogAdmin(Log, db.session, name="Brauprotokoll"))
+admin.add_view(StepAdmin(Step, db.session, name="Ablaufplan"))
+admin.add_view(TempAdmin(Temperatur, db.session, name="Temperatur Log", category='Protokoll'))
+admin.add_view(LogAdmin(Log, db.session, name="Brauprotokoll", category='Protokoll'))
+admin.add_view(ClearLogs(name="Daten loeschen", category='Protokoll'))
+admin.add_view(ConfigAdmin(Config, db.session, name="Superkonfig", category='Konfiguration'))
 admin.add_view(KBSelect(name='Liste', category='Kleiner Brauhelfer'))
 admin.add_view(KBUpload(name='Upload', category='Kleiner Brauhelfer'))
 
 admin.init_app(app)
-
-#path = op.join(op.dirname(__file__), 'dbimport')
-#admin.add_view(FileAdmin(path, '/dbimport/', name='Static Files'))

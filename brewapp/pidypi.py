@@ -126,6 +126,3 @@ if __name__=="__main__":
     for index in range(len(temps)):
         print pid.calcPID_reg4(temps[index], setpoint, enable)
         time.sleep(sampleTime)
-# while True:
-#        print pid.calcPID_reg4(temp, setpoint, enable)
-#       time.sleep(2)
