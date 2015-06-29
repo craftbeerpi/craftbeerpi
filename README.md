@@ -135,7 +135,7 @@ In das carfbeerpi verzeichnis wechseln
 
 #### Starten
 ```
-sudo nohub python runserver.py &
+sudo nohup python runserver.py &
 ```
 Jetzt läuft die Anwendung im Hintergrund.
 
