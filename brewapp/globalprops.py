@@ -1,7 +1,7 @@
 from brewapp.model import db, Step, Temperatur, Log, Config, getAsArray
 from Queue import Queue
 ## if test mode
-testMode = False
+testMode = True
 ###################################################################
 #### INTERNAL DO NOT CHANGE PARAMETERS BELOW
 gpioMode = True

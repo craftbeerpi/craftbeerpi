@@ -251,11 +251,13 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     $scope.cud = function(data) {
 
         chart_data = [];
+        console.log(data);
+        $scope.temp = data["temp1"][0][1].toFixed(2);
         var keys = Object.keys($scope.axis_config);
         for (var i=0; i < keys.length; i++) {
           d = keys[i];
           x = $scope.axis_config[keys[i]];
-        
+
           $scope.chart.flow({
             columns: [[x, data[d][0][0]], [d, data[d][0][1]]],
             length: 0,
