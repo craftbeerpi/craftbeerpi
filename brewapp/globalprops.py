@@ -4,7 +4,7 @@ from Queue import Queue
 testMode = False
 ###################################################################
 #### INTERNAL DO NOT CHANGE PARAMETERS BELOW
-gpioMode = False
+gpioMode = True
 heatingState = False
 agitatorState = False
 pidState = False

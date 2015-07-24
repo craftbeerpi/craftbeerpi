@@ -12,7 +12,7 @@ socketio = SocketIO(app)
 try:
 	call(["modprobe", "w1-gpio"])
 	call(["modprobe", "w1-therm"])
-except: 
+except:
 	print "ModeProbe Failed"
 
 
@@ -29,13 +29,10 @@ import brewapp.views
 ## Database models
 ## Agitator HTTP and WebSocket Endpoints
 ## Heating HTTP and WebSocket Endpoints
-
 ## PID HTTP and WebSocket Endpoints
 import brewapp.pid
 ## Background Jobs
 import brewapp.job
 ## Admin Console Config
 import brewapp.admin
-
 import brewapp.gpio
-
