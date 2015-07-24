@@ -6,8 +6,8 @@ from subprocess import Popen, PIPE, call
 def tempData1Wire(tempSensorId):
 
     ## Test Mode
-    print globalprops.gpioMode
-    print globalprops.testMode
+    print tempSensorId
+
     if globalprops.gpioMode == False or globalprops.testMode == True:
         pipe = Popen(["cat","w1_slave"], stdout=PIPE)
     ## GPIO Mode
