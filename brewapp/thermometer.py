@@ -19,7 +19,10 @@ def tempData1Wire(tempSensorId):
     ## parse the file
     if (result.split('\n')[0].split(' ')[11] == "YES"):
         temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
+
     else:
         temp_C = -99 #bad temp reading
 
+    print "temp"
+    print temp_C
     return temp_C
