@@ -29,6 +29,8 @@ def setupGPIO():
 ## call setup
 setupGPIO()
 
+print globalprops.gpioMode
+
 def getAllGPIO():
 	gpio_config = []
 	gpios = Config.query.filter(Config.name.like("gpio_%")).all()
