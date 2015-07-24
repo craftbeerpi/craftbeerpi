@@ -3,7 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime, timedelta
 import os.path as op
 import json
-    
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 db = SQLAlchemy(app)
 
@@ -19,9 +19,8 @@ class Step(db.Model):
     timer_start = db.Column(db.DateTime())
     start = db.Column(db.DateTime())
     end = db.Column(db.DateTime())
-    stir_interval = db.Column(db.Integer())
-    stir_time = db.Column(db.Integer())
-    
+
+
     def __repr__(self):
         return '<Step %r>' % self.name
 
@@ -40,6 +39,7 @@ class Step(db.Model):
             'end': str( self.end),
             'end2': self.to_unixTime(self.end),
             'timer_start' : self.to_unixTime(self.timer_start),
+
         }
 
     def to_unixTime(self, field):
@@ -51,28 +51,27 @@ class Step(db.Model):
 class Temperatur(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.DateTime())
-    name1 = db.Column(db.String(80))
     value1 = db.Column(db.Float())
-    name2 = db.Column(db.String(80))
     value2 = db.Column(db.Float())
-    name3 = db.Column(db.String(80))
     value3 = db.Column(db.Float())
-    name4 = db.Column(db.String(80))
     value4 = db.Column(db.Float())
-    name5 = db.Column(db.String(80))
     value5 = db.Column(db.Float())
 
     def __repr__(self):
-        return '<Temp %r>' % self.name1
+        return '<Temp %r>' % self.id
 
     def __unicode__(self):
-        return self.name1
+        return self.id
 
     def to_json(self):
-        return [
-           self.to_unixTime(self.time),
-           self.value1
-        ]
+        return {
+            "temp1": [self.to_unixTime(self.time),self.value1],
+            "temp2": [self.to_unixTime(self.time),self.value2],
+            "temp3": [self.to_unixTime(self.time),self.value3],
+            "temp4": [self.to_unixTime(self.time),self.value4],
+            "temp5": [self.to_unixTime(self.time),self.value5],
+        }
+
 
     def to_unixTime(self, field):
         if(field!= None):
@@ -128,11 +127,11 @@ class Config(db.Model):
 
     @staticmethod
     def getParameter(parameter_name, default, isJson=False):
-        
+
         result = None
         if(Config.config_cache.get(parameter_name) != None):
             result = Config.config_cache.get(parameter_name);
-           
+
         else:
             # Try to read from db
             c = Config.query.filter_by(name=parameter_name).first()
@@ -147,18 +146,18 @@ class Config(db.Model):
                 return json.loads(result)
             elif(type(default) is str):
                 return str(result)
-            elif(type(default) is float): 
+            elif(type(default) is float):
                 return float(result)
-            elif(type(default) is int): 
+            elif(type(default) is int):
                 return int(result)
-            elif(type(default) is bool): 
+            elif(type(default) is bool):
                 return str2bool(result)
         except:
             if(isJson == True):
                 return json.loads(default)
             else:
                 return default
-    
+
     @staticmethod
     def setParameter(config):
         Config.config_cache[config.name] = config.value
@@ -194,7 +193,14 @@ def addStep(order, name, temp, type, timer, state='I'):
     db.session.add(s)
     db.session.commit()
 
-db_exists = op.isfile("craftbeerpi.db") 
+def addConfig(name, value):
+    c = Config()
+    c.name = name
+    c.value =value
+    db.session.add(c)
+    db.session.commit()
+
+db_exists = op.isfile("craftbeerpi.db")
 ## Create db model
 db.create_all()
 
@@ -212,5 +218,9 @@ if(db_exists == False):
     addStep(8, 'Kochen', 99, 'A', 90)
     addStep(9, 'Kuehlen', 23, 'M', 20)
 
-    
-    
+    addConfig("gpio_heat","{\"label\": \"Heizung\", \"pin\": 17}")
+    addConfig("gpio_agitator","{\"label\": \"Ruehrwerk\", \"pin\": 18}")
+    addConfig("pid_agitator", "True")
+    addConfig("temp_db_interval", "5")
+    addConfig("brew_name", "Beispiel Sud")
+    addConfig("tempSensorId1", "{\"name\": \"P22\", \"id\": \"28-03146215acff\"}")

@@ -1,15 +1,20 @@
 {% raw %}
-<div class="panel panel-default" data-toggle="tooltip" data-placement="top">
-    
-    <div class="panel-heading"><i class="fa fa-power-off"></i> Button</span>
-    </div>
-    <table class="table table-striped" id="gpio_buttons">
-        <tr ng-repeat="item in gpios track by $index">
-            
-            <td><button ng-class="buttonState(item)" ng-click="gpio(item.id)" class="btn btn-default btn-lg"><i class="fa fa-power-off"> </i>
-                </button> {{item.label}} </td>
-            
-        </tr>
-    </table>
+<style>
+  #gpio_buttons, #gpio_buttons button {
+    width: 100%;
+  }
+</style>
+<div class="panel panel-default" data-toggle="tooltip" data-placement="top" id="gpio_buttons" >
+
+  <div class="panel-heading"><i class="fa fa-align-left"></i> Hardware Control</span>
+  </div>
+  <div class="panel-body">
+    <div class="btn-group-vertical" id="gpio_buttons" role="group" >
+        <button ng-repeat="item in gpios track by $index" ng-class="buttonState(item)" ng-click="gpio(item.id)" class="btn btn-default btn-md">
+            <span class="badge"><i class="fa fa-power-off"></i></span>  {{item.label}}
+      </button>
+  </div>
 </div>
+</div>
+
 {% endraw %}

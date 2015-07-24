@@ -9,4 +9,3 @@ if __name__ == "__main__":
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
     toolbar = DebugToolbarExtension(app)
     socketio.run(app, host='0.0.0.0', use_reloader=False)
-

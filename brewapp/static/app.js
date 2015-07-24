@@ -14,14 +14,14 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     $scope.pidState = false;
 
     $scope.addlog = function() {
-        
+
         if($scope.message != undefined && $scope.message.length > 0 )
         {
-             ws.emit("addlog", $scope.message); 
+             ws.emit("addlog", $scope.message);
              $scope.message = "";
         }
-       
-           
+
+
     }
 
     $scope.gpio = function(item) {
@@ -46,7 +46,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
             return "btn-success"
         }
         else {
-            return "btn-danger"
+            return "btn-default"
         }
     }
 
@@ -76,68 +76,89 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
             return "";
     }
 
+    $scope.started = function() {
 
-    $scope.chart = c3.generate({
-            bindto: '#chart',
-            data: {
-                xs: {
-                    temp: 'x1',
-                },
-                //xFormat: '%Y-%m-%d %H:%M:%S',
-                type: 'area',
-                columns: [
-                    ['temp', 0],
-                    ['x1', 0],
-                ],
-                
-
-            },
-            point: {
-                show: false
-            },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    tick: {
-                        format: '%H:%M:%S',
-                        count: 50
-                    },
-                    label: 'Zeit'
-                },
-                y: {
-                    label: 'Temperatur',
-                    max: 110,
-                    min: 10,
-                },
-
-            }
-
+        if($scope.steps == undefined) {
+          return true;
         }
-
-    );
+        for(i = 0; i < $scope.steps.length; i++) {
+          if($scope.steps[i].state == "A") {
+            return true;
+          }
+        }
+        return false;
+    }
 
     $http.get('/data').
     success(function(data, status, headers, config) {
 
+        console.log();
+
+        var keys = Object.keys(data.chart);
 
         $scope.agitatorState = data.agitator;
         $scope.heatingState = data.heating;
         $scope.pidState = data.pid;
-        $scope.temp = data.temp.toFixed(2);
+        $scope.temp = data.temps["temp1"][1].toFixed(2);
         $scope.auto = data.auto;
         $scope.steps = data.steps;
-        $scope.data = data.temps;
+        $scope.data = data.chart;
         $scope.log = data.logs
         $scope.brew_name = data.brew_name
         //$scope.gpiosState = data.gpio;
-      
-        $scope.gpios = data.gpios;
-        chart_data = $scope.downsample(data.temps, "temp", "x1");        
 
-        $scope.chart.load({
-            columns: chart_data,
-            length: 0
-        });
+        $scope.gpios = data.gpios;
+
+
+        $scope.axis_config = {}
+        chart_data = [];
+        for (var i=0; i < keys.length; i++) {
+            k =keys[i];
+
+            $scope.axis_config[k] = 'x'+i
+            chart_data = chart_data.concat($scope.downsample(data.chart[k], k, "x"+i));
+
+        }
+
+
+        //chart_data = $scope.downsample(data.chart["temp1"], "temp", "x1");
+
+        $scope.chart = c3.generate({
+                bindto: '#chart',
+                data: {
+                    xs: $scope.axis_config ,
+                    columns: chart_data,
+                    type: 'area',
+
+                },
+                point: {
+                    show: false
+                },
+                legend: {
+                    show: false
+                },
+                axis: {
+                    x: {
+                        type: 'timeseries',
+                        tick: {
+                            format: '%H:%M:%S',
+                            count: 10
+                        },
+                        label: 'Zeit'
+                    },
+                    y: {
+                        label: 'Temperatur',
+                        max: 110,
+                        min: 10,
+                    },
+
+                }
+
+            }
+        );
+
+
+
     }).
     error(function(data, status, headers, config) {
         // log error
@@ -153,10 +174,14 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         if(data ==undefined) {
             return
         }
+
+        names = [[y, x]];
         var down = largestTriangleThreeBuckets(data, 250, 0, 1);
+
 
         p1 = [x];
         x = [y];
+
 
         for (var i = 0; i < down.length; i++) {
 
@@ -172,13 +197,13 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     }
 
     $scope.next = function() {
-       
+
        ws.emit("next");
 
     }
 
     $scope.start = function() {
-       
+
        ws.emit("start");
 
     }
@@ -194,16 +219,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         ws.emit("pid");
     }
 
-    $scope.update = function(value) {
 
-        $scope.temp = value.temp.toFixed(2);
-        $scope.data.push([value.time, value.temp]);
-
-        $scope.chart.load({
-            columns: $scope.downsample($scope.data, "temp", "x1"),
-            length: 0
-        });
-    }
 
     $scope.updateSteps = function(data) {
 
@@ -231,7 +247,27 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         $scope.pidState =  data
     }
 
+
+    $scope.cud = function(data) {
+
+        chart_data = [];
+        var keys = Object.keys($scope.axis_config);
+        for (var i=0; i < keys.length; i++) {
+          d = keys[i];
+          x = $scope.axis_config[keys[i]];
+        
+          $scope.chart.flow({
+            columns: [[x, data[d][0][0]], [d, data[d][0][1]]],
+            length: 0,
+          });
+        }
+
+
+
+    }
+
     ws.on('temp', $scope.update);
+    ws.on('chart_update', $scope.cud);
     ws.on('steps', $scope.updateSteps);
     ws.on('logupdate', $scope.updateLog);
     ws.on('pidupdate', $scope.pidState);
@@ -265,7 +301,7 @@ app.factory('ws', ['$rootScope', function($rootScope) {
             else {
                 socket.emit(event, data);
             }
-             
+
         }
     }
 }]);

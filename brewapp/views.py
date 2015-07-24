@@ -8,14 +8,10 @@ from datetime import datetime, timedelta
 from brewapp.gpio import gpio_state, getAllGPIO
 
 
-
-
 ## Index View
 @app.route('/')
 def index():
     return render_template("index.html" )
-
-
 
 ## Helpr method to start the next step
 def nextStep():
@@ -49,11 +45,10 @@ def addMessage(message):
 @app.route("/data")
 def data():
     #app.logger.debug('A value for debugging')
-    return json.dumps({"steps":getAsArray(Step), 
-        "temps": globalprops.temp_cache, 
-        "temp":  globalprops.current_temp,
+    return json.dumps({"steps":getAsArray(Step),
+        "chart": globalprops.chart_cache,
+        "temps": globalprops.temps,
         "brew_name": Config.getParameter("brew_name", "No Name"),
-        "heats": globalprops.heatLog,
         "gpios": getAllGPIO(),
         "pid": globalprops.pidState,
         "logs": getAsArray(Log)})
@@ -70,7 +65,7 @@ def steps():
 ## Get all stored temps
 @app.route("/temps")
 def temps():
-    return json.dumps(globalprops.temp_cache)
+    return json.dumps(globalprops.chart_cache)
 
 @app.route("/heats")
 def heats():
@@ -100,12 +95,12 @@ def ws_start():
 def ws_next():
     nextStep()
     socketio.emit('steps', getAsArray(Step), namespace ='/brew')
-    
+
 
 @socketio.on('reset', namespace='/brew')
 def ws_reset():
     a = Step.query.all()
-    
+
     for e in a:
         e.state = 'I'
         e.timer_start = None

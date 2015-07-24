@@ -13,7 +13,7 @@ gpio_state = {}
 #Set method for GPIO. Populates the cache
 def setupGPIO():
 	try:
-		#import RPi.GPIO as GPIO 
+		#import RPi.GPIO as GPIO
 		#GPIO.setmode(GPIO.BCM)
 		gpios = Config.query.filter(Config.name.like("gpio_%")).all()
 		for g in gpios:
@@ -27,7 +27,7 @@ def setupGPIO():
 
 ## call setup
 setupGPIO()
-	
+
 def getAllGPIO():
 	gpio_config = []
 	gpios = Config.query.filter(Config.name.like("gpio_%")).all()
@@ -72,10 +72,10 @@ def setState(item = None, state = None, logmsg = True):
 	## Check if command is on, off or toggle
  	if(state != "on" and state != "off" and state != "toggle"):
  		return "Wrong command"
-	
-	## try to read the current state	
+
+	## try to read the current state
 	try:
-		old_state = gpio_state[parameter_name] 
+		old_state = gpio_state[parameter_name]
 		if(state == "on"):
 			if(gpio_state[parameter_name] == False):
 				gpio_state[parameter_name] = True
@@ -103,8 +103,8 @@ def setState(item = None, state = None, logmsg = True):
 			suffix = " ein"
 		else:
 			suffix = " aus"
-		if(logmsg):
-			addMessage(pin['label'] + suffix)
+		#if(logmsg):
+		#	addMessage(pin['label'] + suffix)
 		if(globalprops.gpioMode):
 			GPIO.output(pin['pin'], gpio_state[parameter_name])
 		socketio.emit('gpio_update', getAllGPIO(), namespace ='/brew')
@@ -115,4 +115,3 @@ def setState(item = None, state = None, logmsg = True):
 @socketio.on('gpio', namespace='/brew')
 def ws_gpio(name):
     result = setState(name,"toggle")
-    

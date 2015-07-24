@@ -19,11 +19,12 @@ from wtforms.fields import SelectField
 ## Standard Admin UI for Database models
 class StepAdmin(sqla.ModelView):
 	form_columns = ['name', 'temp', 'timer', 'type','state','timer_start','start','end','order']
-	form_overrides = dict(state=SelectField, type=SelectField)
-	form_args = dict(state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),type=dict(choices=[("A", 'Automatisch'), ("M", 'Manuell')],))
+	form_overrides = dict(state=SelectField, type=SelectField, stir_heatup=SelectField)
+	form_args = dict(state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),
+		type=dict(choices=[("A", 'Automatisch'), ("M", 'Manuell')],))
 
 class TempAdmin(sqla.ModelView):
-	form_columns = ['time', 'name1', 'value1']
+	form_columns = ['time', 'value1']
 
 class LogAdmin(sqla.ModelView):
 	form_columns = ['time', 'text', 'type']
@@ -36,7 +37,7 @@ class ConfigAdmin(sqla.ModelView):
 		Config.setParameter(model)
 		pass
 
-## Admin View to select a brew 
+## Admin View to select a brew
 class KBSelect(BaseView):
     @expose('/')
     def index(self):
@@ -101,7 +102,7 @@ class KBSelect(BaseView):
 			db.session.commit()
 			order +=1
 
-		## Add cooking step 
+		## Add cooking step
 		for row in c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', id):
 			s = Step()
 			s.name = "Kochen"
@@ -135,25 +136,23 @@ class ClearLogs(BaseView):
 
     @expose('/')
     def index(self):
-    	Log.query.delete()
-    	db.session.commit()
-    	Temperatur.query.delete()
-    	db.session.commit()
-    	globalprops.temp_cache = getAsArray(Temperatur)
+		Log.query.delete()
+		db.session.commit()
+		Temperatur.query.delete()
+		db.session.commit()
+		globalprops.chart_cache =  { }
+		return self.render('admin/imp_result.html')
 
-
-        return self.render('admin/imp_result.html')
-
-## Register Views	
+## Register Views
 
 admin = admin.Admin(name="CraftBeerPI")
-admin.add_link(base.MenuLink("Zurueck", url="/"))
-admin.add_view(StepAdmin(Step, db.session, name="Ablaufplan"))
-admin.add_view(TempAdmin(Temperatur, db.session, name="Temperatur Log", category='Protokoll'))
-admin.add_view(LogAdmin(Log, db.session, name="Brauprotokoll", category='Protokoll'))
-admin.add_view(ClearLogs(name="Daten loeschen", category='Protokoll'))
-admin.add_view(ConfigAdmin(Config, db.session, name="Superkonfig", category='Konfiguration'))
-admin.add_view(KBSelect(name='Liste', category='Kleiner Brauhelfer'))
+admin.add_link(base.MenuLink("Back", url="/"))
+admin.add_view(StepAdmin(Step, db.session, name="Brew Steps"))
+admin.add_view(TempAdmin(Temperatur, db.session, name="Temperature Log", category='Protocol'))
+admin.add_view(LogAdmin(Log, db.session, name="Brew Protocol", category='Protocol'))
+admin.add_view(ClearLogs(name="Clear All Data", category='Protocol'))
+admin.add_view(ConfigAdmin(Config, db.session, name="Configuration"))
+admin.add_view(KBSelect(name='Recipe List', category='Kleiner Brauhelfer'))
 admin.add_view(KBUpload(name='Upload', category='Kleiner Brauhelfer'))
 
 admin.init_app(app)

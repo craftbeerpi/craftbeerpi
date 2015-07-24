@@ -5,9 +5,9 @@
         <div class="btn-group pull-right">
             <div class="btn-group">
                 <button ng-click="reset()" class="btn btn-warning btn-xs"><i class="fa fa-fast-backward"></i> Reset </button>
-                <button ng-click="start()" class="btn btn-primary btn-xs"><i class="fa fa-play"></i> Start </button>
+                <button  ng-disabled="started()" ng-click="start()" class="btn btn-primary btn-xs"><i class="fa fa-play"></i> Start </button>
                 <button ng-click="pid()" ng-class="{'btn-success': pidState}" class="btn btn-primary btn-xs">
-                    <i class="fa fa-car"></i> Automatik
+                    <i class="fa fa-car"></i> Automatic
 
                 </button>
             </div>
@@ -15,8 +15,8 @@
     </div>
     <table class="table " ng-app="myApp">
         <thead>
-            <td class="col-md-1">Typ</td>
-            <td>Schritt</td>
+            <td class="col-md-1">Type</td>
+            <td>Step</td>
             <td><i class="wi wi-thermometer"></i> <span class="hidden-xs">Temp</span></td>
             <td><i class="fa fa-clock-o"></i> <span class="hidden-xs">Timer</span></td>
             <td></td>
@@ -29,7 +29,7 @@
             <td><span>{{ item.temp }} °C</span></td>
             <td>
                 <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="item.timer_start + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
-                </timer> ({{ item.timer }} min)
+                </timer> ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
             </td>
             <td>
                 <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm btn-sm hidden-xs">Weiter <i class="fa fa-forward"></i></button>
