@@ -20,6 +20,7 @@ def setupGPIO():
 			d = json.loads(g.value)
 			#GPIO.setup(int(g.value), GPIO.OUT)
 			gpio_state[g.name] = False
+		print "GPIO = TRUE"
 		globalprops.gpioMode = True
 	except ImportError:
 		print "GPIO SETUP ERROR"
