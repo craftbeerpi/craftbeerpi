@@ -251,7 +251,6 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     $scope.cud = function(data) {
 
         chart_data = [];
-        console.log(data);
         $scope.temp = data["temp1"][0][1].toFixed(2);
         var keys = Object.keys($scope.axis_config);
         for (var i=0; i < keys.length; i++) {
