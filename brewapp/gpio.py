@@ -28,7 +28,7 @@ def setupGPIO():
     	globalprops.gpioMode = False
 
 ## call setup
-setupGPIO()
+#setupGPIO()
 
 print globalprops.gpioMode
 
