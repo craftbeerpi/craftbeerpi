@@ -13,14 +13,14 @@ gpio_state = {}
 #Set method for GPIO. Populates the cache
 def setupGPIO():
 	try:
-		import RPi.GPIO as GPIO
-		GPIO.setmode(GPIO.BCM)
-		gpios = Config.query.filter(Config.name.like("gpio_%")).all()
-		for g in gpios:
-			d = json.loads(g.value)
+		#import RPi.GPIO as GPIO
+		#GPIO.setmode(GPIO.BCM)
+		#gpios = Config.query.filter(Config.name.like("gpio_%")).all()
+		#for g in gpios:
+		#	d = json.loads(g.value)
 			#GPIO.setup(int(g.value), GPIO.OUT)
-			gpio_state[g.name] = False
-		print "GPIO = TRUE"
+		#	gpio_state[g.name] = False
+		#print "GPIO = TRUE"
 		globalprops.gpioMode = True
 	except ImportError:
 		print "GPIO SETUP ERROR"
