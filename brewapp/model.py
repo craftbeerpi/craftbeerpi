@@ -218,8 +218,8 @@ if(db_exists == False):
     addStep(8, 'Kochen', 99, 'A', 90)
     addStep(9, 'Kuehlen', 23, 'M', 20)
 
-    addConfig("gpio_heat","{\"label\": \"Heizung\", \"pin\": 17}")
-    addConfig("gpio_agitator","{\"label\": \"Ruehrwerk\", \"pin\": 18}")
+    addConfig("gpio_heat","{\"label\": \"Heizung\", \"pin\": 6}")
+    addConfig("gpio_agitator","{\"label\": \"Ruehrwerk\", \"pin\": 6}")
     addConfig("pid_agitator", "True")
     addConfig("temp_db_interval", "5")
     addConfig("brew_name", "Beispiel Sud")
