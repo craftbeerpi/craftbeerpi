@@ -73,7 +73,7 @@ def tempjob(q):
         t.time = datetime.utcnow()
 
         if(sensorId1["name"] != "no"):
-            t.value1 = thermometer.tempData1Wire(sensorId1)
+            t.value1 = thermometer.tempData1Wire(sensorId1['id'])
             #t.value2 = random.randint(0,50)
             #t.value3 = random.randint(0,50)
             #t.value4 = random.randint(0,50)
