@@ -22,6 +22,7 @@ def setupGPIO():
 		#	gpio_state[g.name] = False
 		#print "GPIO = TRUE"
 		globalprops.gpioMode = True
+		print globalprops.gpioMode
 	except ImportError:
 		print "GPIO SETUP ERROR"
     	globalprops.gpioMode = False
