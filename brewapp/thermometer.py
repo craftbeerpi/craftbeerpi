@@ -7,7 +7,7 @@ def tempData1Wire(tempSensorId):
 
     ## Test Mode
 
-    if globalprops.gpioMode == False or globalprops.testMode == True:
+    if (globalprops.testMode == True):
         pipe = Popen(["cat","w1_slave"], stdout=PIPE)
     ## GPIO Mode
     else:

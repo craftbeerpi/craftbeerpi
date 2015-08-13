@@ -65,19 +65,17 @@ class Temperatur(db.Model):
 
     def to_json(self):
         return {
-            "temp1": [self.to_unixTime(self.time),self.value1],
-            "temp2": [self.to_unixTime(self.time),self.value2],
-            "temp3": [self.to_unixTime(self.time),self.value3],
-            "temp4": [self.to_unixTime(self.time),self.value4],
-            "temp5": [self.to_unixTime(self.time),self.value5],
+            "temp1": [self.to_unixTime(),self.value1],
+            "temp2": [self.to_unixTime(),self.value2],
+            "temp3": [self.to_unixTime(),self.value3],
+            "temp4": [self.to_unixTime(),self.value4],
+            "temp5": [self.to_unixTime(),self.value5],
         }
 
 
-    def to_unixTime(self, field):
-        if(field!= None):
-            return  int((field - datetime(1970,1,1)).total_seconds())*1000
-        else:
-            return  None
+    def to_unixTime(self):        
+        return  int((self.time - datetime(1970,1,1)).total_seconds())*1000
+
 
 class Log(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -50,7 +50,7 @@ def data():
         "temps": globalprops.temps,
         "brew_name": Config.getParameter("brew_name", "No Name"),
         "gpios": getAllGPIO(),
-        "pid": globalprops.pidState,
+        "pid": globalprops.autoState,
         "logs": getAsArray(Log)})
 
 @app.route("/gpio")
@@ -66,6 +66,10 @@ def steps():
 @app.route("/temps")
 def temps():
     return json.dumps(globalprops.chart_cache)
+
+@app.route("/temps/count")
+def tempscount():
+    return json.dumps(len(globalprops.chart_cache['temp1']))
 
 @app.route("/heats")
 def heats():
@@ -99,16 +103,8 @@ def ws_next():
 
 @socketio.on('reset', namespace='/brew')
 def ws_reset():
-    a = Step.query.all()
-
-    for e in a:
-        e.state = 'I'
-        e.timer_start = None
-        e.start = None
-        e.end = None
-        db.session.add(e)
-        db.session.commit()
-
+    db.session.query(Step).update({'state': 'I', 'start': None, 'end': None, 'timer_start': None},  synchronize_session='evaluate')
+    db.session.commit()
     socketio.emit('steps', getAsArray(Step), namespace ='/brew')
     addMessage("Brauprozess zuruecksetzen")
 

@@ -40,6 +40,7 @@ def stepjob():
 
             if(current_step.timer > 0 and current_step.timer_start == None and  globalprops.temps['temp1'][1] >= current_step.temp):
                 print "START TIMER"
+                socketio.emit('alert', "", namespace ='/brew')
                 current_step.timer_start = datetime.utcnow()
                 db.session.add(current_step)
                 db.session.commit()
@@ -78,7 +79,6 @@ def tempjob(q):
             #t.value3 = random.randint(0,50)
             #t.value4 = random.randint(0,50)
             #t.value5 = random.randint(0,50)
-
         ## Save temperatur in database
         db.session.add(t)
         db.session.commit()
@@ -137,9 +137,8 @@ def getQueueData(queues, name):
 def heatjob():
     print "START HEAT"
     while True:
-
         ## PID NOT or no current step ACTIVE SKIP
-        if(globalprops.pidState == True and globalprops.current_step != None):
+        if(globalprops.autoState == True and globalprops.current_step != None):
             if(globalprops.temps['temp1'][1] < globalprops.current_step['temp'] and gpio_state['gpio_heat']== False):
                 setState("heat", "on", False)
             elif(globalprops.temps['temp1'][1] > globalprops.current_step['temp'] and gpio_state['gpio_heat'] == True):

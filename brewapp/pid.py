@@ -31,11 +31,10 @@ def pidTOGGLE():
 
 @socketio.on('pid', namespace='/brew')
 def ws_pid():
-    if(globalprops.pidState):
-        globalprops.pidState = False
+    if(globalprops.autoState):
+        globalprops.autoState = False
         addMessage("Automatik aus")
     else:
-        globalprops.pidState = True
+        globalprops.autoState = True
         addMessage("Automatik an")
-    socketio.emit('pidupdate', globalprops.pidState, namespace ='/brew')
-
+    socketio.emit('pidupdate', globalprops.autoState, namespace ='/brew')

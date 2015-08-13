@@ -13,14 +13,14 @@ gpio_state = {}
 #Set method for GPIO. Populates the cache
 def setupGPIO():
 	try:
-		#import RPi.GPIO as GPIO
-		#GPIO.setmode(GPIO.BCM)
-		#gpios = Config.query.filter(Config.name.like("gpio_%")).all()
-		#for g in gpios:
-		#	d = json.loads(g.value)
-			#GPIO.setup(int(g.value), GPIO.OUT)
-		#	gpio_state[g.name] = False
-		#print "GPIO = TRUE"
+		import RPi.GPIO as GPIO
+		GPIO.setmode(GPIO.BCM)
+		gpios = Config.query.filter(Config.name.like("gpio_%")).all()
+		for g in gpios:
+			d = json.loads(g.value)
+			GPIO.setup(int(g.value), GPIO.OUT)
+			gpio_state[g.name] = False
+		print "GPIO = TRUE"
 		globalprops.gpioMode = True
 		print globalprops.gpioMode
 	except ImportError:
@@ -28,7 +28,7 @@ def setupGPIO():
     	globalprops.gpioMode = False
 
 ## call setup
-#setupGPIO()
+setupGPIO()
 
 print globalprops.gpioMode
 
@@ -103,12 +103,6 @@ def setState(item = None, state = None, logmsg = True):
 			gpio_state[parameter_name] = False
 
 	if(gpio_state[parameter_name] != old_state):
-		if(gpio_state[parameter_name] == True):
-			suffix = " ein"
-		else:
-			suffix = " aus"
-		#if(logmsg):
-		#	addMessage(pin['label'] + suffix)
 		if(globalprops.gpioMode):
 			GPIO.output(pin['pin'], gpio_state[parameter_name])
 		socketio.emit('gpio_update', getAllGPIO(), namespace ='/brew')

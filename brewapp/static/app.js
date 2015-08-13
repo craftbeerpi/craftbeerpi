@@ -267,7 +267,14 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
 
     }
 
+    $scope.alert = function(data) {
+        console.log("alert");
+        var a = new Audio("static/sound.mp3");
+        a.play();
+    }
+
     ws.on('temp', $scope.update);
+    ws.on('alert', $scope.alert);
     ws.on('chart_update', $scope.cud);
     ws.on('steps', $scope.updateSteps);
     ws.on('logupdate', $scope.updateLog);

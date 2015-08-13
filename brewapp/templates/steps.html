@@ -4,7 +4,7 @@
         <span class="panel-title"><i class="fa fa-list"></i> {{brew_name}}</span>
         <div class="btn-group pull-right">
             <div class="btn-group">
-                <button ng-click="reset()" class="btn btn-warning btn-xs"><i class="fa fa-fast-backward"></i> Reset </button>
+                <button ng-disabled="started() == false" ng-click="reset()" class="btn btn-warning btn-xs"><i class="fa fa-fast-backward"></i> Reset </button>
                 <button  ng-disabled="started()" ng-click="start()" class="btn btn-primary btn-xs"><i class="fa fa-play"></i> Start </button>
                 <button ng-click="pid()" ng-class="{'btn-success': pidState}" class="btn btn-primary btn-xs">
                     <i class="fa fa-car"></i> Automatic

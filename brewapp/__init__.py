@@ -22,9 +22,8 @@ import brewapp.banner
 import brewapp.model
 import brewapp.globalprops
 
-
-
-
+import brewapp.gpio
+import brewapp.job
 import brewapp.views
 ## Database models
 ## Agitator HTTP and WebSocket Endpoints
@@ -32,7 +31,6 @@ import brewapp.views
 ## PID HTTP and WebSocket Endpoints
 import brewapp.pid
 ## Background Jobs
-import brewapp.job
+
 ## Admin Console Config
 import brewapp.admin
-import brewapp.gpio
