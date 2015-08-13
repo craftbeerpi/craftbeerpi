@@ -73,7 +73,7 @@ class Temperatur(db.Model):
         }
 
 
-    def to_unixTime(self):        
+    def to_unixTime(self):
         return  int((self.time - datetime(1970,1,1)).total_seconds())*1000
 
 
@@ -216,8 +216,8 @@ if(db_exists == False):
     addStep(8, 'Kochen', 99, 'A', 90)
     addStep(9, 'Kuehlen', 23, 'M', 20)
 
-    addConfig("gpio_heat","{\"label\": \"Heizung\", \"pin\": 6}")
-    addConfig("gpio_agitator","{\"label\": \"Ruehrwerk\", \"pin\": 6}")
+    #addConfig("gpio_heat","{\"label\": \"Heizung\", \"pin\": 6}")
+    addConfig("gpio_agitator","{\"label\": \"Ruehrwerk\", \"pin\": 23}")
     addConfig("pid_agitator", "True")
     addConfig("temp_db_interval", "5")
     addConfig("brew_name", "Beispiel Sud")
