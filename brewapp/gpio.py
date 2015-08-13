@@ -18,8 +18,8 @@ def setupGPIO():
 		gpios = Config.query.filter(Config.name.like("gpio_%")).all()
 		for g in gpios:
 			d = json.loads(g.value)
-			GPIO.setup(int(g.value), GPIO.OUT)
-			gpio_state[g.name] = False
+			GPIO.setup(int(d.pin), GPIO.OUT)
+			gpio_state[d.name] = False
 		print "GPIO = TRUE"
 		globalprops.gpioMode = True
 		print globalprops.gpioMode
