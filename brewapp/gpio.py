@@ -112,5 +112,5 @@ def setState(item = None, state = None, logmsg = True):
 		return False
 
 @socketio.on('gpio', namespace='/brew')
-def ws_gpio(name):
+def ws_gpio(name):	
     result = setState(name,"toggle")

@@ -77,9 +77,8 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
     }
 
     $scope.started = function() {
-
         if($scope.steps == undefined) {
-          return true;
+          return false;
         }
         for(i = 0; i < $scope.steps.length; i++) {
           if($scope.steps[i].state == "A") {
@@ -193,7 +192,6 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
 
     $scope.reset = function() {
         ws.emit("reset");
-
     }
 
     $scope.next = function() {

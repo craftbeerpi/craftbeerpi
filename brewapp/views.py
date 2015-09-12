@@ -45,7 +45,7 @@ def addMessage(message):
 @app.route("/data")
 def data():
     #app.logger.debug('A value for debugging')
-    return json.dumps({"steps":getAsArray(Step),
+    return json.dumps({"steps":getAsArray(Step, Step.order),
         "chart": globalprops.chart_cache,
         "temps": globalprops.temps,
         "brew_name": Config.getParameter("brew_name", "No Name"),

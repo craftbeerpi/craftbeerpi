@@ -169,10 +169,23 @@ def str2bool(v):
   return v.lower() in ("yes", "true", "t", "1")
 
 
-def getAsArray(obj):
-    steps=obj.query.all()
+#def getAsArray(obj):
+#    steps=obj.query.all()
+#    ar = []
+#    for t in steps:
+#        ar.append(t.to_json())
+#    return ar
+
+def getAsArray(obj, order = None):
+
+    print dir(order)
+    if(order is not None):
+        result =obj.query.order_by(order).all()
+    else:
+        result =obj.query.all()
+
     ar = []
-    for t in steps:
+    for t in result:
         ar.append(t.to_json())
     return ar
 

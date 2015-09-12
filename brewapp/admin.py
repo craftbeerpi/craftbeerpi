@@ -22,6 +22,7 @@ class StepAdmin(sqla.ModelView):
 	form_overrides = dict(state=SelectField, type=SelectField, stir_heatup=SelectField)
 	form_args = dict(state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),
 		type=dict(choices=[("A", 'Automatisch'), ("M", 'Manuell')],))
+	column_default_sort = 'order'
 
 class TempAdmin(sqla.ModelView):
 	form_columns = ['time', 'value1']
@@ -102,6 +103,17 @@ class KBSelect(BaseView):
 			db.session.commit()
 			order +=1
 
+		s = Step()
+		s.name = "Laeuterruhe"
+		s.order = order
+		s.type = 'M'
+		s.state = 'I'
+		s.temp = 0
+		s.timer = 15
+		db.session.add(s)
+		db.session.commit()
+		order +=1
+
 		## Add cooking step
 		for row in c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', id):
 			s = Step()
@@ -114,6 +126,17 @@ class KBSelect(BaseView):
 			db.session.add(s)
 			db.session.commit()
 			order +=1
+
+		s = Step()
+		s.name = "Whirlpool"
+		s.order = order
+		s.type = 'M'
+		s.state = 'I'
+		s.temp = 0
+		s.timer = 15
+		db.session.add(s)
+		db.session.commit()
+		order +=1
 
 		return self.render('admin/imp_result.html')
 
@@ -141,7 +164,7 @@ class ClearLogs(BaseView):
 		Temperatur.query.delete()
 		db.session.commit()
 		globalprops.chart_cache =  { }
-		return self.render('admin/imp_result.html')
+		return self.render('admin/reset_protocol_result.html')
 
 ## Register Views
 
