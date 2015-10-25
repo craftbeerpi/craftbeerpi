@@ -234,4 +234,4 @@ if(db_exists == False):
     addConfig("pid_agitator", "True")
     addConfig("temp_db_interval", "5")
     addConfig("brew_name", "Beispiel Sud")
-    addConfig("tempSensorId1", "{\"name\": \"P22\", \"id\": \"28-03146215acff\"}")
+    addConfig("tempSensorId1", "{\"name\": \"P1\", \"id\": \"28.6B162B060000\"}")
