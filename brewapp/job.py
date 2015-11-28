@@ -15,6 +15,8 @@ import json
 from random import randint
 
 ## GLOBALS
+global point
+point = " "
 
 temp_queue = Queue(maxsize=0)
 
@@ -60,37 +62,50 @@ def stepjob():
             socketio.emit('steps', getAsArray(Step), namespace ='/brew')
 
         time.sleep( 1 )
-
+        
 import random
 
 ## READ TEMP JOB
 def tempjob(q):
     print "START TEMP JOB"
     #global current_temp
+    global point
+    
+    lasttime = datetime.utcnow()
+
     while True:
         sensorId1 = Config.getParameter("tempSensorId1", "{\"name\": \"no\"}", True)
 
         t = Temperatur()
         t.time = datetime.utcnow()
-
+        
         if(sensorId1["name"] != "no"):
             t.value1 = thermometer.tempData1Wire(sensorId1['id'])
             #t.value2 = random.randint(0,50)
             #t.value3 = random.randint(0,50)
             #t.value4 = random.randint(0,50)
             #t.value5 = random.randint(0,50)
+            
         ## Save temperatur in database
-        db.session.add(t)
-        db.session.commit()
+        if (t.time - lasttime).seconds > Config.getParameter("temp_db_interval", 5): 
+            db.session.add(t)
+            db.session.commit()
+            lasttime = t.time
+
+        ## Change marker of frontend
+        if point == " ":
+            point = "-exterior"
+        else:
+            point = " "
 
         globalprops.temps = t.to_json()
         q.put(globalprops.temps)
 
-        time.sleep( Config.getParameter("temp_db_interval", 5) )
-
+        time.sleep( Config.getParameter("temp_read_interval", 5) )
 
 
 def updateChart(queues):
+    global point
     while True:
         new_data = False
         q = queues['temps']
@@ -116,6 +131,8 @@ def updateChart(queues):
                 if(k != 'temps'):
                     update[k] = getQueueData(queues, k)
             socketio.emit('chart_update', update, namespace ='/brew')
+
+        socketio.emit('point', point, namespace='/brew')
 
         time.sleep(1)
 

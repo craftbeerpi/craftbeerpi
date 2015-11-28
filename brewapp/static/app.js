@@ -107,6 +107,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         //$scope.gpiosState = data.gpio;
 
         $scope.gpios = data.gpios;
+        $scope.point = data.point;
 
 
         $scope.axis_config = {}
@@ -245,6 +246,10 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         $scope.pidState =  data
     }
 
+    $scope.point = function(data) {
+        $scope.point =  data
+    }
+
 
     $scope.cud = function(data) {
 
@@ -271,6 +276,7 @@ app.controller('ArticlesCtrl', ['ws', '$scope', '$http', function(ws, $scope, $h
         a.play();
     }
 
+    ws.on('point', $scope.point);
     ws.on('temp', $scope.update);
     ws.on('alert', $scope.alert);
     ws.on('chart_update', $scope.cud);

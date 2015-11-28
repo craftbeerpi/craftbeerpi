@@ -232,6 +232,8 @@ if(db_exists == False):
     #addConfig("gpio_heat","{\"label\": \"Heizung\", \"pin\": 6}")
     addConfig("gpio_agitator","{\"label\": \"Ruehrwerk\", \"pin\": 23}")
     addConfig("pid_agitator", "True")
-    addConfig("temp_db_interval", "5")
+    addConfig("temp_db_interval", "30")
+    addConfig("temp_read_interval", "1")    
+    
     addConfig("brew_name", "Beispiel Sud")
     addConfig("tempSensorId1", "{\"name\": \"P1\", \"id\": \"28.6B162B060000\"}")
