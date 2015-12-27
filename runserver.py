@@ -10,6 +10,6 @@ from flask.ext.socketio import SocketIO, emit
 
 if __name__ == '__main__':
     app.debug = True
-    app.testMode = True
+    
     #app.run()
     socketio.run(app, host='0.0.0.0', use_reloader=False)

@@ -15,7 +15,7 @@ app.brewapp_jobs = []
 app.brewapp_gpio = {}
 app.brewapp_chartdata = {}
 app.brewapp_temperature = {}
-
+app.testMode = True
 
 from .base.views import base
 

@@ -10,8 +10,6 @@ def setup():
         print g.name
     print gpio_state
 
-setup()
-
 def setState(gpio, new_state):
     try:
         print gpio
@@ -43,3 +41,8 @@ def toggle(gpio):
 
 def str2bool(value):
     return {"True": True, "true": True}.get(value, False)
+
+def job():
+    setup()
+
+app.brewapp_jobs.append(setup)
