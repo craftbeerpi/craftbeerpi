@@ -1,0 +1,16 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+    <table class="table table-striped table-bordered table-hover model-list">
+    	<thead>
+    		<td>Brew Name</td>
+    		<td></td>
+    	</thead>
+	    {% for row in x %}
+	    <tr>
+	      <td class="span1">{{ row[1] }}</td>
+	      <td><a class="btn btn-primary btn-large" href="/admin/kbselect/select?id={{ row[0] }}">Load brew</a></td>
+	    </tr>
+		{% endfor %}
+    </table>
+{% endblock %}

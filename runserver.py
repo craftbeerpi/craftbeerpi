@@ -1,12 +1,15 @@
-from brewapp import app,socketio 
-from flask_debugtoolbar import DebugToolbarExtension
+from flask import Flask
+from brewapp import app, socketio
 from flask.ext.socketio import SocketIO, emit
+#app = Flask(__name__)
 
-if __name__ == "__main__":
+#@app.route('/')
+#def hello_world():
+#    return 'Hello World!'
 
-    app.debug = False
-    app.config['SECRET_KEY'] = 'craftbeerpi'
-    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-    toolbar = DebugToolbarExtension(app)
+
+if __name__ == '__main__':
+    app.debug = True
+    app.testMode = True
+    #app.run()
     socketio.run(app, host='0.0.0.0', use_reloader=False)
-

@@ -1,31 +1,33 @@
-from flask import Flask
-from flask_debugtoolbar import DebugToolbarExtension
-from flask.ext.admin import Admin
-from flask import Flask, render_template
+from flask import Flask, abort, redirect, url_for
+from flask.ext.sqlalchemy import SQLAlchemy
+import flask_admin as admin
 from flask.ext.socketio import SocketIO, emit
-import globalprops
-from subprocess import call
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
+app.config['SECRET_KEY'] = 'craftbeerpi'
+db = SQLAlchemy(app)
 
-if globalprops.testMode == False:
-        call(["modprobe", "w1-gpio"])
-        call(["modprobe", "w1-therm"])
+admin = admin.Admin(name="CraftBeerPI")
+app.brewapp_jobs = []
+app.brewapp_gpio = {}
+app.brewapp_chartdata = {}
+app.brewapp_temperature = {}
 
-import brewapp.banner
 
-import brewapp.views
-## Agitator HTTP and WebSocket Endpoints
-import brewapp.agitator
-## Heating HTTP and WebSocket Endpoints
-import brewapp.heating
-## PID HTTP and WebSocket Endpoints
-import brewapp.pid
-## Background Jobs
-import brewapp.job
-## Database models
-import brewapp.model
-## Admin Console Config
-import brewapp.admin
+from .base.views import base
 
+db.create_all()
+
+admin.init_app(app)
+
+app.register_blueprint(base,url_prefix='/base')
+
+@app.route('/')
+def index():
+    return redirect('base')
+
+for i in app.brewapp_jobs:
+    i()

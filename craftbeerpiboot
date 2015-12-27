@@ -1,0 +1,50 @@
+#! /bin/sh
+# /etc/init.d/craftbeerpiboot
+
+### BEGIN INIT INFO
+# Provides:          craftbeerpiboot
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start a program at boot
+# Description:       A simple script from www.stuffaboutcode.com which will start / st$
+### END INIT INFO
+
+# 1) Make script executable:
+# sudo chmod 755 /etc/init.d/craftbeerpiboot
+
+# 2) Register script to be run at start-up:
+# sudo update-rc.d craftbeerpiboot defaults
+
+# To remove script from start-up:
+# sudo update-rc.d -f craftbeerpiboot remove
+
+# To test starting the program:
+# sudo /etc/init.d/craftbeerpiboot start
+
+# To test stopping the program:
+# sudo /etc/init.d/craftbeerpiboot stop
+
+# If you want a command to always run, put it here
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+    start)
+        echo "Starting Craftbeer PI"
+        # run application you want to start
+        python /home/craftbeerpi/carftbeerpi/runserver.py
+    ;;
+    stop)
+        echo "Stopping Craftbeer PI"
+        # kill application you want to stop
+        killall python
+        #python /home/craftbeerpi/carftbeerpi/cleanup
+    ;;
+*)
+    echo "Usage: /etc/init.d/brewonboot {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+  <link rel="stylesheet" type="text/css" href="/base/static/style.css">
+  <link rel="stylesheet" href="/base/static/addon/bootstrap.min.css">
+  <link rel="stylesheet" href="/base/static/addon/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/base/static/addon/weather-icons.min.css" />
+  <link href="/base/static/addon/c3.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/base/static/addon/font-awesome.min.css">
+</head>
+<style>
+
+
+  #temp {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    font-size: 3em;
+    width: 300px;
+    text-align: right;
+  }
+
+  body {
+    padding-top: 70px;
+  }
+</style>
+<script src="/base/static/addon/d3.min.js" charset="utf-8"></script>
+<script src="/base/static/addon/c3.min.js"></script>
+<script src="/base/static/addon/jquery-2.1.3.min.js"></script>
+<script src="/base/static/addon/bootstrap.min.js"></script>
+<script type="text/javascript" src="/base/static/addon/socket.io.min.js"></script>
+<script type="text/javascript" src="/base/static/addon/angular.js"></script>
+<script type="text/javascript" src="/base/static/app.js"></script>
+<script type="text/javascript" src="/base/static/addon/largest-triangle-three-buckets.v0.1.0.js"></script>
+<script type="text/javascript" src="/base/static/addon/angular-timer-all.min.js"></script>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+<body ng-app="myApp">
+  <div class="container" ng-controller="BrewController">
+    {% include 'navigation.html' %}
+    <button ng-click="debug()" value="HALLO" name="HALLO">DEBUG</button>
+    <div class="row">
+      <div class="col-sm-9">
+        {% include 'chart.html' %}
+      </div>
+      <div class="col-sm-3">
+        {% include 'button.html' %}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        {% include 'steps.html' %}
+      </div>
+      <div class="col-md-6">
+        {% include 'protocol.html' %}
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

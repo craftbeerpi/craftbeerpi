@@ -1,0 +1,20 @@
+{% raw %}
+<style>
+  #gpio_buttons, #gpio_buttons button {
+    width: 100%;
+  }
+</style>
+<div class="panel panel-default" data-toggle="tooltip" data-placement="top" id="gpio_buttons" >
+
+  <div class="panel-heading"><i class="fa fa-align-left"></i> Hardware Control</span>
+  </div>
+  <div class="panel-body">
+    <div class="btn-group-vertical" id="gpio_buttons" role="group" >
+        <button ng-repeat="(key, value) in gpios" ng-class="buttonState(value)" ng-click="gpio(key)" class="btn btn-default btn-md">
+            <span class="badge"><i class="fa fa-power-off"></i></span>  {{value.name}}
+      </button>
+  </div>
+</div>
+</div>
+
+{% endraw %}
