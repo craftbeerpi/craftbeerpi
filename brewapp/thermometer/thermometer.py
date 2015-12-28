@@ -10,7 +10,7 @@ def tempData1Wire(tempSensorId):
     try:
         ## Test Mode
         if (app.testMode == True):
-            pipe = Popen(["cat","w1_slave"], stdout=PIPE)
+            pipe = Popen(["cat","/home/craftbeerpi/craftbeerpi/w1_slave"], stdout=PIPE)
             ## GPIO Mod
         else:
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
@@ -37,7 +37,7 @@ def readTemp():
         db.session.add(t)
         db.session.commit()
         update = [t.to_unixTime(), t.value1]
-        
+
         socketio.emit('chart_update', update, namespace ='/brew')
         time.sleep( 5 )
     print "TEMP JOB STOPPED"
