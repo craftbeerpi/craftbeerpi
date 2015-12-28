@@ -1,7 +1,4 @@
 from flask import Blueprint, render_template, jsonify
-from model import *
-import gpio
-from gpio import setState, toggle
 import json
 from brewapp import app, socketio
 
@@ -27,8 +24,9 @@ def index():
 
 @base.route('/data')
 def data():
-    return json.dumps({"gpio":gpio.gpio_state,
-        "steps":getAsArray(Step, Step.order),
+    return json.dumps({"gpio":app.brewapp_gpio_state,
+        "steps":app.brewapp_steps,
+        "thermometer": app.brewapp_thermometer,
         "chart":app.brewapp_chartdata})
 
 @base.route('/stop')
@@ -41,38 +39,7 @@ def start():
     starttempJob()
     return "OK"
 
-@base.route("/steps")
-def steps():
-	return json.dumps(getAsArray(Step))
-
-@base.route("/gpio/<gpio>/<state>")
-def gpio_set_state(gpio, state):
-    result = setState(gpio, state)
-    #socketio.emit('gpio', json.dumps(), namespace ='/brew')
-    return result
-
-@base.route("/gpio/state")
-def gpio_state():
-    return json.dumps(gpio.gpio_state)
-
-@base.route("/jobs")
-def jobs():
-    jobs = []
-    for i in app.brewapp_jobs:
-        jobs.append({"name": i.get("function").__name__})
-    return json.dumps(jobs)
-
-@base.route("/gpio/config")
-def gpio_config():
-	return json.dumps(getAsArray(GpioConfig))
 
 @socketio.on('connect', namespace='/brew')
 def ws_connect():
     print "CONNECT"
-
-@socketio.on('gpio', namespace='/brew')
-def ws_gpio(name):
-    toggle(name)
-    print "NAME: ", name
-    socketio.emit('gpio_update', gpio.gpio_state, namespace ='/brew')
-    #result = setState(name,"toggle")

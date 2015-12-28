@@ -41,9 +41,11 @@
 <body ng-app="myApp">
   <div class="container" ng-controller="BrewController">
     {% include 'navigation.html' %}
-    <button ng-click="debug()" value="HALLO" name="HALLO">DEBUG</button>
     <div class="row">
-      <div class="col-sm-9">
+      <div class="col-sm-3">
+        {% include 'temps.html' %}
+      </div>
+      <div class="col-sm-6">
         {% include 'chart.html' %}
       </div>
       <div class="col-sm-3">

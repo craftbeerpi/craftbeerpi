@@ -1,14 +1,15 @@
-from model import *
-from brewapp import brewinit
+from brewapp.gpio.model import GpioConfig
+from brewapp import brewinit, app
+
+
 gpio_state = {}
 
 @brewinit()
-def setup():
+def setupGPIO():
     print "SETUP GPIO"
     gpios = GpioConfig.query.all()
     for g in gpios:
-        gpio_state[g.gpio] = {"name":g.name, "state":False}
-
+        app.brewapp_gpio_state[g.gpio] = {"name":g.name, "state":False}
 
 def setState(gpio, new_state):
     try:
@@ -18,7 +19,7 @@ def setState(gpio, new_state):
  		         return "Wrong command"
 
         bool_new_state = str2bool(new_state)
-        old_state = gpio_state[int_gpio].get("state")
+        old_state = app.brewapp_gpio_state[int_gpio].get("state")
         gpio_state[int_gpio]['state'] =  bool_new_state
 
         if(old_state != bool_new_state):
@@ -32,16 +33,11 @@ def setState(gpio, new_state):
 
 def toggle(gpio):
     int_gpio = int(gpio)
-    old_state = gpio_state[int_gpio].get("state")
+    old_state = app.brewapp_gpio_state[int_gpio].get("state")
     if(old_state == False):
-        gpio_state[int_gpio]['state'] = True
+        app.brewapp_gpio_state[int_gpio]['state'] = True
     else:
-        gpio_state[int_gpio]['state'] = False
+        app.brewapp_gpio_state[int_gpio]['state'] = False
 
 def str2bool(value):
     return {"True": True, "true": True}.get(value, False)
-
-#def job():
-#    setup()
-
-#app.brewapp_jobs.append(setup)

@@ -28,25 +28,38 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
-db = SQLAlchemy(app)
+
 
 admin = admin.Admin(name="CraftBeerPI")
 app.brewapp_jobs = []
 app.brewapp_init = []
 app.brewapp_gpio = {}
+app.brewapp_thermometer = {}
+app.brewapp_steps = None
 app.brewapp_chartdata = {}
 app.brewapp_temperature = {}
 app.testMode = True
 app.brewapp_jobstate = {}
 app.brewapp_current_step = None
+app.brewapp_gpio_state = {}
+
+db = SQLAlchemy(app)
 
 from .base.views import base
+from .thermometer.views import thermometer
+from .steps.views import steps
+from .gpio.views import gpios
+
+print db
 
 db.create_all()
 
 admin.init_app(app)
 
 app.register_blueprint(base,url_prefix='/base')
+app.register_blueprint(thermometer,url_prefix='/thermometer')
+app.register_blueprint(steps,url_prefix='/steps')
+app.register_blueprint(gpios,url_prefix='/gpios')
 
 @app.route('/')
 def index():

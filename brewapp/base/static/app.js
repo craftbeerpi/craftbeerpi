@@ -98,6 +98,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
         $scope.configdata = data;
         $scope.steps = data.steps;
         $scope.gpios = data.gpio;
+        $scope.thermometer = data.thermometer;
         /*
         var keys = Object.keys(data.chart);
         $scope.agitatorState = data.agitator;
@@ -248,6 +249,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
 
     $scope.cud = function(data) {
 
+        console.log(data);
         chart_data = [];
         $scope.temp = data[1].toFixed(2);
         //var keys = Object.keys($scope.axis_config);

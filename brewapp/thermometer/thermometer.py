@@ -1,6 +1,6 @@
 from subprocess import Popen, PIPE, call
 from brewapp import app, db, socketio
-from model import *
+from brewapp.thermometer.model import *
 from thread import start_new_thread
 import time
 from brewapp import brewjob, brewinit
@@ -37,7 +37,7 @@ def readTemp():
         db.session.add(t)
         db.session.commit()
         update = [t.to_unixTime(), t.value1]
-        print "READ TEMP", t.value1
+        
         socketio.emit('chart_update', update, namespace ='/brew')
         time.sleep( 5 )
     print "TEMP JOB STOPPED"
@@ -49,8 +49,17 @@ def clearData():
     app.brewapp_chartdata["temp1"] = []
 
 
+def loadThermometer():
+    thermometer = db.session.query(ThermometerConfig).all()
+    app.brewapp_thermometer = {}
+    for t in thermometer:
+        print t.name
+        app.brewapp_thermometer[t.name] = -1
+
 @brewinit()
 def loadData():
+
+    loadThermometer()
     temps = db.session.query(Temperature).all()
     x = 'temp1'
     app.brewapp_chartdata[x] = []

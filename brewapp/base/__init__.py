@@ -1,5 +1,6 @@
-import model
+#import model
 import admin
-import gpio
-import step
-import thermometer
+#import gpio
+#import step
+
+#import thermometer
