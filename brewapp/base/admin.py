@@ -15,18 +15,17 @@ class GpioAdmin(sqla.ModelView):
 	form_columns = ['name','gpio']
 
 class StepsAdmin(sqla.ModelView):
-
-
 	form_columns = ['name', 'temp', 'timer', 'type','state','timer_start','start','end','order']
 	form_overrides = dict(state=SelectField, type=SelectField, stir_heatup=SelectField)
 	form_args = dict(
-        state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),
+		state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),
 		type=dict(choices=[("A", 'Automatisch'), ("M", 'Manuell')],)
-        )
-
+		)
 	column_default_sort = 'order'
-    #def after_model_change(self, form, model, is_created):
-    #    pass
+	def after_model_change(self, form, model, is_created):
+		print "JOB UPDATE"
+		app.brewapp_current_step = model.to_json()
+		pass
         #current_step = Step.query.filter_by(state='A').first()
         #print current_step
         #if(current_step != None):

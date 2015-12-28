@@ -14,18 +14,10 @@ def getAsArray(obj, order = None):
         result =obj.query.order_by(order).all()
     else:
         result =obj.query.all()
-
     ar = []
     for t in result:
         ar.append(t.to_json())
     return ar
-
-#@profile.route('/', defaults={'page': 'index'})
-
-#@base.route('/<page>')
-#def timeline(page):
-    # Do some stuff
-#    return render_template("index.html")
 
 @base.route('/')
 def index():
@@ -38,6 +30,16 @@ def data():
     return json.dumps({"gpio":gpio.gpio_state,
         "steps":getAsArray(Step, Step.order),
         "chart":app.brewapp_chartdata})
+
+@base.route('/stop')
+def stop():
+    app.brewapp_jobstate["tempjob"] = False
+    return "OK"
+
+@base.route('/start')
+def start():
+    starttempJob()
+    return "OK"
 
 @base.route("/steps")
 def steps():
@@ -52,6 +54,13 @@ def gpio_set_state(gpio, state):
 @base.route("/gpio/state")
 def gpio_state():
     return json.dumps(gpio.gpio_state)
+
+@base.route("/jobs")
+def jobs():
+    jobs = []
+    for i in app.brewapp_jobs:
+        jobs.append({"name": i.get("function").__name__})
+    return json.dumps(jobs)
 
 @base.route("/gpio/config")
 def gpio_config():

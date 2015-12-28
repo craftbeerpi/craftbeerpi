@@ -27,7 +27,7 @@ class Step(db.Model):
         return {
             'type' : self.type,
             'name' : self.name,
-            'timer' : str(self.timer),
+            'timer' : self.timer,
             'temp' : self.temp,
             'state': self.state,
             'start': str(self.start),
