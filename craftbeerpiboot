@@ -33,7 +33,7 @@ case "$1" in
     start)
         echo "Starting Craftbeer PI"
         # run application you want to start
-        python /home/craftbeerpi/carftbeerpi/runserver.py
+        python /home/craftbeerpi/craftbeerpi/runserver.py
     ;;
     stop)
         echo "Stopping Craftbeer PI"
@@ -42,7 +42,7 @@ case "$1" in
         #python /home/craftbeerpi/carftbeerpi/cleanup
     ;;
 *)
-    echo "Usage: /etc/init.d/brewonboot {start|stop}"
+    echo "Usage: /etc/init.d/craftbeerboot {start|stop}"
     exit 1
     ;;
 esac
