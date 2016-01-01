@@ -9,6 +9,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
     $scope.steps = [];
     $scope.data = [];
     $scope.log = [];
+    $scope.temps = {};
 
 
     $scope.addlog = function() {
@@ -99,6 +100,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
         $scope.steps = data.steps;
         $scope.gpios = data.gpio;
         $scope.thermometer = data.thermometer;
+        $scope.log = data.log;
         /*
         var keys = Object.keys(data.chart);
         $scope.agitatorState = data.agitator;
@@ -116,17 +118,16 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
 */
 
         var keys = Object.keys(data.chart);
-        console.log(keys);
+
         $scope.axis_config = {}
         chart_data = [];
         for (var i=0; i < keys.length; i++) {
             k =keys[i];
-            $scope.axis_config[k] = 'x'+i
-            chart_data = chart_data.concat($scope.downsample(data.chart[k], k, "x"+i));
+            $scope.axis_config[k] = k+"x";
+
+            chart_data = chart_data.concat($scope.downsample(data.chart[k], k, k+"x"));
 
         }
-
-        //chart_data = $scope.downsample(data.chart["temp1"], "temp", "x1");
 
         $scope.chart = c3.generate({
                 bindto: '#chart',
@@ -250,15 +251,27 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
     $scope.cud = function(data) {
 
         console.log(data);
+        $scope.temps = data;
         chart_data = [];
-        $scope.temp = data[1].toFixed(2);
+        $scope.temp = data.value1[1].toFixed(2);
         //var keys = Object.keys($scope.axis_config);
         //for (var i=0; i < keys.length; i++) {
         //  d = keys[i];
         //  x = $scope.axis_config[keys[i]];
-        console.log($scope.axis_config);
+
+        var updateData = [];
+        for (var key in $scope.axis_config) {
+          console.log(key);
+          updateData.push([key+"x",data[key][0]]);
+          updateData.push([key,data[key][1]]);
+        }
+
+        console.log(updateData);
+
+
+
         $scope.chart.flow({
-            columns: [["x0",data[0]], ["temp1", data[1]]],
+            columns: updateData,
             length: 0
           });
         //}

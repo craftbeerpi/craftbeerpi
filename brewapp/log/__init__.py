@@ -1,2 +1,2 @@
-import gpio
+import log
 import admin

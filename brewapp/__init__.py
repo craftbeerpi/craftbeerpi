@@ -4,66 +4,38 @@ import flask_admin as admin
 from flask.ext.socketio import SocketIO, emit
 from thread import start_new_thread
 
-def brewjob(key):
-    def real_decorator(function):
-        app.brewapp_jobs.append({"function": function, "key": key})
-        def wrapper(*args, **kwargs):
-            function(*args, **kwargs)
-        return wrapper
-
-    return real_decorator
-
-
-def brewinit():
-    def real_decorator(function):
-
-        app.brewapp_init.append(function)
-        def wrapper(*args, **kwargs):
-            function(*args, **kwargs)
-        return wrapper
-
-    return real_decorator
-
 app = Flask(__name__)
 socketio = SocketIO(app)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
-
-
-admin = admin.Admin(name="CraftBeerPI")
-app.brewapp_jobs = []
-app.brewapp_init = []
-app.brewapp_gpio = {}
-app.brewapp_thermometer = {}
-app.brewapp_steps = None
-app.brewapp_chartdata = {}
-app.brewapp_temperature = {}
 app.testMode = True
-app.brewapp_jobstate = {}
-app.brewapp_current_step = None
-app.brewapp_gpio_state = {}
+admin = admin.Admin(name="CraftBeerPI")
 
+## Create Database
 db = SQLAlchemy(app)
 
+## Import modules (Flask Blueprints)
 from .base.views import base
-from .thermometer.views import thermometer
 from .steps.views import steps
-from .gpio.views import gpios
-
-print db
-
+from .formulas.views import formulas
+from .log.views import log
+from .vessel.views import vessel
+## Create Database
 db.create_all()
-
+## Init Admin Components
 admin.init_app(app)
 
+## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
-app.register_blueprint(thermometer,url_prefix='/thermometer')
 app.register_blueprint(steps,url_prefix='/steps')
-app.register_blueprint(gpios,url_prefix='/gpios')
+app.register_blueprint(formulas,url_prefix='/formulas')
+app.register_blueprint(log,url_prefix='/log')
+app.register_blueprint(vessel,url_prefix='/vessel')
 
 @app.route('/')
 def index():
-    return redirect('base')
+    return redirect('vessel')
 
 print "INIT METHODS"
 for i in app.brewapp_init:

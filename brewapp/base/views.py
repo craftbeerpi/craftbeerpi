@@ -1,31 +1,22 @@
 from flask import Blueprint, render_template, jsonify
 import json
 from brewapp import app, socketio
+from util import *
 
 base = Blueprint('base', __name__, template_folder='templates', static_folder='static')
 
-def getAsArray(obj, order = None):
-
-    print dir(order)
-    if(order is not None):
-        result =obj.query.order_by(order).all()
-    else:
-        result =obj.query.all()
-    ar = []
-    for t in result:
-        ar.append(t.to_json())
-    return ar
 
 @base.route('/')
 def index():
     # Do some stuff
-    print app.testMode
+    
     return render_template("index.html")
 
 @base.route('/data')
 def data():
     return json.dumps({"gpio":app.brewapp_gpio_state,
         "steps":app.brewapp_steps,
+        "log":app.brewapp_log,
         "thermometer": app.brewapp_thermometer,
         "chart":app.brewapp_chartdata})
 

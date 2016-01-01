@@ -1,0 +1,46 @@
+{% raw %}
+<style>
+  #gpio_buttons, #gpio_buttons button {
+    width: 100%;
+  }
+
+  .vessel {
+    min-height: 320px;
+  }
+
+  .temp {
+    font-size: 3em;
+  }
+</style>
+<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top"  >
+
+  <div class="panel-heading"><i class="fa fa-align-left"></i> {{v.name}}</span>
+  </div>
+  <div class="panel-body">
+
+  <div class="temp"><i class="wi wi-thermometer"></i> <b>{{ vessel_temps[v.id][1] }}°C</b></div>
+   Minute Diff <i class="wi wi-thermometer"></i> <strong>{{calc1MinAvg(v.id)}} °C</strong><br/>
+   Target <i class="wi wi-thermometer"></i> <strong>{{v.target_temp}} °C</strong>
+
+  <div class="input-group" ng-if="v.heater.gpio" >
+    <input type="text" class="form-control" placeholder="Target Temp" ng-model="new_target_temp[v.id]" >
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button" ng-click="setTargetTemp(v.id)"><i class="fa fa-pencil"></i></button>
+    </span>
+  </div>
+
+  <div class="btn-group-vertical" role="group" id="gpio_buttons">
+    <button class="btn btn-default btn-md" ng-if="v.heater.gpio" ng-class="buttonState(v.heater.state)" ng-click="vessel_gpio(v.heater.gpio)">
+          <span class="badge"><i class="fa fa-power-off"></i></span>  Heater
+    </button>
+    <button class="btn btn-default btn-md" ng-if="v.agitator.gpio" ng-class="buttonState(v.agitator.state)" ng-click="vessel_gpio(v.agitator.gpio)">
+          <span class="badge"><i class="fa fa-power-off"></i></span>  Agitator
+    </button>
+    <button class="btn btn-default btn-md" ng-if="v.heater.gpio" ng-class="buttonState(v.automatic)" ng-click="vessel_automatic(v.id)">
+          <span class="badge"><i class="fa fa-power-off"></i></span>  Automatic
+    </button>
+  </div>
+  </div>
+</div>
+
+{% endraw %}

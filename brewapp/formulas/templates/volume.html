@@ -1,0 +1,26 @@
+{% raw %}
+<style>
+
+</style>
+<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top"  >
+
+  <div class="panel-heading"><i class="fa fa-align-left"></i>Volumen eines zylindrischen Topfes</span>
+  </div>
+  <div class="panel-body">
+
+    <div class="form-group">
+    <label>Höhe:</label>
+    <input type="number" ng-model="height" class="form-control">
+    </div>
+    <div class="form-group">
+    <label>Durchmesser:</label>
+    <input type="number" ng-model="diameter"  class="form-control">
+    </div>
+    <div class="form-group">
+    <label for="email">Volumen in Liter:</label>
+    <input type="text" class="form-control" disabled="" ng-value="volume()" id="email">
+    </div>
+  </div>
+</div>
+
+{% endraw %}

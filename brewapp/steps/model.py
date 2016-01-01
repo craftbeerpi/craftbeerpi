@@ -17,6 +17,7 @@ class Step(db.Model):
     timer_start = db.Column(db.DateTime())
     start = db.Column(db.DateTime())
     end = db.Column(db.DateTime())
+    vesselid = db.Column(db.Integer())
 
     def __repr__(self):
         return '<Step %r>' % self.name
@@ -37,6 +38,7 @@ class Step(db.Model):
             'end': str( self.end),
             'end2': self.to_unixTime(self.end),
             'timer_start' : self.to_unixTime(self.timer_start),
+            'vesselid': self.vesselid,
 
         }
 

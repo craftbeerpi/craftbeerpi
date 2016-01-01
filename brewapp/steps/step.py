@@ -1,10 +1,10 @@
 from subprocess import Popen, PIPE, call
-from brewapp import app, db, socketio, brewjob, brewinit
+from brewapp import app, db, socketio
 from model import *
 from thread import start_new_thread
 import time
 from datetime import datetime, timedelta
-
+from brewapp.base.util import *
 
 @brewjob(key="steps")
 def stepjob():
@@ -12,7 +12,11 @@ def stepjob():
     while app.brewapp_jobstate["steps"]:
         #current_step = Step.query.filter_by(state='A').first()
         cs = app.brewapp_current_step;
-        ct = app.brewapp_temperature.get("value1", -1)
+        #ct = app.brewapp_temperature.get("value1", -1)
+        try:
+            ct = app.brewapp_vessel_temps[cs.get("vesselid")][1]
+        except:
+            ct = 0
 
         if(cs != None):
 
@@ -35,23 +39,11 @@ def stepjob():
                 if(end < now):
                     print "####NEXT STEP"
                     nextStep()
-            pass
+
         else:
             #app.brewapp_current_step = None
             pass
         time.sleep( 1)
-
-
-
-def getAsArray(obj, order = None):
-    if(order is not None):
-        result =obj.query.order_by(order).all()
-    else:
-        result =obj.query.all()
-    ar = []
-    for t in result:
-        ar.append(t.to_json())
-    return ar
 
 @brewinit()
 def init():
@@ -73,13 +65,14 @@ def nextStep():
     if(active != None):
         active.state = 'D'
         active.end = datetime.utcnow()
+        setTargetTemp(active.vesselid, 0)
         db.session.add(active)
         db.session.commit()
 
     if(inactive != None):
         inactive.state = 'A'
         inactive.start = datetime.utcnow()
+        setTargetTemp(inactive.vesselid, inactive.temp)
         db.session.add(inactive)
         db.session.commit()
-
     init()

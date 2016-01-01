@@ -11,17 +11,16 @@
             <a class="navbar-brand" href="/">
                 <nobr><i class="fa fa-beer"></i> CraftBeerPI</nobr>
             </a>
-            <p class="navbar-text">
-                <nobr>
-                <i ng:if="gpioState('gpio_heat')" class="fa fa-fire"></i>&nbsp;
-                <i ng:if="gpioState('gpio_agitator')" class="fa fa-refresh fa-spin"></i> &nbsp;
-                <i ng:if="pidState" class="fa fa-car"></i> &nbsp;
-                <i class="wi wi-thermometer"></i> <b>{{temp}}°C</b></nobr>
-            </p>
         </div>
         <div id="navbar" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            
+
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Main</a>
+                </li>
+                <li>
+                    <a href="/formulas">Formeln</a>
+                </li>
                 <li>
                     <a href="/admin">Admin</a>
                 </li>
