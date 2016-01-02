@@ -5,9 +5,9 @@ from brewapp.base.util import *
 def initGPIO():
     try:
         import RPi.GPIO as GPIO # Import GPIO
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(PIN, GPIO.OUT)
-        app.brewapp_gpio = True
+        #GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(PIN, GPIO.OUT)
+        #app.brewapp_gpio = True
 
     except ImportError:
         print  "GPIO ERROR"
