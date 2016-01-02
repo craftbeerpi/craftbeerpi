@@ -41,10 +41,6 @@ class Vessel2Setup(BaseView):
 		initVessel()
 		return self.render('admin/reset_protocol_result.html')
 
-
-class TemperatureLog(sqla.ModelView):
-	pass
-
 class ClearTemperatureLog(BaseView):
     @expose('/')
     def index(self):
@@ -59,4 +55,3 @@ class ClearTemperatureLog(BaseView):
 admin.add_view(VesselAdmin(Vessel, db.session, name="VesselConfig", category='Vessel'))
 admin.add_view(Vessel2Setup(name="VesselSetup", category='Vessel'))
 admin.add_view(ClearTemperatureLog(name="Clear Temperature Log", category='Temperature'))
-admin.add_view(TemperatureLog(VesselTempLog, db.session, name="Temperature Log", category='Temperature'))

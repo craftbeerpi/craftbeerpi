@@ -11,8 +11,13 @@
   .temp {
     font-size: 3em;
   }
+
+  .active {
+    border-width: medium;
+    border-color: red;
+  }
 </style>
-<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top"  >
+<div class="panel panel-default vessel" ng-class="vesselState(v.id)" data-toggle="tooltip" data-placement="top"  >
 
   <div class="panel-heading"><i class="fa fa-align-left"></i> {{v.name}}</span>
   </div>
@@ -20,7 +25,7 @@
 
   <div class="temp"><i class="wi wi-thermometer"></i> <b>{{ vessel_temps[v.id][1] }}°C</b></div>
    Minute Diff <i class="wi wi-thermometer"></i> <strong>{{calc1MinAvg(v.id)}} °C</strong><br/>
-   Target <i class="wi wi-thermometer"></i> <strong>{{v.target_temp}} °C</strong>
+   <span ng-if="v.heater.gpio">Target <i class="wi wi-thermometer"></i> <strong>{{v.target_temp}} °C</strong></span>
 
   <div class="input-group" ng-if="v.heater.gpio" >
     <input type="text" class="form-control" placeholder="Target Temp" ng-model="new_target_temp[v.id]" >

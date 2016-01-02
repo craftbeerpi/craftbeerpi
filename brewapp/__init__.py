@@ -19,7 +19,7 @@ db = SQLAlchemy(app)
 from .base.views import base
 from .steps.views import steps
 from .formulas.views import formulas
-from .log.views import log
+#from .log.views import log
 from .vessel.views import vessel
 ## Create Database
 db.create_all()
@@ -30,7 +30,7 @@ admin.init_app(app)
 app.register_blueprint(base,url_prefix='/base')
 app.register_blueprint(steps,url_prefix='/steps')
 app.register_blueprint(formulas,url_prefix='/formulas')
-app.register_blueprint(log,url_prefix='/log')
+#app.register_blueprint(log,url_prefix='/log')
 app.register_blueprint(vessel,url_prefix='/vessel')
 
 @app.route('/')

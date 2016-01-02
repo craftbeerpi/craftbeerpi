@@ -7,6 +7,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
     $scope.vessel = []
     $scope.vessel_temps = {}
     $scope.vessel_temp_log = {}
+
     $http.get('/vessel/data').
       success(function(data, status, headers, config) {
         $scope.vessel = data.vessel;
@@ -36,17 +37,21 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
 
     $scope.stepStyle = function(item) {
 
+
         if (item.state == "D")
             return "info";
-        else if (item.type == "M" && item.state == "A" && $scope.temp < item.temp)
+        else if (item.type == "M" && item.state == "A" && $scope.temp < item.temp) {
             return "warning"
-        if (item.type == "M" && item.state == "A" && $scope.temp >= item.temp)
+        }
+        else if (item.type == "M" && item.state == "A" && $scope.vessel_temps[item["vesselid"]][1]>= item.temp) {
+          return "active"
+        }
+        else if (item.state == "A" && item.timer_start != null) {
             return "active"
-        else if (item.state == "A" && item.timer_start != null)
-            return "active"
-        else if (item.state == "A" && item.timer_start == null)
+        }
+        else if (item.state == "A" && item.timer_start == null) {
             return "warning"
-
+        }
         else
             return "";
     }
@@ -60,10 +65,24 @@ app.controller('BrewController', ['ws', '$scope', '$http', function(ws, $scope, 
             return "";
     }
 
+    $scope.vesselState = function(vid) {
+
+      if($scope.steps == undefined) {
+        return;
+      }
+
+      for(i = 0; i < $scope.steps.length; i++) {
+        if($scope.steps[i].state == "A" && vid == $scope.steps[i].vesselid) {
+          return "active"
+        }
+      }
+    }
+
     $scope.calc1MinAvg = function(vid) {
       if($scope.vessel_temp_log[vid] != undefined && $scope.vessel_temp_log[vid].length >= 12) {
         temp_1_min_ago =  $scope.vessel_temp_log[vid][$scope.vessel_temp_log[vid].length - 12][1];
         temp = $scope.vessel_temps[vid][1]
+        //console.log("LENGHT " + $scope.vessel_temp_log[vid].length + "OLD TEMP: " + temp_1_min_ago + " TEMP: " +temp);
 
         return (temp - temp_1_min_ago).toFixed(2);
       }
