@@ -12,14 +12,15 @@ def initGPIO():
         call(["modprobe", "w1-gpio"])
         call(["modprobe", "w1-therm"])
         GPIO.setmode(GPIO.BCM)
-        for vid in app.brewapp_vessel:
-            if(app.brewapp_vessel[vid]["heater"]["gpio"] != None):
-                print "SETUP GPIO HEATER", app.brewapp_vessel[vid]["heater"]["gpio"]
-                GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
-                GPIO.output(app.brewapp_vessel[vid]["agitator"]["gpio"], 0)
-            if(app.brewapp_vessel[vid]["agitator"]["gpio"] != None):
-                print "SETUP GPIO AGITATOR", app.brewapp_vessel[vid]["agitator"]["gpio"]
-                GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
+        GPIO.setup(23, GPIO.OUT)
+        #for vid in app.brewapp_vessel:
+        #    if(app.brewapp_vessel[vid]["heater"]["gpio"] != None):
+        #        print "SETUP GPIO HEATER", app.brewapp_vessel[vid]["heater"]["gpio"]
+        #        GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
+        #        GPIO.output(app.brewapp_vessel[vid]["agitator"]["gpio"], 0)
+        #    if(app.brewapp_vessel[vid]["agitator"]["gpio"] != None):
+        #        print "SETUP GPIO AGITATOR", app.brewapp_vessel[vid]["agitator"]["gpio"]
+        #        GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
         app.brewapp_gpio = True
     except ImportError:
         print  "     -->GPIO SETUP FAILED"
@@ -30,10 +31,10 @@ def switchON(gpio):
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
         print "TRUE"
-        GPIO.output(gpio, 1)
+        GPIO.output(23, 1)
 
 def switchOFF(gpio):
     print "GPIO OFF", gpio
     if(app.brewapp_gpio == True):
         print "FALSE"
-        GPIO.output(gpio, 0)
+        GPIO.output(23, 0)
