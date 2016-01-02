@@ -2,7 +2,7 @@ from brewapp import app
 
 app.brewapp_jobs = []
 app.brewapp_init = []
-app.brewapp_gpio = {}
+app.brewapp_gpio = False
 app.brewapp_thermometer = {}
 app.brewapp_steps = None
 app.brewapp_chartdata = {}

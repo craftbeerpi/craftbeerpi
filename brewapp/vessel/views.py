@@ -82,6 +82,7 @@ def initVessel():
     for vid in app.brewapp_vessel:
         app.brewapp_vessel_temps_log[vid] = []
     app.brewapp_target_temp_method = setTargetTemp
+    initGPIO()
 
 
 def tempData1Wire(tempSensorId):
@@ -120,6 +121,11 @@ def readVesseltemp():
         socketio.emit('vessel_temp_update', update, namespace ='/brew')
         time.sleep(5)
 
+def switchON(gpio):
+    print "GPIO ON", gpio
+
+def switchOFF(gpio):
+    print "GPIO OFF", gpio
 
 
 def dummyTemp():
