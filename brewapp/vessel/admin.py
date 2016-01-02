@@ -21,21 +21,21 @@ class Vessel2Setup(BaseView):
     def index(self):
 		mt = Vessel()
 		mt.name = "MashTun"
-		mt.sensorid = "ABC"
-		mt.heater = 22
-		mt.agitator = 23
+		mt.sensorid = "28-03146215acff"
+		mt.heater = 23
+		mt.agitator = None
 		db.session.add(mt)
 
 		hlt = Vessel()
 		hlt.name = "Hot Liquor Tank"
-		hlt.sensorid = "ABC"
-		hlt.heater = 24
+		hlt.sensorid = None
+		hlt.heater = None
 		db.session.add(hlt)
 
 		bt = Vessel()
 		bt.name = "Boil Tank"
-		bt.sensorid = "ABC"
-		bt.heater = 25
+		bt.sensorid = "None"
+		bt.heater = "None"
 		db.session.add(bt)
 		db.session.commit()
 		initVessel()

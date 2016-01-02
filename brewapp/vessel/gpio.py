@@ -1,8 +1,11 @@
 from brewapp import app, socketio, db
 from brewapp.base.util import *
+from subprocess import call
 
 def initGPIO():
     try:
+        call(["modprobe", "w1-gpio"])
+        call(["modprobe", "w1-therm"])
         import RPi.GPIO as GPIO # Import GPIO
         GPIO.setmode(GPIO.BCM)
         for vid in app.brewapp_vessel:
