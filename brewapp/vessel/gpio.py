@@ -2,6 +2,11 @@ from brewapp import app, socketio, db
 from brewapp.base.util import *
 from subprocess import call
 
+try:
+    import RPi.GPIO as GPIO
+except:
+    pass
+
 def initGPIO():
     try:
         call(["modprobe", "w1-gpio"])
@@ -21,7 +26,7 @@ def initGPIO():
         app.brewapp_gpio = False
 
 def switchON(gpio):
-    print app.brewapp_gpio 
+    print app.brewapp_gpio
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
         print "TRUE"
