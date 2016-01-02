@@ -4,6 +4,8 @@ from subprocess import call
 
 try:
     import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(23, GPIO.OUT)
 except:
     pass
 
