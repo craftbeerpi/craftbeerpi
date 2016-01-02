@@ -14,3 +14,4 @@ app.brewapp_gpio_state = {}
 app.brewapp_thermometer_recording = True;
 app.brewapp_log = []
 app.brewapp_vessel = []
+app.brewapp_log_method = None
