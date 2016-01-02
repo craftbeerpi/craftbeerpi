@@ -121,12 +121,6 @@ def readVesseltemp():
         socketio.emit('vessel_temp_update', update, namespace ='/brew')
         time.sleep(5)
 
-def switchON(gpio):
-    print "GPIO ON", gpio
-
-def switchOFF(gpio):
-    print "GPIO OFF", gpio
-
 
 def dummyTemp():
 
