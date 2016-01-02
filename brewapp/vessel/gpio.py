@@ -30,9 +30,9 @@ def initGPIO():
 def switchON(gpio):
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
-        GPIO.output(23, 0)
+        GPIO.output(gpio, 0)
 
 def switchOFF(gpio):
     print "GPIO OFF", gpio
     if(app.brewapp_gpio == True):
-        GPIO.output(23, 1)
+        GPIO.output(gpio, 1)
