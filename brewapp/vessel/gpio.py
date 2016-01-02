@@ -16,6 +16,7 @@ def initGPIO():
             if(app.brewapp_vessel[vid]["heater"]["gpio"] != None):
                 print "SETUP GPIO HEATER", app.brewapp_vessel[vid]["heater"]["gpio"]
                 GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
+                GPIO.output(gpio, 1)
             if(app.brewapp_vessel[vid]["agitator"]["gpio"] != None):
                 print "SETUP GPIO AGITATOR", app.brewapp_vessel[vid]["agitator"]["gpio"]
                 GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
@@ -29,10 +30,10 @@ def switchON(gpio):
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
         print "TRUE"
-        GPIO.output(gpio, True)
+        GPIO.output(gpio, 1)
 
 def switchOFF(gpio):
     print "GPIO OFF", gpio
     if(app.brewapp_gpio == True):
         print "FALSE"
-        GPIO.output(gpio, False)
+        GPIO.output(gpio, 0)
