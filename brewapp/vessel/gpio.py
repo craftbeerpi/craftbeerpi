@@ -24,20 +24,18 @@ def initGPIO():
             if(app.brewapp_vessel[vid]["agitator"]["gpio"] != None):
                 print "SETUP GPIO AGITATOR", app.brewapp_vessel[vid]["agitator"]["gpio"]
                 GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
+                GPIO.output(app.brewapp_vessel[vid]["agitator"]["gpio"], 1)
         app.brewapp_gpio = True
     except ImportError:
         print  "     -->GPIO SETUP FAILED"
         app.brewapp_gpio = False
 
 def switchON(gpio):
-    print app.brewapp_gpio
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
-        print "TRUE"
-        GPIO.output(23, 1)
+        GPIO.output(23, 0)
 
 def switchOFF(gpio):
     print "GPIO OFF", gpio
     if(app.brewapp_gpio == True):
-        print "FALSE"
-        GPIO.output(23, 0)
+        GPIO.output(23, 1)
