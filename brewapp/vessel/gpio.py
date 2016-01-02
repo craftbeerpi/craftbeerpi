@@ -2,14 +2,17 @@ from brewapp import app, socketio, db
 from brewapp.base.util import *
 from subprocess import call
 
-
+try:
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)
+except:
+    pass
 
 def initGPIO():
     try:
         call(["modprobe", "w1-gpio"])
         call(["modprobe", "w1-therm"])
-        import RPi.GPIO as GPIO
-        GPIO.setmode(GPIO.BCM)
+        print "###### SETUP GPIO 2 #######"
         for vid in app.brewapp_vessel:
             if(app.brewapp_vessel[vid]["heater"]["gpio"] != None):
                 print "SETUP GPIO HEATER", app.brewapp_vessel[vid]["heater"]["gpio"]
