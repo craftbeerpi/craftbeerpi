@@ -11,7 +11,6 @@ def initGPIO():
     try:
         call(["modprobe", "w1-gpio"])
         call(["modprobe", "w1-therm"])
-        import RPi.GPIO as GPIO # Import GPIO
         GPIO.setmode(GPIO.BCM)
         for vid in app.brewapp_vessel:
             if(app.brewapp_vessel[vid]["heater"]["gpio"] != None):
