@@ -21,6 +21,7 @@ def initGPIO():
         app.brewapp_gpio = False
 
 def switchON(gpio):
+    print app.brewapp_gpio 
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
         print "TRUE"
