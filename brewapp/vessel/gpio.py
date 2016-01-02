@@ -5,8 +5,8 @@ from subprocess import call
 try:
     import RPi.GPIO as GPIO
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(23, GPIO.OUT)
-    GPIO.output(23, 0)
+    #GPIO.setup(23, GPIO.OUT)
+    #GPIO.output(23, 0)
 except:
     pass
 
@@ -14,6 +14,7 @@ def initGPIO():
     try:
         call(["modprobe", "w1-gpio"])
         call(["modprobe", "w1-therm"])
+        print "###### SETUP GPIO #########"
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(23, GPIO.OUT)
         #for vid in app.brewapp_vessel:
