@@ -86,11 +86,13 @@ def initVessel():
 
 
 def tempData1Wire(tempSensorId):
+    print "READ TEMP"
     try:
         ## Test Mode
         if (app.testMode == True):
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
+            print "READ FORM FILE"
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
         result = pipe.communicate()[0]
         ## parse the file
