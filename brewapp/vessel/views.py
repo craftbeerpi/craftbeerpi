@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request
 from model import *
 import json
 from brewapp import app, socketio, db
@@ -47,12 +47,43 @@ def getTermometer():
 
         return json.dumps(arr)
     except:
-        return json.dumps({})
+        return json.dumps(['ABC','CDE'])
 
 
 @vessel.route('/templog')
 def vesselTemplog():
     return json.dumps(app.brewapp_vessel_temps_log)
+
+@vessel.route('/vessel1Setup', methods=['POST'])
+def vessel1Setup():
+    if(request.method == 'POST'):
+
+        mt = Vessel()
+        mt.name = "MashTun"
+        mt.sensorid = "28-03146215acff"
+        mt.heater = 24
+        mt.agitator = 23
+        db.session.add(mt)
+        db.session.commit();
+        initVessel()
+        return json.dumps({})
+
+
+@vessel.route('/save', methods=['POST'])
+def save():
+    if(request.method == 'POST'):
+        new_data = request.get_json()
+        old_data = Vessel.query.get(new_data["id"])
+        old_data.name = new_data["name"]
+        old_data.sensorid = new_data["sensorid"]
+        old_data.heater = new_data["heater"]["gpio"]
+        old_data.agitator = new_data["agitator"]["gpio"]
+        old_data.height = new_data["height"]
+        old_data.diameter = new_data["diameter"]
+        db.session.add(old_data);
+        db.session.commit()
+        initVessel()
+    return "OK"
 
 @vessel.route('/templog/clear')
 @socketio.on('/templog/clear', namespace='/brew')
@@ -100,6 +131,9 @@ def setTargetTemp(vid, temp):
     db.session.commit()
     app.brewapp_vessel[vid]["target_temp"] = temp
     socketio.emit('vessel_update', app.brewapp_vessel, namespace ='/brew')
+
+
+
 
 @brewinit()
 def initVessel():

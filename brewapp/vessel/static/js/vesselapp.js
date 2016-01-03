@@ -3,6 +3,7 @@ var app = angular.module('BrewApp', ['timer','ui.bootstrap', 'ngRoute']).config(
     .when('/', { templateUrl: 'static/vessel_overview.html', name:"Dashboard" })
     .when('/chart/:vid', { templateUrl: 'static/chart.html' })
     .when('/formulas', { templateUrl: 'static/volume.html' })
+    .when('/setup', { templateUrl: 'static/setup.html' })
     .when('/steps_settings', { templateUrl: 'static/steps_settings.html' })
     .when('/vessel_settings', { templateUrl: 'static/vessel_settings_overview.html', name:"Vessel Settings" })
     .when('/vessel_settings/:vid', { templateUrl: 'static/vessel_settings.html'})
@@ -216,13 +217,52 @@ app.controller('VesselOverviewController', ['ws', '$scope', '$http', 'Vessel', '
     $scope.vessels = Vessel.getVessels();
 }]);
 
-app.controller('VesselController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', '$routeParams', function(ws, $scope, $http, Vessel, $uibModal, $routeParams) {
 
-    $scope.vessel = Vessel.getVessels()[$routeParams.vid];
+app.controller('VesselController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', '$location', '$routeParams', function(ws, $scope, $http, Vessel, $uibModal, $location, $routeParams) {
+
+    $scope.vessel= angular.copy(Vessel.getVessels()[$routeParams.vid]);
+
+    $scope.data = {
+    availableOptions: [
+      {id: '1', name: 'Option A'},
+      {id: '2', name: 'Option B'},
+      {id: '3', name: 'Option C'}
+    ],
+    selectedOption: {id: '3', name: 'Option C'} //This sets the default value of the select in the ui
+    };
+
+    $scope.data = {availableOptions: [], selectedOption:{}}
+    $http.get('/vessel/get/thermometer').
+      success(function(data, status, headers, config) {
+
+        console.log(data);
+        for(i = 0; i < data.length; i++) {
+          $scope.data.availableOptions.push({id: data[i], name: data[i]});
+        }
+
+    }).
+    error(function(data, status, headers, config) {
+        // log error
+    });
+
+    $scope.save = function() {
+       Vessel.getVessels()[$routeParams.vid] = $scope.vessel;
+       $http.post("/vessel/save", $scope.vessel);
+       history.back();
+       //scope.$apply();
+    }
+
 }]);
 
+app.controller('SetupController', function(ws, $scope, $http, Vessel, $uibModal, $location) {
+    $scope.setup = function() {
+        $http.post("/vessel/vessel1Setup").success(function(data, status, headers, config) {
+            $location.url("/");
+        });
+    }
+});
 
-app.controller('BrewController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', function(ws, $scope, $http, Vessel, $uibModal) {
+app.controller('BrewController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', '$location', function(ws, $scope, $http, Vessel, $uibModal,  $location) {
     $scope.new_target_temp = {}
     $scope.vessel = []
     $scope.vessel_temps = {}
@@ -256,6 +296,12 @@ app.controller('BrewController', ['ws', '$scope', '$http', 'Vessel', '$uibModal'
 
     $http.get('/vessel/data').
       success(function(data, status, headers, config) {
+
+        if(Object.keys(data.vessel).length == 0) {
+          console.log("SETUP");
+           $location.url("/setup");
+        }
+
         $scope.vessel = data.vessel;
         Vessel.setVessels(data.vessel);
         $scope.vessel_temps = data.vessel_temps;

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request
 from model import *
 from step import nextStep, resetSteps
 import json
@@ -11,6 +11,8 @@ steps = Blueprint('steps', __name__, template_folder='templates', static_folder=
 @steps.route('/')
 def index():
     return render_template("index.html")
+
+
 
 @steps.route('/steps')
 def allSteps():

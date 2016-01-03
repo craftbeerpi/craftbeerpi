@@ -9,7 +9,9 @@
       </div>
       <div class="form-group">
         <label>Temperatur Sensor Id</label>
-        <input type="text" ng-model="vessel.sensorid" class="form-control">
+        <select class="form-control" ng-model="vessel.sensorid">
+          <option ng-repeat="option in data.availableOptions" value="{{option.id}}">{{option.name}}</option>
+        </select>
       </div>
       <div class="form-group">
         <label>Heater GPIO</label>
@@ -27,12 +29,19 @@
         <label>Vessel diameter in cm</label>
         <input type="numer" ng-model="vessel.diameter" class="form-control">
       </div>
+
+      <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a href back-button class="btn btn-danger" role="group">
+            <span class="badge"><i class="fa fa-times-circle"></i></span> Cancel</a>
+        </div>
+        <div class="btn-group" role="group">
+          <a href class="btn btn-success" role="group" ng-click="save()">
+            <span class="badge"><i class="fa fa-check"></i></span> Save</a>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="btn-group" role="group" aria-label="...">
-    <div class="btn-group" role="group">
-      <a href back-button class="btn btn-default" role="group">
-        <span class="badge"><i class="fa fa-arrow-circle-left"></i></span> Back</a>
-    </div>
-  </div>
+
 </div>
