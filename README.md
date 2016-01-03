@@ -1,17 +1,26 @@
 # CraftBeerPI v0.1
-                                                         
+
 ## Features
 
 * Temperaturverlaufsanzeige (Real-Time)
 * Frei Konfigurierbarer Ablaufplan mit manuellen und automatischen Schritten
 * Timer mit automatischem Start bei erreichen der Zieltemperatur
 * Digitales Brauprotokoll
-* Smartphone und Tablet optimiert 
+* Smartphone und Tablet optimiert
 * WebSocket Push Notification für Real-Time Update
 * Admin Oberfläche
 * WLAN Zugriff
 * Automatische Heizsteuerung (PID Controller)
 * Sud Import aus dem "kleinen Brauhelfer"
+
+<script async src="paypal-button.min.js?merchant=YOUR_MERCHANT_ID"
+    data-button="subscribe"
+    data-type="form"
+    data-name="My product"
+    data-amount="1.00"
+    data-recurrence="1"
+    data-period="M"
+></script>
 
 ## Screenshots
 
@@ -131,7 +140,7 @@ pidState = False
 
 ### Start der Anwendung
 
-In das carfbeerpi verzeichnis wechseln 
+In das carfbeerpi verzeichnis wechseln
 
 #### Starten
 ```
@@ -152,9 +161,9 @@ sudo kill <Process_Id>
 
 ```
 
-   _____            __ _   ____                 _____ _____ 	_.._..,_,_	
-  / ____|          / _| | |  _ \               |  __ \_   _|   (          )	
- | |     _ __ __ _| |_| |_| |_) | ___  ___ _ __| |__) || |      ]~,"-.-~~[	
+   _____            __ _   ____                 _____ _____ 	_.._..,_,_
+  / ____|          / _| | |  _ \               |  __ \_   _|   (          )
+ | |     _ __ __ _| |_| |_| |_) | ___  ___ _ __| |__) || |      ]~,"-.-~~[
  | |    | '__/ _` |  _| __|  _ < / _ \/ _ \ '__|  ___/ | |    .=])' (;  ([			
  | |____| | | (_| | | | |_| |_) |  __/  __/ |  | |    _| |_   | ]:: '    [			
   \_____|_|  \__,_|_|  \__|____/ \___|\___|_|  |_|   |_____|  '=]): .)  ([		
@@ -176,7 +185,7 @@ Die Anwedung ist jetzt über http://<server_id>:5000 im Browser aufrufbar.
 ## Bedienung
 
 ### Kleiner Brauhelfer Import
-Der Import ist noch recht einfach gehalten. Klick oben rechts auf Admin dann auf "kleiner Brauhelfer" und wähle "Import" aus. Dann wähslt du die Datei "kb_daten.sqlite" aus. 
+Der Import ist noch recht einfach gehalten. Klick oben rechts auf Admin dann auf "kleiner Brauhelfer" und wähle "Import" aus. Dann wähslt du die Datei "kb_daten.sqlite" aus.
 
 Windows:
 USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
@@ -196,9 +205,9 @@ Die Reihenfolge kann durch das Feld "order" definiert werden.
 ## Hardware Setup für den Testaufbau
 
 * 1 x 1-wire Temperatursensor DS1820 Wasserdicht! (ebay)
-* Tauchhülse Edelstahl - in gewünschter Länge (sensorshop24.de) 
+* Tauchhülse Edelstahl - in gewünschter Länge (sensorshop24.de)
 * 1 x 4.7k Ohm Widerstand (Pollin.de, Conrad.de, Reichelt.de)
-* Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum) 
+* Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum)
 * 2 x Solid-State Relais XURUI (Pollin.de, Conrad.de, Reichelt.de)
 * Strangkühlkörper KAB-60 (Pollin.de, Conrad.de, Reichelt.de)
 * Labor-Steckboard SYB-46 (Pollin.de, Conrad.de, Reichelt.de)
