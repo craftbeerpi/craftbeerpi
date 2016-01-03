@@ -12,6 +12,8 @@ class Vessel(db.Model):
     heater = db.Column(db.Integer())
     agitator = db.Column(db.Integer())
     target_temp = db.Column(db.Integer())
+    height = db.Column(db.Integer())
+    diameter = db.Column(db.Integer())
 
     def __repr__(self):
         return '<Temp %r>' % self.id
@@ -28,6 +30,8 @@ class Vessel(db.Model):
             'agitator' : {"gpio": self.agitator, "state": False},
             'automatic' : False,
             'target_temp': self.target_temp,
+            'height' : self.height,
+            'diameter' : self.diameter,
         }
 
 

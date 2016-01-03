@@ -1,0 +1,63 @@
+<style>
+  .temp {
+    font-size: 3em;
+  }
+</style>
+<div class="panel panel-default vessel" ng-class="vesselState(v.id)" data-toggle="tooltip" data-placement="top"  >
+
+  <div class="panel-heading"><i class="fa fa-align-left"></i> {{v.name}}</span>
+  </div>
+  <div class="panel-body">
+    <div class="row" >
+      <div class="col-sm-8">
+        <div class="temp"><i class="wi wi-thermometer"></i> <b>{{ vessel_temps[v.id][1] }}°C</b></div>
+      </div>
+      <div class="col-sm-4">
+        <span ng-if="v.heater.gpio" ><i class="fa fa-bullseye" ></i> <strong>{{v.target_temp}}°C</strong></span>
+      </div>
+    </div>
+  <div class="btn-group btn-group-justified" role="group " >
+    <div class="btn-group" role="group">
+      <button class="btn btn-default" role="group" ng-click="open(v.id, 'sm')" >
+            <span class="badge"><i class="fa fa-bullseye"></i></span>
+      </button>
+    </div>
+    <div class="btn-group" role="group">
+      <button class="btn btn-default"  role="group" ng-if="v.heater.gpio" ng-class="buttonState(v.automatic)" ng-click="vessel_automatic(v.id)" >
+            <span class="badge"><i class="fa fa-car"></i></span>
+      </button>
+  </div>
+    <div class="btn-group" role="group">
+    <button class="btn btn-default"  role="group" ng-if="v.heater.gpio" ng-class="buttonState(v.heater.state)" ng-click="vessel_gpio(v.heater.gpio)" >
+          <span class="badge"><i class="fa fa-fire"></i></span>
+    </button>
+  </div>
+  <div class="btn-group" role="group">
+    <button class="btn btn-default" role="group" ng-if="v.agitator.gpio" ng-class="buttonState(v.agitator.state)" ng-click="vessel_gpio(v.agitator.gpio)" >
+          <span class="badge"><i class="fa fa-refresh "></i></span>
+    </button>
+  </div>
+  </div>
+
+
+
+  <div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+      <a href="#/chart/{{v.id}}" class="btn btn-default" role="group" >
+            <span class="badge"><i class="fa fa-line-chart"></i></span>
+      </a>
+    </div>
+    <div class="btn-group" uib-dropdown is-open="status.isopen">
+     <button type="button" class="btn btn-default"  uib-dropdown-toggle ng-disabled="disabled">
+         <span class="badge"><i class="fa fa-wrench"></i></span>
+     </button>
+     <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+       <li role="menuitem"><a href="#/volumes/{{v.id}}">Calculate Volume</a></li>
+       <li class="divider"></li>
+       <li role="menuitem"><a href="#">Settings</a></li>
+     </ul>
+   </div>
+  </div>
+</div>
+
+</div>

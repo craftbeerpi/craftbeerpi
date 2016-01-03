@@ -23,10 +23,22 @@ vessel = Blueprint('vessel2', __name__, template_folder='templates', static_fold
 def index():
     return render_template("vesselmain.html")
 
+@vessel.route('/chart')
+def chart():
+    print "CHART"
+    return render_template("chartmain.html")
 
 @vessel.route('/data')
 def vesselData():
     return json.dumps({"vessel": app.brewapp_vessel, "vessel_temps": app.brewapp_vessel_temps, "vessel_temp_log": app.brewapp_vessel_temps_log})
+
+@vessel.route('/vessel/<vid>')
+def vesseldata(vid):
+    return json.dumps(Vessel.query.get(vid).to_json());
+
+@vessel.route('/chartdata/<vid>')
+def chartdata(vid):
+    return json.dumps(app.brewapp_vessel_temps_log[int(vid)])
 
 @vessel.route('/templog')
 def vesselTemplog():

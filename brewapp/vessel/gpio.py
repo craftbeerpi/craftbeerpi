@@ -23,7 +23,7 @@ def initGPIO():
                 GPIO.setup(app.brewapp_vessel[vid]["agitator"]["gpio"], GPIO.OUT)
                 GPIO.output(app.brewapp_vessel[vid]["agitator"]["gpio"], 1)
         app.brewapp_gpio = True
-    except ImportError:
+    except:
         print  "     -->GPIO SETUP FAILED"
         app.brewapp_gpio = False
 

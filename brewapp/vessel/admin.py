@@ -10,7 +10,7 @@ from views import initVessel
 
 
 class VesselAdmin(sqla.ModelView):
-	form_columns = ['name','sensorid', 'heater', 'agitator']
+	form_columns = ['name','sensorid', 'heater', 'agitator', 'height', 'diameter']
 	def after_model_change(self, form, model, is_created):
 		initVessel()
 		pass

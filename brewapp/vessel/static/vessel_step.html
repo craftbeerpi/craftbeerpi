@@ -1,4 +1,3 @@
-{% raw %}
 <style>
 
 </style>
@@ -10,7 +9,7 @@
           <div class="btn-group">
               <button  ng-click="reset()" class="btn btn-warning btn-xs"><i class="fa fa-fast-backward"></i> Reset </button>
               <button  ng-disabled="started()" ng-click="start()" class="btn btn-primary btn-xs"><i class="fa fa-play"></i> Start </button>
-              
+
           </div>
       </div>
   </div>
@@ -34,7 +33,7 @@
                 </timer> ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
             </td>
             <td>
-                <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm btn-sm hidden-xs">Weiter <i class="fa fa-forward"></i></button>
+                <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm btn-sm hidden-xs"><i class="fa fa-forward"></i></button>
                 <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm visible-xs"><i class="fa fa-forward"></i></button>
             </td>
         </tr>
@@ -42,5 +41,3 @@
 
   </div>
 </div>
-
-{% endraw %}
