@@ -27,6 +27,15 @@ def initGPIO():
         print  "     -->GPIO SETUP FAILED"
         app.brewapp_gpio = False
 
+def toogle(vid, name, gpio):
+    if(app.brewapp_vessel[vid].get(name).get("gpio") == gpio):
+        if(app.brewapp_vessel[vid].get(name).get("state") == False):
+            switchON(gpio)
+            app.brewapp_vessel[vid].get(name)["state"] = True
+        else:
+            switchOFF(gpio)
+            app.brewapp_vessel[vid].get(name)["state"] = False
+
 def switchON(gpio):
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):

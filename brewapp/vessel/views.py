@@ -6,12 +6,9 @@ from brewapp.base.util import *
 import time
 from random import randint, uniform
 from pid import *
-from subprocess import Popen, PIPE, call
 from gpio import *
+from w1_thermometer import *
 
-
-temp = 10
-temp_count = 0
 
 app.brewapp_vessel_automatic = {}
 app.brewapp_vessel_temps = {}
@@ -39,6 +36,19 @@ def vesseldata(vid):
 @vessel.route('/chartdata/<vid>')
 def chartdata(vid):
     return json.dumps(app.brewapp_vessel_temps_log[int(vid)])
+
+@vessel.route('/get/thermometer')
+def getTermometer():
+    try:
+        arr = []
+        for dirname in os.listdir('/sys/bus/w1/devices'):
+            if(dirname != "w1_bus_master1"):
+                arr.append(dirname)
+
+        return json.dumps(arr)
+    except:
+        return json.dumps({})
+
 
 @vessel.route('/templog')
 def vesselTemplog():
@@ -81,14 +91,6 @@ def ws_gpio(gpio):
         toogle(vid, "agitator", gpio)
     socketio.emit('vessel_update', app.brewapp_vessel, namespace ='/brew')
 
-def toogle(vid, name, gpio):
-    if(app.brewapp_vessel[vid].get(name).get("gpio") == gpio):
-        if(app.brewapp_vessel[vid].get(name).get("state") == False):
-            switchON(gpio)
-            app.brewapp_vessel[vid].get(name)["state"] = True
-        else:
-            switchOFF(gpio)
-            app.brewapp_vessel[vid].get(name)["state"] = False
 
 def setTargetTemp(vid, temp):
     print "SET TT"
@@ -108,24 +110,6 @@ def initVessel():
     initGPIO()
 
 
-def tempData1Wire(tempSensorId):
-    try:
-        ## Test Mode
-        if (app.testMode == True):
-            pipe = Popen(["cat","w1_slave"], stdout=PIPE)
-        else:
-            pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
-        result = pipe.communicate()[0]
-        ## parse the file
-        if (result.split('\n')[0].split(' ')[11] == "YES"):
-            temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
-        else:
-            temp_C = -99 #bad temp reading
-    except:
-        temp_C = round(randint(0,50),2)
-
-    return round(temp_C)
-
 @brewjob("vesseltempjob")
 def readVesseltemp():
     while app.brewapp_jobstate["vesseltempjob"]:
@@ -143,22 +127,3 @@ def readVesseltemp():
 
         socketio.emit('vessel_temp_update', update, namespace ='/brew')
         time.sleep(5)
-
-
-def dummyTemp():
-
-    global temp
-    global temp_count
-
-    if(temp_count <= 10):
-        temp = temp + uniform(0, 1)
-
-    if(temp_count > 10 and temp_count < 20):
-        temp = temp - uniform(0, 1)
-
-    temp_count = temp_count + 1
-
-    if(temp_count == 20):
-        temp_count = 0
-
-    return round(temp,2)
