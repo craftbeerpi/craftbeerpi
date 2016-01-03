@@ -31,8 +31,12 @@ def switchON(gpio):
     print "GPIO ON", gpio
     if(app.brewapp_gpio == True):
         GPIO.output(gpio, 0)
+    else:
+        print "GPIO NOT READY DO SWITCH ON :", gpio
 
 def switchOFF(gpio):
     print "GPIO OFF", gpio
     if(app.brewapp_gpio == True):
         GPIO.output(gpio, 1)
+    else:
+        print "GPIO NOT READY DO SWITCH ON :", gpio
