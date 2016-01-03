@@ -1,10 +1,69 @@
 var app = angular.module('BrewApp', ['timer','ui.bootstrap', 'ngRoute']).config(function($routeProvider) {
   $routeProvider
-    .when('/', { templateUrl: 'static/vessel2.html' })
+    .when('/', { templateUrl: 'static/vessel_overview.html', name:"Dashboard" })
     .when('/chart/:vid', { templateUrl: 'static/chart.html' })
     .when('/formulas', { templateUrl: 'static/volume.html' })
+    .when('/steps_settings', { templateUrl: 'static/steps_settings.html' })
+    .when('/vessel_settings', { templateUrl: 'static/vessel_settings_overview.html', name:"Vessel Settings" })
+    .when('/vessel_settings/:vid', { templateUrl: 'static/vessel_settings.html'})
+    .when('/about', { templateUrl: 'static/about.html', name: "About"})
     .when('/volumes/:vid', { templateUrl: 'static/volume.html' })
     .otherwise({ redirectTo: '/'});
+});
+
+
+app.factory('routeNavigation', function($route, $location) {
+  var routes = [];
+  angular.forEach($route.routes, function (route, path) {
+    if (route.name) {
+      routes.push({
+        path: path,
+        name: route.name
+      });
+    }
+  });
+  return {
+    routes: routes,
+    activeRoute: function (route) {
+      return route.path === $location.path();
+    }
+  };
+});
+
+app.factory('Vessel', ['$http', function($http) {
+
+  var vessel = {}
+    return {
+      init: function() {
+
+        $http.get('/vessel/data').
+          success(function(data, status, headers, config) {
+            vessel = data.vessel;
+        }).
+        error(function(data, status, headers, config) {
+            // log error
+        });
+      },
+      getVessels: function() {
+        return vessel;
+      },
+      setVessels: function(v) {
+        vessel = v;
+      }
+    };
+}]);
+
+
+app.directive('navigation', function (routeNavigation) {
+  return {
+    restrict: "E",
+    replace: true,
+    templateUrl: "static/navigation-directive.tpl.html",
+    controller: function ($scope) {
+      $scope.routes = routeNavigation.routes;
+      $scope.activeRoute = routeNavigation.activeRoute;
+    }
+  };
 });
 
 
@@ -23,8 +82,7 @@ app.directive( 'backButton', function() {
 app.controller('TargetTempCtrl', function ($scope, $uibModalInstance, vessel) {
 
   $scope.target_temp = undefined;
-
-
+  $scope.vessel = vessel;
   $scope.ok = function () {
     $uibModalInstance.close($scope.target_temp);
   };
@@ -34,16 +92,15 @@ app.controller('TargetTempCtrl', function ($scope, $uibModalInstance, vessel) {
   };
 });
 
-app.controller('ChartController', ['ws', '$scope', '$http', '$routeParams', function(ws, $scope, $http, $routeParams) {
-    console.log($routeParams);
-
+app.controller('ChartController', ['ws', '$scope', '$http', 'Vessel', '$routeParams', function(ws, $scope, $http, Vessel, $routeParams) {
 
     $scope.load = function() {
+
+    $scope.vessel_name = Vessel.getVessels()[$routeParams.vid];
 
     $http.get('/vessel/chartdata/'+$routeParams.vid).
       success(function(data, status, headers, config) {
         var chart_data = $scope.downsample(data, "daten", "x");
-        console.log(chart_data)
         $scope.chart = c3.generate({
                 bindto: '#chart',
                 data: {
@@ -123,15 +180,12 @@ app.controller('ChartController', ['ws', '$scope', '$http', '$routeParams', func
 
 app.controller('FormularController', ['ws', '$scope', '$http', '$routeParams', function(ws, $scope, $http, $routeParams) {
 
-  console.log($routeParams);
-
   $scope.vessel_name = "";
   $scope.height = 0;
   $scope.diameter = 0;
   $scope.free = 0;
   $http.get('/vessel/vessel/'+$routeParams.vid).
     success(function(data, status, headers, config) {
-      console.log(data);
       $scope.height = data.height;
       $scope.vessel_name = data.name
       $scope.diameter = data.diameter;
@@ -158,18 +212,25 @@ app.controller('FormularController', ['ws', '$scope', '$http', '$routeParams', f
   }
 }]);
 
-app.controller('BrewController', ['ws', '$scope', '$http', '$uibModal', function(ws, $scope, $http, $uibModal) {
+app.controller('VesselOverviewController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', function(ws, $scope, $http, Vessel, $uibModal) {
+    $scope.vessels = Vessel.getVessels();
+}]);
 
+app.controller('VesselController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', '$routeParams', function(ws, $scope, $http, Vessel, $uibModal, $routeParams) {
+
+    $scope.vessel = Vessel.getVessels()[$routeParams.vid];
+}]);
+
+
+app.controller('BrewController', ['ws', '$scope', '$http', 'Vessel', '$uibModal', function(ws, $scope, $http, Vessel, $uibModal) {
     $scope.new_target_temp = {}
     $scope.vessel = []
     $scope.vessel_temps = {}
     $scope.vessel_temp_log = {}
     $scope.target_temp = undefined;
-
-
     $scope.open = function (vid, size) {
 
-    
+
     var modalInstance = $uibModal.open({
       animation: true,
       templateUrl: 'static/target_temp.html',
@@ -183,7 +244,10 @@ app.controller('BrewController', ['ws', '$scope', '$http', '$uibModal', function
     });
 
     modalInstance.result.then(function (target_temp) {
-      ws.emit("vessel_set_target_temp", {"vesselid": vid, "temp":  target_temp});
+      if(target_temp != undefined) {
+            ws.emit("vessel_set_target_temp", {"vesselid": vid, "temp":  target_temp});
+      }
+
     }, function () {
       console.log("dismiss");
     });
@@ -193,6 +257,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', '$uibModal', function
     $http.get('/vessel/data').
       success(function(data, status, headers, config) {
         $scope.vessel = data.vessel;
+        Vessel.setVessels(data.vessel);
         $scope.vessel_temps = data.vessel_temps;
         $scope.vessel_temp_log = data.vessel_temp_log;
     }).
@@ -304,6 +369,7 @@ app.controller('BrewController', ['ws', '$scope', '$http', '$uibModal', function
 
     $scope.reset = function() {
         ws.emit("reset");
+        ws.emit("/templog/clear");
     }
 
     $scope.updateSteps = function(data) {
@@ -352,4 +418,8 @@ app.factory('ws', ['$rootScope', function($rootScope) {
 
         }
     }
+}]);
+
+app.run(['Vessel', function(vessel) {
+    vessel.init();
 }]);

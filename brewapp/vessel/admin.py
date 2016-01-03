@@ -41,17 +41,9 @@ class Vessel2Setup(BaseView):
 		initVessel()
 		return self.render('admin/reset_protocol_result.html')
 
-class ClearTemperatureLog(BaseView):
-    @expose('/')
-    def index(self):
-		VesselTempLog.query.delete()
-		db.session.commit()
-		app.brewapp_vessel_temps_log = {}
-		for vid in app.brewapp_vessel:
-			app.brewapp_vessel_temps_log[vid] = []
-		return self.render('admin/reset_protocol_result.html')
+
+
 
 
 admin.add_view(VesselAdmin(Vessel, db.session, name="VesselConfig", category='Vessel'))
 admin.add_view(Vessel2Setup(name="VesselSetup", category='Vessel'))
-admin.add_view(ClearTemperatureLog(name="Clear Temperature Log", category='Temperature'))

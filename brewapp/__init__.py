@@ -1,8 +1,9 @@
-from flask import Flask, abort, redirect, url_for
+from flask import Flask, abort, redirect, url_for, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 import flask_admin as admin
 from flask.ext.socketio import SocketIO, emit
 from thread import start_new_thread
+from flask_admin import AdminIndexView, expose
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -10,6 +11,9 @@ socketio = SocketIO(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.testMode = True
+
+
+
 admin = admin.Admin(name="CraftBeerPI")
 
 ## Create Database

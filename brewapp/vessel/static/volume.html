@@ -1,37 +1,39 @@
-
 <div class="container" ng-controller="FormularController">
-<div class="row">
-  <div class="col-sm-4" >
-<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top"  >
-  <div class="panel-heading"><i class="fa fa-align-left"></i>Liquid Level Calculation for {{vessel_name}}</span>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+        <div class="panel-heading"><i class="fa fa-align-left"></i> Liquid Level Calculation for {{vessel_name}}</span>
+        </div>
+        <div class="panel-body">
+
+          <div class="form-group">
+            <label>Vessel Heigth:</label>
+            {{height}} cm
+          </div>
+          <div class="form-group">
+            <label>Vessel Diameter:</label>
+            {{diameter}} cm
+          </div>
+          <div class="form-group">
+            <label>Max Volumen:</label>
+            {{maxvolume()}} Litre
+          </div>
+          <div class="form-group">
+            <label>Free cm measured form top:</label>
+            <input type="number" ng-model="free" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">Current Volume:</label>
+            {{volume()}} Litre
+          </div>
+        </div>
+      </div>
+      <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a href back-button class="btn btn-default" role="group">
+            <span class="badge"><i class="fa fa-arrow-circle-left"></i></span> Back</a>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="panel-body">
-
-    <div class="form-group">
-    <label>Vessel Heigth:</label>
-    {{height}} cm
-
-    </div>
-    <div class="form-group">
-    <label>Vessel Diameter:</label>
-    {{diameter}} cm
-    </div>
-
-    <div class="form-group">
-    <label>Max Volumen:</label>
-    {{maxvolume()}} Litre
-    </div>
-    <div class="form-group">
-    <label>Free cm measured form top:</label>
-    <input type="number" ng-model="free"  class="form-control">
-    </div>
-    <div class="form-group">
-    <label for="email">Current Volume:</label>
-    {{volume()}} Litre
-    </div>
-  </div>
-</div>
-<a href back-button class="btn btn-default" >BACK</a>
-</div>
-</div>
 </div>

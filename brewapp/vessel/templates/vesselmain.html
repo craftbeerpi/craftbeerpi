@@ -3,6 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
   <link rel="stylesheet" type="text/css" href="/base/static/style.css">
   <link rel="stylesheet" href="/base/static/addon/bootstrap.min.css">
@@ -10,6 +11,19 @@
   <link rel="stylesheet" href="/base/static/addon/weather-icons.min.css" />
   <link href="/base/static/addon/c3.min.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/base/static/addon/font-awesome.min.css">
+
+<meta name="apple-mobile-web-app-title" content="CraftBeerPI">
+<link rel="apple-touch-icon" sizes="57x57" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/static/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/static/apple-touch-icon-152x152.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link media="(device-width: 375px) and (device-height: 667px)and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image"
+ href="/static/startup.png">
 </head>
 <style>
 
@@ -34,7 +48,7 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 <body ng-app="BrewApp">
-    <span ng-include="'static/navigation.html'"></span>
+    <navigation></navigation>
     <div ng-view></div>
   </div>
 </body>

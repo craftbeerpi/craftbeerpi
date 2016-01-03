@@ -44,6 +44,17 @@ def chartdata(vid):
 def vesselTemplog():
     return json.dumps(app.brewapp_vessel_temps_log)
 
+@vessel.route('/templog/clear')
+@socketio.on('/templog/clear', namespace='/brew')
+def vesselTemplogClear():
+    VesselTempLog.query.delete()
+    db.session.commit()
+    app.brewapp_vessel_temps_log = {}
+    for vid in app.brewapp_vessel:
+        app.brewapp_vessel_temps_log[vid] = []
+    return ""
+
+
 @socketio.on('vessel_automatic', namespace='/brew')
 def ws_vessel_automatic(vesselid):
     print "Vessel", vesselid
@@ -111,9 +122,9 @@ def tempData1Wire(tempSensorId):
         else:
             temp_C = -99 #bad temp reading
     except:
-        temp_C = randint(0,50)
+        temp_C = round(randint(0,50),2)
 
-    return temp_C
+    return round(temp_C)
 
 @brewjob("vesseltempjob")
 def readVesseltemp():
