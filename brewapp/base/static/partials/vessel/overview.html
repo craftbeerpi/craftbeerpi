@@ -1,0 +1,87 @@
+<div ng-controller="VesselOverviewController">
+
+	<div class="row">
+
+		<div class="col-sm-7">
+			<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+				<div class="panel-heading">
+					Vessels
+				</div>
+
+				<table class="table">
+					<thead>
+						<td>Name</td>
+						<td>Sensor Id</td>
+						<td>Heater</td>
+						<td>Agiator</td>
+						<td>Height/Diameter</td>
+					</thead>
+					<tr ng-repeat="item in vessels track by $index">
+						<td>
+							<a href="#/vessel/{{item.id}}">{{ item.name }}</a>
+						</td>
+						<td>
+							{{ item.sensorid }}
+						</td>
+						<td>
+							{{ item.heater }}
+						</td>
+						<td>
+							{{ item.agitator }}
+						</td>
+						<td>
+							{{ item.height }}/{{ item.diameter }}
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+
+		<div class="col-sm-5">
+			<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+				<div class="panel-heading">
+					New Vessel
+				</div>
+				<div class="panel-body">
+					<form >
+						<div class="form-group">
+							<label>Name</label>
+							<input type="text"  ng-model="vessel.name" class="form-control">
+						</div>
+						<div class="form-group">
+								<label>1Wire Thermometer Id</label>
+							<select class="form-control" ng-model="vessel.sensorid">
+								<option ng-repeat="t in thermometer" value="{{t.key}}" ng-selected="step.type == t.key">{{t.value}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Heater GPIO</label>
+							<select class="form-control" ng-model="vessel.heater">
+								<option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="vessel.heater == t.key">{{t.value}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Agitator GPIO</label>
+							<select class="form-control" ng-model="vessel.agitator">
+								<option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="vessel.agitator == t.key">{{t.value}}</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Heigth in cm</label>
+								<input type="text"  ng-model="vessel.height" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Diameter in cm</label>
+								<input type="text"  ng-model="vessel.diameter" class="form-control">
+						</div>
+						<a class="btn btn-success" href="" ng-click="save()">Save</a>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>

@@ -4,9 +4,22 @@ import flask_admin as admin
 from flask.ext.socketio import SocketIO, emit
 from thread import start_new_thread
 from flask_admin import AdminIndexView, expose
+import logging
+import flask.ext.restless
+from logging.handlers import RotatingFileHandler
+import time
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
+
+#logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').addHandler(RotatingFileHandler('sqllog.log', maxBytes=10000, backupCount=1))
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+
+#handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+#handler.setLevel(logging.DEBUG)
+#app.logger.addHandler(handler)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
@@ -18,28 +31,42 @@ admin = admin.Admin(name="CraftBeerPI")
 
 ## Create Database
 db = SQLAlchemy(app)
-
+manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
-from .steps.views import steps
-from .formulas.views import formulas
 #from .log.views import log
 from .vessel.views import vessel
+
 ## Create Database
 db.create_all()
+
+
+## REST
+
+
 ## Init Admin Components
 admin.init_app(app)
 
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
-app.register_blueprint(steps,url_prefix='/steps')
-app.register_blueprint(formulas,url_prefix='/formulas')
-#app.register_blueprint(log,url_prefix='/log')
+
+
+
 app.register_blueprint(vessel,url_prefix='/vessel')
+
+
+
 
 @app.route('/')
 def index():
-    return redirect('vessel')
+    #from brewapp.base.model import Vessel2
+    #c = Vessel2.query.count()
+    #if(c == 0):
+    #    return redirect('vessel')
+    #else:
+    return redirect('base')
+
+
 
 print "INIT METHODS"
 for i in app.brewapp_init:
@@ -47,8 +74,15 @@ for i in app.brewapp_init:
     print "--> ", name
     i()
 
-print "INIT JOBS"
-for i in app.brewapp_jobs:
-    app.brewapp_jobstate[i.get("key")] = True
-    start_new_thread(i.get("function"),())
+
+def job(key, interval, method):
+    while app.brewapp_jobstate2[key]:
+        method()
+        time.sleep(interval)
+
+print "INIT JOBS2"
+for i in app.brewapp_jobs2:
+    app.brewapp_jobstate2[i.get("key")] = True
+
+    start_new_thread(job,(i.get("key"),i.get("interval"),i.get("function")))
     print "--> ", i.get("function").__name__

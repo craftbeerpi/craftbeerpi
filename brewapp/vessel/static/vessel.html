@@ -4,7 +4,6 @@
   }
 </style>
 <div class="panel panel-default vessel" ng-class="vesselState(v.id)" data-toggle="tooltip" data-placement="top">
-
   <div class="panel-heading">
     <i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
     <div class="btn-group pull-right" role="group" aria-label="...">
@@ -20,12 +19,11 @@
         <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
           <li role="menuitem"><a href="#/volumes/{{v.id}}">Calculate Volume</a></li>
           <li class="divider"></li>
-         <li role="menuitem"><a href="#/vessel_settings/{{v.id}}">Settings</a></li>
+         <li role="menuitem"><a href="#/vessel_settings/id/{{v.id}}">Settings</a></li>
 
         </ul>
       </div>
     </div>
-
   </div>
   <div class="panel-body">
     <div class="row">
@@ -60,10 +58,5 @@
         </button>
       </div>
     </div>
-
-
-
-
   </div>
-
 </div>

@@ -1,4 +1,6 @@
 from brewapp import app
+from flask.ext.restless.helpers import to_dict
+
 def getAsArray(obj, order = None):
     if(order is not None):
         result =obj.query.order_by(order).all()
@@ -6,7 +8,7 @@ def getAsArray(obj, order = None):
         result =obj.query.all()
     ar = []
     for t in result:
-        ar.append(t.to_json())
+        ar.append(to_dict(t))
     return ar
 
 def getAsDict(obj, key, order = None):
@@ -29,9 +31,11 @@ def setTargetTemp(vesselid, temp):
     if(app.brewapp_target_temp_method != None):
         app.brewapp_target_temp_method(vesselid, temp)
 
-def brewjob(key):
+
+
+def brewjob(key, interval):
     def real_decorator(function):
-        app.brewapp_jobs.append({"function": function, "key": key})
+        app.brewapp_jobs2.append({"function": function, "key": key, "interval": interval})
         def wrapper(*args, **kwargs):
             function(*args, **kwargs)
         return wrapper

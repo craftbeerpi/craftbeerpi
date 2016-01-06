@@ -8,15 +8,13 @@
         <td class="col-md-1"><i class="wi wi-thermometer"></i> <span class="hidden-xs">Temp Sensor Id</span></td>
         <td class="col-md-1"><i class="fa fa-fire"></i> <span class="hidden-xs">Heater GPIO</span></td>
         <td class="col-md-1"><i class="fa fa-refresh"></i> <span class="hidden-xs">Agitator GPIO</span></td>
-        <td class="col-md-1"><i class="fa fa-crosshairs"></i> <span class="hidden-xs">Target Temperature</span> </td>
         <td class="col-md-1"><i class="fa fa-arrows"></i><span class="hidden-xs">Height/Diameter</span></td>
       </thead>
       <tr ng-class="stepStyle(item)" ng-repeat="v in vessels track by $index">
-        <td><a href="#/vessel_settings/{{v.id}}">{{v.name}}</a></td>
+        <td><a href="#/vessel_settings/id/{{v.id}}">{{v.name}}</a></td>
         <td>{{v.sensorid}}</td>
         <td>{{v.heater.gpio}}</td>
         <td>{{v.agitator.gpio}}</td>
-        <td>{{v.target_temp}}°C</td>
         <td>{{v.height}} cm/{{v.diameter}}cm</td>
       </tr>
     </table>
@@ -30,19 +28,9 @@
         <span class="badge"><i class="fa fa-arrow-circle-left"></i></span> Back</a>
     </div>
     <div class="btn-group" role="group">
-      <a href back-button class="btn btn-default" role="group">
+      <a href="#/vessel_settings/new" class="btn btn-default" role="group">
         <span class="badge"><i class="fa fa-plus"></i></span> New Vessel</a>
     </div>
-    <div class="btn-group" uib-dropdown is-open="status.isopen">
-     <button type="button" class="btn btn-default"  uib-dropdown-toggle ng-disabled="disabled">
-         <span class="badge"><i class="fa fa fa-magic"></i></span> Setup
-     </button>
-     <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-       <li role="menuitem"><a href="#/steps_settings">MashTun</a></li>
-       <li role="menuitem"><a href="#/steps_settings">MashTun,Hot Liquor Tank</a></li>
-       <li role="menuitem"><a href="#/steps_settings">MashTun,Hot Liquor Tank, Boil Tank</a></li>
-       <li role="menuitem"><a href="#/steps_settings">MashTun,Hot Liquor Tank, Boil Tank, Fermenter</a></li>
-     </ul>
-   </div>
+
   </div>
 </div>

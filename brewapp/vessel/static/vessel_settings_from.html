@@ -1,0 +1,28 @@
+<div>
+<div class="form-group">
+  <label>Name</label>
+  <input type="text" ng-model="vessel.name" class="form-control">
+</div>
+<div class="form-group">
+  <label>Temperatur Sensor Id</label>
+  <select class="form-control" ng-model="vessel.sensorid">
+    <option ng-repeat="o in options" value="{{o}}" ng-selected="vessel.sensorid == o">{{o}}</option>
+  </select>
+</div>
+<div class="form-group">
+  <label>Heater GPIO</label>
+  <input type="text" ng-model="vessel.heater.gpio" class="form-control">
+</div>
+<div class="form-group">
+  <label>Agiator GPIO</label>
+  <input type="text" ng-model="vessel.agitator.gpio" class="form-control">
+</div>
+<div class="form-group">
+  <label>Vessel Height in cm</label>
+  <input type="text" ng-model="vessel.height" class="form-control">
+</div>
+<div class="form-group">
+  <label>Vessel diameter in cm</label>
+  <input type="text" ng-model="vessel.diameter" class="form-control">
+</div>
+</div>

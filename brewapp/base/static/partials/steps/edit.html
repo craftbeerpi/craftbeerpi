@@ -1,0 +1,39 @@
+<div ng-controller="EditStep">
+  <form>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" ng-model="step.name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Type</label>
+    <select class="form-control" ng-model="step.type">
+      <option ng-repeat="t in type" value="{{t.key}}" ng-selected="step.type == t.key">{{t.value}}</option>
+    </select>
+    </div>
+    <div class="form-group">
+			<label>Target Temperature</label>
+			<input type="number" ng-model="step.temp" class="form-control">
+		</div>
+    <div class="form-group">
+      <label>Timer</label>
+      <input type="text" ng-model="step.timer" class="form-control">
+
+    </div>
+    <div class="form-group">
+      <label>Order</label>
+      <input type="text" ng-model="step.order" class="form-control">
+    </div>
+
+    <div class="form-group">
+			<label>Vessel</label>
+			<select class="form-control" ng-model="step.vesselid">
+				<option ng-repeat="t in vessels" value="{{t.key}}" ng-selected="step.vesselid == t.key">{{t.value}}</option>
+			</select>
+		</div>
+  </form>
+  <p>
+  <a class="btn btn-success" href="" back-button>Back</a>
+  <a class="btn btn-danger" href="" ng-click="delete()">Delete</a>
+  <a class="btn btn-success" href="" ng-click="save()">Save</a>
+</p>
+</div>

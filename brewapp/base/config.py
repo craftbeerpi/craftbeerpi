@@ -15,3 +15,14 @@ app.brewapp_thermometer_recording = True;
 app.brewapp_log = []
 app.brewapp_vessel = []
 app.brewapp_log_method = None
+
+
+### NEW PARAMS
+app.brewapp_vessel_state = {}
+
+## JOBS
+app.brewapp_jobs2 = []
+app.brewapp_jobstate2 = {}
+
+## Step
+app.brewapp_current_step = None

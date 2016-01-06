@@ -1,0 +1,23 @@
+<div class="container" ng-controller="NewVesselController">
+  <div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+    <div class="panel-heading"><i class="fa fa-line-chart"></i> {{vessel.name}}</span>
+    </div>
+    <div class="panel-body">
+
+
+      <vesselform></vesselform>
+      <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <a href back-button class="btn btn-default" role="group">
+            <span class="badge"><i class="fa fa-arrow-circle-left"></i></span> Cancel</a>
+        </div>
+        <div class="btn-group" role="group">
+          <a href class="btn btn-success" role="group" ng-click="save()">
+            <span class="badge"><i class="fa fa-check"></i></span> Save</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -19,6 +19,7 @@ class Step(db.Model):
     end = db.Column(db.DateTime())
     vesselid = db.Column(db.Integer())
 
+
     def __repr__(self):
         return '<Step %r>' % self.name
 

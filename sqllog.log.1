@@ -1,0 +1,214 @@
+COMMIT
+BEGIN (implicit)
+INSERT INTO vessel_temp_log (vesselid, time, value) VALUES (?, ?, ?)
+(1, '2016-01-06 21:36:57.445873', 43.0)
+COMMIT
+BEGIN (implicit)
+INSERT INTO vessel_temp_log (vesselid, time, value) VALUES (?, ?, ?)
+(1, '2016-01-06 21:37:04.457718', 21.0)
+COMMIT
+BEGIN (implicit)
+INSERT INTO vessel_temp_log (vesselid, time, value) VALUES (?, ?, ?)
+(1, '2016-01-06 21:37:11.468925', 41.0)
+COMMIT
+BEGIN (implicit)
+INSERT INTO vessel_temp_log (vesselid, time, value) VALUES (?, ?, ?)
+(1, '2016-01-06 21:37:18.476479', 35.0)
+COMMIT
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(4, 0)
+ROLLBACK
+BEGIN (implicit)
+INSERT INTO vessel_temp_log (vesselid, time, value) VALUES (?, ?, ?)
+(1, '2016-01-06 21:37:25.484390', 10.0)
+COMMIT
+BEGIN (implicit)
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 
+WHERE vessel2.id = ?
+ LIMIT ? OFFSET ?
+(u'1', 1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(4, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(4, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+INSERT INTO vessel_temp_log (vesselid, time, value) VALUES (?, ?, ?)
+(1, '2016-01-06 21:37:32.491679', 21.0)
+COMMIT
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(4, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step 
+WHERE step.id = ?
+ LIMIT ? OFFSET ?
+(u'4', 1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step 
+WHERE step.id = ?
+ LIMIT ? OFFSET ?
+(u'4', 1, 0)
+DELETE FROM step WHERE step.id = ?
+(4,)
+COMMIT
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(3, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(3, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step 
+WHERE step.id = ?
+ LIMIT ? OFFSET ?
+(u'3', 1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step 
+WHERE step.id = ?
+ LIMIT ? OFFSET ?
+(u'3', 1, 0)
+DELETE FROM step WHERE step.id = ?
+(3,)
+COMMIT
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(2, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM vessel2
+()
+SELECT vessel2.id AS vessel2_id, vessel2.name AS vessel2_name, vessel2.sensorid AS vessel2_sensorid, vessel2.heater AS vessel2_heater, vessel2.agitator AS vessel2_agitator, vessel2.target_temp AS vessel2_target_temp, vessel2.height AS vessel2_height, vessel2.diameter AS vessel2_diameter 
+FROM vessel2 ORDER BY vessel2.id ASC
+ LIMIT ? OFFSET ?
+(1, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT count(*) AS count_1 
+FROM step
+()
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step ORDER BY step.id ASC
+ LIMIT ? OFFSET ?
+(2, 0)
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.vesselid AS step_vesselid 
+FROM step 
+WHERE step.state = ?
+ LIMIT ? OFFSET ?
+('A', 1, 0)
