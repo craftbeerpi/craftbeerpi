@@ -1,11 +1,11 @@
-<div ng-controller="VesselOverviewController">
+<div ng-controller="KettleOverviewController">
 
 	<div class="row">
 
 		<div class="col-sm-7">
-			<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					Vessels
+					Kettles
 				</div>
 
 				<table class="table">
@@ -16,9 +16,9 @@
 						<td>Agiator</td>
 						<td>Height/Diameter</td>
 					</thead>
-					<tr ng-repeat="item in vessels track by $index">
+					<tr ng-repeat="item in kettles track by $index">
 						<td>
-							<a href="#/vessel/{{item.id}}">{{ item.name }}</a>
+							<a href="#/kettle/{{item.id}}">{{ item.name }}</a>
 						</td>
 						<td>
 							{{ item.sensorid }}
@@ -39,41 +39,41 @@
 
 
 		<div class="col-sm-5">
-			<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					New Vessel
+					New Kettle
 				</div>
 				<div class="panel-body">
 					<form >
 						<div class="form-group">
 							<label>Name</label>
-							<input type="text"  ng-model="vessel.name" class="form-control">
+							<input type="text"  ng-model="kettle.name" class="form-control">
 						</div>
 						<div class="form-group">
 								<label>1Wire Thermometer Id</label>
-							<select class="form-control" ng-model="vessel.sensorid">
+							<select class="form-control" ng-model="kettle.sensorid">
 								<option ng-repeat="t in thermometer" value="{{t.key}}" ng-selected="step.type == t.key">{{t.value}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<label>Heater GPIO</label>
-							<select class="form-control" ng-model="vessel.heater">
-								<option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="vessel.heater == t.key">{{t.value}}</option>
+							<select class="form-control" ng-model="kettle.heater">
+								<option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="kettle.heater == t.key">{{t.value}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<label>Agitator GPIO</label>
-							<select class="form-control" ng-model="vessel.agitator">
-								<option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="vessel.agitator == t.key">{{t.value}}</option>
+							<select class="form-control" ng-model="kettle.agitator">
+								<option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="kettle.agitator == t.key">{{t.value}}</option>
 							</select>
 						</div>
 						<div class="form-group">
 							<label>Heigth in cm</label>
-								<input type="text"  ng-model="vessel.height" class="form-control">
+								<input type="text"  ng-model="kettle.height" class="form-control">
 						</div>
 						<div class="form-group">
 							<label>Diameter in cm</label>
-								<input type="text"  ng-model="vessel.diameter" class="form-control">
+								<input type="text"  ng-model="kettle.diameter" class="form-control">
 						</div>
 						<a class="btn btn-success" href="" ng-click="save()">Save</a>
 					</form>

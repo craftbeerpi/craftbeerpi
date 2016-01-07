@@ -6,7 +6,7 @@
 		<div class="col-sm-7">
 
 
-			<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Brew Steps
 				</div>
@@ -22,7 +22,7 @@
 						<td><i class="fa fa-clock-o"></i>
 							<span class="hidden-xs">Timer</span>
 						</td>
-						<td>Vessel</td>
+						<td>Kettle</td>
 					</thead>
 					<tr ng-class="stepStyle(item)" ng-repeat="item in steps track by $index">
 						<td class="col-md-1">
@@ -43,7 +43,7 @@
 							</timer> ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
 					</td>
 					<td>
-						{{ getVesselName(item.vesselid) }}
+						{{ getKettleName(item.kettleid) }}
 				</td>
 		</tr>
 	</table>
@@ -54,7 +54,7 @@
 
 <div class="col-sm-5">
 
-	<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top">
+	<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 		<div class="panel-heading">
 			New Step
 		</div>
@@ -81,9 +81,9 @@
 			<input type="number" ng-model="step.timer" class="form-control">
 		</div>
 		<div class="form-group">
-			<label>Vessel</label>
-			<select class="form-control" ng-model="step.vesselid">
-				<option ng-repeat="t in vessels" value="{{t.key}}" ng-selected="step.vesselid == t.key">{{t.value}}</option>
+			<label>Kettle</label>
+			<select class="form-control" ng-model="step.kettleid">
+				<option ng-repeat="t in kettles" value="{{t.key}}" ng-selected="step.kettleid == t.key">{{t.value}}</option>
 			</select>
 		</div>
 		<a class="btn btn-success" href="" ng-click="save()">Save</a>

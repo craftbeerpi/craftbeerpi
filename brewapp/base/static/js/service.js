@@ -10,8 +10,8 @@ angular.module('myApp.services', []).factory("CBPSteps", function($resource) {
 
   });
 }).
-factory("CBPVessel", function($resource) {
-  return $resource("/api/vessel2/:id", {}, {
+factory("CBPKettle", function($resource) {
+  return $resource("/api/kettle2/:id", {}, {
     query: {
       method: 'GET',
       isArray: false
@@ -21,17 +21,17 @@ factory("CBPVessel", function($resource) {
     },
     getstate: {
       method: 'get',
-      url: '/api/vessel2/state',
+      url: '/api/kettle2/state',
       isArray: false
     },
     getthermometer: {
       method: 'get',
-      url: '/api/vessel2/thermometer',
+      url: '/api/kettle2/thermometer',
       isArray: true
     },
     getchart: {
       method: 'get',
-      url: '/api/vessel2/chart/:id',
+      url: '/api/kettle2/chart/:id',
       isArray: true
     }
   });

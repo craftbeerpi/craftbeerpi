@@ -1,12 +1,12 @@
 <div class="container" ng-controller="BrewController">
   <div class="row" >
     <div class="col-sm-5" >
-        <span ng-include="'static/vessel_step.html'"></span>
+        <span ng-include="'static/kettle_step.html'"></span>
     </div>
     <div class="col-sm-7">
       <div class="row" >
-        <div class="col-sm-6" ng-repeat="v in vessel track by $index">
-          <span ng-include="'static/vessel.html'"></span>
+        <div class="col-sm-6" ng-repeat="v in kettle track by $index">
+          <span ng-include="'static/kettle.html'"></span>
         </div>
       </div>
     </div>

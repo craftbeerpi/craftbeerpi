@@ -1,19 +1,19 @@
-angular.module('myApp.controllers5', []).controller('VesselOverviewController', function($scope, $location, CBPSteps,CBPVessel) {
+angular.module('myApp.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle) {
 
-  CBPVessel.query({}, function(response) {
-    $scope.vessels = response.objects
+  CBPKettle.query({}, function(response) {
+    $scope.kettles = response.objects
   });
 
   $scope.thermometer = [];
   $scope.thermometer.push({"key":"", "value":""});
 
-  CBPVessel.getthermometer({}, function(response) {
+  CBPKettle.getthermometer({}, function(response) {
     angular.forEach(response, function(d) {
         $scope.thermometer.push({"key":d, "value":d});
     })
   });
 
-  $scope.vessel = {
+  $scope.kettle = {
     "name": "",
     "sensorid": "",
     "heater": "23",
@@ -33,31 +33,31 @@ angular.module('myApp.controllers5', []).controller('VesselOverviewController', 
   }
 
   $scope.save = function() {
-    console.log( $scope.vessel.name.length)
-    if($scope.vessel.name.length == 0) {
+    console.log( $scope.kettle.name.length)
+    if($scope.kettle.name.length == 0) {
       return;
     }
-    CBPVessel.save($scope.vessel, function(data) {
-      CBPVessel.query({}, function(response) {
-        $scope.vessels = response.objects;
+    CBPKettle.save($scope.kettle, function(data) {
+      CBPKettle.query({}, function(response) {
+        $scope.kettles = response.objects;
       });
     });
   }
 
-}).controller('VesselEditController', function($scope, CBPVessel, $routeParams) {
+}).controller('KettleEditController', function($scope, CBPKettle, $routeParams) {
   // Do something with myService
   $scope.vid = $routeParams.vid
 
-    CBPVessel.get({
+    CBPKettle.get({
       "id": $scope.vid
     }, function(response) {
-      $scope.vessel = response;
+      $scope.kettle = response;
     });
 
     $scope.thermometer = [];
     $scope.thermometer.push({"key":"", "value":"No Thermometer"});
 
-    CBPVessel.getthermometer({}, function(response) {
+    CBPKettle.getthermometer({}, function(response) {
 
       angular.forEach(response, function(d) {
           $scope.thermometer.push({"key":d, "value":d});
@@ -78,15 +78,15 @@ angular.module('myApp.controllers5', []).controller('VesselOverviewController', 
 
     $scope.save = function() {
 
-      CBPVessel.update({
-        "id": $scope.vessel.id
-      }, $scope.vessel, function() {
+      CBPKettle.update({
+        "id": $scope.kettle.id
+      }, $scope.kettle, function() {
         history.back();
       });
     }
     $scope.delete = function() {
-      CBPVessel.delete({
-        "id": $scope.vessel.id
+      CBPKettle.delete({
+        "id": $scope.kettle.id
       }, function() {
         history.back();
       });

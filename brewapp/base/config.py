@@ -13,12 +13,13 @@ app.brewapp_current_step = None
 app.brewapp_gpio_state = {}
 app.brewapp_thermometer_recording = True;
 app.brewapp_log = []
-app.brewapp_vessel = []
+app.brewapp_kettle = []
 app.brewapp_log_method = None
 
 
 ### NEW PARAMS
-app.brewapp_vessel_state = {}
+app.brewapp_kettle_state = {}
+app.brewapp_kettle_temps_log = {}
 
 ## JOBS
 app.brewapp_jobs2 = []

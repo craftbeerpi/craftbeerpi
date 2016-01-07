@@ -14,7 +14,7 @@ def stepjob():
         cs = app.brewapp_current_step;
         #ct = app.brewapp_temperature.get("value1", -1)
         try:
-            ct = app.brewapp_vessel_temps[cs.get("vesselid")][1]
+            ct = app.brewapp_kettle_temps[cs.get("kettleid")][1]
         except:
             ct = 0
 
@@ -65,14 +65,14 @@ def nextStep():
     if(active != None):
         active.state = 'D'
         active.end = datetime.utcnow()
-        setTargetTemp(active.vesselid, 0)
+        setTargetTemp(active.kettleid, 0)
         db.session.add(active)
         db.session.commit()
 
     if(inactive != None):
         inactive.state = 'A'
         inactive.start = datetime.utcnow()
-        setTargetTemp(inactive.vesselid, inactive.temp)
+        setTargetTemp(inactive.kettleid, inactive.temp)
         db.session.add(inactive)
         db.session.commit()
     init()

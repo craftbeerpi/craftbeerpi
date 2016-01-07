@@ -5,28 +5,28 @@ from gpio import *
 
 def stopPID(vid):
     key = str(vid)+"pid";
-    app.brewapp_vessel_automatic[key] = False
+    app.brewapp_kettle_automatic[key] = False
 
 def startPID(vid):
 
     key = str(vid)+"pid";
-    app.brewapp_vessel_automatic[key] = True
+    app.brewapp_kettle_automatic[key] = True
     start_new_thread(pidjob,(vid,))
 
 def pidjob(vid):
     print "PID START"
     key = str(vid)+"pid";
-    while app.brewapp_vessel_automatic[key]:
-        ct =  app.brewapp_vessel_temps[vid][1]
-        tt = app.brewapp_vessel[vid].get("target_temp")
+    while app.brewapp_kettle_automatic[key]:
+        ct =  app.brewapp_kettle_temps[vid][1]
+        tt = app.brewapp_kettle[vid].get("target_temp")
         if(ct < tt):
-            switchON(app.brewapp_vessel[vid].get("heater")["gpio"])
-            app.brewapp_vessel[vid].get("heater")["state"] = True
-            socketio.emit('vessel_automatic_on', vid, namespace ='/brew')
+            switchON(app.brewapp_kettle[vid].get("heater")["gpio"])
+            app.brewapp_kettle[vid].get("heater")["state"] = True
+            socketio.emit('kettle_automatic_on', vid, namespace ='/brew')
 
         time.sleep(5)
-        switchOFF(app.brewapp_vessel[vid].get("heater")["gpio"])
-        app.brewapp_vessel[vid].get("heater")["state"] = False
-        socketio.emit('vessel_automatic_off', vid, namespace ='/brew')
+        switchOFF(app.brewapp_kettle[vid].get("heater")["gpio"])
+        app.brewapp_kettle[vid].get("heater")["state"] = False
+        socketio.emit('kettle_automatic_off', vid, namespace ='/brew')
 
     print "PID STOP"

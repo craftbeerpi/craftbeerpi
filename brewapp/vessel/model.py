@@ -5,7 +5,7 @@ import os.path as op
 import json
 
 
-class Vessel(db.Model):
+class Kettle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     sensorid = db.Column(db.String(80))
@@ -38,8 +38,8 @@ class Vessel(db.Model):
     def to_unixTime(self):
         return  int((self.time - datetime(1970,1,1)).total_seconds())*1000
 
-class VesselTempLog(db.Model):
-    vesselid = db.Column(db.Integer, primary_key=True)
+class KettleTempLog(db.Model):
+    kettleid = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.DateTime(), primary_key=True)
     value = db.Column(db.Float())
 

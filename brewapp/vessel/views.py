@@ -10,35 +10,35 @@ from gpio import *
 from w1_thermometer import *
 
 
-app.brewapp_vessel_automatic = {}
-app.brewapp_vessel_temps = {}
-app.brewapp_vessel_temps_log = {}
+app.brewapp_kettle_automatic = {}
+app.brewapp_kettle_temps = {}
+app.brewapp_kettle_temps_log = {}
 
-vessel = Blueprint('vessel2', __name__, template_folder='templates', static_folder='static')
+kettle = Blueprint('kettle2', __name__, template_folder='templates', static_folder='static')
 
-@vessel.route('/')
+@kettle.route('/')
 def index():
-    return render_template("vesselmain.html")
+    return render_template("kettlemain.html")
 
-@vessel.route('/chart')
+@kettle.route('/chart')
 def chart():
     print "CHART"
     return render_template("chartmain.html")
 
-@vessel.route('/data')
-def vesselData():
+@kettle.route('/data')
+def kettleData():
 
-    return json.dumps({"vessel": app.brewapp_vessel, "vessel_temps": app.brewapp_vessel_temps, "vessel_temp_log": app.brewapp_vessel_temps_log})
+    return json.dumps({"kettle": app.brewapp_kettle, "kettle_temps": app.brewapp_kettle_temps, "kettle_temp_log": app.brewapp_kettle_temps_log})
 
-#@vessel.route('/vessel/<vid>')
-#def vesseldata(vid):
-#    return json.dumps(Vessel.query.get(vid).to_json());
+#@kettle.route('/kettle/<vid>')
+#def kettledata(vid):
+#    return json.dumps(Kettle.query.get(vid).to_json());
 
-@vessel.route('/chartdata/<vid>')
+@kettle.route('/chartdata/<vid>')
 def chartdata(vid):
-    return json.dumps(app.brewapp_vessel_temps_log[int(vid)])
+    return json.dumps(app.brewapp_kettle_temps_log[int(vid)])
 
-@vessel.route('/get/thermometer')
+@kettle.route('/get/thermometer')
 def getTermometer():
     try:
         arr = []
@@ -51,18 +51,18 @@ def getTermometer():
         return json.dumps(['ABC','CDE'])
 
 
-@vessel.route('/templog')
-def vesselTemplog():
-    return json.dumps(app.brewapp_vessel_temps_log)
+@kettle.route('/templog')
+def kettleTemplog():
+    return json.dumps(app.brewapp_kettle_temps_log)
 
-@vessel.route('/setup/<num>', methods=['POST'])
-def vessel1Setup(num):
+@kettle.route('/setup/<num>', methods=['POST'])
+def kettle1Setup(num):
 
     number = int(num)
     if(request.method == 'POST'):
         if(number == 1 or number == 2 or number == 3):
             print "MASHTUN"
-            mt = Vessel()
+            mt = Kettle()
             mt.name = "MashTun"
             mt.sensorid = ""
             mt.target_temp = 0
@@ -72,7 +72,7 @@ def vessel1Setup(num):
 
         if(number == 2 or number == 3):
             print "BOILTANK"
-            bt = Vessel()
+            bt = Kettle()
             bt.name = "Boil Tank"
             bt.sensorid = ""
             bt.target_temp = 0
@@ -82,7 +82,7 @@ def vessel1Setup(num):
 
         if(number == 3):
             print "HOT Liquor"
-            hlt = Vessel()
+            hlt = Kettle()
             hlt.name = "Hot Liquor Tank"
             hlt.sensorid = ""
             hlt.target_temp = 0
@@ -91,25 +91,25 @@ def vessel1Setup(num):
             db.session.add(hlt)
         db.session.commit();
         print "COMMIT ##########"
-        initVessel()
+        initKettle()
         return json.dumps({})
 
 
-@vessel.route('/<vid>', methods=['DELETE','GET','POST','PUT'])
-def vesselupdate(vid):
+@kettle.route('/<vid>', methods=['DELETE','GET','POST','PUT'])
+def kettleupdate(vid):
 
     print "VID", vid
     print "METHOD", request.method
     if(request.method == 'DELETE'):
         print "DELETE VID", vid
-        Vessel.query.filter_by(id=vid).delete()
+        Kettle.query.filter_by(id=vid).delete()
         db.session.commit()
-        initVessel()
+        initKettle()
         return json.dumps({})
     if(request.method == 'PUT'):
         print "SAVE VID", vid
         new_data = request.get_json()
-        old_data = Vessel.query.get(new_data["id"])
+        old_data = Kettle.query.get(new_data["id"])
         old_data.name = new_data["name"]
         old_data.sensorid = new_data["sensorid"]
         old_data.heater = new_data["heater"]["gpio"]
@@ -118,85 +118,85 @@ def vesselupdate(vid):
         old_data.diameter = new_data["diameter"]
         db.session.add(old_data);
         db.session.commit()
-        initVessel(False)
+        initKettle(False)
     if(request.method == 'POST'):
         new_data = request.get_json()
         print new_data
-        v = Vessel()
+        v = Kettle()
         v.name = new_data["name"]
         db.session.add(v);
         db.session.commit()
-        initVessel()
+        initKettle()
     if(request.method == 'GET'):
         print "GET VID", vid
 
-    return json.dumps(Vessel.query.get(vid).to_json());
+    return json.dumps(Kettle.query.get(vid).to_json());
 
 
-@vessel.route('/templog/clear')
+@kettle.route('/templog/clear')
 @socketio.on('/templog/clear', namespace='/brew')
-def vesselTemplogClear():
-    VesselTempLog.query.delete()
+def kettleTemplogClear():
+    KettleTempLog.query.delete()
     db.session.commit()
-    app.brewapp_vessel_temps_log = {}
-    for vid in app.brewapp_vessel:
-        app.brewapp_vessel_temps_log[vid] = []
+    app.brewapp_kettle_temps_log = {}
+    for vid in app.brewapp_kettle:
+        app.brewapp_kettle_temps_log[vid] = []
     return ""
 
 
-@socketio.on('vessel_automatic', namespace='/brew')
-def ws_vessel_automatic(vesselid):
-    print "Vessel", vesselid
-    for vid in app.brewapp_vessel:
-        if( vid == vesselid):
-            if(app.brewapp_vessel[vid].get("automatic") == True):
-                app.brewapp_vessel[vid]["automatic"] = False
+@socketio.on('kettle_automatic', namespace='/brew')
+def ws_kettle_automatic(kettleid):
+    print "Kettle", kettleid
+    for vid in app.brewapp_kettle:
+        if( vid == kettleid):
+            if(app.brewapp_kettle[vid].get("automatic") == True):
+                app.brewapp_kettle[vid]["automatic"] = False
                 stopPID(vid)
             else:
-                app.brewapp_vessel[vid]["automatic"] = True
+                app.brewapp_kettle[vid]["automatic"] = True
                 startPID(vid)
-    socketio.emit('vessel_update', app.brewapp_vessel, namespace ='/brew')
+    socketio.emit('kettle_update', app.brewapp_kettle, namespace ='/brew')
 
 
 
-@socketio.on('vessel_gpio', namespace='/brew')
+@socketio.on('kettle_gpio', namespace='/brew')
 def ws_gpio(gpio):
-    for vid in app.brewapp_vessel:
+    for vid in app.brewapp_kettle:
         toogle(vid, "heater", gpio)
         toogle(vid, "agitator", gpio)
-    socketio.emit('vessel_update', app.brewapp_vessel, namespace ='/brew')
+    socketio.emit('kettle_update', app.brewapp_kettle, namespace ='/brew')
 
 def setTargetTemp(vid, temp):
-    vessel = Vessel.query.get(vid)
-    vessel.target_temp = temp
-    db.session.add(vessel)
+    kettle = Kettle.query.get(vid)
+    kettle.target_temp = temp
+    db.session.add(kettle)
     db.session.commit()
-    app.brewapp_vessel[vid]["target_temp"] = temp
-    socketio.emit('vessel_update', app.brewapp_vessel, namespace ='/brew')
+    app.brewapp_kettle[vid]["target_temp"] = temp
+    socketio.emit('kettle_update', app.brewapp_kettle, namespace ='/brew')
 
 @brewinit()
-def initVessel(clearlog = True):
-    app.brewapp_vessel = getAsDict(Vessel, "id")
+def initKettle(clearlog = True):
+    app.brewapp_kettle = getAsDict(Kettle, "id")
     if(clearlog):
-        for vid in app.brewapp_vessel:
-            app.brewapp_vessel_temps_log[vid] = []
+        for vid in app.brewapp_kettle:
+            app.brewapp_kettle_temps_log[vid] = []
     #app.brewapp_target_temp_method = setTargetTemp
     initGPIO()
-    socketio.emit('vessel_update', app.brewapp_vessel, namespace ='/brew')
+    socketio.emit('kettle_update', app.brewapp_kettle, namespace ='/brew')
 
-@brewjob("vesseltempjob", 2)
-def readVesseltemp():
+@brewjob("kettletempjob", 2)
+def readKettletemp():
     update = {}
-    for vid in app.brewapp_vessel:
-        vl = VesselTempLog()
-        vl.vesselid = app.brewapp_vessel[vid].get("id")
+    for vid in app.brewapp_kettle:
+        vl = KettleTempLog()
+        vl.kettleid = app.brewapp_kettle[vid].get("id")
         vl.time = datetime.utcnow()
-        vl.value = tempData1Wire(app.brewapp_vessel[vid].get("sensorid"))
-        update[vl.vesselid] = vl.to_json()
-        app.brewapp_vessel_temps_log[vid] += [vl.to_json()]
-        app.brewapp_vessel_temps = update
+        vl.value = tempData1Wire(app.brewapp_kettle[vid].get("sensorid"))
+        update[vl.kettleid] = vl.to_json()
+        app.brewapp_kettle_temps_log[vid] += [vl.to_json()]
+        app.brewapp_kettle_temps = update
         db.session.add(vl)
         db.session.commit()
 
-    socketio.emit('vessel_temp_update', update, namespace ='/brew')
+    socketio.emit('kettle_temp_update', update, namespace ='/brew')
     time.sleep(5)

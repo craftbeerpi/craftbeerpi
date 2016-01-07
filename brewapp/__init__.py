@@ -35,7 +35,7 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
 #from .log.views import log
-from .vessel.views import vessel
+
 
 ## Create Database
 db.create_all()
@@ -52,17 +52,15 @@ app.register_blueprint(base,url_prefix='/base')
 
 
 
-app.register_blueprint(vessel,url_prefix='/vessel')
-
 
 
 
 @app.route('/')
 def index():
-    #from brewapp.base.model import Vessel2
-    #c = Vessel2.query.count()
+    #from brewapp.base.model import Kettle2
+    #c = Kettle2.query.count()
     #if(c == 0):
-    #    return redirect('vessel')
+    #    return redirect('kettle')
     #else:
     return redirect('base')
 

@@ -16,7 +16,7 @@ class Step(db.Model):
     timer_start = db.Column(db.DateTime())
     start = db.Column(db.DateTime())
     end = db.Column(db.DateTime())
-    vesselid = db.Column(db.Integer())
+    kettleid = db.Column(db.Integer())
 
     def __repr__(self):
         return '<Step %r>' % self.name
@@ -24,7 +24,7 @@ class Step(db.Model):
     def __unicode__(self):
         return self.id
 
-class Vessel2(db.Model):
+class Kettle2(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     sensorid = db.Column(db.String(80))
@@ -35,12 +35,12 @@ class Vessel2(db.Model):
     diameter = db.Column(db.Integer())
 
     def __repr__(self):
-        return '<Vessel %r>' % self.name
+        return '<Kettle %r>' % self.name
 
     def __unicode__(self):
         return self.id
 
-class VesselTempLog2(db.Model):
-    vesselid = db.Column(db.Integer, primary_key=True)
+class KettleTempLog2(db.Model):
+    kettleid = db.Column(db.Integer, primary_key=True)
     time = db.Column(db.DateTime(), primary_key=True)
     value = db.Column(db.Float())

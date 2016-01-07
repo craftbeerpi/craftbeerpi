@@ -1,14 +1,14 @@
-angular.module('myApp.controllers3', []).controller('ChartController', function($scope, $location, CBPSteps, CBPVessel, $uibModal, ws, $routeParams) {
+angular.module('myApp.controllers3', []).controller('ChartController', function($scope, $location, CBPSteps, CBPKettle, $uibModal, ws, $routeParams) {
   $scope.vid = $routeParams.vid
 
-  CBPVessel.get({
+  CBPKettle.get({
     "id": $scope.vid
   }, function(response) {
-    $scope.vessel = response;
+    $scope.kettle = response;
   });
 
   $scope.load = function() {
-  CBPVessel.getchart({
+  CBPKettle.getchart({
     "id": $routeParams.vid
   }, function(response) {
 

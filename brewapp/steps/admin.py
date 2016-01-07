@@ -14,7 +14,7 @@ import os
 import sqlite3
 
 class StepsAdmin(sqla.ModelView):
-	form_columns = ['name', 'temp', 'timer', 'type','state','timer_start','start','end','order', 'vesselid']
+	form_columns = ['name', 'temp', 'timer', 'type','state','timer_start','start','end','order', 'kettleid']
 	form_overrides = dict(state=SelectField, type=SelectField, stir_heatup=SelectField)
 	form_args = dict(
 		state=dict(choices=[("I", 'Inaktiv'), ("A", 'Aktiv'), ("D", 'Fertig')],),
@@ -57,7 +57,7 @@ class KBSelect(BaseView):
 			s.state = 'I'
 			s.temp = row[0]
 			s.timer = 0
-			s.vesselid = 1
+			s.kettleid = 1
 			db.session.add(s)
 			db.session.commit()
 
@@ -72,7 +72,7 @@ class KBSelect(BaseView):
 			s.state = 'I'
 			s.temp = row[3]
 			s.timer = row[4]
-			s.vesselid = 1
+			s.kettleid = 1
 			db.session.add(s)
 			db.session.commit()
 			order +=1
@@ -84,7 +84,7 @@ class KBSelect(BaseView):
 		s.state = 'I'
 		s.temp = 0
 		s.timer = 15
-		s.vesselid = 1
+		s.kettleid = 1
 		db.session.add(s)
 		db.session.commit()
 		order +=1
@@ -98,7 +98,7 @@ class KBSelect(BaseView):
 			s.state = 'I'
 			s.temp = 100
 			s.timer = row[0]
-			s.vesselid = 1
+			s.kettleid = 1
 			db.session.add(s)
 			db.session.commit()
 			order +=1
@@ -110,7 +110,7 @@ class KBSelect(BaseView):
 		s.state = 'I'
 		s.temp = 0
 		s.timer = 15
-		s.vesselid = 1
+		s.kettleid = 1
 		db.session.add(s)
 		db.session.commit()
 		order +=1

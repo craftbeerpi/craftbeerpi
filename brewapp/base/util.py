@@ -25,11 +25,11 @@ def addLogMessage(message):
     if(app.brewapp_log_method != None):
         app.brewapp_log_method(message)
 
-def setTargetTemp(vesselid, temp):
-    if(vesselid == None):
+def setTargetTemp(kettleid, temp):
+    if(kettleid == None):
         return
     if(app.brewapp_target_temp_method != None):
-        app.brewapp_target_temp_method(vesselid, temp)
+        app.brewapp_target_temp_method(kettleid, temp)
 
 
 

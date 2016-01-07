@@ -1,26 +1,26 @@
-angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPVessel) {
+angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle) {
 
 
-  $scope.vessels = [];
-  $scope.vessels.push({"key":0, "value":"No Vessel"})
+  $scope.kettles = [];
+  $scope.kettles.push({"key":0, "value":"No Kettle"})
   CBPSteps.query({}, function(response) {
     $scope.steps = response.objects
   });
 
-  CBPVessel.query({}, function(response) {
+  CBPKettle.query({}, function(response) {
     angular.forEach(response.objects, function(d) {
-        $scope.vessels.push({"key":d.id, "value":d.name});
+        $scope.kettles.push({"key":d.id, "value":d.name});
     })
   });
 
 
-  $scope.getVesselName = function(vid) {
-    if($scope.vessels == undefined) {
+  $scope.getKettleName = function(vid) {
+    if($scope.kettles == undefined) {
       return
     }
-    for(i = 0; i < $scope.vessels.length; i++) {
-      if(vid == $scope.vessels[i]["key"]) {
-        return $scope.vessels[i]["value"];
+    for(i = 0; i < $scope.kettles.length; i++) {
+      if(vid == $scope.kettles[i]["key"]) {
+        return $scope.kettles[i]["value"];
       }
     }
   }
@@ -28,7 +28,7 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
   $scope.step = {
     "type": "A",
     "state": "I",
-    "vesselid": 0
+    "kettleid": 0
   }
 
   $scope.type = [{
@@ -50,7 +50,7 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     });
   }
 
-}).controller('EditStep', function($scope, CBPSteps, CBPVessel, $routeParams) {
+}).controller('EditStep', function($scope, CBPSteps, CBPKettle, $routeParams) {
   // Do something with myService
   $scope.vid = $routeParams.vid
   $scope.type = [{
@@ -61,11 +61,11 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     "value": "Manuell"
   }]
 
-  $scope.vessels = [];
-  $scope.vessels.push({"key":0, "value":"No Vessel"})
-  CBPVessel.query({}, function(response) {
+  $scope.kettles = [];
+  $scope.kettles.push({"key":0, "value":"No Kettle"})
+  CBPKettle.query({}, function(response) {
     angular.forEach(response.objects, function(d) {
-        $scope.vessels.push({"key":d.id, "value":d.name});
+        $scope.kettles.push({"key":d.id, "value":d.name});
     })
   });
 

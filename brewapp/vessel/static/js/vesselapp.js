@@ -1,7 +1,7 @@
 var app = angular.module('BrewApp', ['timer', 'ui.bootstrap', 'ngRoute']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
-      templateUrl: 'static/vessel_overview.html',
+      templateUrl: 'static/kettle_overview.html',
       name: "Dashboard"
     })
     .when('/chart/:vid', {
@@ -17,15 +17,15 @@ var app = angular.module('BrewApp', ['timer', 'ui.bootstrap', 'ngRoute']).config
       templateUrl: 'static/steps_settings.html',
       name: "Steps Settings"
     })
-    .when('/vessel_settings', {
-      templateUrl: 'static/vessel_settings_overview.html',
-      name: "Vessel Settings"
+    .when('/kettle_settings', {
+      templateUrl: 'static/kettle_settings_overview.html',
+      name: "Kettle Settings"
     })
-    .when('/vessel_settings/id/:vid', {
-      templateUrl: 'static/vessel_settings.html'
+    .when('/kettle_settings/id/:vid', {
+      templateUrl: 'static/kettle_settings.html'
     })
-    .when('/vessel_settings/new', {
-      templateUrl: 'static/vessel_settings_new.html'
+    .when('/kettle_settings/new', {
+      templateUrl: 'static/kettle_settings_new.html'
     })
     .when('/about', {
       templateUrl: 'static/about.html',
@@ -58,19 +58,19 @@ app.factory('routeNavigation', function($route, $location) {
   };
 });
 
-app.factory('Vessel',function($http, ws) {
+app.factory('Kettle',function($http, ws) {
 
-  var vessel;
-  var vessel_temps;
-  var vessel_temp_log;
+  var kettle;
+  var kettle_temps;
+  var kettle_temp_log;
   var steps;
 
-  vessel_update = function(data) {
+  kettle_update = function(data) {
     console.log("VESSEL UPDATE");
-    vessel = data;
+    kettle = data;
   }
-  vessel_temp_update = function(data) {
-    vessel_temps = data;
+  kettle_temp_update = function(data) {
+    kettle_temps = data;
   }
   steps_update = function (data) {
     steps = data;
@@ -79,22 +79,22 @@ app.factory('Vessel',function($http, ws) {
   return {
     init: function() {
 
-      vessel = {}
-      $http.get('/vessel/data').
+      kettle = {}
+      $http.get('/kettle/data').
       success(function(data, status, headers, config) {
         console.log(data);
-        //vessel = data.vessel;
-        vessel_temps = data.vessel_temps;
-        vessel_temp_log = data.vessel_temp_log;
+        //kettle = data.kettle;
+        kettle_temps = data.kettle_temps;
+        kettle_temp_log = data.kettle_temp_log;
       }).
       error(function(data, status, headers, config) {
         // log error
       });
 
-      $http.get('/api/vessel2').
+      $http.get('/api/kettle2').
       success(function(data, status, headers, config) {
         console.log(data.objects)
-        vessel = data.objects;
+        kettle = data.objects;
       }).
       error(function(data, status, headers, config) {
         // log error
@@ -110,19 +110,19 @@ app.factory('Vessel',function($http, ws) {
         // log error
       });
 
-      ws.on('vessel_update', vessel_update);
-      ws.on('vessel_temp_update', vessel_temp_update);
+      ws.on('kettle_update', kettle_update);
+      ws.on('kettle_temp_update', kettle_temp_update);
       ws.on('steps', steps_update);
     },
-    vessel: function() {
+    kettle: function() {
 
-      return vessel;
+      return kettle;
     },
-    vessel_temps: function() {
-      return vessel_temps;
+    kettle_temps: function() {
+      return kettle_temps;
     },
-    vessel_temp_log: function() {
-      return vessel_temp_log;
+    kettle_temp_log: function() {
+      return kettle_temp_log;
     },
     steps: function() {
       return steps;
@@ -145,11 +145,11 @@ app.directive('navigation', function(routeNavigation) {
   };
 });
 
-app.directive('vesselform', function() {
+app.directive('kettleform', function() {
   return {
     restrict: "E",
     replace: true,
-    templateUrl: "static/vessel_settings_from.html",
+    templateUrl: "static/kettle_settings_from.html",
   };
 });
 
@@ -166,10 +166,10 @@ app.directive('backButton', function() {
   };
 });
 
-app.controller('TargetTempCtrl', function($scope, $uibModalInstance, vessel) {
+app.controller('TargetTempCtrl', function($scope, $uibModalInstance, kettle) {
 
   $scope.target_temp = undefined;
-  $scope.vessel = vessel;
+  $scope.kettle = kettle;
   $scope.ok = function() {
     $uibModalInstance.close($scope.target_temp);
   };
@@ -179,13 +179,13 @@ app.controller('TargetTempCtrl', function($scope, $uibModalInstance, vessel) {
   };
 });
 
-app.controller('ChartController', function(ws, $scope, $http, Vessel, $routeParams) {
+app.controller('ChartController', function(ws, $scope, $http, Kettle, $routeParams) {
 
   $scope.load = function() {
 
-    $scope.vessel = Vessel.vessel()[$routeParams.vid];
+    $scope.kettle = Kettle.kettle()[$routeParams.vid];
 
-    $http.get('/vessel/chartdata/' + $routeParams.vid).
+    $http.get('/kettle/chartdata/' + $routeParams.vid).
     success(function(data, status, headers, config) {
       var chart_data = $scope.downsample(data, "data", "x");
       $scope.chart = c3.generate({
@@ -260,10 +260,10 @@ app.controller('ChartController', function(ws, $scope, $http, Vessel, $routePara
   $scope.load();
 });
 
-app.controller('FormularController', function(ws, $scope, $http, $routeParams, Vessel) {
+app.controller('FormularController', function(ws, $scope, $http, $routeParams, Kettle) {
 
-  var v = Vessel.vessel()[$routeParams.vid];
-  $scope.vessel_name = v.name;
+  var v = Kettle.kettle()[$routeParams.vid];
+  $scope.kettle_name = v.name;
   $scope.height = v.height;
   $scope.diameter = v.diameter;
   $scope.free = 0;
@@ -286,72 +286,72 @@ app.controller('FormularController', function(ws, $scope, $http, $routeParams, V
   }
 });
 
-app.controller('VesselOverviewController', function(ws, $scope, $http, Vessel, $uibModal) {
-  $scope.vessels = Vessel.vessel();
-  $scope.vessel_update = function(data) {
-    $scope.vessels = data;
+app.controller('KettleOverviewController', function(ws, $scope, $http, Kettle, $uibModal) {
+  $scope.kettles = Kettle.kettle();
+  $scope.kettle_update = function(data) {
+    $scope.kettles = data;
   }
-  ws.on('vessel_update', $scope.vessel_update);
+  ws.on('kettle_update', $scope.kettle_update);
 });
 
 
-app.controller('VesselController', function(ws, $scope, $http, Vessel, $uibModal, $location, $routeParams) {
+app.controller('KettleController', function(ws, $scope, $http, Kettle, $uibModal, $location, $routeParams) {
   if($routeParams.vid == "new") {
-    $scope.vessel = {name: "", sensorid: ""}
+    $scope.kettle = {name: "", sensorid: ""}
   }
   else {
-    $scope.vessel = angular.copy(Vessel.vessel()[$routeParams.vid]);
+    $scope.kettle = angular.copy(Kettle.kettle()[$routeParams.vid]);
   }
   $scope.options = ["ABC", "DEF"];
   $scope.save = function() {
 
     if($routeParams.vid == "new") {
       console.log("POST");
-      $http.post("/vessel/1", $scope.vessel);
+      $http.post("/kettle/1", $scope.kettle);
     }
     else {
-      Vessel.vessel()[$routeParams.vid] = $scope.vessel;
-      $http.put("/vessel/" + $routeParams.vid, $scope.vessel);
+      Kettle.kettle()[$routeParams.vid] = $scope.kettle;
+      $http.put("/kettle/" + $routeParams.vid, $scope.kettle);
     }
     history.back();
   }
   $scope.delete = function() {
-    $http.delete("/vessel/" + $routeParams.vid).success(function(data, status, headers, config) {
-      $location.url("/vessel_settings");
+    $http.delete("/kettle/" + $routeParams.vid).success(function(data, status, headers, config) {
+      $location.url("/kettle_settings");
     });
   }
 });
 
-app.controller('NewVesselController', function(ws, $scope, $http, Vessel, $uibModal, $location, $routeParams) {
+app.controller('NewKettleController', function(ws, $scope, $http, Kettle, $uibModal, $location, $routeParams) {
 
   $scope.options = ["ABC", "DEF"];
   $scope.save = function() {
-      $http.post("/vessel/1", $scope.vessel);
+      $http.post("/kettle/1", $scope.kettle);
     history.back();
   }
 });
 
 
-app.controller('SetupController', function(ws, $scope, $http, Vessel, $uibModal, $location) {
-  $scope.vessel_update = function() {
-    $location.url("/vessel_settings");
+app.controller('SetupController', function(ws, $scope, $http, Kettle, $uibModal, $location) {
+  $scope.kettle_update = function() {
+    $location.url("/kettle_settings");
   }
-  ws.on('vessel_update', $scope.vessel_update);
+  ws.on('kettle_update', $scope.kettle_update);
 
   $scope.setup = function(num) {
-    $http.post("/vessel/setup/"+num).success(function(data, status, headers, config) {
+    $http.post("/kettle/setup/"+num).success(function(data, status, headers, config) {
 
     });
   }
 });
 
-app.controller('BrewController', function(ws, $scope, $http, Vessel, $uibModal, $location) {
-  $scope.vessel = Vessel.vessel();
-  $scope.vessel_temps = Vessel.vessel_temps();
-  $scope.vessel_temp_log = Vessel.vessel_temp_log();
-  $scope.steps = Vessel.steps();
+app.controller('BrewController', function(ws, $scope, $http, Kettle, $uibModal, $location) {
+  $scope.kettle = Kettle.kettle();
+  $scope.kettle_temps = Kettle.kettle_temps();
+  $scope.kettle_temp_log = Kettle.kettle_temp_log();
+  $scope.steps = Kettle.steps();
 
-  if($scope.vessel.length == 0) {
+  if($scope.kettle.length == 0) {
     $location.url("/setup");
   }
 
@@ -363,16 +363,16 @@ app.controller('BrewController', function(ws, $scope, $http, Vessel, $uibModal, 
       controller: 'TargetTempCtrl',
       size: size,
       resolve: {
-        vessel: function() {
-          return $scope.vessel[vid];
+        kettle: function() {
+          return $scope.kettle[vid];
         }
       }
     });
 
     modalInstance.result.then(function(target_temp) {
       if (target_temp != undefined) {
-        ws.emit("vessel_set_target_temp", {
-          "vesselid": vid,
+        ws.emit("kettle_set_target_temp", {
+          "kettleid": vid,
           "temp": target_temp
         });
       }
@@ -392,13 +392,13 @@ app.controller('BrewController', function(ws, $scope, $http, Vessel, $uibModal, 
 
   $scope.stepStyle = function(item) {
 
-    var num_of_vessels = Object.keys($scope.vessel_temps).length;
+    var num_of_kettles = Object.keys($scope.kettle_temps).length;
 
     if (item.state == "D")
       return "info";
     else if (item.type == "M" && item.state == "A" && $scope.temp < item.temp) {
       return "warning"
-    } else if (item.type == "M" && item.state == "A" && num_of_vessels > 0 && $scope.vessel_temps[item["vesselid"]][1] >= item.temp) {
+    } else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
       return "active"
     } else if (item.state == "A" && item.timer_start != null) {
       return "active"
@@ -417,35 +417,35 @@ app.controller('BrewController', function(ws, $scope, $http, Vessel, $uibModal, 
       return "";
   }
 
-  $scope.vesselState = function(vid) {
+  $scope.kettleState = function(vid) {
     if ($scope.steps == undefined) {
       return;
     }
     for (i = 0; i < $scope.steps.length; i++) {
-      if ($scope.steps[i].state == "A" && vid == $scope.steps[i].vesselid) {
+      if ($scope.steps[i].state == "A" && vid == $scope.steps[i].kettleid) {
         return "panel-success"
       }
     }
   }
 
   // WebSocket Update methods
-  $scope.vessel_update = function(data) {
-    $scope.vessel = data;
+  $scope.kettle_update = function(data) {
+    $scope.kettle = data;
   }
-  $scope.vessel_temp_update = function(data) {
-    $scope.vessel_temps = data;
+  $scope.kettle_temp_update = function(data) {
+    $scope.kettle_temps = data;
   }
-  $scope.vessel_automatic_on = function(data) {
-    $scope.vessel[data].heater.state = true;
+  $scope.kettle_automatic_on = function(data) {
+    $scope.kettle[data].heater.state = true;
   }
-  $scope.vessel_automatic_off = function(data) {
-    $scope.vessel[data].heater.state = false;
+  $scope.kettle_automatic_off = function(data) {
+    $scope.kettle[data].heater.state = false;
   }
-  $scope.vessel_gpio = function(gpio) {
-    ws.emit("vessel_gpio", gpio)
+  $scope.kettle_gpio = function(gpio) {
+    ws.emit("kettle_gpio", gpio)
   }
-  $scope.vessel_automatic = function(vesselid) {
-    ws.emit("vessel_automatic", vesselid)
+  $scope.kettle_automatic = function(kettleid) {
+    ws.emit("kettle_automatic", kettleid)
   }
   $scope.next = function() {
     ws.emit("next");
@@ -460,10 +460,10 @@ app.controller('BrewController', function(ws, $scope, $http, Vessel, $uibModal, 
   $scope.updateSteps = function(data) {
     $scope.steps = data;
   }
-  ws.on('vessel_update', $scope.vessel_update);
-  ws.on('vessel_temp_update', $scope.vessel_temp_update);
-  ws.on('vessel_automatic_on', $scope.vessel_automatic_on);
-  ws.on('vessel_automatic_off', $scope.vessel_automatic_off);
+  ws.on('kettle_update', $scope.kettle_update);
+  ws.on('kettle_temp_update', $scope.kettle_temp_update);
+  ws.on('kettle_automatic_on', $scope.kettle_automatic_on);
+  ws.on('kettle_automatic_off', $scope.kettle_automatic_off);
   ws.on('steps', $scope.updateSteps);
 });
 
@@ -493,6 +493,6 @@ app.factory('ws', ['$rootScope', function($rootScope) {
   }
 }]);
 
-app.run(['Vessel', function(vessel) {
-  vessel.init();
+app.run(['Kettle', function(kettle) {
+  kettle.init();
 }]);

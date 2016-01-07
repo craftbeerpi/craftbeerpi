@@ -9,16 +9,16 @@ angular.module('myApp', ['ngResource', 'ui.bootstrap', 'ngRoute', 'myApp.control
       name: "Steps"
     })
 
-    .when('/vessel/overview', {
-      templateUrl: '/base/static/partials/vessel/overview.html',
-      name: "Vessel"
+    .when('/kettle/overview', {
+      templateUrl: '/base/static/partials/kettle/overview.html',
+      name: "Kettle"
     })
     .when('/about', {
       templateUrl: '/base/static/partials/about/about.html',
       name: "About"
     })
-    .when('/vessel/:vid', {
-      templateUrl: '/base/static/partials/vessel/edit.html',
+    .when('/kettle/:vid', {
+      templateUrl: '/base/static/partials/kettle/edit.html',
     })
     .when('/chart/:vid', {
       templateUrl: '/base/static/partials/chart/chart.html',
