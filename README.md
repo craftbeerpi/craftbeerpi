@@ -66,6 +66,7 @@ cd wiringPi
 ```
 ### Pip für Python 2.7 installieren
 ```
+sudo apt-get install python-dev
 sudo apt-get install python-pip
 ```
 ### CraftBeer PI herunterladen
@@ -134,7 +135,7 @@ In das carfbeerpi verzeichnis wechseln
 
 #### Starten
 ```
-sudo nohub python runserver.py &
+sudo nohup python runserver.py &
 ```
 Jetzt läuft die Anwendung im Hintergrund.
 
