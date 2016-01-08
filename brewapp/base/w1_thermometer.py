@@ -31,4 +31,5 @@ def tempData1Wire(tempSensorId):
     except Exception as e:
         temp_C = round(randint(0,50),2)
 
+    print temp_C
     return round(temp_C)
