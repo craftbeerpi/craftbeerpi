@@ -28,7 +28,7 @@ def tempData1Wire(tempSensorId):
             temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
         else:
             temp_C = -99 #bad temp reading
-    except:
+    except Exception as e:
         temp_C = round(randint(0,50),2)
 
     return round(temp_C)
