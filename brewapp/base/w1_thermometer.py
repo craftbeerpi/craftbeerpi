@@ -1,6 +1,7 @@
 import os
 from subprocess import Popen, PIPE, call
 from random import randint, uniform
+from brewapp import app
 
 def getW1Thermometer():
     try:
