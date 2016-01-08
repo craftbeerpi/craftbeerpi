@@ -6,6 +6,11 @@ angular.module('myApp.services', []).factory("CBPSteps", function($resource) {
     },
     update: {
       method: 'PUT'
+    },
+    clear: {
+      method: 'POST',
+      url: '/api/step/clear',
+      isArray: false
     }
 
   });
@@ -20,21 +25,52 @@ factory("CBPKettle", function($resource) {
       method: 'PUT'
     },
     getstate: {
-      method: 'get',
+      method: 'GET',
       url: '/api/kettle2/state',
       isArray: false
     },
     getthermometer: {
-      method: 'get',
+      method: 'GET',
       url: '/api/kettle2/thermometer',
       isArray: true
     },
     getchart: {
-      method: 'get',
+      method: 'GET',
       url: '/api/kettle2/chart/:id',
       isArray: true
+    },
+    clear: {
+      method: 'POST',
+      url: '/api/kettle2/clear',
+      isArray: false
     }
   });
+}).factory("Braufhelfer", function($http) {
+  return {
+
+    get: function(okCallback) {
+      $http({
+        method: 'GET',
+        url: '/base/kb'
+      }).then(function successCallback(response) {
+        okCallback(response.data);
+      }, function errorCallback(response) {
+
+      });
+    },
+
+    load: function(id, okCallback) {
+      $http({
+        method: 'POST',
+        url: '/base/kb/select/'+id
+      }).then(function successCallback(response) {
+        okCallback(response.data);
+      }, function errorCallback(response) {
+
+      });
+    }
+  }
+
 }).factory('ws', ['$rootScope', function($rootScope) {
   'use strict';
   var socket = io.connect('/brew');

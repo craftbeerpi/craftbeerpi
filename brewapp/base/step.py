@@ -7,9 +7,135 @@ from util import *
 from views import base
 from brewapp import app, socketio
 import time
+from flask import request
+import os
+from werkzeug import secure_filename
+from views import base
+import sqlite3
 
 from flask.ext.restless.helpers import to_dict
 
+ALLOWED_EXTENSIONS = set(['sqlite'])
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/kbupload', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return ('', 204)
+    return ('', 404)
+
+@app.route('/api/step/clear', methods=['POST'])
+def getBrews():
+    Step.query.delete()
+    db.session.commit()
+    return ('',204)
+
+@base.route('/kb', methods=['GET'])
+def getBrews():
+    conn = None
+    try:
+        conn = sqlite3.connect('./upload/kb_daten.sqlite')
+        c = conn.cursor()
+        c.execute('SELECT ID, Sudname, BierWurdeGebraut FROM Sud')
+        data = c.fetchall()
+        result = []
+        for row in data:
+            result.append( {"id": row[0], "name": row[1], "brewed": row[2]})
+        return json.dumps(result)
+    except:
+        return ('',500)
+    finally:
+        if conn:
+            conn.close()
+
+
+@base.route('/kb/select/<id>', methods=['POST'])
+def upload_file(id):
+
+    conn = None
+    try:
+        Step.query.delete()
+        db.session.commit()
+        conn = sqlite3.connect('./upload/kb_daten.sqlite')
+        c = conn.cursor()
+        order = 0
+
+        c.execute('SELECT EinmaischenTemp, Sudname FROM Sud WHERE ID = ?', (id,))
+        row = c.fetchone()
+        s = Step()
+        s.name = "Einmaischen"
+        s.order = order
+        s.type = 'M'
+        s.state = 'I'
+        s.temp = row[0]
+        s.timer = 0
+        db.session.add(s)
+        db.session.commit()
+        order +=1
+
+    	### add rest step
+        for row in c.execute('SELECT * FROM Rasten WHERE SudID = ?', (id,)):
+            print "RASTEN ", row[5]
+            s = Step()
+            s.name = row[5]
+            s.order = order
+            s.type = 'A'
+            s.state = 'I'
+            s.temp = row[3]
+            s.timer = row[4]
+            db.session.add(s)
+            db.session.commit()
+            order +=1
+
+        s = Step()
+        s.name = "Laeuterruhe"
+        s.order = order
+        s.type = 'M'
+        s.state = 'I'
+        s.temp = 0
+        s.timer = 15
+        db.session.add(s)
+        db.session.commit()
+        order +=1
+
+		## Add cooking step
+        for row in c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', (id,)):
+    		s = Step()
+    		s.name = "Kochen"
+    		s.order = order
+    		s.type = 'A'
+    		s.state = 'I'
+    		s.temp = 100
+    		s.timer = row[0]
+    		db.session.add(s)
+    		db.session.commit()
+    		order +=1
+
+        s = Step()
+        s.name = "Whirlpool"
+        s.order = order
+        s.type = 'M'
+        s.state = 'I'
+        s.temp = 0
+        s.timer = 15
+        db.session.add(s)
+        db.session.commit()
+        order +=1
+    except:
+        return ('',500)
+    finally:
+        if conn:
+            conn.close()
+
+    return ('',204)
 
 @socketio.on('next', namespace='/brew')
 @socketio.on('start', namespace='/brew')
@@ -35,6 +161,7 @@ def nextStep():
         if(inactive.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((inactive.timer_start - datetime(1970,1,1)).total_seconds())*1000
 
+    print "EMIT"
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
 
 
@@ -75,16 +202,13 @@ def stepjob():
 
     if(app.brewapp_current_step == None):
         return
-
     cs = app.brewapp_current_step;
-    #ct = app.brewapp_temperature.get("value1", -1)
     try:
-        ct = app.brewapp_kettle_temps[cs.get("kettleid")][1]
+        ct = app.brewapp_kettle_state[cs.get("kettleid")]["temp"]
     except:
         ct = 0
 
     if(cs.get("timer") > 0 and cs.get("timer_start") == None and ct >= cs.get("temp")):
-        print "START TIMER"
         s = Step.query.get(cs.get("id"))
         s.timer_start = datetime.utcnow()
         app.brewapp_current_step = to_dict(s)
@@ -92,14 +216,12 @@ def stepjob():
             app.brewapp_current_step["endunix"] =  int((s.timer_start - datetime(1970,1,1)).total_seconds())*1000
         db.session.add(s)
         db.session.commit()
+        socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
 
     if(cs.get("type") == 'A' and cs.get("timer_start") != None):
 
         # check if timer elapsed
-
         end = cs.get("endunix") + cs.get("timer")*60000
         now = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
-        #print dict(now)
         if(end < now):
-            print "####NEXT STEP"
             nextStep()

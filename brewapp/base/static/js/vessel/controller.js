@@ -16,8 +16,8 @@ angular.module('myApp.controllers5', []).controller('KettleOverviewController', 
   $scope.kettle = {
     "name": "",
     "sensorid": "",
-    "heater": undefined,
-    "agitator": undefined,
+    "heater": "23",
+    "agitator": "24",
   }
 
   $scope.gpio = []
@@ -32,34 +32,12 @@ angular.module('myApp.controllers5', []).controller('KettleOverviewController', 
     });
   }
 
-  $scope.clearTempLogs = function() {
-    console.log("CLEAR")
-    CBPKettle.clear({}, function(response) {
-
-    });
-  }
-
-
-  $scope.clear = function() {
-    $scope.kettle = {
-      "name": "",
-      "sensorid": "",
-      "heater": undefined,
-      "agitator": undefined,
-    }
-  }
   $scope.save = function() {
     console.log( $scope.kettle.name.length)
     if($scope.kettle.name.length == 0) {
       return;
     }
     CBPKettle.save($scope.kettle, function(data) {
-      $scope.kettle = {
-        "name": "",
-        "sensorid": "",
-        "heater": undefined,
-        "agitator": undefined,
-      }
       CBPKettle.query({}, function(response) {
         $scope.kettles = response.objects;
       });

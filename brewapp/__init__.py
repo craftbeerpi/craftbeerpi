@@ -21,9 +21,15 @@ logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 #handler.setLevel(logging.DEBUG)
 #app.logger.addHandler(handler)
 
+
+UPLOAD_FOLDER = './upload'
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.testMode = True
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 
 
 

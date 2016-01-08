@@ -1,5 +1,4 @@
-angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle) {
-
+angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle, FileUploader) {
 
   $scope.kettles = [];
   $scope.kettles.push({"key":0, "value":"No Kettle"})
@@ -39,6 +38,23 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     "value": "Manuell"
   }]
 
+  $scope.clearAllSteps = function() {
+    CBPSteps.clear({}, function(response) {
+      CBPSteps.query({}, function(response) {
+        $scope.steps = response.objects
+      });
+    });
+  }
+
+  $scope.clear = function() {
+    console.log("WOOHo")
+    $scope.step = {
+      "type": "A",
+      "state": "I",
+      "kettleid": 0
+    }
+  }
+
   $scope.save = function() {
     if($scope.step.name == undefined && $scope.step.name.length == 0) {
       return;
@@ -76,6 +92,7 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     }, function(response) {
       $scope.step = response;
     });
+
     $scope.save = function() {
 
       CBPSteps.update({
@@ -107,12 +124,19 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     "value": "Manuell"
   }]
 
+
+
+
   $scope.save = function() {
     console.log($scope.step);
     CBPSteps.save($scope.step, function(data) {
 
       $location.url("/step/" + data.id);
-
+      $scope.step = {
+        "type": "A",
+        "state": "I",
+        "kettleid": 0
+      }
     });
   }
   $scope.savenext = function() {
@@ -124,4 +148,22 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     });
   }
 
+}).controller('KBUploadController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, Braufhelfer) {
+
+  Braufhelfer.get(function(data) {
+    $scope.brews = data;
+  })
+  $scope.load = function(id) {
+      Braufhelfer.load(id, function() {
+          console.log("OK");
+
+          $location.url("/step/overview/");
+
+      })
+  }
+
+  $scope.uploader = new FileUploader({
+            url: '/kbupload',
+            queueLimit: 1
+  });
 });

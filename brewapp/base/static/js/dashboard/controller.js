@@ -2,6 +2,10 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
 
   CBPKettle.query(function(data) {
       $scope.kettles = data.objects;
+      if($scope.kettles.length == 0) {
+        console.log("SETUP");
+        $location.url("/setup");
+      }
   });
 
   CBPSteps.query(function(data) {
@@ -23,11 +27,18 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
   $scope.buttonState = function(item, element) {
     var state = false;
 
-    if($scope.kettle_state == undefined) {
+    if($scope.kettle_state[item.id] == undefined) {
       return "btn-default"
     }
-    if($scope.kettle_state[item.id][element]) {
-        state = $scope.kettle_state[item.id][element]['state'];
+
+    if($scope.kettle_state[item.id][element] != undefined) {
+        if(element == "automatic") {
+          state = $scope.kettle_state[item.id]['automatic'];
+        }
+        else {
+            state = $scope.kettle_state[item.id][element]['state'];
+        }
+
         if (state == true) {
           return "btn-success"
         } else {
@@ -63,6 +74,12 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
       return "warning"
     } else
       return "";
+  }
+
+  $scope.toTimestamp = function(timer) {
+
+    return  new Date(timer).getTime();
+
   }
 
   $scope.reset = function() {
@@ -118,25 +135,24 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
         }
       }
     });
-
     modalInstance.result.then(function(target_temp) {
-      /*if (target_temp != undefined) {
-        ws.emit("kettle_set_target_temp", {
-          "kettleid": item.id,
-          "temp": target_temp
-        });
-      }
-*/
     }, function() {
       console.log("dismiss");
     });
   };
 
+  $scope.switch_automatic = function(item) {
+      ws.emit("switch_automatic", {
+        "vid": item.id
+      });
+  }
 
   $scope.switchGPIO = function(item, element) {
+
     ws.emit("switch_gipo", {
       "vid": item.id,
       "element": element,
+      "gpio": item[element],
       "state": true
     });
   }
@@ -172,8 +188,29 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
   };
 }).controller('VolumeController', function($scope, $uibModalInstance, kettle) {
 
-  $scope.target_temp = undefined;
+  $scope.free = 0
   $scope.kettle = kettle;
+
+  function Round(v) {
+    return ("" + (Math.round(v * 100) / 100)).replace(/\./g, ",");
+  }
+
+  $scope.volume = function() {
+
+    var maxHeight = parseFloat($scope.kettle.height);
+    var free = parseFloat($scope.free);
+    var height = maxHeight - free;
+    var radius = parseFloat($scope.kettle.diameter) / 2.0;
+    return Round(Math.PI * radius * radius * height / 1000.0);
+  }
+
+  $scope.maxvolume = function() {
+    console.log(kettle.height)
+    var maxHeight = parseFloat($scope.kettle.height);
+    var radius = parseFloat($scope.kettle.diameter) / 2.0;
+    return Round(Math.PI * radius * radius * maxHeight / 1000.0);
+  }
+
   $scope.ok = function() {
     $uibModalInstance.close($scope.target_temp);
   };

@@ -5,11 +5,27 @@
 
 
 <div class="form-group">
-  <input type="number" placeholder="Target Temp in °C" ng-model="target_temp"  class="form-control">
+  <label>Height:</label>
+  {{kettle.height}} cm
+</div>
+<div class="form-group">
+  <label>Diameter:</label>
+  {{kettle.diameter}} cm
+</div>
+<div class="form-group">
+  <label>Max Volume:</label>
+  {{maxvolume()}} Litre
+</div>
+<div class="form-group">
+  <label>Free cm from top:</label>
+  <input type="number" ng-model="free"  class="form-control">
+</div>
+
+<div class="form-group">
+  <label>Current Volume:</label>
+  {{volume()}} Litre
 </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-danger" type="button" ng-click="cancel()"><i class="fa fa-times-circle"></i></button>
-    <button class="btn btn-success" type="button" ng-click="ok()"><i class="fa fa-check"></i></button>
-
+      <button class="btn btn-default" type="button" ng-click="ok()"><i class="fa fa-check"></i></button>
 </div>

@@ -6,6 +6,11 @@
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Kettles
+					<div class="btn-group pull-right" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<a class="btn btn-danger btn-xs" ng-click="clearTempLogs()" >Clear Temperature Log</a>
+						</div>
+					</div>
 				</div>
 
 				<table class="table">
@@ -30,7 +35,7 @@
 							{{ item.agitator }}
 						</td>
 						<td>
-							{{ item.height }}/{{ item.diameter }}
+							{{ item.height }}cm/{{ item.diameter }}cm
 						</td>
 					</tr>
 				</table>
@@ -75,7 +80,8 @@
 							<label>Diameter in cm</label>
 								<input type="text"  ng-model="kettle.diameter" class="form-control">
 						</div>
-						<a class="btn btn-success" href="" ng-click="save()">Save</a>
+						<a class="btn btn-danger" href="" ng-click="clear()"><i class="fa fa-times-circle"></i> Clear</a>
+						<a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
 					</form>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-<div class="panel panel-default vessel" data-toggle="tooltip" data-placement="top"  >
+<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top"  >
 
   <div class="panel-heading">
       <span class="panel-title"><i class="fa fa-list"></i> {{brew_name}}</span>
@@ -30,13 +30,12 @@
                 <small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small></td>
             <td><span>{{ item.temp }} °C</span></td>
             <td>
-                {{ item.timer_start }}
-                <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="item.timer_start + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
+                <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
                 </timer> ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
             </td>
             <td>
-                <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm btn-sm hidden-xs"><i class="fa fa-forward"></i></button>
-                <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm visible-xs"><i class="fa fa-forward"></i></button>
+
+                <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm"><i class="fa fa-forward"></i></button>
             </td>
         </tr>
     </table>
