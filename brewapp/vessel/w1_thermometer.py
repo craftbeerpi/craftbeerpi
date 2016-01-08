@@ -18,8 +18,10 @@ def tempData1Wire(tempSensorId):
         ## Test Mode
         print app.testMode
         if (app.testMode == True):
+            print "READ TEMP FROM FILE"
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
+            print "READ REAL TEMP"
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
         result = pipe.communicate()[0]
         ## parse the file
