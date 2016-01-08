@@ -13,11 +13,14 @@ def getW1Thermometer():
         return ["ABC","CDE"]
 
 def tempData1Wire(tempSensorId):
+    print "SensorID" + tempSensorId
     try:
         ## Test Mode
         if (app.testMode == True):
+            print "test mode"
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
+            print "Read Temp"
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
         result = pipe.communicate()[0]
         ## parse the file
