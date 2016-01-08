@@ -29,6 +29,7 @@ def tempData1Wire(tempSensorId):
         else:
             temp_C = -99 #bad temp reading
     except Exception as e:
+        print e
         temp_C = round(randint(0,50),2)
 
     print temp_C
