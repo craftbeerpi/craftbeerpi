@@ -16,6 +16,7 @@ def getW1Thermometer():
 def tempData1Wire(tempSensorId):
     try:
         ## Test Mode
+        print app.testMode
         if (app.testMode == True):
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
@@ -26,7 +27,8 @@ def tempData1Wire(tempSensorId):
             temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
         else:
             temp_C = -99 #bad temp reading
-    except:
+    except Exception as e:
+        print e
         temp_C = round(randint(0,50),2)
 
     return round(temp_C)
