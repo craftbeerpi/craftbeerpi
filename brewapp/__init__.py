@@ -26,7 +26,7 @@ UPLOAD_FOLDER = './upload'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
-app.testMode = True
+app.testMode = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
