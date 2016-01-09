@@ -14,8 +14,8 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 
 #logging.basicConfig()
-logging.getLogger('sqlalchemy.engine').addHandler(RotatingFileHandler('sqllog.log', maxBytes=10000, backupCount=1))
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
+#logging.getLogger('sqlalchemy.engine').addHandler(RotatingFileHandler('sqllog.log', maxBytes=10000, backupCount=1))
+#logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 #handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
 #handler.setLevel(logging.DEBUG)
