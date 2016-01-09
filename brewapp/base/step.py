@@ -60,6 +60,9 @@ def getBrews():
 @base.route('/kb/select/<id>', methods=['POST'])
 def upload_file(id):
 
+
+    data  =request.get_json()
+    print "Data", data
     conn = None
     try:
         Step.query.delete()
@@ -77,6 +80,7 @@ def upload_file(id):
         s.state = 'I'
         s.temp = row[0]
         s.timer = 0
+        s.kettleid = data['mashtun']
         db.session.add(s)
         db.session.commit()
         order +=1
@@ -91,6 +95,7 @@ def upload_file(id):
             s.state = 'I'
             s.temp = row[3]
             s.timer = row[4]
+            s.kettleid = data['mashtun']
             db.session.add(s)
             db.session.commit()
             order +=1
@@ -108,16 +113,17 @@ def upload_file(id):
 
 		## Add cooking step
         for row in c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', (id,)):
-    		s = Step()
-    		s.name = "Kochen"
-    		s.order = order
-    		s.type = 'A'
-    		s.state = 'I'
-    		s.temp = 100
-    		s.timer = row[0]
-    		db.session.add(s)
-    		db.session.commit()
-    		order +=1
+            s = Step()
+            s.name = "Kochen"
+            s.order = order
+            s.type = 'A'
+            s.state = 'I'
+            s.temp = 100
+            s.timer = row[0]
+            s.kettleid = data["boil"]
+            db.session.add(s)
+            db.session.commit()
+            order +=1
 
         s = Step()
         s.name = "Whirlpool"
@@ -126,6 +132,7 @@ def upload_file(id):
         s.state = 'I'
         s.temp = 0
         s.timer = 15
+        s.kettleid = data["boil"]
         db.session.add(s)
         db.session.commit()
         order +=1
@@ -161,9 +168,7 @@ def nextStep():
         if(inactive.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((inactive.timer_start - datetime(1970,1,1)).total_seconds())*1000
 
-    print "EMIT"
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
-
 
 ## WebSocket
 @socketio.on('reset', namespace='/brew')
@@ -178,7 +183,7 @@ def resetSteps():
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
 
 ## REST POST PROCESSORS
-def post_patch_many(**kw):
+def post_patch_many(result, **kw):
     pass
     #init()
 

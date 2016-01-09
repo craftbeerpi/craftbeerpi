@@ -11,17 +11,16 @@ def getW1Thermometer():
                 arr.append(dirname)
         return arr
     except:
-        return ["ABC","CDE"]
+        return ["DummySensor1","DummySensor2"]
 
 def tempData1Wire(tempSensorId):
-    print "SensorID" + tempSensorId
     try:
         ## Test Mode
+        if(tempSensorId == None or tempSensorId == ""):
+            return -1
         if (app.testMode == True):
-            print "test mode"
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
-            print "Read Temp"
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
         result = pipe.communicate()[0]
         ## parse the file
@@ -30,8 +29,7 @@ def tempData1Wire(tempSensorId):
         else:
             temp_C = -99 #bad temp reading
     except Exception as e:
-        print e
+        #app.logger.warning(e)
         temp_C = round(randint(0,50),2)
 
-    print temp_C
     return round(temp_C)

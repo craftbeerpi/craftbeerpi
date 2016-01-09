@@ -7,7 +7,7 @@
   <div class="panel-heading">
     <i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
     <div class="btn-group pull-right" role="group" aria-label="...">
-      <div class="btn-group" role="group">
+      <div class="btn-group" role="group" ng-if="v.sensorid">
         <a href="#/chart/{{v.id}}" class="btn btn-default btn-xs" role="group">
           <span class="badge"><i class="fa fa-line-chart"></i></span>
         </a>

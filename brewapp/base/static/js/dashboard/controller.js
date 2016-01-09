@@ -66,8 +66,8 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
       return "info";
     else if (item.type == "M" && item.state == "A" && $scope.temp < item.temp) {
       return "warning"
-    } else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
-      return "active"
+    //} else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
+    //  return "active"
     } else if (item.state == "A" && item.timer_start != null) {
       return "active"
     } else if (item.state == "A" && item.timer_start == null) {
@@ -77,9 +77,7 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
   }
 
   $scope.toTimestamp = function(timer) {
-
     return  new Date(timer).getTime();
-
   }
 
   $scope.reset = function() {
@@ -157,8 +155,6 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
     });
   }
 
-
-
   $scope.kettle_update = function(data) {
     $scope.kettles = data;
   }
@@ -166,14 +162,21 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
   $scope.kettle_state_update = function(data) {
     $scope.kettle_state = data;
   }
-
   $scope.step_update = function(data) {
     $scope.steps = data;
+  }
+  $scope.kettle_automatic_on = function(data) {
+   $scope.kettle_state[data].heater.state = true;
+  }
+  $scope.kettle_automatic_off = function(data) {
+    $scope.kettle_state[data].heater.state = false;
   }
 
   ws.on('kettle_state_update', $scope.kettle_state_update);
   ws.on('kettle_update', $scope.kettle_update);
   ws.on('step_update', $scope.step_update);
+  ws.on('kettle_automatic_on', $scope.kettle_automatic_on);
+  ws.on('kettle_automatic_off', $scope.kettle_automatic_off);
 
 }).controller('TargetTempController', function($scope, $uibModalInstance, kettle) {
 

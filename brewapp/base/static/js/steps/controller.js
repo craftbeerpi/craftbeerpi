@@ -12,7 +12,6 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     })
   });
 
-
   $scope.getKettleName = function(vid) {
     if($scope.kettles == undefined) {
       return
@@ -111,8 +110,6 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
   });
 }).controller('NewStep', function($scope, CBPSteps, $routeParams, $location) {
   // Do something with myService
-
-
   $scope.step = {
     "type": "A"
   }
@@ -123,9 +120,6 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     "key": "M",
     "value": "Manuell"
   }]
-
-
-
 
   $scope.save = function() {
     console.log($scope.step);
@@ -148,22 +142,63 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
     });
   }
 
-}).controller('KBUploadController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, Braufhelfer) {
+}).controller('KBUploadController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, Braufhelfer, $uibModal) {
 
   Braufhelfer.get(function(data) {
     $scope.brews = data;
   })
   $scope.load = function(id) {
-      Braufhelfer.load(id, function() {
-          console.log("OK");
 
-          $location.url("/step/overview/");
-
-      })
-  }
+      $scope.selectKettle(id);
+      /**/
+  };
 
   $scope.uploader = new FileUploader({
             url: '/kbupload',
             queueLimit: 1
   });
+
+  $scope.selectKettle = function(item) {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      templateUrl: '/base/static/partials/steps/select_kettle.html',
+      controller: 'KBSelectController',
+      size: "sm",
+      resolve: {
+        kettle: function() {
+          return item
+        }
+      }
+    });
+
+    modalInstance.result.then(function(data) {
+      console.log(data);
+      Braufhelfer.load(item, data, function() {
+          console.log("OK");
+          $location.url("/step/overview/");
+
+      });
+    }, function() {
+      console.log("dismiss");
+    });
+  };
+}).controller('KBSelectController', function($scope, $uibModalInstance, kettle, CBPKettle) {
+
+  $scope.kettles = [];
+  $scope.mashtun = 0;
+  $scope.boil = 0;
+  $scope.kettles.push({"key":0, "value":"No Kettle"})
+  CBPKettle.query({}, function(response) {
+    angular.forEach(response.objects, function(d) {
+        $scope.kettles.push({"key":d.id, "value":d.name});
+    })
+  });
+
+  $scope.ok = function() {
+    $uibModalInstance.close({"mashtun": $scope.mashtun, "boil": $scope.boil});
+  };
+
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
 });

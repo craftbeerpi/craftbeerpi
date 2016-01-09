@@ -40,62 +40,17 @@ def clearTempLog():
         app.brewapp_kettle_temps_log[v.id] = []
     return ('',204)
 
-@app.route('/api/kettle/setup/<num>', methods=['POST'])
-def kettle1Setup(num):
-
-    number = int(num)
-    if(request.method == 'POST'):
-        if(number == 1 or number == 2 or number == 3):
-            print "MASHTUN"
-            mt = Kettle2()
-            mt.name = "MashTun"
-            mt.sensorid = ""
-            mt.target_temp = 0
-            mt.height = 0
-            mt.diameter = 0
-            db.session.add(mt)
-
-        if(number == 2 or number == 3):
-            print "BOILTANK"
-            bt = Kettle2()
-            bt.name = "Boil Tank"
-            bt.sensorid = ""
-            bt.target_temp = 0
-            bt.height = 20
-            bt.diameter = 20
-            db.session.add(bt)
-
-        if(number == 3):
-            print "HOT Liquor"
-            hlt = Kettle2()
-            hlt.name = "Hot Liquor Tank"
-            hlt.sensorid = ""
-            hlt.target_temp = 0
-            hlt.height = 20
-            hlt.diameter = 20
-            db.session.add(hlt)
-        db.session.commit();
-        initKettle()
-        print "COMMIT ##########"
-        return ('',204)
-
 ## WebSocket METHODS
 
 @socketio.on('switch_automatic', namespace='/brew')
 def ws_switch_automatic(data):
-    print "AUTOMATIC", data
     vid = data["vid"]
-    print
-
     if(app.brewapp_kettle_state[vid]["automatic"] == True):
         app.brewapp_kettle_state[vid]["automatic"] = False
         stopPID(vid)
     else:
         app.brewapp_kettle_state[vid]["automatic"]= True
         startPID(vid)
-
-    print "UPDATE"
-    print app.brewapp_kettle_state[vid]["automatic"]
     socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
 
 @socketio.on('switch_gipo', namespace='/brew')
@@ -128,13 +83,16 @@ def setTargetTemp(vid, temp):
         kettle.target_temp = temp
         db.session.add(kettle)
         db.session.commit()
+        app.brewapp_kettle_state[vid]["target_temp"] = temp
         socketio.emit('kettle_update', getAsArray(Kettle2), namespace ='/brew')
 
 def post_post(result=None, **kw):
     if(result != None):
+        print result
         vid = result["id"]
         app.brewapp_kettle_state[vid] = {}
         app.brewapp_kettle_state[vid]["temp"] = 0
+        app.brewapp_kettle_state[vid]["target_temp"] = result["target_temp"]
         app.brewapp_kettle_state[vid]["sensorid"]  = result["sensorid"]
         app.brewapp_kettle_state[vid]["automatic"] = {"state": False }
         app.brewapp_kettle_state[vid]["agitator"]  = {"state": False, "gpio": result["agitator"]}
@@ -144,7 +102,7 @@ def post_post(result=None, **kw):
 @brewinit()
 def init():
     app.brewapp_target_temp_method = setTargetTemp
-    manager.create_api(Kettle2, methods=['GET', 'POST', 'DELETE', 'PUT'], postprocessors={'POST': [post_post]})
+    manager.create_api(Kettle2, methods=['GET', 'POST', 'DELETE', 'PUT'], postprocessors={'POST': [post_post], 'PATCH_SINGLE': [post_post]})
     initKettle()
     initGPIO()
 
@@ -155,6 +113,7 @@ def initKettle():
         app.brewapp_kettle_temps_log[v.id] = []
         app.brewapp_kettle_state[v.id] = {}
         app.brewapp_kettle_state[v.id]["temp"] = 0
+        app.brewapp_kettle_state[v.id]["target_temp"] = v.target_temp
         app.brewapp_kettle_state[v.id]["sensorid"]  = v.sensorid
         app.brewapp_kettle_state[v.id]["automatic"] = {"state": False }
         app.brewapp_kettle_state[v.id]["agitator"]  = {"state": False, "gpio": v.agitator}
@@ -166,6 +125,8 @@ def readKettleTemp():
     for vid in app.brewapp_kettle_state:
 
         app.brewapp_kettle_state[vid]["temp"] = tempData1Wire(app.brewapp_kettle_state[vid]["sensorid"])
+
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
+
         socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')

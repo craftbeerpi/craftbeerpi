@@ -1,4 +1,4 @@
-angular.module('myApp', ['timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'myApp.controllers', 'myApp.controllers5','myApp.controllers2', 'myApp.controllers3','myApp.controllers6','myApp.services', 'ui.sortable', 'dndLists']).config(function($routeProvider) {
+angular.module('myApp', ['mgo-angular-wizard','timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'myApp.controllers', 'myApp.controllers5','myApp.controllers2', 'myApp.controllers3','myApp.controllers6','myApp.services', 'ui.sortable', 'dndLists']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/base/static/partials/dashboard/overview.html',

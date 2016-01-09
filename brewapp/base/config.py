@@ -30,4 +30,5 @@ app.brewapp_jobstate2 = {}
 app.brewapp_current_step = None
 app.brewapp_kettle_automatic = {}
 
+app.brewapp_pid_state =  {}
 #app.brewapp_kettle = []

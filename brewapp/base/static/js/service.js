@@ -59,9 +59,10 @@ factory("CBPKettle", function($resource) {
       });
     },
 
-    load: function(id, okCallback) {
+    load: function(id, d, okCallback) {
       $http({
         method: 'POST',
+        data: d,
         url: '/base/kb/select/'+id
       }).then(function successCallback(response) {
         okCallback(response.data);

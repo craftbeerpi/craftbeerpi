@@ -22,7 +22,7 @@ angular.module('myApp.controllers3', []).controller('ChartController', function(
         columns: chart_data,
         type: 'area',
         names: {
-              data: $scope.kettle.name
+              data: "Data"
         }
       },
       point: {

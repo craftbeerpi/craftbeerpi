@@ -1,8 +1,140 @@
 SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2
+()
+COMMIT
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.timer_start AS step_timer_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.id = ?
+(3,)
+UPDATE step SET state=?, start=? WHERE step.id = ?
+('A', '2016-01-09 16:22:08.414558', 3)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
 FROM kettle2 
 WHERE kettle2.id = ?
+(2,)
+UPDATE kettle2 SET target_temp=? WHERE kettle2.id = ?
+(63.0, 2)
+COMMIT
+BEGIN (implicit)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2
+()
+COMMIT
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.id = ?
+(3,)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step
+()
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.state = ?
  LIMIT ? OFFSET ?
-(u'2', 1, 0)
+('A', 1, 0)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.state = ? ORDER BY step."order"
+ LIMIT ? OFFSET ?
+('I', 1, 0)
+UPDATE step SET state=?, "end"=? WHERE step.id = ?
+('D', '2016-01-09 16:22:08.572735', 3)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2 
+WHERE kettle2.id = ?
+(2,)
+UPDATE kettle2 SET target_temp=? WHERE kettle2.id = ?
+(0, 2)
+COMMIT
+BEGIN (implicit)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2
+()
+COMMIT
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.timer_start AS step_timer_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.id = ?
+(4,)
+UPDATE step SET state=?, start=? WHERE step.id = ?
+('A', '2016-01-09 16:22:08.581667', 4)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2 
+WHERE kettle2.id = ?
+(2,)
+UPDATE kettle2 SET target_temp=? WHERE kettle2.id = ?
+(72.0, 2)
+COMMIT
+BEGIN (implicit)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2
+()
+COMMIT
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.id = ?
+(4,)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step
+()
+ROLLBACK
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.state = ?
+ LIMIT ? OFFSET ?
+('A', 1, 0)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.state = ? ORDER BY step."order"
+ LIMIT ? OFFSET ?
+('I', 1, 0)
+UPDATE step SET state=?, "end"=? WHERE step.id = ?
+('D', '2016-01-09 16:22:08.741493', 4)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2 
+WHERE kettle2.id = ?
+(2,)
+UPDATE kettle2 SET target_temp=? WHERE kettle2.id = ?
+(0, 2)
+COMMIT
+BEGIN (implicit)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2
+()
+COMMIT
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.timer_start AS step_timer_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.id = ?
+(5,)
+UPDATE step SET state=?, start=? WHERE step.id = ?
+('A', '2016-01-09 16:22:08.750264', 5)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2 
+WHERE kettle2.id = ?
+(2,)
+UPDATE kettle2 SET target_temp=? WHERE kettle2.id = ?
+(75.0, 2)
+COMMIT
+BEGIN (implicit)
+SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
+FROM kettle2
+()
+COMMIT
+BEGIN (implicit)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step 
+WHERE step.id = ?
+(5,)
+SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
+FROM step
+()
 ROLLBACK
 BEGIN (implicit)
 SELECT count(*) AS count_1 
@@ -22,174 +154,14 @@ FROM step ORDER BY step.id ASC
  LIMIT ? OFFSET ?
 (8, 0)
 ROLLBACK
-BEGIN (implicit)
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 
-WHERE kettle2.id = ?
- LIMIT ? OFFSET ?
-(u'2', 1, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM (SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 
-WHERE kettle2.id = ?) AS anon_1
-(u'2',)
-SELECT count(*) AS count_1 
-FROM (SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 
-WHERE kettle2.id = ?) AS anon_1
-(u'2',)
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 
-WHERE kettle2.id = ?
-(u'2',)
-UPDATE kettle2 SET sensorid=?, heater=?, agitator=? WHERE kettle2.id = ?
-(u'ABC', u'1', u'1', 2)
-COMMIT
-BEGIN (implicit)
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 
-WHERE kettle2.id = ?
- LIMIT ? OFFSET ?
-(u'2', 1, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM kettle2
+SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
 ()
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 ORDER BY kettle2.id ASC
- LIMIT ? OFFSET ?
-(3, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM step
+SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
 ()
-SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
-FROM step ORDER BY step.id ASC
- LIMIT ? OFFSET ?
-(8, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM step
+PRAGMA table_info("kettle_temp_log2")
 ()
-SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
-FROM step ORDER BY step.id ASC
- LIMIT ? OFFSET ?
-(8, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM kettle2
+PRAGMA table_info("step")
 ()
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 ORDER BY kettle2.id ASC
- LIMIT ? OFFSET ?
-(3, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM kettle2
+PRAGMA table_info("kettle2")
 ()
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 ORDER BY kettle2.id ASC
- LIMIT ? OFFSET ?
-(3, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM step
-()
-SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
-FROM step ORDER BY step.id ASC
- LIMIT ? OFFSET ?
-(8, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM kettle2
-()
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 ORDER BY kettle2.id ASC
- LIMIT ? OFFSET ?
-(3, 0)
-ROLLBACK
-BEGIN (implicit)
-DELETE FROM step
-()
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(0, 60.0, 'Einmaischen', 0, 'M', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(1, 57.0, u'Maltoserast (60\xb0-65\xb0)', 10, 'A', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(2, 63.0, u'Maltoserast (60\xb0-65\xb0)', 45, 'A', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(3, 72.0, u'Verzuckerung (70\xb0-75\xb0)', 30, 'A', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(4, 0.0, 'Laeuterruhe', 15, 'M', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(5, 100.0, 'Kochen', 70, 'A', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-INSERT INTO step ("order", "temp", name, timer, type, state, timer_start, start, "end", kettleid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-(6, 0.0, 'Whirlpool', 15, 'M', 'I', None, None, None, None)
-COMMIT
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM step
-()
-SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
-FROM step ORDER BY step.id ASC
- LIMIT ? OFFSET ?
-(7, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM kettle2
-()
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 ORDER BY kettle2.id ASC
- LIMIT ? OFFSET ?
-(3, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM step
-()
-SELECT step.id AS step_id, step."order" AS step_order, step."temp" AS step_temp, step.name AS step_name, step.timer AS step_timer, step.type AS step_type, step.state AS step_state, step.timer_start AS step_timer_start, step.start AS step_start, step."end" AS step_end, step.kettleid AS step_kettleid 
-FROM step ORDER BY step.id ASC
- LIMIT ? OFFSET ?
-(7, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT count(*) AS count_1 
-FROM kettle2
-()
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 ORDER BY kettle2.id ASC
- LIMIT ? OFFSET ?
-(3, 0)
-ROLLBACK
-BEGIN (implicit)
-SELECT kettle2.id AS kettle2_id, kettle2.name AS kettle2_name, kettle2.sensorid AS kettle2_sensorid, kettle2.heater AS kettle2_heater, kettle2.agitator AS kettle2_agitator, kettle2.target_temp AS kettle2_target_temp, kettle2.height AS kettle2_height, kettle2.diameter AS kettle2_diameter 
-FROM kettle2 
-WHERE kettle2.id = ?
- LIMIT ? OFFSET ?
-(u'1', 1, 0)
-ROLLBACK
 BEGIN (implicit)
