@@ -70,7 +70,7 @@ cat << "EOF"
 EOF
 
 while true; do
-    read -p "Would you like to start CarftBeerPI after boot? (y/n): " yn
+    read -p "Would you like to start CarftBeerPI automatically after boot? (y/n): " yn
     case $yn in
         [Yy]* ) sed "s@#DIR#@${PWD}@g" craftbeerpiboot > /etc/init.d/craftbeerpiboot
 
@@ -110,6 +110,8 @@ Shell Commands to controll the Server:
 - Start:  sudo /etc/init.d/craftbeerpiboot start
 - Status: sudo /etc/init.d/craftbeerpiboot status
 - Stop:   sudo /etc/init.d/craftbeerpiboot stop
+
+!!! The App is currently not running !!!
 
 Happy Brewing!
 
