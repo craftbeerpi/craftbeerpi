@@ -27,11 +27,16 @@
             <td class="col-md-1"><span class="badge">{{ item.type }}</span></td>
             <td><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
                 <br>
-                <small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small></td>
+                <small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small><br/>
+                </td>
             <td><span>{{ item.temp }} °C</span></td>
             <td>
                 <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
-                </timer> ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
+                </timer> ({{ item.timer }} min)<br>
+                <small ng-if="item.timer_start">Started: {{ item.timer_start | date:'HH:mm:ss' }}</small><br>
+
+
+                <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
             </td>
             <td>
 
