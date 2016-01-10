@@ -24,13 +24,17 @@ def allowed_file(filename):
 
 @app.route('/kbupload', methods=['POST'])
 def upload_file():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return ('', 204)
-    return ('', 404)
+    try:
+        if request.method == 'POST':
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return ('', 204)
+            return ('', 404)
+    except Exception e:
+        app.logger.error(e)
+        return ('', 500)
 
 @app.route('/api/step/clear', methods=['POST'])
 def getBrews():
