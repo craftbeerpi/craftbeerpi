@@ -45,7 +45,7 @@ def getBrews():
 def getBrews():
     conn = None
     try:
-        conn = sqlite3.connect('./upload/kb_daten.sqlite')
+        conn = sqlite3.connect(app.config['UPLOAD_FOLDER']+'/kb_daten.sqlite')
         c = conn.cursor()
         c.execute('SELECT ID, Sudname, BierWurdeGebraut FROM Sud')
         data = c.fetchall()
@@ -70,7 +70,7 @@ def upload_file(id):
     try:
         Step.query.delete()
         db.session.commit()
-        conn = sqlite3.connect('./upload/kb_daten.sqlite')
+        conn = sqlite3.connect(app.config['UPLOAD_FOLDER']+'/kb_daten.sqlite')
         c = conn.cursor()
         order = 0
 
