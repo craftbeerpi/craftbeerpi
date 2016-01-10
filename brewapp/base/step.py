@@ -32,7 +32,7 @@ def upload_file():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 return ('', 204)
             return ('', 404)
-    except Exception e:
+    except Exception as e:
         app.logger.error(e)
         return ('', 500)
 
