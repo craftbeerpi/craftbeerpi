@@ -87,7 +87,6 @@ def upload_file(id):
 
     	### add rest step
         for row in c.execute('SELECT * FROM Rasten WHERE SudID = ?', (id,)):
-            print "RASTEN ", row[5]
             s = Step()
             s.name = row[5]
             s.order = order

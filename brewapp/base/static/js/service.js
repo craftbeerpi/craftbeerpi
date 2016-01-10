@@ -63,7 +63,7 @@ factory("CBPKettle", function($resource) {
       $http({
         method: 'POST',
         data: d,
-        url: '/base/kb/select/'+id
+        url: '/base/kb/select/' + id
       }).then(function successCallback(response) {
         okCallback(response.data);
       }, function errorCallback(response) {
@@ -122,6 +122,57 @@ factory('routeNavigation', function($route, $location) {
       });
     }
   };
+}).
+factory('ChartFactory', function($route, $location) {
+
+  var charts = {};
+
+  return {
+    add: function(id, c) {
+      
+      charts[id] = c;
+    },
+    get: function() {
+      return charts;
+    }
+  }
+
+}).directive('chart', function(ChartFactory) {
+  return {
+    restrict: 'E',
+    template: "<div></div>",
+    scope: {
+      kettle: "=kettle"
+    },
+    link: function(scope, element, attrs) {
+      console.log(scope.kettle)
+      var chart = c3.generate({
+        bindto: element.context,
+        data: {
+          columns: [
+            ['data1', 30, 200, 100, 400, 150, 250]
+          ],
+          type: 'area-spline',
+        },
+        size: {
+          height: 150
+        },
+        legend: {
+          show: false
+        },
+        grid: {
+          x: {
+            show: true
+          },
+          y: {
+            show: true
+          }
+        },
+      });
+      ChartFactory.add(scope.kettle.id, chart);
+    },
+
+  };
 }).directive('navigation', function(routeNavigation) {
   return {
     restrict: "E",
@@ -136,8 +187,8 @@ factory('routeNavigation', function($route, $location) {
 
 factory('ConfirmMessage', function($route, $location, $uibModal) {
 
-  return {
-    open: function(headline, message, confirm, cancel) {
+    return {
+      open: function(headline, message, confirm, cancel) {
 
         var modalInstance = $uibModal.open({
           animation: true,
@@ -160,18 +211,19 @@ factory('ConfirmMessage', function($route, $location, $uibModal) {
           confirm(cancel)
         })
 
-  }}
-})
-.controller('ConfirmController', function($scope, $uibModalInstance, headline, message) {
+      }
+    }
+  })
+  .controller('ConfirmController', function($scope, $uibModalInstance, headline, message) {
 
-  $scope.message = message;
-  $scope.headline = headline;
+    $scope.message = message;
+    $scope.headline = headline;
 
-  $scope.ok = function() {
-    $uibModalInstance.close();
-  };
+    $scope.ok = function() {
+      $uibModalInstance.close();
+    };
 
-  $scope.cancel = function() {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
+    $scope.cancel = function() {
+      $uibModalInstance.dismiss('cancel');
+    };
+  });

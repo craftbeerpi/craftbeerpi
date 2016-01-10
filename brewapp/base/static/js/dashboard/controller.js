@@ -1,49 +1,47 @@
-angular.module('myApp.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, $uibModal, ws) {
+angular.module('myApp.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, ChartFactory, $uibModal, ws) {
 
   CBPKettle.query(function(data) {
-      $scope.kettles = data.objects;
-      if($scope.kettles.length == 0) {
-        console.log("SETUP");
-        $location.url("/setup");
-      }
+    $scope.kettles = data.objects;
+    if ($scope.kettles.length == 0) {
+      console.log("SETUP");
+      $location.url("/setup");
+    }
   });
 
   CBPSteps.query(function(data) {
-      $scope.steps = data.objects;
+    $scope.steps = data.objects;
   });
 
   CBPKettle.getstate(function(data) {
-      $scope.kettle_state = data;
+    $scope.kettle_state = data;
   });
 
   $scope.getTemp = function(item) {
-    if($scope.kettle_state == undefined) {
+    if ($scope.kettle_state == undefined) {
       return ""
-    }
-    else {
+    } else {
       return $scope.kettle_state[item.id]['temp'];
     }
   }
   $scope.buttonState = function(item, element) {
     var state = false;
 
-    if($scope.kettle_state[item.id] == undefined) {
+    if ($scope.kettle_state[item.id] == undefined) {
       return "btn-default"
     }
 
-    if($scope.kettle_state[item.id][element] != undefined) {
-        if(element == "automatic") {
-          state = $scope.kettle_state[item.id]['automatic'];
-        }
-        else {
-            state = $scope.kettle_state[item.id][element]['state'];
-        }
+    if ($scope.kettle_state[item.id][element] != undefined) {
+      if (element == "automatic") {
+        state = $scope.kettle_state[item.id]['automatic'];
+      } else {
+        state = $scope.kettle_state[item.id][element]['state'];
+      }
 
-        if (state == true) {
-          return "btn-success"
-        } else {
-          return "btn-default"
-        }
+      if (state == true) {
+        return "btn-success"
+      } else {
+        return "btn-default"
+      }
     }
   }
   $scope.kettleState = function(vid) {
@@ -66,8 +64,8 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
       return "info";
     else if (item.type == "M" && item.state == "A" && $scope.temp < item.temp) {
       return "warning"
-    //} else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
-    //  return "active"
+        //} else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
+        //  return "active"
     } else if (item.state == "A" && item.timer_start != null) {
       return "active"
     } else if (item.state == "A" && item.timer_start == null) {
@@ -77,7 +75,7 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
   }
 
   $scope.toTimestamp = function(timer) {
-    return  new Date(timer).getTime();
+    return new Date(timer).getTime();
   }
 
   $scope.reset = function() {
@@ -92,7 +90,7 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
 
   $scope.start = function() {
     console.log("START");
-      ws.emit("start");
+    ws.emit("start");
   }
 
   $scope.setTargetTemp = function(item) {
@@ -133,16 +131,15 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
         }
       }
     });
-    modalInstance.result.then(function(target_temp) {
-    }, function() {
+    modalInstance.result.then(function(target_temp) {}, function() {
       console.log("dismiss");
     });
   };
 
   $scope.switch_automatic = function(item) {
-      ws.emit("switch_automatic", {
-        "vid": item.id
-      });
+    ws.emit("switch_automatic", {
+      "vid": item.id
+    });
   }
 
   $scope.switchGPIO = function(item, element) {
@@ -160,13 +157,27 @@ angular.module('myApp.controllers2', []).controller('DashBoardController', funct
   }
 
   $scope.kettle_state_update = function(data) {
+/*
+    console.log(data)
+    charts = ChartFactory.get();
+
+    for (var key in data) {
+      //console.log(charts[key])
+      charts[key].flow({
+        columns: [
+            ['data1', data[key].temp],
+        ],
+        length: 1
+      });
+    }
+*/
     $scope.kettle_state = data;
   }
   $scope.step_update = function(data) {
     $scope.steps = data;
   }
   $scope.kettle_automatic_on = function(data) {
-   $scope.kettle_state[data].heater.state = true;
+    $scope.kettle_state[data].heater.state = true;
   }
   $scope.kettle_automatic_off = function(data) {
     $scope.kettle_state[data].heater.state = false;

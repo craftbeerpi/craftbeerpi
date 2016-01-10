@@ -124,8 +124,7 @@ def readKettleTemp():
     for vid in app.brewapp_kettle_state:
 
         app.brewapp_kettle_state[vid]["temp"] = tempData1Wire(app.brewapp_kettle_state[vid]["sensorid"])
-
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
 
-        socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
+    socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')

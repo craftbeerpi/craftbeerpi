@@ -29,7 +29,7 @@ EOF
 while true; do
     read -p "Would you like run apt-get update & apt-get upgrade? (Y/N): " yn
     case $yn in
-        [Yy]* ) break;; #apt-get -y update; apt-get -y upgrade; break;;
+        [Yy]* ) apt-get -y update; apt-get -y upgrade; break;;
         [Nn]* ) break;;
         * ) echo "(Y/N)";;
     esac
@@ -37,7 +37,7 @@ done
 
 #Install pip (package installer):
 #apt-get -y install python-setuptools
-#easy_install pip
+easy_install pip
 
 #Install PySerial
 #pip install pyserial
@@ -46,17 +46,17 @@ done
 #apt-get -y install python-smbus
 
 #Install Flask
-#apt-get -y install python-dev
-#apt-get -y install libpcre3-dev
-#pip install -r requirements.txt
+apt-get -y install python-dev
+apt-get -y install libpcre3-dev
+pip install -r requirements.txt
 
 while true; do
     read -p "Would you like to start CarftBeerPI after boot? (y/n): " yn
     case $yn in
-        [Yy]* ) sed "s@#DIR#@${PWD}@g" craftbeerpiboot > craftbeerpiboot2 #cp ./craftbeerpiboot /etc/init.d;
-        
-    ##chmod 755 /etc/init.d/craftbeerpiboot;
-		#update-rc.d craftbeerpiboot defaults;
+        [Yy]* ) sed "s@#DIR#@${PWD}@g" craftbeerpiboot > /etc/init.d/craftbeerpiboot
+
+    chmod 755 /etc/init.d/craftbeerpiboot;
+		update-rc.d craftbeerpiboot defaults;
 		break;;
         [Nn]* ) break;;
         * ) echo "Please select (y/n): ";;
@@ -66,7 +66,7 @@ done
 while true; do
     read -p "Reboot the Raspberry PI now? (y/n): " yn
     case $yn in
-        [Yy]* ) break;; # reboot; break;;
+        [Yy]* ) reboot; break;;
         [Nn]* ) break;;
         * ) echo "Please select (y/n): ";;
     esac

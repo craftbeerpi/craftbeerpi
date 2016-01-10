@@ -42,10 +42,6 @@ angular.module('myApp.controllers5', []).controller('KettleOverviewController', 
     });
   }
 
-
-
-
-
   $scope.clear = function() {
     $scope.kettle = {
       "name": "",
@@ -118,5 +114,8 @@ angular.module('myApp.controllers5', []).controller('KettleOverviewController', 
         history.back();
       });
     }
+
+
+  
 
 });

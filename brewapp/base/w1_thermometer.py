@@ -2,6 +2,7 @@ import os
 from subprocess import Popen, PIPE, call
 from random import randint, uniform
 from brewapp import app
+from decimal import Decimal, ROUND_HALF_UP
 
 def getW1Thermometer():
     try:
@@ -18,9 +19,7 @@ def tempData1Wire(tempSensorId):
         ## Test Mode
         if(tempSensorId == None or tempSensorId == ""):
             return -1
-        print "TEST MODE", app.testMode
         if (app.testMode == True):
-            print "READ"
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
@@ -35,3 +34,6 @@ def tempData1Wire(tempSensorId):
         temp_C = round(randint(0,50),2)
 
     return round(temp_C,2)
+    #our_value = Decimal(temp_C)
+    #return Decimal(our_value.quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
+    #return float(format(temp_C, '.2f'))
