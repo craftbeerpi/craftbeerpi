@@ -33,7 +33,7 @@ def upload_file():
                 return ('', 204)
             return ('', 404)
     except Exception as e:
-        return (e, 500)
+        return str(e)
 
 @app.route('/api/step/clear', methods=['POST'])
 def getBrews():
