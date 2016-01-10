@@ -39,7 +39,7 @@ while true; do
     read -p "Would you like to install wiringPI? This is required to control the GPIO (y/n): " yn
     case $yn in
         [Yy]* ) git clone git://git.drogon.net/wiringPi;
-        cd wiringPi; 
+        cd wiringPi;
         ./build; cd ..;
         rm -rf wiringPi;
         break;;
@@ -89,7 +89,11 @@ cat << "EOF"
 
 ----------------------------------------------------------------------------
 
-Installation Finished!
+ ___         _        _ _      _   _            ___ _      _    _           _
+|_ _|_ _  __| |_ __ _| | |__ _| |_(_)___ _ _   | __(_)_ _ (_)__| |_  ___ __| |
+ | || ' \(_-<  _/ _` | | / _` |  _| / _ \ ' \  | _|| | ' \| (_-< ' \/ -_) _` |
+|___|_||_/__/\__\__,_|_|_\__,_|\__|_\___/_||_| |_| |_|_||_|_/__/_||_\___\__,_|
+
 
 Default URL: http://<IP-Address>:5000
 
