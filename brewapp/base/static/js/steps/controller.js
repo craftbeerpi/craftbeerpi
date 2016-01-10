@@ -1,4 +1,4 @@
-angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle, FileUploader) {
+angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, $uibModal, ConfirmMessage) {
 
   $scope.kettles = [];
   $scope.kettles.push({"key":0, "value":"No Kettle"})
@@ -38,10 +38,14 @@ angular.module('myApp.controllers', []).controller('StepOverviewController', fun
   }]
 
   $scope.clearAllSteps = function() {
-    CBPSteps.clear({}, function(response) {
-      CBPSteps.query({}, function(response) {
-        $scope.steps = response.objects
+    ConfirmMessage.open("Clear Steps","Do you really want to delete all Steps?", function() {
+      CBPSteps.clear({}, function(response) {
+        CBPSteps.query({}, function(response) {
+          $scope.steps = response.objects
+        });
       });
+    }, function() {
+      // cancel do nothing
     });
   }
 

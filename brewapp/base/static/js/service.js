@@ -132,4 +132,46 @@ factory('routeNavigation', function($route, $location) {
       $scope.activeRoute = routeNavigation.activeRoute;
     }
   };
+}).
+
+factory('ConfirmMessage', function($route, $location, $uibModal) {
+
+  return {
+    open: function(headline, message, confirm, cancel) {
+
+        var modalInstance = $uibModal.open({
+          animation: true,
+          templateUrl: '/base/static/partials/common/confirm.html',
+          controller: 'ConfirmController',
+          size: "sm",
+          resolve: {
+            headline: function() {
+              return headline
+            },
+            message: function() {
+              return message
+            }
+          }
+        });
+
+        modalInstance.result.then(function(data) {
+          confirm()
+        }, function() {
+          confirm(cancel)
+        })
+
+  }}
+})
+.controller('ConfirmController', function($scope, $uibModalInstance, headline, message) {
+
+  $scope.message = message;
+  $scope.headline = headline;
+
+  $scope.ok = function() {
+    $uibModalInstance.close();
+  };
+
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
 });

@@ -26,12 +26,8 @@ UPLOAD_FOLDER = './upload'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
-app.testMode = False
+app.testMode = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-
-
-
 
 admin = admin.Admin(name="CraftBeerPI")
 

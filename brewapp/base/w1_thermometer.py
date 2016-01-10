@@ -18,7 +18,9 @@ def tempData1Wire(tempSensorId):
         ## Test Mode
         if(tempSensorId == None or tempSensorId == ""):
             return -1
+        print "TEST MODE", app.testMode
         if (app.testMode == True):
+            print "READ"
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
         else:
             pipe = Popen(["cat","/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"], stdout=PIPE)
@@ -32,4 +34,4 @@ def tempData1Wire(tempSensorId):
         #app.logger.warning(e)
         temp_C = round(randint(0,50),2)
 
-    return round(temp_C)
+    return round(temp_C,2)

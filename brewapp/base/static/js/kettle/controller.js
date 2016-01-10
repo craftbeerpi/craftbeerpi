@@ -1,4 +1,4 @@
-angular.module('myApp.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle) {
+angular.module('myApp.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle, ConfirmMessage) {
 
   CBPKettle.query({}, function(response) {
     $scope.kettles = response.objects
@@ -33,11 +33,17 @@ angular.module('myApp.controllers5', []).controller('KettleOverviewController', 
   }
 
   $scope.clearTempLogs = function() {
-    console.log("CLEAR")
-    CBPKettle.clear({}, function(response) {
+    ConfirmMessage.open("Clear Temperature Log","Do you really want to clear all Temperature Logs?", function() {
+      CBPKettle.clear({}, function(response) {
 
+      });
+    }, function() {
+      // cancel do nothing
     });
   }
+
+
+
 
 
   $scope.clear = function() {
@@ -80,7 +86,6 @@ angular.module('myApp.controllers5', []).controller('KettleOverviewController', 
     $scope.thermometer.push({"key":"", "value":"No Thermometer"});
 
     CBPKettle.getthermometer({}, function(response) {
-
       angular.forEach(response, function(d) {
           $scope.thermometer.push({"key":d, "value":d});
       })

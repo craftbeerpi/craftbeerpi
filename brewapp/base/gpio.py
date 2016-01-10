@@ -1,6 +1,7 @@
 from brewapp import app, socketio, db
 from brewapp.base.util import *
 from subprocess import call
+from step import nextStep
 
 try:
     import RPi.GPIO as GPIO

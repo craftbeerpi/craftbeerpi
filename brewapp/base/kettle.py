@@ -9,7 +9,6 @@ from brewapp import manager
 from gpio import *
 from pid import *
 
-
 ## HTTP METHODS
 @base.route('/gpio', methods=['PUT'])
 def updateState():
