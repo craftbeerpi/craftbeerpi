@@ -22,7 +22,7 @@ handler.setLevel(logging.DEBUG)
 app.logger.addHandler(handler)
 
 
-UPLOAD_FOLDER = './upload'
+UPLOAD_FOLDER = '/home/pi/craftbeerpi/upload"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
