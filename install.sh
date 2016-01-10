@@ -36,9 +36,14 @@ while true; do
 done
 
 while true; do
-    read -p "Would you like to install wiringPI? (y/n): " yn
+    read -p "Would you like to install wiringPI? This is required to control the GPIO (y/n): " yn
     case $yn in
-        [Yy]* ) git clone git://git.drogon.net/wiringPi; cd /wiringPi; ./build; break;;
+        [Yy]* ) git clone git://git.drogon.net/wiringPi;
+        cd wiringPi;
+        ./build;
+        cd ..;
+        rm -rf wiringPi;;
+        break;;
         [Nn]* ) break;;
         * ) echo "(Y/N)";;
     esac
@@ -80,3 +85,24 @@ while true; do
         * ) echo "Please select (y/n): ";;
     esac
 done
+
+cat << "EOF"
+
+----------------------------------------------------------------------------
+
+Installation Finished!
+
+Default URL: http://<IP-Address>:5000
+
+Shell Commands to controll the Server:
+
+- Start:  sudo /etc/init.d/craftbeerpiboot start
+- Status: sudo /etc/init.d/craftbeerpiboot status
+- Stop:   sudo /etc/init.d/craftbeerpiboot stop
+
+Happy Brewing!
+
+www.CraftBeerPI.com
+
+----------------------------------------------------------------------------
+EOF
