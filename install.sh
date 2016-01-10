@@ -20,7 +20,7 @@ cat << "EOF"
    | |    | '__/ _` |  _| __|  _ < / _ \/ _ \ \'__|____/ | |    .=])' (;  ([
    | |____| | | (_| | | | |_| |_) |  __/  __/ |  | |    _| |_   | ]:: '    [
     \_____|_|  \__,_|_|  \__|____/ \___|\___|_|  |_|   |_____|  '=]): .)  ([
-                                       (C) 2015 Manuel Fritsch    |:: '    |
+                                  (C) 2015 www.CraftBeerPI.com    |:: '    |
                                                                    ~~----~~
 ----------------------------------------------------------------------------
 
@@ -39,10 +39,9 @@ while true; do
     read -p "Would you like to install wiringPI? This is required to control the GPIO (y/n): " yn
     case $yn in
         [Yy]* ) git clone git://git.drogon.net/wiringPi;
-        cd wiringPi;
-        ./build;
-        cd ..;
-        rm -rf wiringPi;;
+        cd wiringPi; 
+        ./build; cd ..;
+        rm -rf wiringPi;
         break;;
         [Nn]* ) break;;
         * ) echo "(Y/N)";;
