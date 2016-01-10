@@ -63,6 +63,12 @@ apt-get -y install python-dev
 apt-get -y install libpcre3-dev
 pip install -r requirements.txt
 
+cat << "EOF"
+
+
+
+EOF
+
 while true; do
     read -p "Would you like to start CarftBeerPI after boot? (y/n): " yn
     case $yn in
@@ -86,6 +92,8 @@ while true; do
 done
 
 cat << "EOF"
+
+
 
 ----------------------------------------------------------------------------
 
