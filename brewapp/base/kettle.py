@@ -96,6 +96,7 @@ def post_post(result=None, **kw):
         app.brewapp_kettle_state[vid]["automatic"] = {"state": False }
         app.brewapp_kettle_state[vid]["agitator"]  = {"state": False, "gpio": result["agitator"]}
         app.brewapp_kettle_state[vid]["heater"]    = {"state": False, "gpio": result["heater"]}
+        app.brewapp_kettle_temps_log[vid] = []
 
 ## INIT
 @brewinit()
@@ -125,6 +126,7 @@ def readKettleTemp():
 
         app.brewapp_kettle_state[vid]["temp"] = tempData1Wire(app.brewapp_kettle_state[vid]["sensorid"])
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
+        print app.brewapp_kettle_temps_log
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
 
     socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')

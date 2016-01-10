@@ -27,9 +27,18 @@ cat << "EOF"
 EOF
 
 while true; do
-    read -p "Would you like run apt-get update & apt-get upgrade? (Y/N): " yn
+    read -p "Would you like run apt-get update & apt-get upgrade? (y/n): " yn
     case $yn in
         [Yy]* ) apt-get -y update; apt-get -y upgrade; break;;
+        [Nn]* ) break;;
+        * ) echo "(Y/N)";;
+    esac
+done
+
+while true; do
+    read -p "Would you like to install wiringPI? (y/n): " yn
+    case $yn in
+        [Yy]* ) git clone git://git.drogon.net/wiringPi; cd /wiringPi; ./build; break;;
         [Nn]* ) break;;
         * ) echo "(Y/N)";;
     esac
