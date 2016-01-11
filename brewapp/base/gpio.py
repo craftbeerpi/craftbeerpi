@@ -36,7 +36,7 @@ def initGPIO():
         app.logger.error("SETUP GPIO FAILD " + str(e))
         app.brewapp_gpio = False
 
-def nextStepCallback():
+def nextStepCallback(channel):
     nextStep()
 
 def initHardwareButton():
