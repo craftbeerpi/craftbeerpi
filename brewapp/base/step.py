@@ -182,7 +182,7 @@ def init():
             app.brewapp_current_step["endunix"] =  int((s.timer_start - datetime(1970,1,1)).total_seconds())*1000
 
 
-@brewjob(key="stepjob", interval=1)
+@brewjob(key="stepjob", interval=0.1)
 def stepjob():
     ## Skip if no step is active
     if(app.brewapp_current_step == None):

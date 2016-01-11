@@ -60,12 +60,13 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     //var num_of_kettles = Object.keys($scope.kettle_temps).length;
     num_of_kettles = 1;
 
-    if (item.state == "D")
+    console.log("")
+
+    if (item.state == "D") {
       return "info";
-    else if (item.type == "M" && item.state == "A" && $scope.temp < item.temp) {
-      return "warning"
-        //} else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
-        //  return "active"
+    }
+    else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps != undefined && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
+          return "active"
     } else if (item.state == "A" && item.timer_start != null) {
       return "active"
     } else if (item.state == "A" && item.timer_start == null) {
