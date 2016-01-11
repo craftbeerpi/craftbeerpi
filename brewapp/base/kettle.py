@@ -59,11 +59,11 @@ def ws_switch_gipo(data):
     gpio = data["gpio"]
 
     if(app.brewapp_kettle_state[kettleid][element]["state"] == True):
-        app.logger.info("Switch off GPIO: " + gpio)
+        app.logger.info("Switch off GPIO: " + str(gpio))
         switchOFF(gpio)
         app.brewapp_kettle_state[kettleid][element]["state"] = False
     else:
-        app.logger.info("Switch on GPIO: " + gpio)
+        app.logger.info("Switch on GPIO: " + str(gpio))
         switchON(gpio)
         app.brewapp_kettle_state[kettleid][element]["state"] = True
 

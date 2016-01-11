@@ -60,17 +60,17 @@ def toogle(vid, name, gpio):
             app.brewapp_kettle_state[vid][name]["state"]= False
 
 def switchON(gpio):
-    app.logger.info("GPIO ON" + gpio)
+    app.logger.info("GPIO ON" + str(gpio))
     if(app.brewapp_gpio == True):
         #GPIO.output(gpio, 0)
         pass
     else:
-        app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + gpio)
+        app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + str(gpio))
 
 def switchOFF(gpio):
-    print "GPIO OFF", gpio
+    app.logger.info("GPIO OFF" + str(gpio))
     if(app.brewapp_gpio == True):
         #GPIO.output(gpio, 1)
         pass
     else:
-        app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + gpio)
+        app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + str(gpio))

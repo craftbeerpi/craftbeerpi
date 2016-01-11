@@ -13,7 +13,7 @@ def startPID(vid):
     start_new_thread(pidjob,(vid,))
 
 def pidjob(vid):
-    app.logger.info("Start PID - Kettle Id: "+ vid)
+    app.logger.info("Start PID - Kettle Id: "+ str(vid))
     key = str(vid)+"pid";
 
     while app.brewapp_kettle_automatic[key]:
@@ -34,4 +34,7 @@ def pidjob(vid):
         time.sleep(1)
 
     app.brewapp_pid_state[vid] = False
-    app.logger.info("Stop PID - Kettle Id: "+ vid)
+    switchOFF(app.brewapp_kettle_state[vid]["heater"]["gpio"])
+    app.brewapp_kettle_state[vid]["heater"]["state"] = False
+    socketio.emit('kettle_automatic_off', vid, namespace ='/brew')
+    app.logger.info("Stop PID - Kettle Id: "+ str(vid))

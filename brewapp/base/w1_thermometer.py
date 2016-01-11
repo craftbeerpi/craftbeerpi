@@ -32,7 +32,4 @@ def tempData1Wire(tempSensorId):
     except Exception as e:
         temp_C = round(randint(0,50),2)
 
-    return round(temp_C,2)
-    #our_value = Decimal(temp_C)
-    #return Decimal(our_value.quantize(Decimal('.01'), rounding=ROUND_HALF_UP))
-    #return float(format(temp_C, '.2f'))
+    return float(format(temp_C, '.2f'))

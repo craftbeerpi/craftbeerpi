@@ -1,19 +1,23 @@
 <style>
   .temp {
-    font-size: 2.5em;
+    font-size: 3.0em;
+
+  }
+  .headline {
+      font-size: 1.5em;
   }
 </style>
 <div class="panel panel-default kettle" ng-class="kettleState(v.id)" data-toggle="tooltip" data-placement="top">
   <div class="panel-heading">
-    <i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
+    <span class="headline"><i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
     <div class="btn-group pull-right" role="group" aria-label="...">
       <div class="btn-group" role="group" ng-if="v.sensorid">
-        <a href="#/chart/{{v.id}}" class="btn btn-default btn-xs" role="group">
+        <a href="#/chart/{{v.id}}" class="btn btn-default" role="group">
           <span class="badge"><i class="fa fa-line-chart"></i></span>
         </a>
       </div>
       <div class="btn-group" uib-dropdown is-open="status.isopen">
-        <button type="button" class="btn btn-default btn-xs" uib-dropdown-toggle ng-disabled="disabled">
+        <button type="button" class="btn btn-default " uib-dropdown-toggle ng-disabled="disabled">
           <span class="badge"><i class="fa fa-wrench"></i></span>
         </button>
         <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
@@ -27,14 +31,19 @@
   </div>
   <div class="panel-body">
     <div class="row">
-      <div class="col-xs-8">
-        <div class="temp"><i class="wi wi-thermometer"></i> <b>{{ getTemp(v) }}°C</b></div>
+      <div class="col-xs-12">
+        <span class="temp"><i class="wi wi-thermometer"></i> <b>{{ getTemp(v) }}°C</b></span>
+        <span class="pull-right" ng-if="v.heater"><i class="fa fa-crosshairs"></i>
+          <strong>{{v.target_temp}}°C</strong>
+        </span>
       </div>
+      <!--
       <div class="col-xs-4">
         <span ng-if="v.heater"><i class="fa fa-crosshairs"></i>
           <strong>{{v.target_temp}}°C</strong>
         </span>
       </div>
+    -->
     </div>
     <!--
     <div class="row>">

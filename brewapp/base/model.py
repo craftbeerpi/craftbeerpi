@@ -40,7 +40,12 @@ class Kettle2(db.Model):
     def __unicode__(self):
         return self.id
 
-class KettleTempLog2(db.Model):
-    kettleid = db.Column(db.Integer, primary_key=True)
-    time = db.Column(db.DateTime(), primary_key=True)
-    value = db.Column(db.Float())
+class Config(db.Model):
+    name = db.Column(db.String(50), primary_key=True)
+    value = db.Column(db.String(255))
+
+    def __repr__(self):
+        return '<Config %r>' % self.name
+
+    def __unicode__(self):
+        return self.name
