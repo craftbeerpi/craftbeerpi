@@ -36,11 +36,14 @@ def initGPIO():
         app.logger.error("SETUP GPIO FAILD " + str(e))
         app.brewapp_gpio = False
 
+def nextStepCallback():
+    nextStep()
+
 def initHardwareButton():
     if(app.brewapp_button != None):
         print "SETUP BUTTON"
         GPIO.setup(app.brewapp_button["next"], GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.add_event_detect(app.brewapp_button["next"], GPIO.RISING, callback=nextStep, bouncetime=300)
+        GPIO.add_event_detect(app.brewapp_button["next"], GPIO.RISING, callback=nextStepCallback, bouncetime=300)
 
 
 def toogle(vid, name, gpio):
