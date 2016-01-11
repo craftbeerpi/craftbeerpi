@@ -17,12 +17,12 @@ socketio = SocketIO(app)
 #logging.getLogger('sqlalchemy.engine').addHandler(RotatingFileHandler('sqllog.log', maxBytes=10000, backupCount=1))
 #logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
-handler = RotatingFileHandler('/home/pi/craftbeerpi/foo.log', maxBytes=10000, backupCount=1)
+handler = RotatingFileHandler('./foo.log', maxBytes=10000, backupCount=1)
 handler.setLevel(logging.DEBUG)
 app.logger.addHandler(handler)
 
 
-UPLOAD_FOLDER = '/home/pi/craftbeerpi/upload'
+UPLOAD_FOLDER = './'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
