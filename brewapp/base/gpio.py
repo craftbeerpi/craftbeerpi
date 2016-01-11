@@ -12,8 +12,8 @@ except:
 def initGPIO():
     app.logger.info("## Init GIPO")
     try:
-        #call(["modprobe", "w1-gpio"])
-        #call(["modprobe", "w1-therm"])
+        call(["modprobe", "w1-gpio"])
+        call(["modprobe", "w1-therm"])
         #print "###### SETUP GPIO 2 #######"
         for vid in app.brewapp_kettle_state:
             print vid
