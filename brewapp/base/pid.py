@@ -3,20 +3,27 @@ from thread import start_new_thread
 from brewapp import app, socketio, db
 from gpio import *
 
+## STOP PID Controller
 def stopPID(vid):
     key = str(vid)+"pid";
     app.brewapp_kettle_automatic[key] = False
 
+## START PID Controller
 def startPID(vid):
     key = str(vid)+"pid";
     app.brewapp_kettle_automatic[key] = True
     start_new_thread(pidjob,(vid,))
 
+## PID LOGIC IT SELF
+## Place your custom code into the while loop
+
 def pidjob(vid):
     app.logger.info("Start PID - Kettle Id: "+ str(vid))
     key = str(vid)+"pid";
-
     while app.brewapp_kettle_automatic[key]:
+
+        ## CUSTOM CODE!!!
+
         ## Current temperature
         ct =  app.brewapp_kettle_state[vid]["temp"]
         ## Target Temperature
