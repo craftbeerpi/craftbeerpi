@@ -13,9 +13,9 @@ app.brewapp_current_step = None
 app.brewapp_gpio_state = {}
 app.brewapp_thermometer_recording = True;
 app.brewapp_log = []
-#app.brewapp_kettle = []
 app.brewapp_log_method = None
 
+app.brewapp_button = {"next": 23}
 
 ### NEW PARAMS
 app.brewapp_kettle_state = {}

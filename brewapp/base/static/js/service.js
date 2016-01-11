@@ -1,4 +1,4 @@
-angular.module('myApp.services', []).factory("CBPSteps", function($resource) {
+angular.module('craftberpi.services', []).factory("CBPSteps", function($resource) {
   return $resource("/api/step/:id", {}, {
     query: {
       method: 'GET',

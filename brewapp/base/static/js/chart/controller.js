@@ -1,4 +1,4 @@
-angular.module('myApp.controllers3', []).controller('ChartController', function($scope, $location, CBPSteps, CBPKettle, $uibModal, ws, $routeParams) {
+angular.module('craftberpi.controllers3', []).controller('ChartController', function($scope, $location, CBPSteps, CBPKettle, $uibModal, ws, $routeParams) {
   $scope.vid = $routeParams.vid
 
   CBPKettle.get({

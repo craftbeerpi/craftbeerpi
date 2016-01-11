@@ -9,17 +9,15 @@ try:
 except:
     pass
 
-
 def initGPIO():
     app.logger.info("## Init GIPO")
     try:
-        #all(["modprobe", "w1-gpio"])
-        #call(["modprobe", "w1-therm"])
+        call(["modprobe", "w1-gpio"])
+        call(["modprobe", "w1-therm"])
         #print "###### SETUP GPIO 2 #######"
         for vid in app.brewapp_kettle_state:
             if(app.brewapp_kettle_state[vid]["heater"]["gpio"] != None):
                 app.logger.info("SETUP GPIO HEATER: " + app.brewapp_kettle_state[vid]["heater"]["gpio"])
-
                 #GPIO.setup(int(app.brewapp_kettle[vid]["heater"]["gpio"]), GPIO.OUT)
                 #GPIO.output(app.brewapp_kettle[vid]["heater"]["gpio"], 1)
             if(app.brewapp_kettle_state[vid]["agitator"]["gpio"] != None):
@@ -31,6 +29,12 @@ def initGPIO():
     except Exception as e:
         app.logger.error("SETUP GPIO FAILD " + str(e))
         app.brewapp_gpio = False
+
+def initHardwareButton():
+    if(app.brewapp_button != None):
+        GPIO.setup(app.brewapp_button["next"], GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.add_event_detect(app.brewapp_button["next"], GPIO.RISING, callback=nextStep, bouncetime=300)
+
 
 def toogle(vid, name, gpio):
     if(app.brewapp_kettle_state[vid][name]["gpio"] == gpio):

@@ -1,4 +1,4 @@
-angular.module('myApp.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle, ConfirmMessage) {
+angular.module('craftberpi.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle, ConfirmMessage) {
 
   CBPKettle.query({}, function(response) {
     $scope.kettles = response.objects

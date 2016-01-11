@@ -12,12 +12,5 @@
      font-weight: 300;
      font-style: normal;
      background: #fff;
+     padding-top: 70px;
  }
- #gpio_buttons {
-     font-size: 18px;
- }
- #gpio_buttons button {
-
-    /*width: 50px;*/
-    text-align: left;
-}

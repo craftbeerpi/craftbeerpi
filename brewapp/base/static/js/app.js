@@ -1,4 +1,4 @@
-angular.module('myApp', ['mgo-angular-wizard','timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'myApp.controllers', 'myApp.controllers5','myApp.controllers2', 'myApp.controllers3','myApp.controllers6','myApp.services', 'ui.sortable', 'dndLists']).config(function($routeProvider) {
+angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'craftberpi.controllers', 'craftberpi.controllers5','craftberpi.controllers2', 'craftberpi.controllers3','craftberpi.controllers6','craftberpi.services']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/base/static/partials/dashboard/overview.html',

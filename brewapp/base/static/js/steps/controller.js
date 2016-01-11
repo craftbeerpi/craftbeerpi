@@ -1,4 +1,4 @@
-angular.module('myApp.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, $uibModal, ConfirmMessage) {
+angular.module('craftberpi.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, $uibModal, ConfirmMessage) {
 
   $scope.kettles = [];
   $scope.kettles.push({"key":0, "value":"No Kettle"})

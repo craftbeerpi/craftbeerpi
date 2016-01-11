@@ -1,4 +1,4 @@
-angular.module('myApp.controllers6', []).controller('SetupController', function(ws, $scope, $http, $uibModal, $location, WizardHandler, CBPKettle) {
+angular.module('craftberpi.controllers6', []).controller('SetupController', function(ws, $scope, $http, $uibModal, $location, WizardHandler, CBPKettle) {
 
 
   $scope.num = 0

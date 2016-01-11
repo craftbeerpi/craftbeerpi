@@ -1,4 +1,4 @@
-angular.module('myApp.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, ChartFactory, $uibModal, ws) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, ChartFactory, $uibModal, ws) {
 
   CBPKettle.query(function(data) {
     $scope.kettles = data.objects;

@@ -1,56 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+  <title>CraftBeerPi 2.0</title>
+  <!-- http://fonts.googleapis.com/css?family=Tangerine -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/google.css">
   <link rel="stylesheet" type="text/css" href="/base/static/style.css">
-  <link rel="stylesheet" href="/base/static/addon/bootstrap.min.css">
-  <link rel="stylesheet" href="/base/static/addon/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="/base/static/addon/weather-icons.min.css" />
-  <link href="/base/static/addon/c3.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/base/static/addon/font-awesome.min.css">
-
-
-  <script src="/base/static/addon/d3.min.js" charset="utf-8"></script>
-  <script src="/base/static/addon/c3.min.js"></script>
-  <script src="/base/static/addon/jquery-2.1.3.min.js"></script>
-  <script src="/base/static/addon/jquery-ui.min.js"></script>
-  <script src="/base/static/addon/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/base/static/addon/largest-triangle-three-buckets.v0.1.0.js"></script>
-  <script type="text/javascript" src="/base/static/addon/socket.io.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
-  <script src="/base/static/addon/angular-drag-and-drop-lists.min.js"></script>
-  <script type="text/javascript" src="/base/static/addon/ui-bootstrap-tpls-0.14.3.min.js"></script>
-  <script src="/base/static/addon/sortable.js"></script>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular-resource.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular-cookies.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular-route.js"></script>
-  <script type="text/javascript" src="/base/static/addon/angular-timer-all.min.js"></script>
-  <script type="text/javascript" src="/base/static/addon/angular-file-upload.min.js"></script>
-
-
-  <script type="text/javascript" src="http://cdn.jsdelivr.net/angular.wizard/latest/angular-wizard.min.js"></script>
-<link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/angular.wizard/latest/angular-wizard.min.css">
-
-
-  <script src="static/js/app.js"></script>
-  <script src="static/js/service.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/weather-icons.min.css" />
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/c3.min.css" type="text/css">
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/base/static/addon/css/angular-wizard.min.css">
+  <!-- Charting lib -->
+  <script src="/base/static/addon/js/d3.min.js" charset="utf-8"></script>
+  <script src="/base/static/addon/js/c3.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/largest-triangle-three-buckets.v0.1.0.js"></script>
+  <!-- JQuery -->
+  <script src="/base/static/addon/js/jquery-2.1.3.min.js"></script>
+  <script src="/base/static/addon/js/jquery-ui.min.js"></script>
+  <script src="/base/static/addon/js/bootstrap.min.js"></script>
+  <!-- WebSocket -->
+  <script type="text/javascript" src="/base/static/addon/js/socket.io.min.js"></script>
+  <!-- Angular JS Standard libs -->
+  <script type="text/javascript" src="/base/static/addon/js/angular.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-resource.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-route.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-timer-all.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-file-upload.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-wizard.min.js"></script>
+  <!-- CraftBeerPI libs -->
+  <script type="text/javascript" src="static/js/app.js"></script>
+  <script type="text/javascript" src="static/js/service.js"></script>
   <script src="static/js/steps/controller.js"></script>
-    <script src="static/js/kettle/controller.js"></script>
+  <script src="static/js/kettle/controller.js"></script>
   <script src="static/js/dashboard/controller.js"></script>
-    <script src="static/js/chart/controller.js"></script>
-    <script src="static/js/setup/controller.js"></script>
-      <style>
-      body {
-        padding-top: 70px;
-      }
-      </style>
+  <script src="static/js/chart/controller.js"></script>
+  <script src="static/js/setup/controller.js"></script>
 </head>
 <body>
-  <div ng-app="myApp">
+  <div ng-app="craftberpi">
     <navigation></navigation>
     <div class="container" ng-view></div>
   </div>
