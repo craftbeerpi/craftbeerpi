@@ -47,7 +47,7 @@ def initHardwareButton():
         GPIO.setup(app.brewapp_button["next"], GPIO.IN, pull_up_down = GPIO.PUD_UP)
         GPIO.add_event_detect(app.brewapp_button["next"], GPIO.RISING, callback=nextStepCallback, bouncetime=300)
         GPIO.setup(app.brewapp_button["reset"], GPIO.IN, pull_up_down = GPIO.PUD_UP)
-        GPIO.add_event_detect(app.brewapp_button["reset"], GPIO.RISING, callback=nextStepCallback, bouncetime=300)
+        GPIO.add_event_detect(app.brewapp_button["reset"], GPIO.RISING, callback=resetStepCallback, bouncetime=300)
 
 
 def toogle(vid, name, gpio):
