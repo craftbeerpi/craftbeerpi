@@ -15,7 +15,7 @@ app.brewapp_thermometer_recording = True;
 app.brewapp_log = []
 app.brewapp_log_method = None
 
-app.brewapp_button = {"next": 23}
+app.brewapp_button = {"next": 23, "reset": 24}
 
 ### NEW PARAMS
 app.brewapp_kettle_state = {}

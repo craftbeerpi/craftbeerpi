@@ -1,7 +1,7 @@
 from brewapp import app, socketio, db
 from brewapp.base.util import *
 from subprocess import call
-from step import nextStep
+from step import nextStep, reset
 
 try:
     import RPi.GPIO as GPIO
@@ -39,11 +39,15 @@ def initGPIO():
 def nextStepCallback(channel):
     nextStep()
 
+def resetStepCallback(channel):
+    reset()
+
 def initHardwareButton():
     if(app.brewapp_button != None):
-        print "SETUP BUTTON"
         GPIO.setup(app.brewapp_button["next"], GPIO.IN, pull_up_down = GPIO.PUD_UP)
         GPIO.add_event_detect(app.brewapp_button["next"], GPIO.RISING, callback=nextStepCallback, bouncetime=300)
+        GPIO.setup(app.brewapp_button["reset"], GPIO.IN, pull_up_down = GPIO.PUD_UP)
+        GPIO.add_event_detect(app.brewapp_button["reset"], GPIO.RISING, callback=nextStepCallback, bouncetime=300)
 
 
 def toogle(vid, name, gpio):

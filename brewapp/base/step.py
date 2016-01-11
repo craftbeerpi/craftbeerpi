@@ -152,7 +152,7 @@ def nextStep():
 
 ## WebSocket
 @socketio.on('reset', namespace='/brew')
-def ws_reset():
+def reset():
     app.brewapp_current_step  = None
     resetSteps()
 
