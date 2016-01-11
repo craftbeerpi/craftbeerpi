@@ -13,21 +13,12 @@ import time
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-#logging.basicConfig()
-#logging.getLogger('sqlalchemy.engine').addHandler(RotatingFileHandler('sqllog.log', maxBytes=10000, backupCount=1))
-#logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-
-handler = RotatingFileHandler('./foo.log', maxBytes=10000, backupCount=1)
-handler.setLevel(logging.DEBUG)
-app.logger.addHandler(handler)
-
-
-UPLOAD_FOLDER = './'
+logging.basicConfig(filename='app.log',level=logging.DEBUG)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.testMode = True
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = './upload'
 
 admin = admin.Admin(name="CraftBeerPI")
 
