@@ -56,12 +56,7 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   }
 
   $scope.stepStyle = function(item) {
-
-    //var num_of_kettles = Object.keys($scope.kettle_temps).length;
     num_of_kettles = 1;
-
-    console.log("")
-
     if (item.state == "D") {
       return "info";
     }
@@ -80,17 +75,14 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   }
 
   $scope.reset = function() {
-    console.log("RESET");
     ws.emit("reset");
   }
 
   $scope.next = function() {
-    console.log("NEXT STEP");
     ws.emit("next");
   }
 
   $scope.start = function() {
-    console.log("START");
     ws.emit("start");
   }
 
