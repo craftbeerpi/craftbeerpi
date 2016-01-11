@@ -23,8 +23,8 @@ app.brewapp_kettle_temps_log = {}
 
 
 ## JOBS
-app.brewapp_jobs2 = []
-app.brewapp_jobstate2 = {}
+app.brewapp_jobs = []
+app.brewapp_jobstate = {}
 
 ## Step
 app.brewapp_current_step = None

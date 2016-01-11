@@ -11,23 +11,26 @@ except:
 
 
 def initGPIO():
+    app.logger.info("## Init GIPO")
     try:
         #all(["modprobe", "w1-gpio"])
         #call(["modprobe", "w1-therm"])
         #print "###### SETUP GPIO 2 #######"
         for vid in app.brewapp_kettle_state:
             if(app.brewapp_kettle_state[vid]["heater"]["gpio"] != None):
-                print "SETUP GPIO HEATER", app.brewapp_kettle_state[vid]["heater"]["gpio"]
+                app.logger.info("SETUP GPIO HEATER: " + app.brewapp_kettle_state[vid]["heater"]["gpio"])
+
                 #GPIO.setup(int(app.brewapp_kettle[vid]["heater"]["gpio"]), GPIO.OUT)
                 #GPIO.output(app.brewapp_kettle[vid]["heater"]["gpio"], 1)
             if(app.brewapp_kettle_state[vid]["agitator"]["gpio"] != None):
-                print "SETUP GPIO AGITATOR", app.brewapp_kettle_state[vid]["agitator"]["gpio"]
+                app.logger.info("SETUP GPIO AGITATOR" + app.brewapp_kettle_state[vid]["agitator"]["gpio"])
                 #GPIO.setup(app.brewapp_kettle[vid]["agitator"]["gpio"], GPIO.OUT)
                 #GPIO.output(app.brewapp_kettle[vid]["agitator"]["gpio"], 1)
         app.brewapp_gpio = True
-    except:
-        print  "     -->GPIO SETUP FAILED"
-        #app.brewapp_gpio = False
+        app.logger.info("ALL GPIO INITIALIZED")
+    except Exception as e:
+        app.logger.error("SETUP GPIO FAILD " + str(e))
+        app.brewapp_gpio = False
 
 def toogle(vid, name, gpio):
     if(app.brewapp_kettle_state[vid][name]["gpio"] == gpio):
@@ -39,12 +42,12 @@ def toogle(vid, name, gpio):
             app.brewapp_kettle_state[vid][name]["state"]= False
 
 def switchON(gpio):
-    print "GPIO ON", gpio
+    app.logger.info("GPIO ON" + gpio)
     if(app.brewapp_gpio == True):
         #GPIO.output(gpio, 0)
         pass
     else:
-        print "GPIO NOT READY DO SWITCH ON :", gpio
+        app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + gpio)
 
 def switchOFF(gpio):
     print "GPIO OFF", gpio
@@ -52,4 +55,4 @@ def switchOFF(gpio):
         #GPIO.output(gpio, 1)
         pass
     else:
-        print "GPIO NOT READY DO SWITCH OFF :", gpio
+        app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + gpio)

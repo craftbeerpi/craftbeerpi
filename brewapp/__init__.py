@@ -8,6 +8,7 @@ import logging
 import flask.ext.restless
 from logging.handlers import RotatingFileHandler
 import time
+import inspect
 
 
 app = Flask(__name__)
@@ -15,65 +16,42 @@ socketio = SocketIO(app)
 
 logging.basicConfig(filename='app.log',level=logging.DEBUG)
 
+app.logger.info("##########################################")
+app.logger.info("### NEW STARTUP")
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
-app.testMode = True
 app.config['UPLOAD_FOLDER'] = './upload'
-
-admin = admin.Admin(name="CraftBeerPI")
 
 ## Create Database
 db = SQLAlchemy(app)
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
-#from .log.views import log
-
 
 ## Create Database
 db.create_all()
 
-
-## REST
-
-
-## Init Admin Components
-admin.init_app(app)
-
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
 
-
-
-
-
-
 @app.route('/')
 def index():
-    #from brewapp.base.model import Kettle2
-    #c = Kettle2.query.count()
-    #if(c == 0):
-    #    return redirect('kettle')
-    #else:
     return redirect('base')
 
 
-
-print "INIT METHODS"
+app.logger.info("## INITIALIZE DATA")
 for i in app.brewapp_init:
-    name = i.__name__
-    print "--> ", name
+    app.logger.info("--> Method: " + i.__name__ + "() File: "+ inspect.getfile(i))
     i()
 
-
 def job(key, interval, method):
-    while app.brewapp_jobstate2[key]:
+    while app.brewapp_jobstate[key]:
         method()
         time.sleep(interval)
 
-print "INIT JOBS2"
-for i in app.brewapp_jobs2:
-    app.brewapp_jobstate2[i.get("key")] = True
-
+app.logger.info("## INITIALIZE JOBS")
+for i in app.brewapp_jobs:
+    app.brewapp_jobstate[i.get("key")] = True
     start_new_thread(job,(i.get("key"),i.get("interval"),i.get("function")))
-    print "--> ", i.get("function").__name__
+    app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))

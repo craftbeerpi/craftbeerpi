@@ -33,7 +33,7 @@ def kettlegetChart(vid):
 
 @app.route('/api/kettle2/clear', methods=['POST'])
 def clearTempLog():
-    print "CLEAR"
+    app.logger.info("Delete all kettles")
     kettles = Kettle2.query.all()
     for v in kettles:
         app.brewapp_kettle_temps_log[v.id] = []
@@ -59,11 +59,11 @@ def ws_switch_gipo(data):
     gpio = data["gpio"]
 
     if(app.brewapp_kettle_state[kettleid][element]["state"] == True):
-        print "SWITCH OFF"
+        app.logger.info("Switch off GPIO: " + gpio)
         switchOFF(gpio)
         app.brewapp_kettle_state[kettleid][element]["state"] = False
     else:
-        print "SWITCH ON"
+        app.logger.info("Switch on GPIO: " + gpio)
         switchON(gpio)
         app.brewapp_kettle_state[kettleid][element]["state"] = True
 
@@ -87,7 +87,6 @@ def setTargetTemp(vid, temp):
 
 def post_post(result=None, **kw):
     if(result != None):
-        print result
         vid = result["id"]
         app.brewapp_kettle_state[vid] = {}
         app.brewapp_kettle_state[vid]["temp"] = 0
@@ -106,7 +105,6 @@ def init():
     initKettle()
     initGPIO()
 
-
 def initKettle():
     kettles = Kettle2.query.all()
     for v in kettles:
@@ -121,10 +119,7 @@ def initKettle():
 ## JOBS
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
-
-    
     for vid in app.brewapp_kettle_state:
-
         app.brewapp_kettle_state[vid]["temp"] = tempData1Wire(app.brewapp_kettle_state[vid]["sensorid"])
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]

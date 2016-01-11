@@ -30,7 +30,6 @@ def tempData1Wire(tempSensorId):
         else:
             temp_C = -99 #bad temp reading
     except Exception as e:
-        #app.logger.warning(e)
         temp_C = round(randint(0,50),2)
 
     return round(temp_C,2)

@@ -17,7 +17,6 @@ from flask.ext.restless.helpers import to_dict
 
 ALLOWED_EXTENSIONS = set(['sqlite'])
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -53,7 +52,8 @@ def getBrews():
         for row in data:
             result.append( {"id": row[0], "name": row[1], "brewed": row[2]})
         return json.dumps(result)
-    except:
+    except Exception as e:
+        app.logger.error("Read Kleiner Brauhelfer Data failed: " + str(e))
         return ('',500)
     finally:
         if conn:
@@ -62,89 +62,67 @@ def getBrews():
 
 @base.route('/kb/select/<id>', methods=['POST'])
 def upload_file(id):
-
-
-    data  =request.get_json()
-    print "Data", data
+    data =request.get_json()
     conn = None
     try:
+        ## Clear all steps
         Step.query.delete()
         db.session.commit()
+
         conn = sqlite3.connect(app.config['UPLOAD_FOLDER']+'/kb_daten.sqlite')
         c = conn.cursor()
         order = 0
-
         c.execute('SELECT EinmaischenTemp, Sudname FROM Sud WHERE ID = ?', (id,))
         row = c.fetchone()
-        s = Step()
-        s.name = "Einmaischen"
-        s.order = order
-        s.type = 'M'
-        s.state = 'I'
-        s.temp = row[0]
-        s.timer = 0
-        s.kettleid = data['mashtun']
+        s = newStep("Einmaischen", order, "M", "I", row[0], 0, data['mashtun'])
         db.session.add(s)
         db.session.commit()
         order +=1
 
     	### add rest step
         for row in c.execute('SELECT * FROM Rasten WHERE SudID = ?', (id,)):
-            s = Step()
-            s.name = row[5]
-            s.order = order
-            s.type = 'A'
-            s.state = 'I'
-            s.temp = row[3]
-            s.timer = row[4]
-            s.kettleid = data['mashtun']
+            s = newStep(row[5], order, "A", "I", row[3], row[4], data['mashtun'])
             db.session.add(s)
             db.session.commit()
             order +=1
 
-        s = Step()
-        s.name = "Laeuterruhe"
-        s.order = order
-        s.type = 'M'
-        s.state = 'I'
-        s.temp = 0
-        s.timer = 15
+        s = newStep("Laeuterruhe", order, "M", "I", 0, 15, 0)
         db.session.add(s)
         db.session.commit()
         order +=1
 
 		## Add cooking step
-        for row in c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', (id,)):
-            s = Step()
-            s.name = "Kochen"
-            s.order = order
-            s.type = 'A'
-            s.state = 'I'
-            s.temp = 100
-            s.timer = row[0]
-            s.kettleid = data["boil"]
-            db.session.add(s)
-            db.session.commit()
-            order +=1
-
-        s = Step()
-        s.name = "Whirlpool"
-        s.order = order
-        s.type = 'M'
-        s.state = 'I'
-        s.temp = 0
-        s.timer = 15
-        s.kettleid = data["boil"]
+        c.execute('SELECT max(Zeit) FROM Hopfengaben WHERE SudID = ?', (id,))
+        row = c.fetchone()
+        s = newStep("Kochen", order, "A", "I", 100, row[0], data['boil'])
         db.session.add(s)
         db.session.commit()
         order +=1
-    except:
+
+        ## Add Whirlpool step
+        s = newStep("Whirlpool", order, "M", "I", 0, 15, data['boil'])
+        db.session.add(s)
+        db.session.commit()
+        order +=1
+    except Exception as e:
+        app.logger.error("Select Kleiner Brauhelfer Data failed: " + str(e))
         return ('',500)
     finally:
         if conn:
             conn.close()
-
     return ('',204)
+
+## Helper method to create a new step
+def newStep(name, order, type, state, temp = 0, timer = 0, kettileid = 0):
+    s = Step()
+    s.name = name
+    s.order = order
+    s.type = type
+    s.state = state
+    s.temp = temp
+    s.timer = timer
+    s.kettleid = kettileid
+    return s
 
 @socketio.on('next', namespace='/brew')
 @socketio.on('start', namespace='/brew')
@@ -206,15 +184,17 @@ def init():
 
 @brewjob(key="stepjob", interval=1)
 def stepjob():
-
+    ## Skip if no step is active
     if(app.brewapp_current_step == None):
         return
+    ## current step
     cs = app.brewapp_current_step;
+    ## get current temp of target kettle
     try:
         ct = app.brewapp_kettle_state[cs.get("kettleid")]["temp"]
     except:
         ct = 0
-
+    ## check if target temp reached and timer can be started
     if(cs.get("timer") > 0 and cs.get("timer_start") == None and ct >= cs.get("temp")):
         s = Step.query.get(cs.get("id"))
         s.timer_start = datetime.utcnow()
@@ -225,10 +205,11 @@ def stepjob():
         db.session.commit()
         socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
 
+    ## if Automatic step and timer is started
     if(cs.get("type") == 'A' and cs.get("timer_start") != None):
-
         # check if timer elapsed
         end = cs.get("endunix") + cs.get("timer")*60000
         now = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
+        ## switch to next step if timer is over
         if(end < now):
             nextStep()
