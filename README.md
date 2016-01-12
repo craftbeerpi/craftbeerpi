@@ -1,4 +1,5 @@
-# CraftBeerPI v2.0 - The Raspberry PI base Home Brewing Software
+# CraftBeerPI v2.0
+##The Raspberry PI base Home Brewing Software
 
 Website: www.CraftBeerPI.com
 
