@@ -52,7 +52,7 @@ while true; do
 done
 
 #Install pip (package installer):
-#apt-get -y install python-setuptools
+apt-get -y install python-setuptools
 easy_install pip
 
 #Install PySerial
