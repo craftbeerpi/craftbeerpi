@@ -57,7 +57,7 @@ sudo python runserver.py
 
 The App is now avaibale under:  http://<server_id>:5000 im Browser aufrufbar.
 
-## Bedienung
+## Manual
 
 ### Kleiner Brauhelfer Import
 To import the database from "Kleiner Brauhelfer" select "Steps".
@@ -75,7 +75,7 @@ USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 Refresh the "Import Kleiner Brauhelfer" page. Select the brew you want to load.
 After this you will asked for the MashTun and the Boild kettle of the brew.
 
-## Hardware Setup 
+## Hardware Setup
 
 * 1 x 1-wire Temperatursensor DS1820 Waterproof! (ebay)
 * Thermowell stainless steel - in gewünschter Länge (sensorshop24.de)
