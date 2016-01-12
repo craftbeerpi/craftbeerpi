@@ -85,14 +85,6 @@ while true; do
     esac
 done
 
-while true; do
-    read -p "Reboot the Raspberry PI now? (y/n): " yn
-    case $yn in
-        [Yy]* ) reboot; break;;
-        [Nn]* ) break;;
-        * ) echo "Please select (y/n): ";;
-    esac
-done
 
 cat << "EOF"
 
@@ -122,3 +114,12 @@ www.CraftBeerPI.com
 
 ----------------------------------------------------------------------------
 EOF
+
+while true; do
+    read -p "Reboot the Raspberry PI now? (y/n): " yn
+    case $yn in
+        [Yy]* ) reboot; break;;
+        [Nn]* ) break;;
+        * ) echo "Please select (y/n): ";;
+    esac
+done
