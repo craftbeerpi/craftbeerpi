@@ -1,0 +1,77 @@
+<style>
+  .temp {
+    font-size: 3.0em;
+
+  }
+  .headline {
+      font-size: 1.5em;
+  }
+</style>
+<div class="panel panel-default kettle" ng-class="kettleState(v.id)" data-toggle="tooltip" data-placement="top">
+  <div class="panel-heading">
+    <span class="headline"><i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
+    <div class="btn-group pull-right" role="group" aria-label="...">
+      <div class="btn-group" role="group" ng-if="v.sensorid">
+        <a href="#/chart/{{v.id}}" class="btn btn-default" role="group">
+          <span class="badge"><i class="fa fa-line-chart"></i></span>
+        </a>
+      </div>
+      <div class="btn-group" uib-dropdown is-open="status.isopen">
+        <button type="button" class="btn btn-default " uib-dropdown-toggle ng-disabled="disabled">
+          <span class="badge"><i class="fa fa-wrench"></i></span>
+        </button>
+        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+          <li role="menuitem"><a ng-click="calcVolume(v)">Calculate Volume</a></li>
+          <li class="divider"></li>
+         <li role="menuitem"><a href="#/kettle/{{v.id}}">Settings</a></li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-12">
+        <span class="temp"><i class="wi wi-thermometer"></i> <b>{{ getTemp(v) }}°C</b></span>
+        <span class="pull-right" ng-if="v.heater"><i class="fa fa-crosshairs"></i>
+          <strong>{{v.target_temp}}°C</strong>
+        </span>
+      </div>
+      <!--
+      <div class="col-xs-4">
+        <span ng-if="v.heater"><i class="fa fa-crosshairs"></i>
+          <strong>{{v.target_temp}}°C</strong>
+        </span>
+      </div>
+    -->
+    </div>
+    <!--
+    <div class="row>">
+      <chart kettle="v" class="chart"></chart>
+    </div>-->
+    <div class="btn-group btn-group-justified" role="group ">
+      <div class="btn-group" role="group">
+        <button class="btn btn-default" role="group" ng-click="setTargetTemp(v)">
+          <span class="badge"><i class="fa fa-crosshairs"></i></span>
+        </button>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-default" role="group" ng-if="v.heater" ng-class="buttonState(v,'automatic')" ng-click="switch_automatic(v)">
+          <span class="badge"><i class="fa fa-car"></i></span>
+        </button>
+      </div>
+      <div class="btn-group" role="group">
+
+        <button class="btn btn-default" role="group" ng-if="v.heater" ng-class="buttonState(v,'heater')" ng-click="switchGPIO(v, 'heater')">
+          <span class="badge"><i class="fa fa-fire"></i></span>
+        </button>
+      </div>
+      <div class="btn-group" role="group">
+        <button class="btn btn-default" role="group" ng-if="v.agitator" ng-class="buttonState(v,'agitator')" ng-click="switchGPIO(v, 'agitator')">
+          <span class="badge"><i class="fa fa-refresh "></i></span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

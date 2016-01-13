@@ -1,17 +1,19 @@
-# CraftBeerPI v0.1
-                                                         
+# CraftBeerPI v2.0
+The Raspberry PI base Home Brewing Software
+
+Website: www.CraftBeerPI.com
+
 ## Features
 
-* Temperaturverlaufsanzeige (Real-Time)
-* Frei Konfigurierbarer Ablaufplan mit manuellen und automatischen Schritten
-* Timer mit automatischem Start bei erreichen der Zieltemperatur
-* Digitales Brauprotokoll
-* Smartphone und Tablet optimiert 
-* WebSocket Push Notification für Real-Time Update
-* Admin Oberfläche
-* WLAN Zugriff
-* Automatische Heizsteuerung (PID Controller)
-* Sud Import aus dem "kleinen Brauhelfer"
+* Flexible Kettle Setup - From simple 1 kettle preserving cooker to 3 kettle RIMS or HERMS setup
+* Flexible Brew Step Configuraiton - Configure your own brew steps. From mashing over boiling to whirlpool
+* Automatic Timer Control. The Step Control will take care of your brew steps
+* Import Recipes from "Kleiner Brauhelfer" -Plan your brew at "Kleiner Brauhelfer" and import the recipes to CraftBeerPI
+* Heater & Agitator Control - Control heater and agitator via web interface
+* PID Controller - The PID Controller takes care to meeting the target temperatue of your kettle
+* Temperature Chart - Temprature data is recorded and display as a line chart
+* Mobile Device UI - Control your brew form Smartphone or Tablet
+
 
 ## Screenshots
 
@@ -21,162 +23,48 @@
 
 ## Installation
 
-### Raspbian installieren (Noobs)
+### Raspbian (Noobs)
 
-Hier findet ihr eine Anleitung zur Installation von Noobs.
+Here you will find the guide to install Raspbina
 
 https://www.raspberrypi.org/help/noobs-setup/
 
-Bitte als Betriebsystem Raspbian auswählen.
+Please select Raspbina as operating system.
 
-### WIFI Auf dem Raspberry PI konfigurieren
 
-Nach WLAN scannen
-```
-sudo iwlist wlan0 scan
-```
-WLAN Config Datei öffnen
-```
-sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
-```
-Netzwerk und Passwort eingeben
-```
-network={
-    ssid="The_ESSID_from_earlier"
-    psk="Your_wifi_password"
-}
-```
-WLAN Adapter stoppen
-```
-sudo ifdown wlan0
-```
-WLAN Adapter starten
-```
-sudo ifup wlan
-```
-### WiringPi installieren
-```
-sudo apt-get update
-sudo apt-get upgrade
-git clone git://git.drogon.net/wiringPi
-cd wiringPi
-git pull origin
-cd wiringPi
-./build
-```
-### Pip für Python 2.7 installieren
-```
-sudo apt-get install python-dev
-sudo apt-get install python-pip
-```
-### CraftBeer PI herunterladen
-Am einfachsten ist wenn man die Software in das Home Verzeichnis des Benutzers pi wie folgt kopiert
+### CraftBeer PI Installation
+Clone CraftBeerPI from GitHub
 ```
 git clone https://github.com/Manuel83/craftbeerpi.git
 ```
 ### Python Pakete Installieren
 
-Ins CraftBeerPI Verzeichnis wechseln und folgenden Befehlt ausführen
+Run the installation script
 ```
-sudo pip install -r requirements.txt
-```
-### Konfiguration
-
-Die Konfiguraitonsdatei ist in folgenen Verzeichnis zu finden
-
-craftbeerpi/brewapp/globalprops.py
-
-```
-nano globalprops.py
+sudo ./install.sh
 ```
 
+### Automatic start after boot
 
-Konfiguraitonsdatei
+As part of the installation you will ask if you like to start CraftBeerPI after boot automatically.
+If you have selected this at the first installation just run the installation again and
+select 'y' when you are ask if CraftBeerPI should start after boot.
 
+#### Start the Server manually
 ```
-## if test mode
-testMode = False
-
-### File name of sonder file
-tempSensorId = '28-03146215acff'
-
-### GPIO Number for Heating
-heating_pin = 17
-
-## GPIO Number Agitator
-agitator_pin = 18
-
-## interval in which the new temperatur is read
-temp_db_interval = 5
-
-## heating interval in seconds
-pid_interval = 5
-
-## PID tuning parameter
-pipP=102
-
-pidI=100
-
-pidD=5
-
-
-###################################################################
-#### INTERNAL DO NOT CHANGE PARAMETERS BELOW
-gpioMode = False
-heatingState = False
-agitatorState = False
-pidState = False
+sudo python runserver.py
 ```
 
+The App is now avaibale under:  http://<server_id>:5000 im Browser aufrufbar.
 
-### Start der Anwendung
-
-In das carfbeerpi verzeichnis wechseln 
-
-#### Starten
-```
-sudo nohup python runserver.py &
-```
-Jetzt läuft die Anwendung im Hintergrund.
-
-#### Stoppen
-
-```
-sudo netstat -ntlp
-```
-Hier den Python Process suchen und wie folgt stoppen
-
-```
-sudo kill <Process_Id>
-```
-
-```
-
-   _____            __ _   ____                 _____ _____ 	_.._..,_,_	
-  / ____|          / _| | |  _ \               |  __ \_   _|   (          )	
- | |     _ __ __ _| |_| |_| |_) | ___  ___ _ __| |__) || |      ]~,"-.-~~[	
- | |    | '__/ _` |  _| __|  _ < / _ \/ _ \ '__|  ___/ | |    .=])' (;  ([			
- | |____| | | (_| | | | |_| |_) |  __/  __/ |  | |    _| |_   | ]:: '    [			
-  \_____|_|  \__,_|_|  \__|____/ \___|\___|_|  |_|   |_____|  '=]): .)  ([		
-                                                                |:: '    |
- ---------------------------------------- (C) 2015 Manuel F.     ~~----~~
-
-SET GPIO AGITATOR
-AGITATOR GPIO OK
-SET GPIO HEATING
-HEATING GPIO OK
-START PID
- START TEMP JOB
-START STEP JOB
- * Running on http://0.0.0.0:5000/
-```
-
-Die Anwedung ist jetzt über http://<server_id>:5000 im Browser aufrufbar.
-
-## Bedienung
+## Manual
 
 ### Kleiner Brauhelfer Import
-Der Import ist noch recht einfach gehalten. Klick oben rechts auf Admin dann auf "kleiner Brauhelfer" und wähle "Import" aus. Dann wähslt du die Datei "kb_daten.sqlite" aus. 
+To import the database from "Kleiner Brauhelfer" select "Steps".
+There you will find a buttton "Import Kleiner Brauhelfer". Upload the kb_daten.sqlite of
+Kleiner Brauhelfer.
+
+You will find the sqlite file on your computer at.
 
 Windows:
 USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
@@ -184,27 +72,19 @@ USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 Mac:
 USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 
-Nach dem Import findest du in der Admin Oberfläche auf "Kleiner Brauhelfer->Liste" eine Liste aller Importierten Sude.
-Wenn du auf "Laden" klickst werden die Schritte im CraftBeerPI mit den gewählen Sud überschrieben.
+Refresh the "Import Kleiner Brauhelfer" page. Select the brew you want to load.
+After this you will asked for the MashTun and the Boild kettle of the brew.
 
-Standardmäßig wird als erster Schritt ein "manueller Schritt" bei CraftBeerPI für die Einmaischtemperatur hinzugefügt. Anschließend kommen alle Rasten aus dem "kleinen Brauhelfer". Abschließend wird noch die längste Kochezeit des gewählten Sudes als "Koch-Schritt" mit hinzugefügt.
+## Hardware Setup
 
-## Schritte Bearbeiten
-Die Schritte können auf dem Tab "Schritte" in der Admin Oberfläche des CraftBeerPI bearbeitet werden.
-Die Reihenfolge kann durch das Feld "order" definiert werden.
-
-## Hardware Setup für den Testaufbau
-
-* 1 x 1-wire Temperatursensor DS1820 Wasserdicht! (ebay)
-* Tauchhülse Edelstahl - in gewünschter Länge (sensorshop24.de) 
-* 1 x 4.7k Ohm Widerstand (Pollin.de, Conrad.de, Reichelt.de)
-* Jumper Kabel (ebay) (Am besten gleich alle Varianten kaufen Stecker-Buchse, Buchse-Buchse, Stecker-Stecker So hat man Spielraum) 
+* 1 x 1-wire Temperatursensor DS1820 Waterproof! (ebay)
+* Thermowell stainless steel - in gewünschter Länge (sensorshop24.de)
+* 1 x 4.7k Ohm Resistor (Pollin.de, Conrad.de, Reichelt.de)
+* Jumper Cable (ebay)
 * 2 x Solid-State Relais XURUI (Pollin.de, Conrad.de, Reichelt.de)
-* Strangkühlkörper KAB-60 (Pollin.de, Conrad.de, Reichelt.de)
-* Labor-Steckboard SYB-46 (Pollin.de, Conrad.de, Reichelt.de)
-* Raspberry Pi (Model A+, 2 Model B) + Netzkabel + passende SDCard (Pollin.de, Conrad.de, Reichelt.de)
-* 2 x Steckdose (Baumarkt)
-* Schrauben zum befestingen der Bauteile (Baumarkt)
+* Heatsink KAB-60 (Pollin.de, Conrad.de, Reichelt.de)
+* Breadboard SYB-46 (Pollin.de, Conrad.de, Reichelt.de)
+* Raspberry Pi (Model A+, 2 Model B) + Power Cable + SDCard (Pollin.de, Conrad.de, Reichelt.de)
 
 
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
