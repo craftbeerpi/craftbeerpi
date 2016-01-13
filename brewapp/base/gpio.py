@@ -24,7 +24,7 @@ def initGPIO():
                 app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
                 GPIO.setup(app.brewapp_kettle_state[vid]["agitator"]["gpio"], GPIO.OUT)
                 GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], 1)
-        initHardwareButton()
+        #initHardwareButton()
         app.brewapp_gpio = True
         app.logger.info("ALL GPIO INITIALIZED")
         print "GPIO OK"
