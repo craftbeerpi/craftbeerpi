@@ -3,7 +3,7 @@ from brewapp import app
 app.brewapp_jobs = []
 app.brewapp_init = []
 app.brewapp_gpio = False
-app.testMode = True
+app.testMode = False
 app.brewapp_jobstate = {}
 app.brewapp_current_step = None
 app.brewapp_button = {"next": 23, "reset": 24}
