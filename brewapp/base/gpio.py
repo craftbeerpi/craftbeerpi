@@ -14,28 +14,22 @@ def initGPIO():
     try:
         call(["modprobe", "w1-gpio"])
         call(["modprobe", "w1-therm"])
-
         for vid in app.brewapp_kettle_state:
-
-            print "SETUP"
-
             app.logger.info("## Kettle: " + str(vid))
             if(app.brewapp_kettle_state[vid]["heater"]["gpio"] != None):
-                print str(app.brewapp_kettle_state[vid]["heater"]["gpio"])
                 app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
-                GPIO.setup(int(app.brewapp_kettle[vid]["heater"]["gpio"]), GPIO.OUT)
-                GPIO.output(app.brewapp_kettle[vid]["heater"]["gpio"], 1)
+                GPIO.setup(int(app.brewapp_kettle_state[vid]["heater"]["gpio"]), GPIO.OUT)
+                GPIO.output(app.brewapp_kettle_state[vid]["heater"]["gpio"], 1)
             if(app.brewapp_kettle_state[vid]["agitator"]["gpio"] != None):
-                print str(app.brewapp_kettle_state[vid]["agitator"]["gpio"])
                 app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
-                GPIO.setup(app.brewapp_kettle[vid]["agitator"]["gpio"], GPIO.OUT)
-                GPIO.output(app.brewapp_kettle[vid]["agitator"]["gpio"], 1)
+                GPIO.setup(app.brewapp_kettle_state[vid]["agitator"]["gpio"], GPIO.OUT)
+                GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], 1)
         initHardwareButton()
         app.brewapp_gpio = True
         app.logger.info("ALL GPIO INITIALIZED")
+        print "GPIO OK"
     except Exception as e:
-        print "GPIO ERRO"
-        print e
+        print "GPIO ERROR"
         app.logger.error("SETUP GPIO FAILD " + str(e))
         app.brewapp_gpio = False
 
