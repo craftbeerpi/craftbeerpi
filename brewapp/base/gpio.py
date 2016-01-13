@@ -16,11 +16,13 @@ def initGPIO():
         call(["modprobe", "w1-therm"])
         for vid in app.brewapp_kettle_state:
             app.logger.info("## Kettle: " + str(vid))
-            if(app.brewapp_kettle_state[vid]["heater"]["gpio"] != None):
+            heater_gpio = app.brewapp_kettle_state[vid]["heater"]["gpio"]
+            if(heater_gpio != None and heater_gpio != ""):
                 app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
                 GPIO.setup(int(app.brewapp_kettle_state[vid]["heater"]["gpio"]), GPIO.OUT)
                 GPIO.output(app.brewapp_kettle_state[vid]["heater"]["gpio"], 1)
-            if(app.brewapp_kettle_state[vid]["agitator"]["gpio"] != None):
+            agiator_gpio = app.brewapp_kettle_state[vid]["agitator"]["gpio"]
+            if(agiator_gpio != None and agiator_gpio != ""):
                 app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
                 GPIO.setup(app.brewapp_kettle_state[vid]["agitator"]["gpio"], GPIO.OUT)
                 GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], 1)
