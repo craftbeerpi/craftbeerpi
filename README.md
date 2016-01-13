@@ -89,3 +89,45 @@ After this you will asked for the MashTun and the Boild kettle of the brew.
 
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
+
+
+## Start CraftBeerPI in Kiosk Mode
+
+The Kiosk Mode requires that CraftBeerPI is start at boot.
+Make sure that SSH is still enabled otherwise its not possible remove this kiosk mode.
+
+
+```
+sudo raspi-config
+```
+
+Change your boot to desktop environment. This will start-up the GUI instead of the CLI and automatically will login to user 'pi'.
+
+Install Chromium Browser
+```
+sudo apt-get install chromium
+```
+
+Change startup Config
+
+```
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+```
+
+Change the file that it looks like this
+
+```
+@lxpanel --profile LXDE
+@pcmanfm --desktop --profile LXDE
+@xset s off
+@xset -dpms
+@xset s noblank
+@sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
+@chromium --noerrdialogs --kiosk http://www.page-to.display --incognito
+```
+
+Reboot the Raspberry PI
+
+```
+sudo reboot
+```
