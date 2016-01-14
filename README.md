@@ -132,9 +132,9 @@ Reboot the Raspberry PI
 sudo reboot
 ```
 
-### Implementing a custom thermometer
-Out of the box CraftBeerPI is supporting a 1-wire Thermometer. But integrating a custom
-Thermometer Protocol is quite simple.
+### Implementing a custom thermometer protocol
+Out of the box CraftBeerPI is supporting 1-wire thermometers.
+But integrating a custom thermometer protocol is quite simple.
 
 Just overwrite 3 simple method of the w1_thermometer.py
 
