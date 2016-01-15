@@ -47,3 +47,12 @@ def brewinit():
         return wrapper
 
     return real_decorator
+
+def brewstepaction():
+    def real_decorator(function):
+        app.brewapp_stepaction.append(function)
+        def wrapper(*args, **kwargs):
+            function(*args, **kwargs)
+        return wrapper
+
+    return real_decorator

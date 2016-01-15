@@ -8,6 +8,7 @@ import logging
 import flask.ext.restless
 from logging.handlers import RotatingFileHandler
 import time
+
 import inspect
 
 
@@ -55,3 +56,7 @@ for i in app.brewapp_jobs:
     app.brewapp_jobstate[i.get("key")] = True
     start_new_thread(job,(i.get("key"),i.get("interval"),i.get("function")))
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
+
+
+for i in app.brewapp_stepaction:
+    print i.__name__

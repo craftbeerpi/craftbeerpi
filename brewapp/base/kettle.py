@@ -27,6 +27,10 @@ def kettle2state():
 def kettleGetW1Thermometer():
     return  json.dumps(getW1Thermometer())
 
+@app.route('/api/kettle2/devices', methods=['GET'])
+def kettleDevices():
+    return  json.dumps(app.brewapp_hardware.getDevices())
+
 @app.route('/api/kettle2/chart/<vid>', methods=['GET'])
 def kettlegetChart(vid):
     return  json.dumps(app.brewapp_kettle_temps_log[int(vid)])
@@ -60,11 +64,13 @@ def ws_switch_gipo(data):
 
     if(app.brewapp_kettle_state[kettleid][element]["state"] == True):
         app.logger.info("Switch off GPIO: " + str(gpio))
-        switchOFF(gpio)
+        app.brewapp_hardware.switchOFF(gpio);
+        #witchOFF(gpio)
         app.brewapp_kettle_state[kettleid][element]["state"] = False
     else:
         app.logger.info("Switch on GPIO: " + str(gpio))
-        switchON(gpio)
+        app.brewapp_hardware.switchON(gpio);
+        #witchON(gpio)
         app.brewapp_kettle_state[kettleid][element]["state"] = True
 
     socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
@@ -100,10 +106,13 @@ def post_post(result=None, **kw):
 ## INIT
 @brewinit()
 def init():
+    print "INIT KETTLE"
     app.brewapp_target_temp_method = setTargetTemp
     manager.create_api(Kettle2, methods=['GET', 'POST', 'DELETE', 'PUT'], postprocessors={'POST': [post_post], 'PATCH_SINGLE': [post_post]})
     initKettle()
-    initGPIO()
+    print "INIT DEVICES"
+    app.brewapp_hardware.init()
+    #initGPIO()
 
 def initKettle():
     kettles = Kettle2.query.all()

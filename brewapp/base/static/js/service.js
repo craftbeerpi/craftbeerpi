@@ -34,6 +34,11 @@ factory("CBPKettle", function($resource) {
       url: '/api/kettle2/thermometer',
       isArray: true
     },
+    getDevices: {
+      method: 'GET',
+      url: '/api/kettle2/devices',
+      isArray: true
+    },
     getchart: {
       method: 'GET',
       url: '/api/kettle2/chart/:id',
@@ -129,7 +134,7 @@ factory('ChartFactory', function($route, $location) {
 
   return {
     add: function(id, c) {
-      
+
       charts[id] = c;
     },
     get: function() {

@@ -21,11 +21,14 @@ def getTargetTemp(kid):
     return app.brewapp_kettle_state[kid]["target_temp"]
 
 def switchHeaterON(kid):
-    switchON(app.brewapp_kettle_state[kid]["heater"]["gpio"])
+    print app.brewapp_kettle_state[kid]["heater"]["gpio"]
+    app.brewapp_hardware.switchON(app.brewapp_kettle_state[kid]["heater"]["gpio"])
+    #witchON(app.brewapp_kettle_state[kid]["heater"]["gpio"])
     app.brewapp_kettle_state[kid]["heater"]["state"] = True
 
 def switchHeaterOFF(kid):
-    switchOFF(app.brewapp_kettle_state[kid]["heater"]["gpio"])
+    app.brewapp_hardware.switchOFF(app.brewapp_kettle_state[kid]["heater"]["gpio"])
+    ##witchOFF(app.brewapp_kettle_state[kid]["heater"]["gpio"])
     app.brewapp_kettle_state[kid]["heater"]["state"] = False
 
 def isRunning(kid):
@@ -43,7 +46,7 @@ def pidjob(kid):
         ## Target Temperature
         targetTemp = getTargetTemp(kid)
 
-    
+
         ## Current Temp is below Target Temp ... switch heater on
         if(currentTemp < targetTemp and app.brewapp_pid_state.get(kid, False) == False):
             app.brewapp_pid_state[kid] = True

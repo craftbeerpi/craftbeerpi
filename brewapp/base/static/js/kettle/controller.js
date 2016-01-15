@@ -25,12 +25,13 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     "key": undefined,
     "value": "NO GPIO",
   });
-  for(i = 1; i < 25; i++) {
-    $scope.gpio.push({
-      "key": i,
-      "value": i
-    });
-  }
+
+  CBPKettle.getDevices({}, function(response) {
+    angular.forEach(response, function(d) {
+        $scope.gpio.push({"key":d, "value":d});
+    })
+  });
+
 
   $scope.clearTempLogs = function() {
     ConfirmMessage.open("Clear Temperature Log","Do you really want to clear all Temperature Logs?", function() {
@@ -92,12 +93,12 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
       "key": undefined,
       "value": "NO GPIO",
     });
-    for(i = 1; i < 25; i++) {
-      $scope.gpio.push({
-        "key": i,
-        "value": i
-      });
-    }
+
+    CBPKettle.getDevices({}, function(response) {
+      angular.forEach(response, function(d) {
+          $scope.gpio.push({"key":d, "value":d});
+      })
+    });
 
     $scope.save = function() {
 
@@ -116,6 +117,6 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     }
 
 
-  
+
 
 });

@@ -5,3 +5,5 @@ from util import brewinit
 from model import *
 import kettle
 import step
+import signals
+import buzzer
