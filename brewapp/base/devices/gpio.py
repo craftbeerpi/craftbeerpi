@@ -4,6 +4,7 @@ class BrewGPIO(object):
     try:
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
+        print "IMPORT OK"
     except:
         print "GPIO IMPRT ERROR", str(e)
         pass
