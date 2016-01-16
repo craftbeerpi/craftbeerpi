@@ -1,6 +1,7 @@
 from brewapp import app
 class BrewGPIO(object):
 
+    print "HLALLO"
     try:
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
