@@ -1,7 +1,7 @@
 import time
 from thread import start_new_thread
 from brewapp import app, socketio, db
-from gpio import *
+
 
 ## STOP PID Controller
 def stopPID(vid):

@@ -6,7 +6,6 @@ from brewapp import app, socketio
 from views import base
 from w1_thermometer import *
 from brewapp import manager
-from gpio import *
 from pid import *
 
 ## HTTP METHODS
@@ -25,7 +24,7 @@ def kettle2state():
 
 @app.route('/api/kettle2/thermometer', methods=['GET'])
 def kettleGetW1Thermometer():
-    return  json.dumps(getW1Thermometer())
+    return  json.dumps(app.brewapp_thermometer.getSensors())
 
 @app.route('/api/kettle2/devices', methods=['GET'])
 def kettleDevices():
@@ -106,13 +105,12 @@ def post_post(result=None, **kw):
 ## INIT
 @brewinit()
 def init():
-    print "INIT KETTLE"
     app.brewapp_target_temp_method = setTargetTemp
     manager.create_api(Kettle2, methods=['GET', 'POST', 'DELETE', 'PUT'], postprocessors={'POST': [post_post], 'PATCH_SINGLE': [post_post]})
     initKettle()
-    print "INIT DEVICES"
     app.brewapp_hardware.init()
-    #initGPIO()
+    app.brewapp_thermometer.init()
+
 
 def initKettle():
     kettles = Kettle2.query.all()
@@ -129,7 +127,7 @@ def initKettle():
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
     for vid in app.brewapp_kettle_state:
-        app.brewapp_kettle_state[vid]["temp"] = tempData1Wire(app.brewapp_kettle_state[vid]["sensorid"])
+        app.brewapp_kettle_state[vid]["temp"] = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
 

@@ -1,5 +1,6 @@
 from brewapp import app
-from newgpio import *
+from brewapp.base.devices.gpio import *
+from brewapp.base.thermometer.w1_thermometer import *
 
 app.brewapp_jobs = []
 app.brewapp_init = []
@@ -15,5 +16,8 @@ app.brewapp_kettle_temps_log = {}
 app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
 
-
+## GPIO LIB
 app.brewapp_hardware = GPIO()
+
+## 
+app.brewapp_thermometer = OneWireThermometer()
