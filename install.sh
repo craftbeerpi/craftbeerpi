@@ -82,7 +82,7 @@ The 1-wire thermometer must be conneted to GPIO 4!
 
 EOF
 while true; do
-      read -p "Would you like to add active 1-wire support at your Raspberry PI? (y/n): " yn
+      read -p "Would you like to add active 1-wire support at your Raspberry PI now? (y/n): " yn
       case $yn in
           [Yy]* )
           echo '# CraftBeerPi 1-wire support' >> "/boot/config.txt"
