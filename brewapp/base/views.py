@@ -15,5 +15,5 @@ def ws_connect():
     print "CONNECT"
 
 @brewstepaction()
-def hallo():
+def myAction():
     print "WOOHOO"
