@@ -23,7 +23,7 @@ class BrewGPIO(object):
                 if(heater_gpio != None and heater_gpio != ""):
                     app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
                     GPIO.setup(heater_gpio, GPIO.OUT)
-                    GPIO.output(heater_gpio, 1)
+                    GPIO.output(heater_gpio, 0)
 
                 ## Init Agiator
                 agiator_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["agitator"]["gpio"])
@@ -31,7 +31,7 @@ class BrewGPIO(object):
                 if(agiator_gpio != None and agiator_gpio != ""):
                     app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
                     GPIO.setup(agiator_gpio, GPIO.OUT)
-                    GPIO.output(agiator_gpio, 1)
+                    GPIO.output(agiator_gpio, 0)
             app.brewapp_gpio = True
             app.logger.info("ALL GPIO INITIALIZED")
             print "ALL GPIO INITIALIZED"
@@ -55,7 +55,7 @@ class BrewGPIO(object):
         app.logger.info("GPIO ON" + str(device))
         if(app.brewapp_gpio == True):
             gpio = self.translateDeviceName(device)
-            GPIO.output(gpio, 0)
+            GPIO.output(gpio, 1)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + str(device))
@@ -64,7 +64,7 @@ class BrewGPIO(object):
         app.logger.info("GPIO OFF" + str(device))
         if(app.brewapp_gpio == True):
             gpio = self.translateDeviceName(device)
-            GPIO.output(gpio, 1)
+            GPIO.output(gpio, 0)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + str(device))
