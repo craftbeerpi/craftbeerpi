@@ -1,14 +1,17 @@
 from brewapp import app
+
+try:
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)
+    print "IMPORT OK"
+except:
+    print "GPIO IMPRT ERROR", str(e)
+    pass
+
 class BrewGPIO(object):
 
     print "HLALLO"
-    try:
-        import RPi.GPIO as GPIO
-        GPIO.setmode(GPIO.BCM)
-        print "IMPORT OK"
-    except:
-        print "GPIO IMPRT ERROR", str(e)
-        pass
+
 
     def init(self):
         try:
