@@ -3,15 +3,12 @@ from brewapp import app
 try:
     import RPi.GPIO as GPIO
     GPIO.setmode(GPIO.BCM)
-    print "IMPORT OK"
-except:
-    print "GPIO IMPRT ERROR", str(e)
+    app.logger.info("SETUP GPIO Module Loaded")
+except Exception as e:
+    app.logger.error("SETUP GPIO Module " + str(e))
     pass
 
 class BrewGPIO(object):
-
-    print "HLALLO"
-
 
     def init(self):
         try:
@@ -34,9 +31,7 @@ class BrewGPIO(object):
                     GPIO.output(agiator_gpio, 0)
             app.brewapp_gpio = True
             app.logger.info("ALL GPIO INITIALIZED")
-            print "ALL GPIO INITIALIZED"
         except Exception as e:
-            print "GPIO ERROR", str(e)
             app.logger.error("SETUP GPIO FAILD " + str(e))
             app.brewapp_gpio = False
 

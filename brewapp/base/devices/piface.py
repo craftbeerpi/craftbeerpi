@@ -1,12 +1,11 @@
+try:
+    import pifacedigitalio as piface
+    app.logger.info("SETUP PiFace Module Loaded")
+except:
+    app.logger.error("SETUP PiFace Module " + str(e))
+    pass
 
 class PiFace(object):
-
-    try:
-        import pifacedigitalio as piface
-        print "PiFace OK"
-    except:
-        print "PiFace ERROR"
-        pass
 
     def init(self):
         piface.init()
@@ -19,12 +18,16 @@ class PiFace(object):
         return gpio
 
     def translateDeviceName(self, name):
-        return name[4:]
+        if(name == None or name == ""):
+            return None
+        return int(name[4:])
 
     def switchON(self, device):
+        gpio = self.translateDeviceName(device)
         piface.digital_write(gpio,1)
         pass
 
     def switchOFF(self, device):
+        gpio = self.translateDeviceName(device)
         piface.digital_write(gpio,0)
         pass

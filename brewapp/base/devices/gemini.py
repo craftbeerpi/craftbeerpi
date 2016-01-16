@@ -1,3 +1,4 @@
+import subprocess
 
 class Gemini(object):
 

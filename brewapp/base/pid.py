@@ -60,6 +60,6 @@ def pidjob(kid):
         time.sleep(1)
 
     app.brewapp_pid_state[kid] = False
-    switchOFF(kid)
+    switchHeaterOFF(kid)
     socketio.emit('kettle_automatic_off', kid, namespace ='/brew')
     app.logger.info("Stop PID - Kettle Id: "+ str(kid))
