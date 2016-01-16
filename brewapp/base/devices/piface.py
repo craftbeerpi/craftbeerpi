@@ -3,7 +3,7 @@ from brewapp import app
 try:
     import pifacedigitalio as piface
     app.logger.info("SETUP PiFace Module Loaded")
-except:
+except Exception as e:
     app.logger.error("SETUP PiFace Module " + str(e))
     pass
 
@@ -11,7 +11,7 @@ class PiFace(object):
 
     ## initialize the piface
     def init(self):
-        piface.init()
+        #piface.init()
         pass
 
     ## Returns the possible conntores as string
@@ -28,10 +28,13 @@ class PiFace(object):
 
     def switchON(self, device):
         gpio = self.translateDeviceName(device)
-        piface.digital_write(gpio,1)
+        print gpio
+        #piface.digital_write(gpio,1)
         pass
 
     def switchOFF(self, device):
+
         gpio = self.translateDeviceName(device)
-        piface.digital_write(gpio,0)
+        print gpio
+        #piface.digital_write(gpio,0)
         pass

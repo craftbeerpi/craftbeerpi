@@ -58,5 +58,6 @@ for i in app.brewapp_jobs:
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
 
 
-#for i in app.brewapp_stepaction:
-#    print i.__name__
+for i in app.brewapp_pid:
+    print i.__name__
+    i(1).run()

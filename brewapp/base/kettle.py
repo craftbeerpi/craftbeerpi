@@ -6,7 +6,7 @@ from brewapp import app, socketio
 from views import base
 from w1_thermometer import *
 from brewapp import manager
-from pid import *
+from pidbase import *
 
 ## HTTP METHODS
 @base.route('/gpio', methods=['PUT'])

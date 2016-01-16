@@ -56,3 +56,12 @@ def brewstepaction():
         return wrapper
 
     return real_decorator
+
+def brewpid():
+    def real_decorator(function):
+        app.brewapp_pid.append(function)
+        def wrapper(*args, **kwargs):
+            function(*args, **kwargs)
+        return wrapper
+
+    return real_decorator
