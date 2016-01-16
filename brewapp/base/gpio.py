@@ -3,6 +3,9 @@ from brewapp.base.util import *
 from subprocess import call
 from step import nextStep, reset
 
+off_state = 0
+on_state = 1
+
 try:
     import RPi.GPIO as GPIO
     GPIO.setmode(GPIO.BCM)
@@ -20,12 +23,12 @@ def initGPIO():
             if(heater_gpio != None and heater_gpio != ""):
                 app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
                 GPIO.setup(int(app.brewapp_kettle_state[vid]["heater"]["gpio"]), GPIO.OUT)
-                GPIO.output(app.brewapp_kettle_state[vid]["heater"]["gpio"], 1)
+                GPIO.output(app.brewapp_kettle_state[vid]["heater"]["gpio"], off_state)
             agiator_gpio = app.brewapp_kettle_state[vid]["agitator"]["gpio"]
             if(agiator_gpio != None and agiator_gpio != ""):
                 app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
                 GPIO.setup(app.brewapp_kettle_state[vid]["agitator"]["gpio"], GPIO.OUT)
-                GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], 1)
+                GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], off_state)
         #initHardwareButton()
         app.brewapp_gpio = True
         app.logger.info("ALL GPIO INITIALIZED")
@@ -63,7 +66,7 @@ def toogle(vid, name, gpio):
 def switchON(gpio):
     app.logger.info("GPIO ON" + str(gpio))
     if(app.brewapp_gpio == True):
-        GPIO.output(gpio, 0)
+        GPIO.output(gpio, on_state)
         pass
     else:
         app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + str(gpio))
@@ -71,7 +74,7 @@ def switchON(gpio):
 def switchOFF(gpio):
     app.logger.info("GPIO OFF" + str(gpio))
     if(app.brewapp_gpio == True):
-        GPIO.output(gpio, 1)
+        GPIO.output(gpio, off_state)
         pass
     else:
         app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + str(gpio))

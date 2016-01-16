@@ -3,6 +3,8 @@ from thread import start_new_thread
 from brewapp import app, socketio, db
 from gpio import *
 
+
+
 ## STOP PID Controller
 def stopPID(vid):
     key = str(vid)+"pid";
@@ -43,7 +45,7 @@ def pidjob(kid):
         ## Target Temperature
         targetTemp = getTargetTemp(kid)
 
-    
+
         ## Current Temp is below Target Temp ... switch heater on
         if(currentTemp < targetTemp and app.brewapp_pid_state.get(kid, False) == False):
             app.brewapp_pid_state[kid] = True
@@ -57,6 +59,6 @@ def pidjob(kid):
         time.sleep(1)
 
     app.brewapp_pid_state[kid] = False
-    switchOFF(kid)
+    switchHeaterOFF(kid)
     socketio.emit('kettle_automatic_off', kid, namespace ='/brew')
     app.logger.info("Stop PID - Kettle Id: "+ str(kid))
