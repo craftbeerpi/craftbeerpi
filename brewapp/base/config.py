@@ -17,7 +17,7 @@ app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
 
 ## GPIO LIB
-app.brewapp_hardware = GPIO()
+app.brewapp_hardware = BrewGPIO()
 
-## 
+##
 app.brewapp_thermometer = OneWireThermometer()

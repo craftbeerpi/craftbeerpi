@@ -1,5 +1,12 @@
 from brewapp import app
-class GPIO(object):
+class BrewGPIO(object):
+
+    try:
+        import RPi.GPIO as GPIO
+        GPIO.setmode(GPIO.BCM)
+    except:
+        print "GPIO IMPRT ERROR", str(e)
+        pass
 
     def init(self):
         try:
