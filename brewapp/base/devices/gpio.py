@@ -49,7 +49,7 @@ class BrewGPIO(object):
     def translateDeviceName(self, name):
         if(name == None or name == ""):
             return None
-        return name[4:]
+        return int(name[4:])
 
     def switchON(self, device):
         app.logger.info("GPIO ON" + str(device))
