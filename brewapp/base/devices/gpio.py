@@ -34,7 +34,7 @@ class BrewGPIO(object):
                     GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], 1)
             app.brewapp_gpio = True
             app.logger.info("ALL GPIO INITIALIZED")
-            print "GPIO OK"
+            print "ALL GPIO INITIALIZED"
         except Exception as e:
             print "GPIO ERROR", str(e)
             app.logger.error("SETUP GPIO FAILD " + str(e))
