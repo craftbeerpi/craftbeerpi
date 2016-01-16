@@ -11,9 +11,8 @@ class OneWireThermometer(object):
         try:
             call(["modprobe", "w1-gpio"])
             call(["modprobe", "w1-therm"])
-        except:
-            
-        pass
+        except Exception as e:
+            app.logger.error("Faild to initialize 1 wire thermometert ERROR: " + str(e))
 
     def getSensors(self):
         try:

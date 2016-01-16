@@ -41,7 +41,7 @@ class GPIO(object):
         app.logger.info("GPIO ON" + str(device))
         if(app.brewapp_gpio == True):
             print self.translateDeviceName(device)
-            #GPIO.output(gpio, 0)
+            GPIO.output(gpio, 0)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + str(device))
@@ -50,7 +50,7 @@ class GPIO(object):
         app.logger.info("GPIO OFF" + str(device))
         if(app.brewapp_gpio == True):
             print self.translateDeviceName(device)
-            #GPIO.output(gpio, 1)
+            GPIO.output(gpio, 1)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + str(device))
