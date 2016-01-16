@@ -24,7 +24,7 @@ class GPIO(object):
             app.logger.info("ALL GPIO INITIALIZED")
             print "GPIO OK"
         except Exception as e:
-            print "GPIO ERROR"
+            print "GPIO ERROR", str(e)
             app.logger.error("SETUP GPIO FAILD " + str(e))
             app.brewapp_gpio = False
 
