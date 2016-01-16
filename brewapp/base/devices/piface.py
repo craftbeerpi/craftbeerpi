@@ -7,13 +7,15 @@ except:
 
 class PiFace(object):
 
+    ## initialize the piface
     def init(self):
         piface.init()
         pass
 
+    ## Returns the possible conntores as string
     def getDevices(self):
         gpio = []
-        for i in range(2, 6):
+        for i in range(1, 2):
             gpio.append("GPIO"+str(i))
         return gpio
 
