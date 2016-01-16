@@ -22,7 +22,7 @@ class BrewGPIO(object):
                 heater_gpio = translateDeviceName(app.brewapp_kettle_state[vid]["heater"]["gpio"])
                 if(heater_gpio != None and heater_gpio != ""):
                     app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
-                    GPIO.setup(heater_gpio), GPIO.OUT)
+                    GPIO.setup(heater_gpio, GPIO.OUT)
                     GPIO.output(heater_gpio, 1)
 
                 ## Init Agiator
