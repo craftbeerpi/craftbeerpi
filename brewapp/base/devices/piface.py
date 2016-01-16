@@ -1,3 +1,5 @@
+from brewapp import app
+
 try:
     import pifacedigitalio as piface
     app.logger.info("SETUP PiFace Module Loaded")

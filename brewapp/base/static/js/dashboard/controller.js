@@ -1,4 +1,4 @@
-angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, ChartFactory, $uibModal, ws) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, ChartFactory, $uibModal, ws, $timeout) {
 
   CBPKettle.query(function(data) {
     $scope.kettles = data.objects;
@@ -15,6 +15,8 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   CBPKettle.getstate(function(data) {
     $scope.kettle_state = data;
   });
+
+
 
   $scope.getTemp = function(item) {
     if ($scope.kettle_state == undefined) {
