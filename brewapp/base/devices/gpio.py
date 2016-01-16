@@ -19,19 +19,19 @@ class BrewGPIO(object):
                 app.logger.info("## Kettle: " + str(vid))
 
                 ## Init Heater
-                heater_gpio = app.brewapp_kettle_state[vid]["heater"]["gpio"]
+                heater_gpio = translateDeviceName(app.brewapp_kettle_state[vid]["heater"]["gpio"])
                 if(heater_gpio != None and heater_gpio != ""):
                     app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
-                    GPIO.setup(int(app.brewapp_kettle_state[vid]["heater"]["gpio"]), GPIO.OUT)
-                    GPIO.output(app.brewapp_kettle_state[vid]["heater"]["gpio"], 1)
+                    GPIO.setup(heater_gpio), GPIO.OUT)
+                    GPIO.output(heater_gpio, 1)
 
                 ## Init Agiator
                 agiator_gpio = app.brewapp_kettle_state[vid]["agitator"]["gpio"]
                 print agiator_gpio
                 if(agiator_gpio != None and agiator_gpio != ""):
                     app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
-                    GPIO.setup(app.brewapp_kettle_state[vid]["agitator"]["gpio"], GPIO.OUT)
-                    GPIO.output(app.brewapp_kettle_state[vid]["agitator"]["gpio"], 1)
+                    GPIO.setup(agiator_gpio, GPIO.OUT)
+                    GPIO.output(agiator_gpio, 1)
             app.brewapp_gpio = True
             app.logger.info("ALL GPIO INITIALIZED")
             print "ALL GPIO INITIALIZED"
@@ -47,6 +47,8 @@ class BrewGPIO(object):
         return gpio
 
     def translateDeviceName(self, name):
+        if(name == None or name == ""):
+            return None
         return name[4:]
 
     def switchON(self, device):
