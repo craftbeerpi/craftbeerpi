@@ -7,7 +7,7 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
     "key": undefined,
     "value": "NO GPIO",
   });
-  for(i = 1; i < 25; i++) {
+  for(i = 1; i < 31; i++) {
     $scope.gpio.push({
       "key": i,
       "value": i

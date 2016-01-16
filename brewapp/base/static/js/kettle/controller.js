@@ -25,7 +25,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     "key": undefined,
     "value": "NO GPIO",
   });
-  for(i = 1; i < 25; i++) {
+  for(i = 1; i < 31; i++) {
     $scope.gpio.push({
       "key": i,
       "value": i
@@ -92,7 +92,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
       "key": undefined,
       "value": "NO GPIO",
     });
-    for(i = 1; i < 25; i++) {
+    for(i = 1; i < 31; i++) {
       $scope.gpio.push({
         "key": i,
         "value": i
@@ -116,6 +116,6 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     }
 
 
-  
+
 
 });
