@@ -101,6 +101,33 @@ cat << "EOF"
 
 EOF
 
+if ! grep -q "dtoverlay=w1-gpio" "/boot/config.txt"; then
+cat << "EOF"
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Device Tree Overlay for 1-wire is NOT confiured in /boot/config.txt.
+This is required for 1-wire thermometer.
+This script will add the following line to the /boot/config.txt
+
+dtoverlay=w1-gpio,gpiopin=4,pullup=on
+
+The 1-wire thermometer must be conneted to GPIO 4!
+
+EOF
+while true; do
+      read -p "Would you like to add active 1-wire support at your Raspberry PI now? (y/n): " yn
+      case $yn in
+          [Yy]* )
+          echo '# CraftBeerPi 1-wire support' >> "/boot/config.txt"
+          echo 'dtoverlay=w1-gpio,gpiopin=4,pullup=on' >> "/boot/config.txt"
+          break;;
+          [Nn]* ) break;;
+          * ) echo "(Y/N)";;
+      esac
+  done
+fi
+
 while true; do
     read -p "Would you like to start CarftBeerPI automatically after boot? (y/n): " yn
     case $yn in
