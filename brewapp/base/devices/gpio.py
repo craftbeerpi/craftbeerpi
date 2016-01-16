@@ -54,7 +54,7 @@ class BrewGPIO(object):
     def switchON(self, device):
         app.logger.info("GPIO ON" + str(device))
         if(app.brewapp_gpio == True):
-            print self.translateDeviceName(device)
+            gpio = self.translateDeviceName(device)
             GPIO.output(gpio, 0)
             pass
         else:
@@ -63,7 +63,7 @@ class BrewGPIO(object):
     def switchOFF(self, device):
         app.logger.info("GPIO OFF" + str(device))
         if(app.brewapp_gpio == True):
-            print self.translateDeviceName(device)
+            gpio = self.translateDeviceName(device)
             GPIO.output(gpio, 1)
             pass
         else:
