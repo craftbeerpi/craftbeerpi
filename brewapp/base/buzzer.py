@@ -25,8 +25,8 @@ def initBuzzer():
 
 @next_step.connect_via(app)
 def nextStepBeep(sender, **extra):
-    start_new_thread(sound3,(,))
-    
+    start_new_thread(sound3,())
+
 
 
 @start_timer.connect_via(app)
