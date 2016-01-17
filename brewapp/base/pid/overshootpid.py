@@ -1,11 +1,13 @@
-from brewapp.base.pidbase import *
+from brewapp.base.pid.pidbase import *
 from brewapp import app
 import time
 
 class OvershootPID(PIDBase):
     state = False
     def run(self):
+        print "START PID"
         while self.isRunning():
+            print "CHECK"
             currentTemp = self.getCurrentTemp() ## Current temperature
             targetTemp = self.getTargetTemp() ## Target Temperature
             ## Current Temp is below Target Temp ... switch heater on

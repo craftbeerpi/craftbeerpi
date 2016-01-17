@@ -6,7 +6,7 @@ from brewapp import app, socketio
 from views import base
 from w1_thermometer import *
 from brewapp import manager
-from pidbase import *
+from brewapp.base.pid import *
 
 ## HTTP METHODS
 @base.route('/gpio', methods=['PUT'])
@@ -125,6 +125,7 @@ def initKettle():
         app.brewapp_kettle_state[v.id]["temp"] = 0
         app.brewapp_kettle_state[v.id]["target_temp"] = v.target_temp
         app.brewapp_kettle_state[v.id]["sensorid"]  = v.sensorid
+        app.brewapp_kettle_state[v.id]["sensoroffset"]  = v.sensoroffset
         app.brewapp_kettle_state[v.id]["automatic"] = {"state": False }
         app.brewapp_kettle_state[v.id]["agitator"]  = {"state": False, "gpio": v.agitator}
         app.brewapp_kettle_state[v.id]["heater"]    = {"state": False, "gpio": v.heater}
@@ -132,7 +133,11 @@ def initKettle():
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
     for vid in app.brewapp_kettle_state:
-        app.brewapp_kettle_state[vid]["temp"] = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
+        temp = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
+        if(app.brewapp_kettle_state[vid]["sensoroffset"] != None):
+            app.brewapp_kettle_state[vid]["temp"] = temp + app.brewapp_kettle_state[vid]["sensoroffset"]
+        else:
+            app.brewapp_kettle_state[vid]["temp"] = temp
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
 

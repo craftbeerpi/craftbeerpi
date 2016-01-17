@@ -1,7 +1,7 @@
 from brewapp import app, socketio, db
 import time
 from thread import start_new_thread
-from util import *
+from brewapp.base.util import *
 
 class PIDBase(object):
 
@@ -24,7 +24,7 @@ class PIDBase(object):
         app.brewapp_hardware.switchOFF(app.brewapp_kettle_state[self.kid]["heater"]["gpio"])
         app.brewapp_kettle_state[self.kid]["heater"]["state"] = False
         socketio.emit('kettle_automatic_off', self.kid, namespace ='/brew')
-        
+
     def __init__(self, kid):
         self.kid = kid
 

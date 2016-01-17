@@ -1,5 +1,5 @@
 from brewapp import app
-from brewapp.base.hardwarebase import HardwareBase
+from brewapp.base.devices.hardwarebase import HardwareBase
 
 try:
     import RPi.GPIO as GPIO

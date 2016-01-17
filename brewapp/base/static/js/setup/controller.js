@@ -2,17 +2,19 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
 
 
   $scope.num = 0
+  
+
   $scope.gpio = []
   $scope.gpio.push({
     "key": undefined,
     "value": "NO GPIO",
   });
-  for(i = 1; i < 25; i++) {
-    $scope.gpio.push({
-      "key": i,
-      "value": i
-    });
-  }
+
+  CBPKettle.getDevices({}, function(response) {
+    angular.forEach(response, function(d) {
+        $scope.gpio.push({"key":d, "value":d});
+    })
+  });
 
   $scope.thermometer = [];
   $scope.thermometer.push({"key":"", "value":"No Sensor"});

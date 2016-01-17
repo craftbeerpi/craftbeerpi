@@ -1,5 +1,5 @@
 import subprocess
-from brewapp.base.hardwarebase import HardwareBase
+from brewapp.base.devices.hardwarebase import HardwareBase
 class Gemini(HardwareBase):
 
     def init(self):
@@ -24,7 +24,6 @@ class Gemini(HardwareBase):
         pass
 
     def switchOFF(self, device):
-
         try:
             id = translateDeviceName(device)
             command = "sudo sispmctl -f " + str(id)
