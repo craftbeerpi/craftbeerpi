@@ -25,19 +25,15 @@ def initBuzzer():
 
 @next_step.connect_via(app)
 def nextStepBeep(sender, **extra):
-    print "NEXT"
-    #Dot Dot Dot
     sound3()
 
 
 @start_timer.connect_via(app)
 def timer(sender, **extra):
-    print "TIMER"
     sound()
 
 @reset_step.connect_via(app)
 def reset(sender, **extra):
-    print "REST"
     sound2()
 
 def sound2():
