@@ -161,10 +161,8 @@ def reset():
 
 ## Methods
 def resetSteps():
-
     from signals import reset_step as reset_signal
     reset_signal.send(app)
-
     db.session.query(Step).update({'state': 'I', 'start': None, 'end': None, 'timer_start': None},  synchronize_session='evaluate')
     db.session.commit()
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
