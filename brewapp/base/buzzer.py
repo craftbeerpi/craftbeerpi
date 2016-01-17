@@ -40,6 +40,31 @@ def reset(sender, **extra):
     print "REST"
     sound()
 
+def sound2():
+    try:
+        GPIO.output(buzzer_gpio,GPIO.HIGH)
+        time.sleep(2)
+        GPIO.output(buzzer_gpio,GPIO.LOW)
+    except Exception as e:
+        print e
+
+def sound():
+    wait = .2
+    try:
+        GPIO.output(buzzer_gpio,GPIO.HIGH)
+        time.sleep(wait)
+        GPIO.output(buzzer_gpio,GPIO.LOW)
+        time.sleep(wait)
+        GPIO.output(buzzer_gpio,GPIO.HIGH)
+        time.sleep(wait)
+        GPIO.output(buzzer_gpio,GPIO.LOW)
+        time.sleep(wait)
+        GPIO.output(buzzer_gpio,GPIO.HIGH)
+        time.sleep(wait)
+        GPIO.output(buzzer_gpio,GPIO.LOW)
+    except Exception as e:
+        print e
+
 def sound():
     try:
         GPIO.output(buzzer_gpio,GPIO.HIGH)
@@ -52,7 +77,6 @@ def sound():
         time.sleep(.1)
         GPIO.output(buzzer_gpio,GPIO.HIGH)
         time.sleep(.1)
-
         GPIO.output(buzzer_gpio,GPIO.LOW)
     except Exception as e:
         print e
