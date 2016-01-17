@@ -1,5 +1,5 @@
 from brewapp import app
-from brewapp.hardwarebase import HardwareBase
+from brewapp.base.hardwarebase import HardwareBase
 try:
     import pifacedigitalio as piface
     app.logger.info("SETUP PiFace Module Loaded")

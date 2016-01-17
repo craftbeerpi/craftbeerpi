@@ -1,5 +1,5 @@
 from brewapp import app
-from brewapp.hardwarebase import HardwareBase
+from brewapp.base.hardwarebase import HardwareBase
 class DummyGPIO(HardwareBase):
 
     def init(self):

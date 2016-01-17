@@ -1,5 +1,5 @@
 import subprocess
-from brewapp.hardwarebase import HardwareBase
+from brewapp.base.hardwarebase import HardwareBase
 class Gemini(HardwareBase):
 
     def init(self):
