@@ -15,7 +15,7 @@ except Exception as e:
     app.logger.error("SETUP GPIO Module " + str(e))
     pass
 
-@brewinit()
+#@brewinit()
 def initBuzzer():
     print "INIT"
     try:
@@ -24,17 +24,17 @@ def initBuzzer():
     except Exception as e:
         print e
 
-@next_step.connect_via(app)
+#@next_step.connect_via(app)
 def nextStepBeep(sender, **extra):
     start_new_thread(sound3,())
 
 
 
-@start_timer.connect_via(app)
+#@start_timer.connect_via(app)
 def timer(sender, **extra):
     sound()
 
-@reset_step.connect_via(app)
+#@reset_step.connect_via(app)
 def reset(sender, **extra):
     sound2()
 
