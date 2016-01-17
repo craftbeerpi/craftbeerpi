@@ -43,7 +43,7 @@ def reset(sender, **extra):
 def sound2():
     try:
         GPIO.output(buzzer_gpio,GPIO.HIGH)
-        time.sleep(2)
+        time.sleep(1)
         GPIO.output(buzzer_gpio,GPIO.LOW)
     except Exception as e:
         print e
