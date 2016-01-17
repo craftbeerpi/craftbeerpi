@@ -27,7 +27,7 @@ def initBuzzer():
 def nextStepBeep(sender, **extra):
     print "NEXT"
     #Dot Dot Dot
-    sound()
+    sound3()
 
 
 @start_timer.connect_via(app)
@@ -38,7 +38,7 @@ def timer(sender, **extra):
 @reset_step.connect_via(app)
 def reset(sender, **extra):
     print "REST"
-    sound()
+    sound2()
 
 def sound2():
     try:
@@ -48,7 +48,7 @@ def sound2():
     except Exception as e:
         print e
 
-def sound():
+def sound3():
     wait = .2
     try:
         GPIO.output(buzzer_gpio,GPIO.HIGH)
