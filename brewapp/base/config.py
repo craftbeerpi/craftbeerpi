@@ -23,7 +23,7 @@ from brewapp.base.pid.overshootpid import *
 ## GPIO LIB
 #app.brewapp_hardware = piface.PiFace()
 #app.brewapp_hardware = dummygpio.DummyGPIO()
-app.brewapp_hardware = gpio.BrewGPIO()
+app.brewapp_hardware = gpio.GPIO()
 #app.brewapp_hardware = gemini.Gemini()
 
 app.brewapp_pid_logic = OvershootPID

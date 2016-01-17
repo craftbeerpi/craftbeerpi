@@ -3,11 +3,14 @@ from brewapp import app
 class DummyGPIO(object):
 
     def init(self):
-        pass
+        print "INIT"
+
+    def cleanup(self):
+        print "CLEAN UP"
 
     def getDevices(self):
         gpio = []
-        for i in range(1, 40):
+        for i in range(1, 6):
             gpio.append("GPIO"+str(i))
         return gpio
 

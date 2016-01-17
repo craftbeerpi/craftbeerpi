@@ -40,6 +40,11 @@ class Kettle2(db.Model):
     def __unicode__(self):
         return self.id
 
+class Pump(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    hardware = db.Column(db.String(80))
+
 class Config(db.Model):
     name = db.Column(db.String(50), primary_key=True)
     value = db.Column(db.String(255))

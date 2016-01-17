@@ -24,7 +24,7 @@ class PIDBase(object):
         app.brewapp_hardware.switchOFF(app.brewapp_kettle_state[self.kid]["heater"]["gpio"])
         app.brewapp_kettle_state[self.kid]["heater"]["state"] = False
         socketio.emit('kettle_automatic_off', self.kid, namespace ='/brew')
-
+        
     def __init__(self, kid):
         self.kid = kid
 

@@ -35,6 +35,10 @@ class BrewGPIO(object):
             app.logger.error("SETUP GPIO FAILD " + str(e))
             app.brewapp_gpio = False
 
+    def cleanup(self):
+        print "CLEAN UP"
+        GPIO.cleanup()
+
     def getDevices(self):
         gpio = []
         for i in range(1, 40):

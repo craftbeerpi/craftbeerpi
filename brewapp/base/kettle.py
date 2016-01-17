@@ -91,16 +91,21 @@ def setTargetTemp(vid, temp):
         socketio.emit('kettle_update', getAsArray(Kettle2), namespace ='/brew')
 
 def post_post(result=None, **kw):
+
     if(result != None):
-        vid = result["id"]
-        app.brewapp_kettle_state[vid] = {}
-        app.brewapp_kettle_state[vid]["temp"] = 0
-        app.brewapp_kettle_state[vid]["target_temp"] = result["target_temp"]
-        app.brewapp_kettle_state[vid]["sensorid"]  = result["sensorid"]
-        app.brewapp_kettle_state[vid]["automatic"] = {"state": False }
-        app.brewapp_kettle_state[vid]["agitator"]  = {"state": False, "gpio": result["agitator"]}
-        app.brewapp_kettle_state[vid]["heater"]    = {"state": False, "gpio": result["heater"]}
-        app.brewapp_kettle_temps_log[vid] = []
+        app.brewapp_hardware.cleanup()
+        initKettle()
+        app.brewapp_hardware.init()
+        #vid = result["id"]
+        #app.brewapp_kettle_state[vid] = {}
+        #app.brewapp_kettle_state[vid]["temp"] = 0
+        #app.brewapp_kettle_state[vid]["target_temp"] = result["target_temp"]
+        #app.brewapp_kettle_state[vid]["sensorid"]  = result["sensorid"]
+        #app.brewapp_kettle_state[vid]["automatic"] = {"state": False }
+        #app.brewapp_kettle_state[vid]["agitator"]  = {"state": False, "gpio": result["agitator"]}
+        #app.brewapp_kettle_state[vid]["heater"]    = {"state": False, "gpio": result["heater"]}
+        #app.brewapp_kettle_temps_log[vid] = []
+
 
 ## INIT
 @brewinit()
