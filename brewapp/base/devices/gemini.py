@@ -1,6 +1,6 @@
 import subprocess
-
-class Gemini(object):
+from brewapp.hardwarebase import HardwareBase
+class Gemini(HardwareBase):
 
     def init(self):
         pass

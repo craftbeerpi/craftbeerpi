@@ -1,14 +1,14 @@
 from brewapp import app
+from brewapp.hardwarebase import HardwareBase
 
 try:
     import RPi.GPIO as GPIO
-
     app.logger.info("SETUP GPIO Module Loaded")
 except Exception as e:
     app.logger.error("SETUP GPIO Module " + str(e))
     pass
 
-class BrewGPIO(object):
+class BrewGPIO(HardwareBase):
 
     def init(self):
         try:

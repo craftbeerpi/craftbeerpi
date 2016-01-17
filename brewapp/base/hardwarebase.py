@@ -1,23 +1,18 @@
 from brewapp import app
-from brewapp.hardwarebase import HardwareBase
-class DummyGPIO(HardwareBase):
+
+class HardwareBase(object):
 
     def init(self):
-        print "INIT"
+        pass
 
     def cleanup(self):
-        print "CLEAN UP"
+        pass
 
     def getDevices(self):
         gpio = []
         for i in range(1, 6):
             gpio.append("GPIO"+str(i))
         return gpio
-
-    def translateDeviceName(self, name):
-        if(name == None or name == ""):
-            return None
-        return int(name[4:])
 
     def switchON(self, device):
         app.logger.info("GPIO ON" + str(device))
