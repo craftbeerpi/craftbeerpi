@@ -3,19 +3,18 @@ from brewapp import app
 from views import base
 from util import *
 
-
 #@brewinit()
 def initBuzzer():
     pass
 
 @next_step.connect_via(app)
 def nextStepBeep(sender, **extra):
-    print sender
-    print extra
-    print "BEEP!"
+    print "NEXT"
+
+@start_timer.connect_via(app)
+def timer(sender, **extra):
+    print "TIMER"
 
 @reset_step.connect_via(app)
-def woooho(sender, **extra):
-    print sender
-    print extra
-    print "WOOHOO!"
+def reset(sender, **extra):
+    print "REST"

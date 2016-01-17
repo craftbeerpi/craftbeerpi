@@ -46,5 +46,4 @@ def startPID(kid):
 
 def pidWrapper(kid):
     p = app.brewapp_pid_logic(kid)
-    print p
     p.run()

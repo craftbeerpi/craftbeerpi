@@ -16,15 +16,16 @@ app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
 app.brewapp_pid = []
 
-
-from brewapp.base.devices.piface import *
-#from brewapp.base.devices.gpio import *
-from brewapp.base.thermometer.w1_thermometer import *
-
+from brewapp.base.devices import *
+from brewapp.base.thermometer import *
 from brewapp.base.pid.overshootpid import *
+
 ## GPIO LIB
-app.brewapp_hardware = PiFace()
-#app.brewapp_hardware = BrewGPIO()
+#app.brewapp_hardware = piface.PiFace()
+#app.brewapp_hardware = dummygpio.DummyGPIO()
+app.brewapp_hardware = gpio.BrewGPIO()
+#app.brewapp_hardware = gemini.Gemini()
+
 app.brewapp_pid_logic = OvershootPID
 ##
-app.brewapp_thermometer = OneWireThermometer()
+app.brewapp_thermometer = w1_thermometer.OneWireThermometer()

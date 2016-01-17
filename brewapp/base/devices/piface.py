@@ -11,30 +11,28 @@ class PiFace(object):
 
     ## initialize the piface
     def init(self):
-        #piface.init()
+        piface.init()
         pass
 
     ## Returns the possible conntores as string
     def getDevices(self):
         gpio = []
-        for i in range(1, 2):
-            gpio.append("GPIO"+str(i))
+        for i in range(0, 8):
+            gpio.append("PiFace"+str(i))
         return gpio
 
     def translateDeviceName(self, name):
         if(name == None or name == ""):
             return None
-        return int(name[4:])
+        pin = int(name[6:])
+        return pin
 
     def switchON(self, device):
         gpio = self.translateDeviceName(device)
-        print gpio
-        #piface.digital_write(gpio,1)
+        piface.digital_write(gpio,1)
         pass
 
     def switchOFF(self, device):
-
         gpio = self.translateDeviceName(device)
-        print gpio
-        #piface.digital_write(gpio,0)
+        piface.digital_write(gpio,0)
         pass
