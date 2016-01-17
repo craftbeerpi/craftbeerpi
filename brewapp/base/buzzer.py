@@ -19,8 +19,8 @@ def initBuzzer():
     try:
         GPIO.setup(buzzer_gpio, GPIO.OUT)
         GPIO.output(buzzer_gpio, 0)
-    except:
-        pass
+    except Exception as e:
+        print e
 
 @next_step.connect_via(app)
 def nextStepBeep(sender, **extra):
@@ -44,5 +44,5 @@ def sound():
         for i in range(1, 10):
             GPIO.output(buzzer_gpio,GPIO.HIGH)
             time.sleep(.1)
-    except:
-        pass
+    except Exception as e:
+        print e
