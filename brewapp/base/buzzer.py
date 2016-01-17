@@ -45,5 +45,6 @@ def sound():
         for i in range(1, 10):
             GPIO.output(buzzer_gpio,GPIO.HIGH)
             time.sleep(.1)
+        GPIO.output(buzzer_gpio,GPIO.LOW)
     except Exception as e:
         print e
