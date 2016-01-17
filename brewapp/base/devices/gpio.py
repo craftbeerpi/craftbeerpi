@@ -2,7 +2,7 @@ from brewapp import app
 
 try:
     import RPi.GPIO as GPIO
-    GPIO.setmode(GPIO.BCM)
+
     app.logger.info("SETUP GPIO Module Loaded")
 except Exception as e:
     app.logger.error("SETUP GPIO Module " + str(e))
@@ -12,6 +12,7 @@ class BrewGPIO(object):
 
     def init(self):
         try:
+            GPIO.setmode(GPIO.BCM)
             for vid in app.brewapp_kettle_state:
                 app.logger.info("## Kettle: " + str(vid))
 
