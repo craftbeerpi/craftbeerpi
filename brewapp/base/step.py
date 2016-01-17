@@ -148,8 +148,8 @@ def nextStep():
         if(inactive.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((inactive.timer_start - datetime(1970,1,1)).total_seconds())*1000
 
-    #from signals import next_step as next_signal
-    #next_signal.send(app)
+    from signals import next_step as next_signal
+    next_signal.send(app)
 
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
 
@@ -208,8 +208,8 @@ def stepjob():
         app.brewapp_current_step = to_dict(s)
         if(s.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((s.timer_start - datetime(1970,1,1)).total_seconds())*1000
-            #from signals import start_timer as timer_signal
-            #timer_signal.send(app)
+            from signals import start_timer as timer_signal
+            timer_signal.send(app)
         db.session.add(s)
         db.session.commit()
         socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
