@@ -129,6 +129,16 @@ while true; do
 fi
 
 while true; do
+    read -p "Would you like Gembird USB Support (y/n): " yn
+    case $yn in
+        [Yy]* ) apt-get install sispmctl
+		break;;
+        [Nn]* ) break;;
+        * ) echo "Please select (y/n): ";;
+    esac
+done
+
+while true; do
     read -p "Would you like to start CarftBeerPI automatically after boot? (y/n): " yn
     case $yn in
         [Yy]* ) sed "s@#DIR#@${PWD}@g" craftbeerpiboot > /etc/init.d/craftbeerpiboot

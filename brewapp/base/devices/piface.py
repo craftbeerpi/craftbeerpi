@@ -14,6 +14,10 @@ class PiFace(HardwareBase):
         piface.init()
         pass
 
+    def cleanup(self):
+        pass
+
+
     ## Returns the possible conntores as string
     def getDevices(self):
         gpio = []

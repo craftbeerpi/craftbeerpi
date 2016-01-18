@@ -1,18 +1,21 @@
 import subprocess
 from brewapp.base.devices.hardwarebase import HardwareBase
-class Gemini(HardwareBase):
+class GembirdUSB(HardwareBase):
 
     def init(self):
         pass
 
+    def cleanup(self):
+        pass
+
     def getDevices(self):
         gpio = []
-        for i in range(1, 4):
+        for i in range(1, 5):
             gpio.append("SOCKET"+str(i))
         return gpio
 
     def translateDeviceName(self, name):
-        return name[4:]
+        return name[6:]
 
     def switchON(self, device):
         try:
