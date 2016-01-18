@@ -2,12 +2,6 @@ import subprocess
 from brewapp.base.devices.hardwarebase import HardwareBase
 class GembirdUSB(HardwareBase):
 
-    def init(self):
-        pass
-
-    def cleanup(self):
-        pass
-
     def getDevices(self):
         gpio = []
         for i in range(1, 5):

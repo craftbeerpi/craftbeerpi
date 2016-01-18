@@ -1,1 +1,1 @@
-__all__ = ["w1_thermometer"]
+__all__ = ["w1_thermometer", ""]
