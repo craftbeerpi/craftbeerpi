@@ -19,13 +19,13 @@ app.brewapp_pid = []
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
 from brewapp.base.pid.overshootpid import *
-
+from brewapp.base.pid.pidpy import *
 ## GPIO LIB
 #app.brewapp_hardware = piface.PiFace()
-#app.brewapp_hardware = dummygpio.DummyGPIO()
+app.brewapp_hardware = dummygpio.DummyGPIO()
 #app.brewapp_hardware = gpio.BrewGPIO()
-app.brewapp_hardware = gembird.GembirdUSB()
+#app.brewapp_hardware = gembird.GembirdUSB()
 
-app.brewapp_pid_logic = OvershootPID
+app.brewapp_pid_logic = pidpy
 ##
 app.brewapp_thermometer = w1_thermometer.OneWireThermometer()
