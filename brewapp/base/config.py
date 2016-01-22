@@ -12,3 +12,15 @@ app.brewapp_kettle = {}
 app.brewapp_kettle_temps_log = {}
 app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
+
+## possible parameters are "overshoot" or "pid"
+app.brewapp_automatic_logic = "overshoot"
+
+## Simple Overshoot Logic
+app.brewapp_pid_overshoot = 0
+
+## PID Loigc
+app.brewapp_pid_interval = 5
+app.brewapp_p =102
+app.brewapp_i =100
+app.brewapp_d =5
