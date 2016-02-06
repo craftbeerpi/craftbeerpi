@@ -2,7 +2,14 @@ import time
 #from brewapp.base.pid.pidbase import *
 from pidbase import *
 
-class pidpy(PIDBase):
+@brewautomatic()
+class PIDLogic(PIDBase):
+
+    configparameter = [
+    {"name":"P", "value":22},
+    {"name":"I", "value":23},
+    {"name":"D","value":24},
+    {"name": "wait_time", "value":5}]
 
     xk_1 = 0.0  # PV[k-1] = Thlt[k-1]
     xk_2 = 0.0  # PV[k-2] = Thlt[k-1]
@@ -38,25 +45,25 @@ class pidpy(PIDBase):
         ek = 0.0
         ek = tset - xk
         if (enable):
-            self.pp = self.kc * (pidpy.xk_1 - xk)
+            self.pp = self.kc * (self.xk_1 - xk)
             self.pi = self.k0 * ek
-            self.pd = self.k1 * (2.0 * pidpy.xk_1 - xk - pidpy.xk_2)
-            pidpy.yk += self.pp + self.pi + self.pd
+            self.pd = self.k1 * (2.0 * self.xk_1 - xk - self.xk_2)
+            self.yk += self.pp + self.pi + self.pd
         else:
-            pidpy.yk = 0.0
+            self.yk = 0.0
             self.pp = 0.0
             self.pi = 0.0
             self.pd = 0.0
 
-        pidpy.xk_2 = pidpy.xk_1
-        pidpy.xk_1 = xk
+        self.xk_2 = self.xk_1
+        self.xk_1 = xk
 
-        if (pidpy.yk > pidpy.GMA_HLIM):
-            pidpy.yk = pidpy.GMA_HLIM
-        if (pidpy.yk < pidpy.GMA_LLIM):
-            pidpy.yk = pidpy.GMA_LLIM
+        if (self.yk > self.GMA_HLIM):
+            self.yk = self.GMA_HLIM
+        if (self.yk < self.GMA_LLIM):
+            self.yk = self.GMA_LLIM
 
-        return pidpy.yk
+        return self.yk
 
     def run(self):
 
@@ -71,4 +78,4 @@ class pidpy(PIDBase):
             self.switchHeaterON()
             time.sleep(heating_time)
             self.switchHeaterOFF()
-            time.sleep(wait_time)
+            time.sleep(float(self.config["wait_time"]))

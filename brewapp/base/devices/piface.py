@@ -1,5 +1,5 @@
 from brewapp import app
-from brewapp.base.devices.hardwarebase import HardwareBase
+from brewapp.base.hardwareswitch import SwitchBase
 try:
     import pifacedigitalio as piface
     app.logger.info("SETUP PiFace Module Loaded")
@@ -7,7 +7,7 @@ except Exception as e:
     app.logger.error("SETUP PiFace Module " + str(e))
     pass
 
-class PiFace(HardwareBase):
+class PiFace(SwitchBase):
 
     ## initialize the piface
     def init(self):

@@ -1,5 +1,5 @@
 from brewapp import app
-from brewapp.base.devices.hardwarebase import HardwareBase
+from brewapp.base.hardwareswitch import SwitchBase
 
 try:
     import RPi.GPIO as GPIO
@@ -8,7 +8,7 @@ except Exception as e:
     app.logger.error("SETUP GPIO Module " + str(e))
     pass
 
-class BrewGPIO(HardwareBase):
+class BrewGPIO(SwitchBase):
 
     def init(self):
         try:

@@ -1,1 +1,1 @@
-__all__ = ["pidbase", "overshootpid"]
+__all__ = ["pidbase", "overshootpid", "pidpy", "customlogic2"]

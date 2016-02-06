@@ -2,8 +2,16 @@ from brewapp import app, socketio, db
 import time
 from thread import start_new_thread
 from brewapp.base.util import *
+from brewapp.base.model import Config
+from flask import Blueprint, render_template, jsonify, request
+import json
+from brewapp.base.model import *
+from brewapp.base.hardwareswitch import *
 
 class PIDBase(object):
+
+    configparameter = None
+    config = None
 
     def isRunning(self):
         key = str(self.kid)+"pid"
@@ -16,22 +24,23 @@ class PIDBase(object):
         return app.brewapp_kettle_state[self.kid]["target_temp"]
 
     def switchHeaterON(self):
-        app.brewapp_hardware.switchON(app.brewapp_kettle_state[self.kid]["heater"]["gpio"])
-        app.brewapp_kettle_state[self.kid]["heater"]["state"] = True
-        socketio.emit('kettle_automatic_on', self.kid, namespace ='/brew')
+        switchOn(app.brewapp_kettle_state[self.kid]["heater"])
 
     def switchHeaterOFF(self):
-        app.brewapp_hardware.switchOFF(app.brewapp_kettle_state[self.kid]["heater"]["gpio"])
-        app.brewapp_kettle_state[self.kid]["heater"]["state"] = False
-        socketio.emit('kettle_automatic_off', self.kid, namespace ='/brew')
+        switchOff(app.brewapp_kettle_state[self.kid]["heater"])
+
+    def getConfig(self):
+        pass
 
     def __init__(self, kid):
         self.kid = kid
 
-    def pid(self):
-        pass
-
-
+@app.route('/api/automatic/paramter', methods=['GET'])
+def automatic_parameters():
+    result = []
+    for i in app.brewapp_pid:
+        result.append({"name":i.__name__, "parameter": i.configparameter})
+    return json.dumps(result)
 
 ## STOP PID Controller
 def stopPID(kid):
@@ -41,9 +50,20 @@ def stopPID(kid):
 ## START PID Controller
 def startPID(kid):
     key = str(kid)+"pid"
+
     app.brewapp_kettle_automatic[key] = True
     start_new_thread(pidWrapper,(kid,))
 
 def pidWrapper(kid):
-    p = app.brewapp_pid_logic(kid)
-    p.run()
+    k = Kettle.query.get(kid)
+    config =  json.loads(k.automatic)
+    config_obj = {}
+    for c in config["parameter"]:
+        config_obj[c["name"]] = c["value"]
+
+    for i in app.brewapp_pid:
+        if(i.__name__ == config["name"]):
+            p  = i(kid)
+            p.config = config_obj
+            p.run()
+            break

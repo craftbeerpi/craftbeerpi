@@ -1,7 +1,7 @@
 import subprocess
-from brewapp.base.devices.hardwarebase import HardwareBase
+from brewapp.base.hardwareswitch import SwitchBase
 from brewapp import app
-class GembirdUSB(HardwareBase):
+class GembirdUSB(SwitchBase):
 
     def getDevices(self):
         gpio = []
@@ -41,6 +41,5 @@ class GembirdUSB(HardwareBase):
             else:
                 app.logger.info("Switch " + str(no) + " is on!")
                 return True
-        except Exception as e:   
+        except Exception as e:
             app.logger.error("Can't get switch state Socket:" + str(no) + "; ERROR: " + str(e))
-            

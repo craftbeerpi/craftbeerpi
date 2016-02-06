@@ -2,10 +2,15 @@ from brewapp.base.pid.pidbase import *
 from brewapp import app
 import time
 
-class OvershootPID(PIDBase):
+@brewautomatic()
+class OvershootLogic(PIDBase):
+
+    configparameter = [{"name":"overshoot","value":22}]
+
     state = False
     def run(self):
-        
+
+
         while self.isRunning():
             currentTemp = self.getCurrentTemp() ## Current temperature
             targetTemp = self.getTargetTemp() ## Target Temperature

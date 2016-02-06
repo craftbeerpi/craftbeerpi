@@ -1,9 +1,10 @@
 from brewapp import app
-from brewapp.base.devices.hardwarebase import HardwareBase
-class DummyGPIO(HardwareBase):
+from brewapp.base.hardwareswitch import SwitchBase
+class DummyGPIO(SwitchBase):
 
     def init(self):
         print "INIT"
+        print app.brewapp_switch_state
 
     def cleanup(self):
         print "CLEAN UP"

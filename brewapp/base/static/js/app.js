@@ -1,4 +1,4 @@
-angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'craftberpi.controllers', 'craftberpi.controllers5','craftberpi.controllers2', 'craftberpi.controllers3','craftberpi.controllers6','craftberpi.services']).config(function($routeProvider) {
+angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'easypiechart','craftberpi.controllers', 'craftberpi.controllers5','craftberpi.controllers2', 'craftberpi.controllers3','craftberpi.controllers6','craftberpi.hardware','craftberpi.services']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/base/static/partials/dashboard/overview.html',
@@ -14,6 +14,13 @@ angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','
     .when('/kettle/overview', {
       templateUrl: '/base/static/partials/kettle/overview.html',
       name: "Kettle"
+    })
+    .when('/pump/overview', {
+      templateUrl: '/base/static/partials/hardware/overview.html',
+      name: "Hardware"
+    })
+    .when('/pump/:vid', {
+      templateUrl: '/base/static/partials/hardware/edit.html',
     })
     .when('/about', {
       templateUrl: '/base/static/partials/about/about.html',

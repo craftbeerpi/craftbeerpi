@@ -10,22 +10,22 @@ app.brewapp_jobstate = {}
 app.brewapp_current_step = None
 app.brewapp_button = {"next": 23, "reset": 24}
 app.brewapp_kettle_state = {}
+app.brewapp_pump_state = {}
 app.brewapp_kettle = {}
 app.brewapp_kettle_temps_log = {}
 app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
 app.brewapp_pid = []
+app.brewapp_switch_state = {}
 
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
-from brewapp.base.pid.overshootpid import *
-from brewapp.base.pid.pidpy import *
+
+from brewapp.base.pid import *
 ## GPIO LIB
 #app.brewapp_hardware = piface.PiFace()
 app.brewapp_hardware = dummygpio.DummyGPIO()
 #app.brewapp_hardware = gpio.BrewGPIO()
 #app.brewapp_hardware = gembird.GembirdUSB()
 
-app.brewapp_pid_logic = pidpy
-##
 app.brewapp_thermometer = w1_thermometer.OneWireThermometer()

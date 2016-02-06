@@ -57,7 +57,7 @@ def brewstepaction():
 
     return real_decorator
 
-def brewpid():
+def brewautomatic():
     def real_decorator(function):
         app.brewapp_pid.append(function)
         def wrapper(*args, **kwargs):

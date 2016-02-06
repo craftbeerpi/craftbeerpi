@@ -1,7 +1,6 @@
 import config
 import model
 from brewapp import manager
-from util import brewinit
 from model import *
 from util import *
 from views import base
@@ -179,7 +178,8 @@ def post_get(result=None,**kw):
 @brewinit()
 def init():
     ## REST API FOR STEP
-    manager.create_api(Step, methods=['GET', 'POST', 'DELETE', 'PUT'],allow_patch_many=True, postprocessors={'PATCH_SINGLE': [post_patch_many], 'DELETE_SINGLE': [post_patch_many], 'POST': [post_patch_many],'GET_MANY': [post_get]})
+    manager.create_api(Step, methods=['GET', 'POST', 'DELETE', 'PUT'],allow_patch_many=True, postprocessors=
+    {'GET_MANY': [post_get]})
     s = Step.query.filter_by(state='A').first()
     if(s != None):
         app.brewapp_current_step = to_dict(s)

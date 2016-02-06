@@ -1,8 +1,9 @@
-angular.module('craftberpi.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle, ConfirmMessage) {
+angular.module('craftberpi.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle, ConfirmMessage, CBPConfig) {
 
   CBPKettle.query({}, function(response) {
     $scope.kettles = response.objects
   });
+
 
   $scope.thermometer = [];
   $scope.thermometer.push({"key":"", "value":""});
@@ -11,6 +12,12 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     angular.forEach(response, function(d) {
         $scope.thermometer.push({"key":d, "value":d});
     })
+  });
+
+  $scope.automatic = [];
+  CBPKettle.getautomatic({}, function(response) {
+    $scope.automatic = response;
+
   });
 
   $scope.kettle = {
@@ -52,31 +59,42 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     }
   }
   $scope.save = function() {
-    console.log( $scope.kettle.name.length)
+
+
+    console.log( $scope.selectedautomatic)
     if($scope.kettle.name.length == 0) {
       return;
     }
     CBPKettle.save($scope.kettle, function(data) {
+
+
       $scope.kettle = {
         "name": "",
         "sensorid": "",
         "heater": undefined,
         "agitator": undefined,
       }
+
+
       CBPKettle.query({}, function(response) {
         $scope.kettles = response.objects;
       });
     });
   }
 
-}).controller('KettleEditController', function($scope, CBPKettle, $routeParams) {
+}).controller('KettleEditController', function($scope, CBPKettle, $routeParams, CBPConfig) {
   // Do something with myService
   $scope.vid = $routeParams.vid
 
+    $scope.automatic = [];
     CBPKettle.get({
       "id": $scope.vid
     }, function(response) {
       $scope.kettle = response;
+    });
+
+    CBPKettle.getautomatic({}, function(response) {
+      $scope.automatic = response;
     });
 
     $scope.thermometer = [];
@@ -101,7 +119,6 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     });
 
     $scope.save = function() {
-
       CBPKettle.update({
         "id": $scope.kettle.id
       }, $scope.kettle, function() {
@@ -115,8 +132,4 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
         history.back();
       });
     }
-
-
-
-
 });

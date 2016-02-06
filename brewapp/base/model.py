@@ -24,12 +24,13 @@ class Step(db.Model):
     def __unicode__(self):
         return self.id
 
-class Kettle2(db.Model):
+class Kettle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     sensorid = db.Column(db.String(80))
     sensoroffset = db.Column(db.Float())
     heater = db.Column(db.String(10))
+    automatic = db.Column(db.String(255))
     agitator = db.Column(db.String(10))
     target_temp = db.Column(db.Integer())
     height = db.Column(db.Integer())
@@ -41,13 +42,15 @@ class Kettle2(db.Model):
     def __unicode__(self):
         return self.id
 
-class Pump(db.Model):
+class Hardware(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    hardware = db.Column(db.String(80))
+    type = db.Column(db.String(80))
+    switch = db.Column(db.String(80))
 
 class Config(db.Model):
     name = db.Column(db.String(50), primary_key=True)
+    type = db.Column(db.String(50))
     value = db.Column(db.String(255))
 
     def __repr__(self):

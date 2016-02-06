@@ -40,7 +40,6 @@ app.register_blueprint(base,url_prefix='/base')
 def index():
     return redirect('base')
 
-
 app.logger.info("## INITIALIZE DATA")
 for i in app.brewapp_init:
     app.logger.info("--> Method: " + i.__name__ + "() File: "+ inspect.getfile(i))
@@ -58,6 +57,7 @@ for i in app.brewapp_jobs:
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
 
 
-for i in app.brewapp_pid:
-    print i.__name__
-    i(1).run()
+
+
+app.brewapp_hardware.init()
+app.brewapp_thermometer.init()

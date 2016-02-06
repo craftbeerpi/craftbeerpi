@@ -16,7 +16,7 @@ angular.module('craftberpi.services', []).factory("CBPSteps", function($resource
   });
 }).
 factory("CBPKettle", function($resource) {
-  return $resource("/api/kettle2/:id", {}, {
+  return $resource("/api/kettle/:id", {}, {
     query: {
       method: 'GET',
       isArray: false
@@ -26,31 +26,64 @@ factory("CBPKettle", function($resource) {
     },
     getstate: {
       method: 'GET',
-      url: '/api/kettle2/state',
+      url: '/api/kettle/state',
       isArray: false
     },
     getthermometer: {
       method: 'GET',
-      url: '/api/kettle2/thermometer',
+      url: '/api/kettle/thermometer',
       isArray: true
     },
     getDevices: {
       method: 'GET',
-      url: '/api/kettle2/devices',
+      url: '/api/kettle/devices',
       isArray: true
     },
     getchart: {
       method: 'GET',
-      url: '/api/kettle2/chart/:id',
+      url: '/api/kettle/chart/:id',
+      isArray: true
+    },
+    getautomatic: {
+      method: 'GET',
+      url: '/api/automatic/paramter',
       isArray: true
     },
     clear: {
       method: 'POST',
-      url: '/api/kettle2/clear',
+      url: '/api/kettle/clear',
       isArray: false
     }
   });
-}).factory("Braufhelfer", function($http) {
+}).
+factory("CBPConfig", function($resource) {
+  return $resource("/api/config/:id", {}, {
+    query: {
+      method: 'GET',
+      isArray: false
+    },
+    update: {
+      method: 'PUT'
+    }
+  });
+}).
+factory("CBPPump", function($resource) {
+  return $resource("/api/hardware/:id", {}, {
+    query: {
+      method: 'GET',
+      isArray: false
+    },
+    update: {
+      method: 'PUT'
+    },
+    getstate: {
+      method: 'GET',
+      url: '/api/hardware/state',
+      isArray: false
+    }
+  });
+})
+.factory("Braufhelfer", function($http) {
   return {
 
     get: function(okCallback) {
@@ -76,8 +109,22 @@ factory("CBPKettle", function($resource) {
       });
     }
   }
+})
+.factory("CBPSwitch", function($http) {
+  return {
+    get: function(okCallback) {
+      $http({
+        method: 'GET',
+        url: '/api/switch'
+      }).then(function successCallback(response) {
+        okCallback(response.data);
+      }, function errorCallback(response) {
 
-}).factory('ws', ['$rootScope', function($rootScope) {
+      });
+    }
+  }
+})
+.factory('ws', ['$rootScope', function($rootScope) {
   'use strict';
   var socket = io.connect('/brew');
   socket.on('connect', function(msg) {
@@ -209,21 +256,17 @@ factory('ConfirmMessage', function($route, $location, $uibModal) {
             }
           }
         });
-
         modalInstance.result.then(function(data) {
           confirm()
         }, function() {
           confirm(cancel)
         })
-
       }
     }
   })
   .controller('ConfirmController', function($scope, $uibModalInstance, headline, message) {
-
     $scope.message = message;
     $scope.headline = headline;
-
     $scope.ok = function() {
       $uibModalInstance.close();
     };
