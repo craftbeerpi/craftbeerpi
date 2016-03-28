@@ -20,13 +20,25 @@ def init():
         'POST': [post_post],
         'PATCH_SINGLE': [post_post],
     })
-    initHardware()
+    initHardware(False)
 
-def initHardware():
+def initHardware(cleanup = True):
+    if(cleanup):
+        app.brewapp_hardware.cleanup()
+
+    app.brewapp_switch_state = {}
     hw = Hardware.query.all()
     for h in hw:
         if(h.switch != None):
             app.brewapp_switch_state[h.switch] = False
+
+    kettles = Kettle.query.all()
+    for v in kettles:
+        if(v.agitator != None):
+            app.brewapp_switch_state[v.agitator] = False
+        if(v.heater != None):
+            app.brewapp_switch_state[v.heater] = False
+
 
 @app.route('/api/switch', methods=['GET'])
 def switchstate():

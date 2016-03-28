@@ -1,18 +1,18 @@
-angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPPump,ChartFactory, CBPSwitch, $uibModal, ws, $timeout) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, $uibModal, ws, $timeout) {
 
 
-          $scope.percent = 65;
-         $scope.options = {
-             animate:{
-                 duration:500,
-                 enabled:true
-             },
-             barColor:'green',
-             scaleColor:false,
-             lineWidth:20,
-             lineCap:'butt',
+  $scope.percent = 65;
+  $scope.options = {
+    animate: {
+      duration: 500,
+      enabled: true
+    },
+    barColor: 'green',
+    scaleColor: false,
+    lineWidth: 20,
+    lineCap: 'butt',
 
-         };
+  };
 
   $scope.switch_state = {}
   $scope.kettle_state = {}
@@ -29,11 +29,11 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
 
   })
 
-  CBPPump.query(function(data) {
-    $scope.pumps = data.objects;
+  CBPHardware.query(function(data) {
+    $scope.hardware = data.objects;
   });
 
-  CBPPump.getstate(function(data) {
+  CBPHardware.getstate(function(data) {
     $scope.pumps_state = data;
   });
 
@@ -55,13 +55,12 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
 
   $scope.automiticState = function(item) {
 
-    if($scope.kettle_state[item.id] == undefined) {
+    if ($scope.kettle_state[item.id] == undefined) {
       return "btn-default"
     }
-    if ($scope.kettle_state[item.id]['automatic']  == true) {
+    if ($scope.kettle_state[item.id]['automatic'] == true) {
       return "btn-success"
-    }
-    else {
+    } else {
       return "btn-default"
     }
   }
@@ -73,10 +72,9 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
       return "btn-default"
     }
 
-    if($scope.switch_state[s] == true) {
+    if ($scope.switch_state[s] == true) {
       return "btn-success"
-    }
-    else {
+    } else {
       return "btn-default"
     }
   }
@@ -98,9 +96,8 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     num_of_kettles = 1;
     if (item.state == "D") {
       return "info";
-    }
-    else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps != undefined && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
-          return "active"
+    } else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps != undefined && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
+      return "active"
     } else if (item.state == "A" && item.timer_start != null) {
       return "active"
     } else if (item.state == "A" && item.timer_start == null) {

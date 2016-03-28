@@ -67,7 +67,7 @@ factory("CBPConfig", function($resource) {
     }
   });
 }).
-factory("CBPPump", function($resource) {
+factory("CBPHardware", function($resource) {
   return $resource("/api/hardware/:id", {}, {
     query: {
       method: 'GET',
@@ -259,7 +259,7 @@ factory('ConfirmMessage', function($route, $location, $uibModal) {
         modalInstance.result.then(function(data) {
           confirm()
         }, function() {
-          confirm(cancel)
+          cancel()
         })
       }
     }

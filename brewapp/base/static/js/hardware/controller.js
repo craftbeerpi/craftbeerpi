@@ -1,4 +1,4 @@
-angular.module('craftberpi.hardware', []).controller('PumpOverviewController', function($scope, $location, CBPPump, ConfirmMessage, CBPKettle, CBPConfig) {
+angular.module('craftberpi.hardware', []).controller('PumpOverviewController', function($scope, $location, CBPHardware, ConfirmMessage, CBPKettle, CBPConfig) {
 
 
   $scope.pump = {
@@ -18,7 +18,7 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
     })
   });
 
-  CBPPump.query(function(response) {
+  CBPHardware.query(function(response) {
     $scope.pumps = response.objects;
   });
   $scope.save = function() {
@@ -26,19 +26,19 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
     if ($scope.pump.name.length == 0) {
       return;
     }
-    CBPPump.save($scope.pump, function(data) {
-      CBPPump.query(function(response) {
+    CBPHardware.save($scope.pump, function(data) {
+      CBPHardware.query(function(response) {
         $scope.pumps = response.objects;
       });
     });
 
   }
 
-}).controller('PumpEditController', function($scope, $location, $routeParams, CBPPump, ConfirmMessage, CBPKettle, CBPConfig) {
+}).controller('PumpEditController', function($scope, $location, $routeParams, CBPHardware, ConfirmMessage, CBPKettle, CBPConfig) {
 
   $scope.vid = $routeParams.vid
 
-  CBPPump.get({
+  CBPHardware.get({
     "id": $scope.vid
   }, function(response) {
     $scope.pump = response;
@@ -56,18 +56,28 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
   });
 
   $scope.save = function() {
-    CBPPump.update({
+    CBPHardware.update({
       "id": $scope.pump.id
     }, $scope.pump, function() {
       history.back();
     });
   }
   $scope.delete = function() {
-    CBPPump.delete({
-      "id": $scope.pump.id
+
+    ConfirmMessage.open("Delete Hardware","Do you really want to delete the hardware?", function() {
+      CBPHardware.delete({
+        "id": $scope.pump.id
+      }, function() {
+        history.back();
+      });
+
     }, function() {
-      history.back();
+
     });
+
+
+
+
   }
 
 });

@@ -46,7 +46,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
 
       });
     }, function() {
-      // cancel do nothing
+
     });
   }
 
@@ -82,7 +82,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     });
   }
 
-}).controller('KettleEditController', function($scope, CBPKettle, $routeParams, CBPConfig) {
+}).controller('KettleEditController', function($scope, CBPKettle, $routeParams, CBPConfig, ConfirmMessage) {
   // Do something with myService
   $scope.vid = $routeParams.vid
 
@@ -126,10 +126,18 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
       });
     }
     $scope.delete = function() {
-      CBPKettle.delete({
-        "id": $scope.kettle.id
+
+      ConfirmMessage.open("Delete Kettle","Do you really want to delete the kettle?", function() {
+        CBPKettle.delete({
+          "id": $scope.kettle.id
+        }, function() {
+          history.back();
+        });
+
       }, function() {
-        history.back();
+
       });
+
+
     }
 });

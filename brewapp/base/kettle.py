@@ -7,6 +7,7 @@ from views import base
 from w1_thermometer import *
 from brewapp import manager
 from brewapp.base.pid.pidbase import *
+from brewapp.base.hardwareswitch import *
 
 
 @app.route('/api/kettle/state', methods=['GET'])
@@ -64,9 +65,7 @@ def setTargetTemp(vid, temp):
 def post_post(result=None, **kw):
     result["automatic"] = json.loads(result["automatic"])
     if(result != None):
-        app.brewapp_hardware.cleanup()
-        initKettle()
-        app.brewapp_hardware.init()
+        initHardware()
 
 def pre_post(data, **kw):
     data["automatic"] = json.dumps(data.get("automatic", None))
@@ -93,8 +92,6 @@ def init():
     'PATCH_SINGLE': [pre_post]})
     initKettle()
 
-
-
 def initKettle():
 
     kettles = Kettle.query.all()
@@ -108,10 +105,7 @@ def initKettle():
         app.brewapp_kettle_state[v.id]["automatic"] =  False
         app.brewapp_kettle_state[v.id]["agitator"]  = v.agitator
         app.brewapp_kettle_state[v.id]["heater"]    = v.heater
-        if(v.agitator != None):
-            app.brewapp_switch_state[v.agitator] = False
-        if(v.heater != None):
-            app.brewapp_switch_state[v.heater] = False
+
 ## JOBS
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
