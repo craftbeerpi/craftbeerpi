@@ -11,23 +11,24 @@ except Exception as e:
 class BrewGPIO(SwitchBase):
 
     def init(self):
+        print "SETUP GPIO"
         try:
             GPIO.setmode(GPIO.BCM)
             for vid in app.brewapp_kettle_state:
                 app.logger.info("## Kettle: " + str(vid))
 
                 ## Init Heater
-                heater_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["heater"]["gpio"])
+                heater_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["heater"])
                 if(heater_gpio != None and heater_gpio != ""):
-                    app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]["gpio"]))
+                    app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]))
                     GPIO.setup(heater_gpio, GPIO.OUT)
                     GPIO.output(heater_gpio, 0)
 
                 ## Init Agiator
-                agiator_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["agitator"]["gpio"])
+                agiator_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["agitator"])
                 print agiator_gpio
                 if(agiator_gpio != None and agiator_gpio != ""):
-                    app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]["gpio"]))
+                    app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]))
                     GPIO.setup(agiator_gpio, GPIO.OUT)
                     GPIO.output(agiator_gpio, 0)
             app.brewapp_gpio = True
