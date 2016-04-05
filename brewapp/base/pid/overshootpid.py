@@ -1,9 +1,9 @@
-from brewapp.base.pid.pidbase import *
+from automatic import *
 from brewapp import app
 import time
 
 @brewautomatic()
-class OvershootLogic(PIDBase):
+class OvershootLogic(Automatic):
 
     configparameter = [{"name":"overshoot","value":22}]
 

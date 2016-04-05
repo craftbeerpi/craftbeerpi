@@ -1,15 +1,15 @@
-from brewapp.base.pid.pidbase import *
+from automatic import *
 from brewapp import app
 import time
 
 @brewautomatic()
-class CustomLogic2(PIDBase):
+class CustomLogic2(Automatic):
 
     configparameter = [
-    {"name":"overshoot","value":22},
-    {"name":"overshoot1","value":22},
-    {"name":"overshoot2","value":22},
-    {"name":"overshoot3","value":22},
+    {"name":"Wert1","value":1},
+    {"name":"Wert2","value":2},
+    {"name":"Wert3","value":3}
+
     ]
 
     state = False

@@ -191,6 +191,7 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   }
 
   $scope.step_update = function(data) {
+
     $scope.steps = data;
   }
   $scope.kettle_automatic_on = function(data) {

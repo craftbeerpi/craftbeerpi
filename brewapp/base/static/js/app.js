@@ -22,6 +22,10 @@ angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','
     .when('/pump/:vid', {
       templateUrl: '/base/static/partials/hardware/edit.html',
     })
+    .when('/config', {
+      templateUrl: '/base/static/partials/config/overview.html',
+      name: "Config Parameter"
+    })
     .when('/about', {
       templateUrl: '/base/static/partials/about/about.html',
       name: "About"
@@ -38,6 +42,7 @@ angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','
     .when('/step/:vid', {
       templateUrl: '/base/static/partials/steps/edit.html',
     })
+
 
     .otherwise({
       redirectTo: '/'

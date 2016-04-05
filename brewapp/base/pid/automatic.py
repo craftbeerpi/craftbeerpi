@@ -8,7 +8,7 @@ import json
 from brewapp.base.model import *
 from brewapp.base.hardwareswitch import *
 
-class PIDBase(object):
+class Automatic(object):
 
     configparameter = None
     config = None
@@ -48,7 +48,7 @@ def stopPID(kid):
     app.brewapp_kettle_automatic[key] = False
 
 ## START PID Controller
-def startPID(kid):
+def startAutomatic(kid):
     key = str(kid)+"pid"
 
     app.brewapp_kettle_automatic[key] = True

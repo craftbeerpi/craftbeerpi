@@ -4,7 +4,7 @@ from model import *
 import time
 from brewapp import app, socketio
 from views import base
-from w1_thermometer import *
+
 from brewapp import manager
 
 

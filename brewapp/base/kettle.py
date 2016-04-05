@@ -4,38 +4,41 @@ from model import *
 import time
 from brewapp import app, socketio
 from views import base
-from w1_thermometer import *
+
 from brewapp import manager
-from brewapp.base.pid.pidbase import *
+from brewapp.base.pid.automatic import *
 from brewapp.base.hardwareswitch import *
 
-
+## Returns the all current kettle configs
 @app.route('/api/kettle/state', methods=['GET'])
 def Kettlestate():
     return  json.dumps(app.brewapp_kettle_state)
 
+## Returns all available thermometer sensors by name
 @app.route('/api/kettle/thermometer', methods=['GET'])
 def kettleGetW1Thermometer():
     return  json.dumps(app.brewapp_thermometer.getSensors())
 
+## Returns all devices i.e. GPIO1 - GPIO 27
 @app.route('/api/kettle/devices', methods=['GET'])
 def kettleDevices():
     return  json.dumps(app.brewapp_hardware.getDevices())
 
+## Returns all chart data for a particular kettle
 @app.route('/api/kettle/chart/<vid>', methods=['GET'])
 def kettlegetChart(vid):
     return  json.dumps(app.brewapp_kettle_temps_log[int(vid)])
 
+## Delete all log data
 @app.route('/api/kettle/clear', methods=['POST'])
 def clearTempLog():
-    app.logger.info("Delete all kettles")
+    app.logger.info("Delete all log data")
     kettles = Kettle.query.all()
     for v in kettles:
         app.brewapp_kettle_temps_log[v.id] = []
     return ('',204)
 
 ## WebSocket METHODS
-
 @socketio.on('switch_automatic', namespace='/brew')
 def ws_switch_automatic(data):
     vid = data["vid"]
@@ -44,7 +47,7 @@ def ws_switch_automatic(data):
         stopPID(vid)
     else:
         app.brewapp_kettle_state[vid]["automatic"]= True
-        startPID(vid)
+        startAutomatic(vid)
     socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
 
 @socketio.on('kettle_set_target_temp', namespace='/brew')
@@ -65,6 +68,8 @@ def setTargetTemp(vid, temp):
 def post_post(result=None, **kw):
     result["automatic"] = json.loads(result["automatic"])
     if(result != None):
+        print "INIT KETTEL"
+        initKettle()
         initHardware()
 
 def pre_post(data, **kw):
@@ -77,6 +82,10 @@ def post_get_many(result, **kw):
 def post_get_single(result, **kw):
     result["automatic"] = json.loads(result["automatic"])
 
+def post_delete(**kw):
+    initKettle();
+
+
 ## INIT
 @brewinit()
 def init():
@@ -86,6 +95,7 @@ def init():
     'POST': [post_post],
     'PATCH_SINGLE': [post_post],
     'GET_MANY':[post_get_many],
+    'DELETE_SINGLE' : [post_delete],
     'GET_SINGLE':[post_get_single]},
     preprocessors={
     'POST':[pre_post],
@@ -93,8 +103,8 @@ def init():
     initKettle()
 
 def initKettle():
-
     kettles = Kettle.query.all()
+    app.brewapp_kettle_state = {}
     for v in kettles:
         app.brewapp_kettle_temps_log[v.id] = []
         app.brewapp_kettle_state[v.id] = {}
@@ -106,11 +116,17 @@ def initKettle():
         app.brewapp_kettle_state[v.id]["agitator"]  = v.agitator
         app.brewapp_kettle_state[v.id]["heater"]    = v.heater
 
+
 ## JOBS
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
     for vid in app.brewapp_kettle_state:
+
         temp = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
+
+        #if(app.brewapp_kettle_state[vid]["unit"] == "F"):
+        #    temp = float(format(9.0/5.0 * temp + 32, '.2f'))
+
         if(app.brewapp_kettle_state[vid]["sensoroffset"] != None):
             app.brewapp_kettle_state[vid]["temp"] = temp + app.brewapp_kettle_state[vid]["sensoroffset"]
         else:

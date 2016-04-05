@@ -97,6 +97,8 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
       $scope.automatic = response;
     });
 
+
+
     $scope.thermometer = [];
     $scope.thermometer.push({"key":"", "value":"No Thermometer"});
 

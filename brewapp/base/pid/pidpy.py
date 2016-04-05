@@ -1,9 +1,9 @@
 import time
 #from brewapp.base.pid.pidbase import *
-from pidbase import *
+from automatic import *
 
 @brewautomatic()
-class PIDLogic(PIDBase):
+class PIDLogic(Automatic):
 
     configparameter = [
     {"name":"P", "value":22},
