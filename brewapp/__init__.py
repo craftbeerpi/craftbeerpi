@@ -57,7 +57,5 @@ for i in app.brewapp_jobs:
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
 
 
-
-
 app.brewapp_hardware.init()
 app.brewapp_thermometer.init()

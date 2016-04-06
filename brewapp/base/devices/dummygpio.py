@@ -1,10 +1,20 @@
 from brewapp import app
 from brewapp.base.hardwareswitch import SwitchBase
+from brewapp.base.model import *
+
 class DummyGPIO(SwitchBase):
 
     def init(self):
-        print "INIT"
+        print "INIT SWITCH"
         print app.brewapp_switch_state
+        hw = Hardware.query.all()
+        for h in hw:
+            print h.switch
+
+        hw = Kettle.query.all()
+        for h in hw:
+            print h.heater
+            print h.agitator
 
     def cleanup(self):
         print "CLEAN UP"

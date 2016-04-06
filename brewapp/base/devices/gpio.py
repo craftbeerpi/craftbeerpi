@@ -1,5 +1,6 @@
 from brewapp import app
 from brewapp.base.hardwareswitch import SwitchBase
+from brewapp.base.model import *
 
 try:
     import RPi.GPIO as GPIO
@@ -11,34 +12,39 @@ except Exception as e:
 class BrewGPIO(SwitchBase):
 
     def init(self):
-        print "SETUP GPIO"
         try:
             GPIO.setmode(GPIO.BCM)
-            for vid in app.brewapp_kettle_state:
-                app.logger.info("## Kettle: " + str(vid))
+            hw = Hardware.query.all()
+            for h in hw:
+                g = self.translateDeviceName(h.switch)
+                if(g != None):
+                    app.logger.info("SETUP HARDWARE: " + h.name + " GPIO: " + str(g))
+                    GPIO.setup(g, GPIO.OUT)
+                    GPIO.output(g, 0)
 
-                ## Init Heater
-                heater_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["heater"])
+            kettles = Kettle.query.all()
+            for k in kettles:
+                heater_gpio = self.translateDeviceName(k.heater)
                 if(heater_gpio != None and heater_gpio != ""):
-                    app.logger.info("SETUP GPIO HEATER: " + str(app.brewapp_kettle_state[vid]["heater"]))
+                    app.logger.info("SETUP GPIO HEATER: " + str(heater_gpio))
                     GPIO.setup(heater_gpio, GPIO.OUT)
                     GPIO.output(heater_gpio, 0)
 
                 ## Init Agiator
-                agiator_gpio = self.translateDeviceName(app.brewapp_kettle_state[vid]["agitator"])
-                print agiator_gpio
+                agiator_gpio = self.translateDeviceName(k.agitator)
                 if(agiator_gpio != None and agiator_gpio != ""):
-                    app.logger.info("SETUP GPIO AGITATOR" + str(app.brewapp_kettle_state[vid]["agitator"]))
+                    app.logger.info("SETUP GPIO AGITATOR" + str(agiator_gpio))
                     GPIO.setup(agiator_gpio, GPIO.OUT)
                     GPIO.output(agiator_gpio, 0)
+
             app.brewapp_gpio = True
             app.logger.info("ALL GPIO INITIALIZED")
+
         except Exception as e:
             app.logger.error("SETUP GPIO FAILD " + str(e))
             app.brewapp_gpio = False
 
     def cleanup(self):
-        print "CLEAN UP"
         GPIO.cleanup()
 
     def getDevices(self):

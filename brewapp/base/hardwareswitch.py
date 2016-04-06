@@ -25,6 +25,7 @@ def init():
 def initHardware(cleanup = True):
     if(cleanup):
         app.brewapp_hardware.cleanup()
+        app.brewapp_hardware.init()
 
     app.brewapp_switch_state = {}
     hw = Hardware.query.all()

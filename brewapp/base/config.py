@@ -25,8 +25,8 @@ from brewapp.base.thermometer import *
 from brewapp.base.pid import *
 ## GPIO LIB
 #app.brewapp_hardware = piface.PiFace()
-#app.brewapp_hardware = dummygpio.DummyGPIO()
-app.brewapp_hardware = gpio.BrewGPIO()
+app.brewapp_hardware = dummygpio.DummyGPIO()
+#app.brewapp_hardware = gpio.BrewGPIO()
 #app.brewapp_hardware = gembird.GembirdUSB()
 #app.brewapp_thermometer = dummy_thermometer.DummyThermometer()
 app.brewapp_thermometer = w1_thermometer.OneWireThermometer()
