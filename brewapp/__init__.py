@@ -66,7 +66,7 @@ def index():
 def restart():
     app.logger.info("--> RESTART TRIGGERED")
     start_new_thread(doRestart,())
-    return redirect('base')
+    return base.send_static_file("restart.html")
 
 def doRestart():
     time.sleep(5)
