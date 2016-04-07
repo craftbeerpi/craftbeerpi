@@ -223,12 +223,15 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     $scope.kettle_state[data].heater.state = false;
   }
 
+  
+
   ws.on('kettle_state_update', $scope.kettle_state_update);
   ws.on('switch_state_update', $scope.switch_state_update);
   ws.on('kettle_update', $scope.kettle_update);
   ws.on('step_update', $scope.step_update);
   ws.on('kettle_automatic_on', $scope.kettle_automatic_on);
   ws.on('kettle_automatic_off', $scope.kettle_automatic_off);
+
 
 }).controller('TargetTempController', function($scope, $uibModalInstance, kettle) {
 

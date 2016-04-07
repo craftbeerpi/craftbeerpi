@@ -49,14 +49,14 @@ db = SQLAlchemy(app)
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
-
+from .module1.views import mymodule
 
 ## Create Database
 db.create_all()
 
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
-
+app.register_blueprint(mymodule,url_prefix='/mymodule')
 
 @app.route('/')
 def index():

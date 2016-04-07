@@ -10,6 +10,10 @@ base = Blueprint('base', __name__, template_folder='templates', static_folder='s
 def index():
     return base.send_static_file("index.html")
 
+@base.route('/rims')
+def rims():
+    return base.send_static_file("rims.html")
+
 @socketio.on('connect', namespace='/brew')
 def ws_connect():
     print "CONNECT"
