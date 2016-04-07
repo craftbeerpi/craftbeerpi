@@ -1,7 +1,8 @@
-angular.module('craftberpi.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle, FileUploader, $uibModal, ConfirmMessage) {
+angular.module('craftberpi.controllers', []).controller('StepOverviewController', function($scope, $location, CBPSteps,CBPKettle,CBPConfig, FileUploader, $uibModal, ConfirmMessage) {
 
   $scope.kettles = [];
   $scope.kettles.push({"key":0, "value":"No Kettle"})
+  $scope.config = {}
   CBPSteps.query({}, function(response) {
     $scope.steps = response.objects
   });
@@ -10,6 +11,12 @@ angular.module('craftberpi.controllers', []).controller('StepOverviewController'
     angular.forEach(response.objects, function(d) {
         $scope.kettles.push({"key":d.id, "value":d.name});
     })
+  });
+
+  CBPConfig.query(function(data) {
+    data.objects.forEach(function(entry) {
+      $scope.config[entry.name] = entry.value
+    });
   });
 
   $scope.getKettleName = function(vid) {

@@ -56,17 +56,6 @@ factory("CBPKettle", function($resource) {
     }
   });
 }).
-factory("CBPConfig", function($resource) {
-  return $resource("/api/config/:id", {}, {
-    query: {
-      method: 'GET',
-      isArray: false
-    },
-    update: {
-      method: 'PUT'
-    }
-  });
-}).
 factory("CBPHardware", function($resource) {
   return $resource("/api/hardware/:id", {}, {
     query: {
@@ -80,6 +69,17 @@ factory("CBPHardware", function($resource) {
       method: 'GET',
       url: '/api/hardware/state',
       isArray: false
+    }
+  });
+})
+.factory("CBPConfig", function($resource) {
+  return $resource("/api/config/:name", {}, {
+    query: {
+      method: 'GET',
+      isArray: false
+    },
+    update: {
+      method: 'PUT'
     }
   });
 })
@@ -150,7 +150,9 @@ factory("CBPHardware", function($resource) {
 }]).
 factory('routeNavigation', function($route, $location) {
   var routes = [];
+
   angular.forEach($route.routes, function(route, path) {
+
     if (route.name) {
       routes.push({
         path: path,
@@ -159,6 +161,7 @@ factory('routeNavigation', function($route, $location) {
     }
   });
   return {
+    //routes: routes,
     routes: routes,
     activeRoute: function(route) {
       return route.path === $location.path();

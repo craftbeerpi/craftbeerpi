@@ -2,7 +2,7 @@
 
 	<div class="row">
 
-		<div class="col-sm-7">
+		<div class="col-sm-9">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Kettles
@@ -17,9 +17,11 @@
 					<thead>
 						<td>Name</td>
 						<td>Sensor Id</td>
+						<td class="hidden-xs">Offset</td>
 						<td>Heater</td>
 						<td>Agiator</td>
-						<td>Height/Diameter</td>
+						<td class="hidden-xs">Automatic</td>
+						<td class="hidden-xs">Height/Diameter</td>
 					</thead>
 					<tr ng-repeat="item in kettles track by $index">
 						<td>
@@ -28,22 +30,30 @@
 						<td>
 							{{ item.sensorid }}
 						</td>
+						<td class="hidden-xs">
+							{{ item.sensoroffset }}
+						</td>
 						<td>
 							{{ item.heater }}
 						</td>
 						<td>
 							{{ item.agitator }}
 						</td>
-						<td>
+						<td class="hidden-xs">
+							{{ item.automatic.name }}
+						</td>
+						<td class="hidden-xs">
 							{{ item.height }}cm/{{ item.diameter }}cm
 						</td>
+
 					</tr>
 				</table>
+
 			</div>
 		</div>
 
 
-		<div class="col-sm-5">
+		<div class="col-sm-3">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					New Kettle
@@ -65,7 +75,7 @@
 
 						</div>
 
-						
+
 						<div class="form-group">
 							<label>Sensor Offset</label>
 							<input type="text"  ng-model="kettle.sensoroffset" class="form-control">

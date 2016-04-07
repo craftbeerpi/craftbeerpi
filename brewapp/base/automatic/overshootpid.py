@@ -1,4 +1,4 @@
-from automatic import *
+from automaticlogic import *
 from brewapp import app
 import time
 

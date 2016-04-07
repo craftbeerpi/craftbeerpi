@@ -24,11 +24,32 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.config['UPLOAD_FOLDER'] = './upload'
 
+
+app.brewapp_jobs = []
+app.brewapp_init = []
+app.brewapp_stepaction = []
+app.brewapp_gpio = False
+app.testMode = False
+app.brewapp_jobstate = {}
+app.brewapp_current_step = None
+app.brewapp_button = {"next": 23, "reset": 24}
+app.brewapp_kettle_state = {}
+app.brewapp_pump_state = {}
+app.brewapp_kettle = {}
+app.brewapp_kettle_temps_log = {}
+app.brewapp_kettle_automatic = {}
+app.brewapp_pid_state =  {}
+app.brewapp_pid = []
+app.brewapp_switch_state = {}
+app.brewapp_config = {}
+
+
 ## Create Database
 db = SQLAlchemy(app)
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
+
 
 ## Create Database
 db.create_all()
@@ -36,14 +57,28 @@ db.create_all()
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
 
+
 @app.route('/')
 def index():
     return redirect('base')
+
+@app.route('/restart')
+def restart():
+    from subprocess import call
+    call(["/etc/init.d/craftbeerpiboot restart"])
+    return "RETURN OK"
+
+
 
 app.logger.info("## INITIALIZE DATA")
 for i in app.brewapp_init:
     app.logger.info("--> Method: " + i.__name__ + "() File: "+ inspect.getfile(i))
     i()
+
+from base.config import *
+initDriver()
+app.brewapp_hardware.init()
+app.brewapp_thermometer.init()
 
 def job(key, interval, method):
     while app.brewapp_jobstate[key]:
@@ -55,7 +90,3 @@ for i in app.brewapp_jobs:
     app.brewapp_jobstate[i.get("key")] = True
     start_new_thread(job,(i.get("key"),i.get("interval"),i.get("function")))
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
-
-
-app.brewapp_hardware.init()
-app.brewapp_thermometer.init()

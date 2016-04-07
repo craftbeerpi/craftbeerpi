@@ -35,15 +35,15 @@
       <div class="col-xs-12">
 
         <span class="pull-right" ng-if="v.heater"><i class="fa fa-crosshairs"></i>
-          <strong>{{v.target_temp}}°C</strong>
+          <strong>{{v.target_temp}}°{{ config["Unit"]}}</strong>
         </span>
 
-        <span class="temp"><i class="wi wi-thermometer"></i> <b>{{ getTemp(v) }}°C</b></span>
+        <span class="temp"><i class="wi wi-thermometer"></i> <b>{{ getTemp(v) }}°{{ config["Unit"]}}</b></span>
       </div>
 
     </div>
     <div class="btn-group btn-group-justified" role="group ">
-      <div class="btn-group" role="group">
+      <div class="btn-group" role="group" ng-if="v.heater">
         <button class="btn btn-default" role="group" ng-click="setTargetTemp(v)">
           <span class="badge"><i class="fa fa-crosshairs"></i></span>
         </button>

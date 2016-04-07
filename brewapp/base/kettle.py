@@ -6,7 +6,7 @@ from brewapp import app, socketio
 from views import base
 
 from brewapp import manager
-from brewapp.base.pid.automatic import *
+from brewapp.base.automatic.automaticlogic import *
 from brewapp.base.hardwareswitch import *
 
 ## Returns the all current kettle configs
@@ -28,6 +28,8 @@ def kettleDevices():
 @app.route('/api/kettle/chart/<vid>', methods=['GET'])
 def kettlegetChart(vid):
     return  json.dumps(app.brewapp_kettle_temps_log[int(vid)])
+
+
 
 ## Delete all log data
 @app.route('/api/kettle/clear', methods=['POST'])
@@ -121,11 +123,10 @@ def initKettle():
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
     for vid in app.brewapp_kettle_state:
-
         temp = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
 
-        #if(app.brewapp_kettle_state[vid]["unit"] == "F"):
-        #    temp = float(format(9.0/5.0 * temp + 32, '.2f'))
+        if(app.brewapp_config.get("Unit", "C") == "F"):
+            temp = float(format(9.0/5.0 * temp + 32, '.2f'))
 
         if(app.brewapp_kettle_state[vid]["sensoroffset"] != None):
             app.brewapp_kettle_state[vid]["temp"] = temp + app.brewapp_kettle_state[vid]["sensoroffset"]

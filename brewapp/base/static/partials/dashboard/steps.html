@@ -1,7 +1,7 @@
 <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top"  >
 
   <div class="panel-heading">
-      <span class="panel-title"><i class="fa fa-list"></i> {{brew_name}}</span>
+      <span class="panel-title"><i class="fa fa-list"></i> {{ config["brewname"]}}</span>
 
       <div class="btn-group pull-right" role="group" aria-label="...">
 
@@ -25,11 +25,11 @@
         </thead>
         <tr ng-class="stepStyle(item)" ng-repeat="item in steps track by $index">
             <td class="col-md-1"><span class="badge">{{ item.type }}</span></td>
-            <td style="white-space: nowrap; overflow: hidden;"><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
+            <td style="overflow: hidden;"><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
                 <br>
                 <small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small><br/>
                 </td>
-            <td><span>{{ item.temp }} °C</span></td>
+            <td><span>{{ item.temp }} °{{ config["Unit"]}}</span></td>
             <td>
                 <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
                 </timer> ({{ item.timer }} min)<br>

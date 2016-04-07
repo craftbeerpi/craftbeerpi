@@ -4,9 +4,7 @@ from model import *
 import time
 from brewapp import app, socketio
 from views import base
-
 from brewapp import manager
-
 
 def pre_post(data, **kw):
     if(data["type"] == "json"):
@@ -15,11 +13,18 @@ def pre_post(data, **kw):
 def post_post(result, **kw):
     if(result["type"] == "json"):
         result["value"] = json.loads(result["value"])
+    readConfig()
 
 def post_get_many(result, **kw):
     for o in result["objects"]:
         if(o["type"] == "json"):
             o["value"] = json.loads(o["value"])
+
+def readConfig():
+    app.brewapp_config = {}
+    config = Config.query.all()
+    for c in config:
+        app.brewapp_config[c.name] = c.value
 
 @brewinit()
 def init():
@@ -32,3 +37,4 @@ def init():
     'GET_MANY': [post_get_many],
     'GET_SINGLE':[post_post],
     'PATCH_SINGLE': [post_post]})
+    readConfig()

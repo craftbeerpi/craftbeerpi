@@ -52,7 +52,8 @@ class Config(db.Model):
     name = db.Column(db.String(50), primary_key=True)
     type = db.Column(db.String(50))
     value = db.Column(db.String(255))
-
+    description = db.Column(db.String(255))
+    
     def __repr__(self):
         return '<Config %r>' % self.name
 

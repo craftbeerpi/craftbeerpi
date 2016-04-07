@@ -73,6 +73,7 @@ def upload_file(id):
         order = 0
         c.execute('SELECT EinmaischenTemp, Sudname FROM Sud WHERE ID = ?', (id,))
         row = c.fetchone()
+        name = row[1]
         s = newStep("Einmaischen", order, "M", "I", row[0], 0, data['mashtun'])
         db.session.add(s)
         db.session.commit()
@@ -103,6 +104,21 @@ def upload_file(id):
         db.session.add(s)
         db.session.commit()
         order +=1
+
+        config = Config.query.get("brewname");
+
+        print config
+        if(config == None):
+            config = Config()
+            config.name = "brewname"
+            config.value = name
+
+        else:
+            config.value = name
+
+        db.session.add(config)
+        db.session.commit()
+
     except Exception as e:
         app.logger.error("Select Kleiner Brauhelfer Data failed: " + str(e))
         return ('',500)

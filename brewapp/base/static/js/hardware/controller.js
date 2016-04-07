@@ -1,14 +1,16 @@
 angular.module('craftberpi.hardware', []).controller('PumpOverviewController', function($scope, $location, CBPHardware, ConfirmMessage, CBPKettle, CBPConfig) {
-
-
   $scope.pump = {
     "name": "",
     "switch": undefined,
   }
 
   $scope.gpio = []
-
-
+  $scope.type = [
+    {"key":"P", "value": "Pump"},
+    {"key":"A", "value": "Agitator"},
+    {"key":"H", "value": "Heater"},
+    {"key":"O", "value": "Other"},
+  ];
   CBPKettle.getDevices({}, function(response) {
     angular.forEach(response, function(d) {
       $scope.gpio.push({
@@ -38,6 +40,8 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
 
   $scope.vid = $routeParams.vid
 
+
+
   CBPHardware.get({
     "id": $scope.vid
   }, function(response) {
@@ -46,6 +50,13 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
 
   $scope.gpio = []
 
+  $scope.type = [
+    {"key":"P", "value": "Pump"},
+    {"key":"A", "value": "Agitator"},
+    {"key":"H", "value": "Heater"},
+    {"key":"O", "value": "Other"},
+  ];
+  
   CBPKettle.getDevices({}, function(response) {
     angular.forEach(response, function(d) {
       $scope.gpio.push({
@@ -74,10 +85,5 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
     }, function() {
 
     });
-
-
-
-
   }
-
 });

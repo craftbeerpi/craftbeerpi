@@ -1,4 +1,4 @@
-angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, $uibModal, ws, $timeout) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, $uibModal, ws, $timeout) {
 
 
   $scope.percent = 65;
@@ -11,8 +11,9 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     scaleColor: false,
     lineWidth: 20,
     lineCap: 'butt',
-
   };
+
+  $scope.config = {}
 
   $scope.switch_state = {}
   $scope.kettle_state = {}
@@ -39,6 +40,12 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
 
   CBPSteps.query(function(data) {
     $scope.steps = data.objects;
+  });
+
+  CBPConfig.query(function(data) {
+    data.objects.forEach(function(entry) {
+      $scope.config[entry.name] = entry.value
+    });
   });
 
   CBPKettle.getstate(function(data) {
@@ -79,7 +86,22 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     }
   }
 
-
+  $scope.hardwareType = function(s) {
+    switch (s) {
+      case "H":
+        return "fa-fire";
+        break;
+      case "A":
+        return "fa-refresh";
+        break;
+      case "P":
+        return "fa-tint"
+        break;
+      default:
+        return "fa-plug"
+        break;
+    }
+  }
 
   $scope.kettleState = function(vid) {
     if ($scope.steps == undefined) {

@@ -1,0 +1,13 @@
+<div ng-controller="ConfigEditController">
+  <form>
+    <span ng-include="'/base/static/partials/config/form.html'"/>
+
+    <div class="row">
+      <p>
+        <a class="btn btn-default" href="" back-button><i class="fa fa-arrow-circle-left"></i> Back</a>
+        <a class="btn btn-danger" href="" ng-click="delete()"> <i class="fa fa-times-circle"></i> Delete</a>
+        <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
+      </p>
+    </div>
+  </form>
+</div>

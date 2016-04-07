@@ -1,0 +1,18 @@
+<div class="form-group">
+  <label>Name</label>
+  <input type="text"  ng-model="pump.name" class="form-control">
+</div>
+<div class="form-group">
+  <label>Switch</label>
+  <select class="form-control" ng-model="pump.switch">
+    <option value="">---Please select---</option>
+    <option ng-repeat="t in gpio" value="{{t.key}}">{{t.value}}</option>
+  </select>
+</div>
+<div class="form-group">
+  <label>Type</label>
+  <select class="form-control" ng-model="pump.type">
+    <option value="">---Please select---</option>
+    <option ng-repeat="t in type" value="{{t.key}}">{{t.value}}</option>
+  </select>
+</div>

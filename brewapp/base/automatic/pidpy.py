@@ -1,6 +1,6 @@
 import time
 #from brewapp.base.pid.pidbase import *
-from automatic import *
+from automaticlogic import *
 
 @brewautomatic()
 class PIDLogic(Automatic):

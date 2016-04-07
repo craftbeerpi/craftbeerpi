@@ -1,32 +1,26 @@
 from brewapp import app
-
-
-app.brewapp_jobs = []
-app.brewapp_init = []
-app.brewapp_stepaction = []
-app.brewapp_gpio = False
-app.testMode = False
-app.brewapp_jobstate = {}
-app.brewapp_current_step = None
-app.brewapp_button = {"next": 23, "reset": 24}
-app.brewapp_kettle_state = {}
-app.brewapp_pump_state = {}
-app.brewapp_kettle = {}
-app.brewapp_kettle_temps_log = {}
-app.brewapp_kettle_automatic = {}
-app.brewapp_pid_state =  {}
-app.brewapp_pid = []
-app.brewapp_switch_state = {}
-
-
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
+from brewapp.base.automatic import *
 
-from brewapp.base.pid import *
-## GPIO LIB
-#app.brewapp_hardware = piface.PiFace()
-#app.brewapp_hardware = dummygpio.DummyGPIO()
-app.brewapp_hardware = gpio.BrewGPIO()
-#app.brewapp_hardware = gembird.GembirdUSB()
-#app.brewapp_thermometer = dummy_thermometer.DummyThermometer()
-app.brewapp_thermometer = w1_thermometer.OneWireThermometer()
+from model import *
+
+def initDriver():
+    print "INIT DRIVER"
+    hardware= {
+        'DUMMY': dummygpio.DummyGPIO(),
+        'GPIO': gpio.BrewGPIO(),
+        'GEMBIRD': gembird.GembirdUSB(),
+        'PIFACE': piface.PiFace(),
+    }
+
+    thermometer = {
+        'DUMMY': dummy_thermometer.DummyThermometer(),
+        '1WIRE': w1_thermometer.OneWireThermometer(),
+    }
+    
+    app.brewapp_hardware = hardware.get(app.brewapp_config.get("SWITCH_TYPE", "DUMMY"), dummygpio.DummyGPIO())
+    app.brewapp_thermometer = thermometer.get(app.brewapp_config.get("THERMOMETER_TYPE", "DUMMY"), dummy_thermometer.DummyThermometer())
+
+    print app.brewapp_hardware
+    print app.brewapp_thermometer

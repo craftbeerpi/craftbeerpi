@@ -25,6 +25,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     "sensorid": "",
     "heater": undefined,
     "agitator": undefined,
+    "target_temp": 0
   }
 
   $scope.gpio = []
@@ -56,6 +57,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
       "sensorid": "",
       "heater": undefined,
       "agitator": undefined,
+      "target_temp": 0
     }
   }
   $scope.save = function() {
