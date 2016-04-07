@@ -65,14 +65,14 @@ def index():
 @app.route('/restart')
 def restart():
     app.logger.info("--> RESTART TRIGGERED")
-    start_new_thread(doRestart,(,))
+    #start_new_thread(doRestart,(,))
     return redirect('base')
 
-def doRestart():
-    time.sleep(5)
-    from subprocess import call
-    app.logger.info("--> RESTART EXECUTE")
-    call(["/etc/init.d/craftbeerpiboot", "restart"])
+#def doRestart():
+#    time.sleep(5)
+#    from subprocess import call
+#    app.logger.info("--> RESTART EXECUTE")
+#    call(["/etc/init.d/craftbeerpiboot", "restart"])
 
 
 app.logger.info("## INITIALIZE DATA")
