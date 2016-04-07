@@ -66,7 +66,7 @@ def index():
 def restart():
     try:
         from subprocess import call
-        call(["/etc/init.d/craftbeerpiboot restart"])
+        call(["/etc/init.d/craftbeerpiboot", "restart"])
     except Exception as e:
         app.logger.error("Restart Error: " + str(e))
         return ('',500)
