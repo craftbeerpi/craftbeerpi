@@ -64,15 +64,17 @@ def index():
 
 @app.route('/restart')
 def restart():
+    start_new_thread(doRestart,(,))
+    return redirect('base')
+
+def doRestart():
     try:
+        time.sleep(5)
         from subprocess import call
         call(["/etc/init.d/craftbeerpiboot", "restart"])
     except Exception as e:
         app.logger.error("Restart Error: " + str(e))
         return ('',500)
-    return "RETURN OK"
-
-
 
 app.logger.info("## INITIALIZE DATA")
 for i in app.brewapp_init:

@@ -13,7 +13,3 @@ def index():
 @socketio.on('connect', namespace='/brew')
 def ws_connect():
     print "CONNECT"
-
-@brewstepaction()
-def myAction():
-    print "WOOHOO"
