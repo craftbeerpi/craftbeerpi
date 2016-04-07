@@ -64,8 +64,12 @@ def index():
 
 @app.route('/restart')
 def restart():
-    from subprocess import call
-    call(["/etc/init.d/craftbeerpiboot restart"])
+    try:
+        from subprocess import call
+        call(["/etc/init.d/craftbeerpiboot restart"])
+    except Exception as e:
+        app.logger.error("Restart Error: " + str(e))
+        return ('',500)
     return "RETURN OK"
 
 
