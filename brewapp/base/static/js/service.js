@@ -277,4 +277,42 @@ factory('ConfirmMessage', function($route, $location, $uibModal) {
     $scope.cancel = function() {
       $uibModalInstance.dismiss('cancel');
     };
-  });
+  }).
+  factory('InfoMessage', function($route, $location, $uibModal) {
+
+      return {
+        open: function(headline, message, confirm, cancel) {
+
+          var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '/base/static/partials/common/info.html',
+            controller: 'InfoController',
+            size: "sm",
+            resolve: {
+              headline: function() {
+                return headline
+              },
+              message: function() {
+                return message
+              }
+            }
+          });
+          modalInstance.result.then(function(data) {
+            confirm()
+          }, function() {
+            cancel()
+          })
+        }
+      }
+    })
+    .controller('InfoController', function($scope, $uibModalInstance, headline, message) {
+      $scope.message = message;
+      $scope.headline = headline;
+      $scope.ok = function() {
+        $uibModalInstance.close();
+      };
+
+      $scope.cancel = function() {
+        $uibModalInstance.dismiss('cancel');
+      };
+    }) ;

@@ -4,163 +4,27 @@
 
 
   <div class="row">
-    <wizard on-finish="finish()" template="/base/static/partials/setup/wizard.html">
-      <wz-step title="Starting">
-        <h3>Please Select your Kettle Setup</h3>
-        <div class="row">
-          <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-              <div class="caption">
-                <h3>1 Kettle</h3>
-                <p>For example an Automatic Preserving Cooker
-                  <br>&nbsp;</p>
-                <p><a href="" class="btn btn-primary" role="button" ng-click="setup(1)">Select <i class="fa fa-forward"></i></a></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-              <div class="caption">
-                <h3>2 Kettle</h3>
-                <p>For example Mash Tun and Hot Liquor Tank
-                  <br>&nbsp;</p>
-                <p><a href="" class="btn btn-primary" role="button" ng-click="setup(2)">Select <i class="fa fa-forward"></i></a></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-              <div class="caption">
-                <h3>3 Kettle</h3>
-                <p>For example Mash Tun, Boil Tank and Hot Liquor Tank (RIMS / HERMS)</p>
-                <p><a href="" class="btn btn-primary" role="button" ng-click="setup(3)">Select <i class="fa fa-forward"></i></a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </wz-step>
-      <wz-step title="Continuing" wz-disabled="{{disabled}}">
-        <h3>Please configure each kettle</h3>
-        <div class="row">
+    <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+      <div class="panel-body">
+        <wizard on-finish="finish()" template="/base/static/partials/setup/wizard.html">
 
-          <div class="col-sm-6 col-md-4" ng-repeat="item in kettles track by $index">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                Kettle {{$index + 1}}
-              </div>
-              <div class="panel-body">
-                <form class="form-horizontal">
-                  <div>
-                    <div class="form-group">
-                      <label class="col-sm-4">Name</label>
-                      <div class="col-sm-8">
-                        <input type="text" ng-model="item.name" class="form-control" >
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-4">Thermometer</label>
-                      <div class="col-sm-8">
-                        <select class="form-control" ng-model="item.sensorid">
-                          <option ng-repeat="t in thermometer" value="{{t.key}}" ng-selected="item.sensorid == t.key">{{t.value}}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-4">Heater GPIO</label>
-                      <div class="col-sm-8">
-                        <select class="form-control" ng-model="item.heater">
-                          <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="item.heater == t.key">{{t.value}}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-4">Agitator GPIO</label>
-                      <div class="col-sm-8">
-                        <select class="form-control" ng-model="item.agitator">
-                          <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="item.agitator == t.key">{{t.value}}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-4">Heigth in cm</label>
-                      <div class="col-sm-8">
-                        <input type="text" ng-model="item.height" class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="col-sm-4">Diameter in cm</label>
-                      <div class="col-sm-8">
-                        <input type="text" ng-model="item.diameter" class="form-control">
-                      </div>
-                    </div>
-                  </div>
+          <wz-step title="Starting">
+            <span ng-include="'/base/static/partials/setup/select.html'" />
+          </wz-step>
+          <wz-step title="Continuing" wz-disabled="{{disabled}}">
+            <span ng-include="'/base/static/partials/setup/kettleconfig.html'" />
+          </wz-step>
+
+<!--
+          <wz-step title="Config">
+            <span ng-include="'/base/static/partials/setup/config.html'" />
+          </wz-step>-->
 
 
-                </form>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <a class="btn btn-primary" href="" wz-reset ><i class="fa fa-backward"></i> Back</a>
-        <a class="btn btn-primary" href="" wz-next >Continue <i  class="fa fa-forward"></i> </a>
-      </wz-step>
-      <wz-step title="More steps"  canenter="enterValidation">
-        <h3>Please check your data</h3>
-
-        <div class="row">
-          <div class="col-sm-6 col-md-4" ng-repeat="item in kettles track by $index">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                Kettle {{$index + 1}}
-              </div>
-              <div class="panel-body">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-4">Name</label>
-                    <div class="col-sm-8">
-                      {{item.name}}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4">Thermometer</label>
-                    <div class="col-sm-8">
-                      {{item.sensorid}}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4">Heater GPIO</label>
-                    <div class="col-sm-8">
-                      {{item.heater}}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4">Agitator GPIO</label>
-                    <div class="col-sm-8">
-                      {{item.agitator}}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4">Heigth in cm</label>
-                    <div class="col-sm-8">
-                      {{item.height}}
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4">Diameter in cm</label>
-                    <div class="col-sm-8">
-                      {{item.diameter}}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </form>
-          </div>
-        </div>
-        <a class="btn btn-primary" href=""  wz-previous><i class="fa fa-backward"></i> Back</a>
-        <a class="btn btn-primary" href="" wz-next >Let's go brewing <i  class="fa fa-beer"></i> </a>
-
-      </wz-step>
-    </wizard>
+          <wz-step title="More steps" canenter="enterValidation">
+              <span ng-include="'/base/static/partials/setup/validate.html'" />
+          </wz-step>
+        </wizard>
+      </div>
+    </div>
   </div>

@@ -27,6 +27,7 @@ def setTargetTemp(kettleid, temp):
     if(app.brewapp_target_temp_method != None):
         app.brewapp_target_temp_method(kettleid, temp)
 
+
 ## Job Annotaiton
 ## key = uniquie key as string
 ## interval = interval in which the method is invoedk
@@ -39,9 +40,9 @@ def brewjob(key, interval):
     return real_decorator
 
 ## Init Annotaiton
-def brewinit():
+def brewinit(order = 0):
     def real_decorator(function):
-        app.brewapp_init.append(function)
+        app.brewapp_init.append({"function": function, "order": order})
         def wrapper(*args, **kwargs):
             function(*args, **kwargs)
         return wrapper

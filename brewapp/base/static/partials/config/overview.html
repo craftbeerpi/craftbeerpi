@@ -9,6 +9,7 @@
 					<thead>
 						<td>Name</td>
 						<td>Value</td>
+						<td>Description</td>
 					</thead>
 					<tr ng-repeat="item in configparams track by $index">
 						<td>
@@ -16,6 +17,9 @@
 						</td>
 						<td>
 							{{ item.value }}
+						</td>
+						<td>
+							{{ item.description }}
 						</td>
 					</tr>
 				</table>

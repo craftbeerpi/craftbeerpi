@@ -13,6 +13,11 @@ def post_post(result=None, **kw):
     print "POST"
     initHardware()
 
+@brewinit(100)
+def init2():
+    app.brewapp_hardware.init()
+    app.brewapp_thermometer.init()
+
 @brewinit()
 def init():
     manager.create_api(Hardware, methods=['GET', 'POST', 'DELETE', 'PUT'],

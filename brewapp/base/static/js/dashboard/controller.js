@@ -1,17 +1,17 @@
-angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, $uibModal, ws, $timeout) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, InfoMessage, $uibModal, ws, $timeout) {
 
 
-  $scope.percent = 65;
-  $scope.options = {
-    animate: {
-      duration: 500,
-      enabled: true
-    },
-    barColor: 'green',
-    scaleColor: false,
-    lineWidth: 20,
-    lineCap: 'butt',
-  };
+
+  $scope.anotherOptions = {
+				animate:{
+					duration:500,
+					enabled:true
+				},
+				barColor:'red',
+				scaleColor:true,
+				lineWidth:5,
+				lineCap:'circle'
+			};
 
   $scope.config = {}
 
@@ -101,6 +101,17 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
         return "fa-plug"
         break;
     }
+  }
+
+  $scope.columnwidth = function(s, d) {
+
+    if(s == undefined){
+        return "col-sm-"+d
+    }
+    else {
+      return "col-sm-"+s
+    }
+
   }
 
   $scope.kettleState = function(vid) {
@@ -223,7 +234,16 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     $scope.kettle_state[data].heater.state = false;
   }
 
-  
+  $scope.message = function(data) {
+    console.log(data);
+
+    InfoMessage.open(data.headline,data.message, function() {
+
+    }, function() {
+
+    });
+  }
+
 
   ws.on('kettle_state_update', $scope.kettle_state_update);
   ws.on('switch_state_update', $scope.switch_state_update);
@@ -231,7 +251,7 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   ws.on('step_update', $scope.step_update);
   ws.on('kettle_automatic_on', $scope.kettle_automatic_on);
   ws.on('kettle_automatic_off', $scope.kettle_automatic_off);
-
+  ws.on('message', $scope.message);
 
 }).controller('TargetTempController', function($scope, $uibModalInstance, kettle) {
 

@@ -1,4 +1,17 @@
-angular.module('craftberpi', ['mgo-angular-wizard','timer','angularFileUpload','ngResource', 'ui.bootstrap', 'ngRoute', 'easypiechart','craftberpi.controllers', 'craftberpi.controllers5','craftberpi.controllers2', 'craftberpi.controllers3','craftberpi.controllers6','craftberpi.hardware','craftberpi.services','craftberpi.config']).config(function($routeProvider) {
+angular.module('craftberpi',
+['mgo-angular-wizard',
+'timer','angularFileUpload',
+'ngResource', 'ui.bootstrap',
+'ngRoute',
+'easypiechart',
+'craftberpi.controllers',
+'craftberpi.controllers5',
+'craftberpi.controllers2',
+'craftberpi.controllers3',
+'craftberpi.controllers6',
+'craftberpi.hardware',
+'craftberpi.services',
+'craftberpi.config']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: '/base/static/partials/dashboard/overview.html',

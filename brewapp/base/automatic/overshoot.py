@@ -1,16 +1,17 @@
 from automaticlogic import *
 from brewapp import app
 import time
+from brewapp.base.util import *
 
 @brewautomatic()
 class OvershootLogic(Automatic):
 
+    ## Define config paramter as array of dicts
     configparameter = [{"name":"overshoot","value":22}]
 
     state = False
+
     def run(self):
-
-
         while self.isRunning():
             currentTemp = self.getCurrentTemp() ## Current temperature
             targetTemp = self.getTargetTemp() ## Target Temperature

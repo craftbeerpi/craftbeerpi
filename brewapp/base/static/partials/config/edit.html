@@ -1,13 +1,28 @@
 <div ng-controller="ConfigEditController">
+
   <form>
-    <span ng-include="'/base/static/partials/config/form.html'"/>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+
+            <div class="panel-heading">
+              Config Parameter
+            </div>
+            <div class="panel-body" ng-include="'/base/static/partials/config/form.html'">
+            </div>
+      
+        </div>
+      </div>
+    </div>
 
     <div class="row">
-      <p>
-        <a class="btn btn-default" href="" back-button><i class="fa fa-arrow-circle-left"></i> Back</a>
-        <a class="btn btn-danger" href="" ng-click="delete()"> <i class="fa fa-times-circle"></i> Delete</a>
-        <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
-      </p>
+      <div class="col-sm-4">
+        <p>
+          <a class="btn btn-default" href="" back-button><i class="fa fa-arrow-circle-left"></i> Back</a>
+          <a class="btn btn-danger" href="" ng-click="delete()"> <i class="fa fa-times-circle"></i> Delete</a>
+          <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
+        </p>
+      </div>
     </div>
   </form>
 </div>

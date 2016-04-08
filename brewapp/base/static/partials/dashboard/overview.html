@@ -3,19 +3,18 @@
 <div ng-controller="DashBoardController">
 
 	<div class="row" >
-		<div class="col-sm-5" ng-include="'/base/static/partials/dashboard/steps.html'">
-
+		<div ng-class="columnwidth(config['DASHBOARD.STEP_WIDTH'],5)" ng-include="'/base/static/partials/dashboard/steps.html'">
 		</div>
 		<div class="col-sm-7">
 			<div class="row" >
-				<div class="col-sm-6" ng-repeat="v in kettles track by $index" ng-include="'/base/static/partials/dashboard/kettle.html'">
-
+				<div ng-class="columnwidth(config['DASHBOARD.KETTLE_WIDTH'],6)" ng-repeat="v in kettles track by $index" ng-include="'/base/static/partials/dashboard/kettle.html'">
 				</div>
 			</div>
 			<div class="row" ng-if="hardware.length > 0" >
 				<div  class="col-sm-6" ng-include="'/base/static/partials/dashboard/hardware.html'"/>
 			</div>
 		</div>
+
 	</div>
 
 

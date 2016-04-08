@@ -1,6 +1,6 @@
 <div ng-controller="StepOverviewController">
 	<div class="row">
-		<div class="col-sm-7">
+		<div class="col-sm-9">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Brew Steps
@@ -37,7 +37,7 @@
 							<small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small>
 						</td>
 						<td>
-							<span>{{ item.temp }} °{{ config["Unit"]}}</span>
+							<span>{{ item.temp }} °{{ config["UNIT"]}}</span>
 						</td>
 						<td>
 							<timer ng-if="item.state == 'A' && item.timer_start != null" end-time="item.timer_start + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
@@ -51,7 +51,7 @@
 </div>
 </div>
 
-<div class="col-sm-5">
+<div class="col-sm-3">
 	<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 		<div class="panel-heading">
 			New Step
@@ -73,7 +73,8 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label>Target Temperature in °{{ config["Unit"]}}</label>
+
+			<label>Target Temperature in °{{ config["UNIT"]}}</label>
 			<input type="number" ng-model="step.temp" class="form-control">
 		</div>
 		<div class="form-group">

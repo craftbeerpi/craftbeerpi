@@ -125,7 +125,7 @@ def readKettleTemp():
     for vid in app.brewapp_kettle_state:
         temp = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
 
-        if(app.brewapp_config.get("Unit", "C") == "F"):
+        if(app.brewapp_config.get("UNIT", "C") == "F"):
             temp = float(format(9.0/5.0 * temp + 32, '.2f'))
 
         if(app.brewapp_kettle_state[vid]["sensoroffset"] != None):

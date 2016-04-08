@@ -11,7 +11,7 @@ import os
 from werkzeug import secure_filename
 from views import base
 import sqlite3
-
+from buzzer import nextStepBeep, timerBeep, resetBeep
 from flask.ext.restless.helpers import to_dict
 
 ALLOWED_EXTENSIONS = set(['sqlite'])
@@ -105,12 +105,11 @@ def upload_file(id):
         db.session.commit()
         order +=1
 
-        config = Config.query.get("brewname");
+        config = Config.query.get("BREWNAME");
 
-        print config
         if(config == None):
             config = Config()
-            config.name = "brewname"
+            config.name = "BREWNAME"
             config.value = name
 
         else:
@@ -145,6 +144,9 @@ def nextStep():
     active = Step.query.filter_by(state='A').first()
     inactive = Step.query.filter_by(state='I').order_by(Step.order).first()
 
+    if(inactive == None):
+        socketio.emit('message', {"headline": "Brewing Finished", "message": "Brew Process Finished"}, namespace ='/brew')
+
     if(active != None):
         active.state = 'D'
         active.end = datetime.utcnow()
@@ -163,8 +165,7 @@ def nextStep():
         if(inactive.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((inactive.timer_start - datetime(1970,1,1)).total_seconds())*1000
 
-    from signals import next_step as next_signal
-    next_signal.send(app)
+    nextStepBeep()
 
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
 
@@ -176,8 +177,7 @@ def reset():
 
 ## Methods
 def resetSteps():
-    from signals import reset_step as reset_signal
-    reset_signal.send(app)
+    resetBeep()
     db.session.query(Step).update({'state': 'I', 'start': None, 'end': None, 'timer_start': None},  synchronize_session='evaluate')
     db.session.commit()
     socketio.emit('step_update', getAsArray(Step), namespace ='/brew')
@@ -222,8 +222,7 @@ def stepjob():
         app.brewapp_current_step = to_dict(s)
         if(s.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((s.timer_start - datetime(1970,1,1)).total_seconds())*1000
-            from signals import start_timer as timer_signal
-            timer_signal.send(app)
+            timerBeep()
         db.session.add(s)
         db.session.commit()
         socketio.emit('step_update', getAsArray(Step), namespace ='/brew')

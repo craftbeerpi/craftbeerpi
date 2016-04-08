@@ -8,9 +8,8 @@ import logging
 import flask.ext.restless
 from logging.handlers import RotatingFileHandler
 import time
-
+import os
 import inspect
-
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -24,7 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.config['UPLOAD_FOLDER'] = './upload'
 
-
+## Custom Parameter
 app.brewapp_jobs = []
 app.brewapp_init = []
 app.brewapp_stepaction = []
@@ -51,6 +50,11 @@ manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 from .base.views import base
 from .module1.views import mymodule
 
+if os.path.exists("craftbeerpi.db"):
+    app.createdb = False
+else:
+    app.createdb = True
+
 ## Create Database
 db.create_all()
 
@@ -62,29 +66,30 @@ app.register_blueprint(mymodule,url_prefix='/mymodule')
 def index():
     return redirect('base')
 
+## Restart Endpoint
 @app.route('/restart')
 def restart():
     app.logger.info("--> RESTART TRIGGERED")
+    ## Do in other thread
     start_new_thread(doRestart,())
     return base.send_static_file("restart.html")
 
+## Execute Restart
 def doRestart():
     time.sleep(5)
     from subprocess import call
     app.logger.info("--> RESTART EXECUTE")
     call(["/etc/init.d/craftbeerpiboot", "restart"])
 
-
+## Invoke Initializers
 app.logger.info("## INITIALIZE DATA")
+app.brewapp_init = sorted(app.brewapp_init, key=lambda k: k['order'])
 for i in app.brewapp_init:
-    app.logger.info("--> Method: " + i.__name__ + "() File: "+ inspect.getfile(i))
-    i()
 
-from base.config import *
-initDriver()
-app.brewapp_hardware.init()
-app.brewapp_thermometer.init()
+    app.logger.info("--> Method: " + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
+    i.get("function")()
 
+## Start Background Jobs
 def job(key, interval, method):
     while app.brewapp_jobstate[key]:
         method()

@@ -1,5 +1,10 @@
 <div ng-controller="EditStep">
+  <div class="row">
+    <div class="col-sm-4">
+  <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+    <div class="panel-body">
   <form>
+
     <div class="form-group">
       <label>Name</label>
       <input type="text" ng-model="step.name" class="form-control">
@@ -32,8 +37,10 @@
 		</div>
   </form>
   <p>
+  </div></div>
   <a class="btn btn-default" href="" back-button><i class="fa fa-arrow-circle-left"></i> Back</a>
   <a class="btn btn-danger" href="" ng-click="delete()"> <i class="fa fa-times-circle"></i> Delete</a>
   <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
 </p>
+</div></div>
 </div>

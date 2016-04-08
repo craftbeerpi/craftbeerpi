@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, jsonify
 import json
 from brewapp import app, socketio
+from brewapp.base.model import *
+from brewapp.module1.model import *
+from brewapp.base.util import *
 
 mymodule = Blueprint('mymodule', __name__, template_folder='templates', static_folder='static')
 
