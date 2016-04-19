@@ -181,6 +181,24 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     });
   };
 
+
+  $scope.edit = function(id) {
+    $scope.selected = id
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "KettleEditController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/kettle/form.html',
+      size: "lg",
+      resolve: {"id": id}
+    });
+    modalInstance.result.then(function(data) {
+      CBPKettle.query({}, function(response) {
+        $scope.kettles = response.objects;
+      });
+    });
+  }
+
   $scope.calcVolume = function(item) {
     var modalInstance = $uibModal.open({
       animation: true,
@@ -235,13 +253,7 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   }
 
   $scope.message = function(data) {
-    console.log(data);
 
-    InfoMessage.open(data.headline,data.message, function() {
-
-    }, function() {
-
-    });
   }
 
 

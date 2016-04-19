@@ -1,4 +1,4 @@
-angular.module('craftberpi.services', []).factory("CBPSteps", function($resource) {
+angular.module('craftbeerpi.services', []).factory("CBPSteps", function($resource) {
   return $resource("/api/step/:id", {}, {
     query: {
       method: 'GET',
@@ -68,6 +68,29 @@ factory("CBPHardware", function($resource) {
     getstate: {
       method: 'GET',
       url: '/api/hardware/state',
+      isArray: false
+    }
+  });
+}).
+factory("CBPRecipeBook", function($resource) {
+  return $resource("/api/recipe_books/:id", {}, {
+    query: {
+      method: 'GET',
+      isArray: false
+    },
+    update: {
+      method: 'PUT'
+    },
+    load: {
+      method: 'POST',
+      params: {id: '@id'},
+      url: '/api/recipe_books/load/:id',
+      isArray: false
+    },
+    save: {
+      method: 'POST',
+      url: '/api/recipe_books/save',
+
       isArray: false
     }
   });
@@ -238,9 +261,8 @@ factory('ChartFactory', function($route, $location) {
       $scope.activeRoute = routeNavigation.activeRoute;
     }
   };
-}).
-
-factory('ConfirmMessage', function($route, $location, $uibModal) {
+})
+.factory('ConfirmMessage', function($route, $location, $uibModal) {
 
     return {
       open: function(headline, message, confirm, cancel) {

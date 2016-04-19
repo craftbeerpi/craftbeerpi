@@ -5,6 +5,8 @@ from util import brewinit
 from model import *
 import kettle
 import step
+import recipebook
+import kleinerbrauhelfer
 import automatic
 import hardwareswitch
 import buzzer

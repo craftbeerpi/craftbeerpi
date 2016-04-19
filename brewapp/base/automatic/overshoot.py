@@ -7,7 +7,7 @@ from brewapp.base.util import *
 class OvershootLogic(Automatic):
 
     ## Define config paramter as array of dicts
-    configparameter = [{"name":"overshoot","value":22}]
+    configparameter = [{"name":"overshoot","value":2}]
 
     state = False
 

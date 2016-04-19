@@ -10,7 +10,6 @@ def pumpstate():
     return  json.dumps(app.brewapp_pump_state)
 
 def post_post(result=None, **kw):
-    print "POST"
     initHardware()
 
 @brewinit(100)

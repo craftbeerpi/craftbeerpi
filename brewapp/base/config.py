@@ -49,23 +49,13 @@ def initDriver():
     if(app.createdb is False):
         return
 
-    configvalues = [
-    {"name": "BREWNAME", "value": "HELLO WORLD", "description": "Name of the current brew"},
-    {"name": "SWITCH_TYPE", "value": "GPIO", "description": "Possible values: GPIO, PIFACE, GEMBIRD, DUMMY"},
-    {"name": "THERMOMETER_TYPE", "value": "1WIRE", "description": "Possible Values: 1WIRE or DUMMY" },
-    {"name": "UNIT", "value": "F", "description": "Temperatur Unit possible values are C = Censius or F = Fahrenheit"},
-    {"name": "BUZZER_GPIO", "value": "23", "description": "GPIO Which will be used for the buzzer"},
+    db.session.add(Config(name="BUZZER_GPIO", value="23", type="", default="23", description="Buzzer GPIO"))
+    db.session.add(Config(name="BREWNAME", value="", type="", default="", description="Brew Name"))
+    db.session.add(Config(name="UNIT", value="C", type="", default="C", description="Thermometer unit", options="C,F"))
+    db.session.add(Config(name="THERMOMETER_TYPE", value="1WIRE", type="", default="1WIRE", description="Thermometer Type !!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="1WIRE,DUMMY"))
+    db.session.add(Config(name="SWITCH_TYPE", value="GPIO", type="", default="GPIO", description="Hardware Control type. !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="GPIO,PIFACE,GEMBIRD,DUMMY"))
 
-    ]
-
-    for c in configvalues:
-        co = Config()
-        co.name = c["name"]
-        co.value = c["value"]
-        co.description = c["description"]
-        co.type = ""
-        db.session.add(co)
-        db.session.commit()
+    db.session.commit()
 
 @brewinit()
 def initDriver():

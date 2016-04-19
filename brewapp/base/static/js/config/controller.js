@@ -1,52 +1,51 @@
-angular.module('craftberpi.config', []).controller('ConfigOverviewController', function($scope, $location, CBPHardware, ConfirmMessage,  CBPConfig) {
-  $scope.configparam = {
-    "name": "",
-    "value": "",
-    "type": "",
-  }
+angular.module('craftberpi.config', []).controller('ConfigOverviewController', function($uibModal, $scope, $location, CBPHardware, ConfirmMessage,  CBPConfig) {
+
   loadAll();
-  $scope.save = function() {
-    if ($scope.configparam.name.length == 0) {
-      return;
-    }
-    CBPConfig.save($scope.configparam, function(data) {
-      loadAll();
-    });
-  }
+
   function loadAll() {
     CBPConfig.query({}, function(response) {
         $scope.configparams = response.objects;
+  });
+  }
+
+  $scope.edit = function(id) {
+    $scope.selected = id
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "ConfigEditController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/config/form.html',
+      size: "sm",
+      //resolve: {"id": id}
+    });
+    modalInstance.result.then(function(data) {
+      loadAll()
     });
   }
 
-}).controller('ConfigEditController', function($scope, $location, $routeParams, CBPHardware, ConfirmMessage, CBPKettle, CBPConfig) {
+}).controller('ConfigEditController', function($scope,$uibModalInstance, CBPConfig) {
 
-  $scope.name = $routeParams.id
+  $scope.name = $scope.selected;
 
   CBPConfig.get({
     "name": $scope.name
   }, function(response) {
     $scope.configparam = response;
-    console.log($scope.configparam);
+
+    if($scope.configparam.options != null) {
+      $scope.options = $scope.configparam.options.split(',');
+    }
+
   });
 
   $scope.save = function() {
     CBPConfig.update({
       "name": $scope.configparam.name
     }, $scope.configparam, function() {
-      history.back();
+      $uibModalInstance.close({});
     });
   }
-  $scope.delete = function() {
-    ConfirmMessage.open("Delete Config","Do you really want to delete the parameter?", function() {
-      CBPConfig.delete({
-        "name": $scope.configparam.name
-      }, function() {
-        history.back();
-      });
-
-    }, function() {
-
-    });
-  }
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
 });

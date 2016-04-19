@@ -5,9 +5,10 @@
 
   .headline {
     font-size: 1.5em;
+     text-overflow: ellipsis;
   }
 </style>
-  
+
 <div class="panel panel-default kettle" ng-class="kettleState(v.id)" data-toggle="tooltip" data-placement="top">
   <div class="panel-heading">
     <span class="headline"><i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
@@ -23,9 +24,7 @@
         </button>
         <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
           <li role="menuitem"><a ng-click="calcVolume(v)">Calculate Volume</a></li>
-          <li class="divider"></li>
-          <li role="menuitem"><a href="#/kettle/{{v.id}}">Settings</a></li>
-
+        
         </ul>
       </div>
     </div>
@@ -68,4 +67,6 @@
     </div>
 
   </div>
+
+
 </div>

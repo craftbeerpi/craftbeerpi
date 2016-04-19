@@ -1,16 +1,15 @@
-angular.module('craftberpi.hardware', []).controller('PumpOverviewController', function($scope, $location, CBPHardware, ConfirmMessage, CBPKettle, CBPConfig) {
-  $scope.pump = {
-    "name": "",
-    "switch": undefined,
-  }
+angular.module('craftbeerpi.hardware', []).controller('PumpOverviewController', function($scope, $location, CBPHardware, ConfirmMessage,$uibModal, CBPKettle, CBPConfig) {
 
-  $scope.gpio = []
+  // available types
   $scope.type = [
     {"key":"P", "value": "Pump"},
     {"key":"A", "value": "Agitator"},
     {"key":"H", "value": "Heater"},
     {"key":"O", "value": "Other"},
   ];
+
+  // Get GPIOs
+  $scope.gpio = []
   CBPKettle.getDevices({}, function(response) {
     angular.forEach(response, function(d) {
       $scope.gpio.push({
@@ -20,70 +19,86 @@ angular.module('craftberpi.hardware', []).controller('PumpOverviewController', f
     })
   });
 
+  // load current hardware
   CBPHardware.query(function(response) {
-    $scope.pumps = response.objects;
+    $scope.hw = response.objects;
   });
-  $scope.save = function() {
 
-    if ($scope.pump.name.length == 0) {
-      return;
-    }
-    CBPHardware.save($scope.pump, function(data) {
+  // modal dialog for new hardware
+  $scope.createHardware = function() {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "HardwareCreateController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/hardware/form.html',
+      size: "sm"
+    });
+    modalInstance.result.then(function(data) {
       CBPHardware.query(function(response) {
-        $scope.pumps = response.objects;
+        $scope.hw = response.objects;
       });
     });
-
   }
 
-}).controller('PumpEditController', function($scope, $location, $routeParams, CBPHardware, ConfirmMessage, CBPKettle, CBPConfig) {
-
-  $scope.vid = $routeParams.vid
-
-
-
-  CBPHardware.get({
-    "id": $scope.vid
-  }, function(response) {
-    $scope.pump = response;
-  });
-
-  $scope.gpio = []
-
-  $scope.type = [
-    {"key":"P", "value": "Pump"},
-    {"key":"A", "value": "Agitator"},
-    {"key":"H", "value": "Heater"},
-    {"key":"O", "value": "Other"},
-  ];
-  
-  CBPKettle.getDevices({}, function(response) {
-    angular.forEach(response, function(d) {
-      $scope.gpio.push({
-        "key": d,
-        "value": d
+  // modal dialog to edit existing hardware
+  $scope.edit = function(id) {
+    $scope.selected = id
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "HardwareEditController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/hardware/form.html',
+      size: "sm"
+    });
+    modalInstance.result.then(function(data) {
+      CBPHardware.query(function(response) {
+        $scope.hw = response.objects;
       });
-    })
+    });
+  }
+
+})
+.controller("HardwareCreateController", function($scope, CBPHardware, $uibModalInstance) {
+  $scope.edit=false;
+  $scope.save = function() {
+    if ($scope.hardware.name.length == 0) {
+      return;
+    }
+    CBPHardware.save($scope.hardware, function(data) {
+        $uibModalInstance.close();
+    });
+  }
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+
+}).controller('HardwareEditController', function($scope, CBPHardware, ConfirmMessage,$uibModalInstance, CBPKettle) {
+
+  $scope.edit=true;
+  CBPHardware.get({
+    "id": $scope.selected
+  }, function(response) {
+    $scope.hardware = response;
   });
 
   $scope.save = function() {
     CBPHardware.update({
-      "id": $scope.pump.id
-    }, $scope.pump, function() {
-      history.back();
+      "id": $scope.hardware.id
+    }, $scope.hardware, function() {
+      $uibModalInstance.close({});
     });
   }
-  $scope.delete = function() {
 
+  $scope.delete = function() {
     ConfirmMessage.open("Delete Hardware","Do you really want to delete the hardware?", function() {
       CBPHardware.delete({
-        "id": $scope.pump.id
+        "id": $scope.hardware.id
       }, function() {
-        history.back();
+            $uibModalInstance.close();
       });
-
-    }, function() {
-
-    });
+    }, function() { });
   }
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
 });

@@ -5,12 +5,13 @@ angular.module('craftberpi',
 'ngRoute',
 'easypiechart',
 'craftberpi.controllers',
-'craftberpi.controllers5',
+'craftbeerpi.kettle',
 'craftberpi.controllers2',
 'craftberpi.controllers3',
 'craftberpi.controllers6',
-'craftberpi.hardware',
-'craftberpi.services',
+'craftbeerpi.recipebook',
+'craftbeerpi.hardware',
+'craftbeerpi.services',
 'craftberpi.config']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
@@ -48,6 +49,7 @@ angular.module('craftberpi',
     })
     .when('/kettle/:vid', {
       templateUrl: '/base/static/partials/kettle/edit.html',
+      controller: 'KettleEditController',
     })
     .when('/chart/:vid', {
       templateUrl: '/base/static/partials/chart/chart.html',
@@ -55,9 +57,13 @@ angular.module('craftberpi',
     .when('/step/kb', {
       templateUrl: '/base/static/partials/steps/kbupload.html',
     })
+    .when('/step/recipe_book', {
+      templateUrl: '/base/static/partials/steps/recipe_book_overview.html',
+    })
     .when('/step/:vid', {
       templateUrl: '/base/static/partials/steps/edit.html',
     })
+
 
 
     .otherwise({

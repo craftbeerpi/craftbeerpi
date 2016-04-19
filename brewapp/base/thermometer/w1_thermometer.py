@@ -38,8 +38,8 @@ class OneWireThermometer(object):
             if (result.split('\n')[0].split(' ')[11] == "YES"):
                 temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
             else:
-                temp_C = -99 #bad temp reading
+                temp_C = -1
         except Exception as e:
-            temp_C = round(randint(0,50),2)
+            temp_C = -1
 
         return float(format(temp_C, '.2f'))

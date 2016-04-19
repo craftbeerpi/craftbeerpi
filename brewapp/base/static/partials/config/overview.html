@@ -1,6 +1,6 @@
 <div ng-controller="ConfigOverviewController">
 	<div class="row">
-		<div class="col-sm-7">
+		<div class="col-sm-12">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Config Parameter
@@ -13,7 +13,7 @@
 					</thead>
 					<tr ng-repeat="item in configparams track by $index">
 						<td>
-							<a href="#/config/{{item.name}}">{{ item.name }}</a>
+							<a ng-click="edit(item.name)">{{ item.name }}</a>
 						</td>
 						<td>
 							{{ item.value }}
@@ -21,25 +21,12 @@
 						<td>
 							{{ item.description }}
 						</td>
+
 					</tr>
 				</table>
 			</div>
 		</div>
-		<div class="col-sm-5">
-			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
-				<div class="panel-heading">
-					New Config Parameter
-				</div>
-				<div class="panel-body">
-          <form>
-            <span ng-include="'/base/static/partials/config/form.html'"/>
-            <a class="btn btn-danger" href="" ng-click="clear()"><i class="fa fa-times-circle"></i> Clear</a>
-            <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
-          </form>
-				</div>
-			</div>
 
-		</div>
 	</div>
 
 

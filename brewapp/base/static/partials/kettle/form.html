@@ -1,4 +1,4 @@
-<div ng-controller="KettleEditController">
+<div >
   <form>
     <div class="row">
       <div class="col-sm-4">
@@ -9,7 +9,7 @@
           <div class="panel-body">
             <div class="form-group">
               <label>Name</label>
-              <input type="text" ng-model="kettle.name" class="form-control">
+              <input required type="text" ng-model="kettle.name" class="form-control">
             </div>
             <div class="form-group">
               <label>Thermometer Id</label>
@@ -17,7 +17,7 @@
                 <option ng-repeat="t in thermometer" value="{{t.key}}" ng-selected="kettle.sensorid == t.key">{{t.value}}</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label>Sensor Offset</label>
               <input type="text" ng-model="kettle.sensoroffset" class="form-control">
@@ -78,8 +78,8 @@
       </div>
     </div>
     <p>
-      <a class="btn btn-default" href="" back-button><i class="fa fa-arrow-circle-left"></i> Back</a>
-      <a class="btn btn-danger" href="" ng-click="delete()"> <i class="fa fa-times-circle"></i> Delete</a>
+      <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</a>
+      <a class="btn btn-danger" href="" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> Delete</a>
       <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
     </p>
 

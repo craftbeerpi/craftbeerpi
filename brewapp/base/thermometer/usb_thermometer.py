@@ -36,8 +36,8 @@ class USBThermometer(object):
             if (result != None and result != ""):
                 temp_C = float(result)
             else:
-                temp_C = -99 #bad temp reading
+                temp_C = -1 #bad temp reading
         except Exception as e:
-            temp_C = round(randint(0,50),2)
+            temp_C = -1
 
         return float(format(temp_C, '.2f'))
