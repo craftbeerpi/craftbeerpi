@@ -18,7 +18,7 @@ class OneWireThermometer(object):
         try:
             arr = []
             for dirname in os.listdir('/sys/bus/w1/devices'):
-                if(dirname != "w1_bus_master1"):
+                if(dirname.startswith("28") or dirname.startswith("10")):
                     arr.append(dirname)
             return arr
         except:
