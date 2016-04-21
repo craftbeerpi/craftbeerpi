@@ -55,7 +55,7 @@ class BrewGPIO(SwitchBase):
 
     def getDevices(self):
         gpio = []
-        for i in range(1, 40):
+        for i in range(2, 27):
             gpio.append("GPIO"+str(i))
         return gpio
 
