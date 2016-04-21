@@ -32,8 +32,7 @@ def nextStep():
 
     if(active != None):
         active.state = 'D'
-        #active.end = datetime.utcnow()
-        active.end = datetime.now()
+        active.end = datetime.utcnow()
         setTargetTemp(active.kettleid, 0)
         db.session.add(active)
         db.session.commit()
@@ -41,8 +40,7 @@ def nextStep():
 
     if(inactive != None):
         inactive.state = 'A'
-        #inactive.start = datetime.utcnow()
-        inactive.start = datetime.now()
+        inactive.start = datetime.utcnow()
         setTargetTemp(inactive.kettleid, inactive.temp)
         db.session.add(inactive)
         db.session.commit()
@@ -105,8 +103,7 @@ def stepjob():
     ## check if target temp reached and timer can be started
     if(cs.get("timer") > 0 and cs.get("timer_start") == None and ct >= cs.get("temp")):
         s = Step.query.get(cs.get("id"))
-        #s.timer_start = datetime.utcnow()
-        s.timer_start = datetime.now()
+        s.timer_start = datetime.utcnow()
         app.brewapp_current_step = to_dict(s)
         if(s.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((s.timer_start - datetime(1970,1,1)).total_seconds())*1000
@@ -119,8 +116,7 @@ def stepjob():
     if(cs.get("timer_start") != None):
         # check if timer elapsed
         end = cs.get("endunix") + cs.get("timer")*60000
-        #now = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
-        now = int((datetime.now() - datetime(1970,1,1)).total_seconds())*1000
+        now = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         ## switch to next step if timer is over
         if(end < now ):
 

@@ -6,7 +6,7 @@ from model import *
 from views import base
 from brewapp.base.devices import *
 from kettle import initKettle
-
+from hardwareswitch import initHardware
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
 
@@ -24,9 +24,8 @@ def setKettle():
         db.session.add(ks)
 
     db.session.commit()
-    app.brewapp_hardware.init()
-    app.brewapp_thermometer.init()
     initKettle()
+    initHardware(True)
     return ('', 204)
 
 @app.route('/api/setup/thermometer', methods=['POST'])

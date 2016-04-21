@@ -132,8 +132,8 @@ def readKettleTemp():
             app.brewapp_kettle_state[vid]["temp"] = temp + app.brewapp_kettle_state[vid]["sensoroffset"]
         else:
             app.brewapp_kettle_state[vid]["temp"] = temp
-            timestamp = int((datetime.now() - datetime(1970,1,1)).total_seconds())*1000
-        #timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
+            
+            timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
 
     socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
