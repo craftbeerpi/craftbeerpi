@@ -4,7 +4,18 @@
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Brew Steps {{ config["BREWNAME"]}}
-					<div class="dropdown pull-right">
+
+
+					<div class="btn-group pull-right hidden-xs" role="group">
+
+						<a ng-click="clearAllSteps()" class="btn btn-danger"><i class="fa fa-trash"></i> Clear all Steps</a>
+						<a ng-click="newStep()" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> New Step</a>
+						<a href  ng-click="save_to_book()" class="btn btn-default"><i class="fa fa-floppy-o"></i>  Save Recipe</a>
+						<a ng-click="showbook()" class="btn btn-primary"><i class="fa fa-book"></i> Recipe Book</a>
+						<a href="#/step/kb" class="btn btn-warning">Kleiner Brauhelfer</a>
+					</div>
+
+					<div class="dropdown pull-right visible-xs">
 						<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 							Action
 							<span class="caret"></span>
@@ -21,6 +32,9 @@
 
 						</ul>
 					</div>
+
+
+
 					<div class="clearfix"></div>
 				</div>
 				<table class="table">

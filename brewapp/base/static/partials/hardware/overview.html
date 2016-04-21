@@ -4,14 +4,10 @@
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
 					Hardware
-					<div class="dropdown pull-right">
-						<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							Action
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a ng-click="createHardware()"><i class="fa fa-pencil-square-o"></i> New Hardware</a></li>
-						</ul>
+					<div class="btn-group pull-right" role="group">
+
+						<a ng-click="createHardware()" class="btn btn-success" role="group">
+							<i class="fa fa-pencil-square-o"></i> New Hardware</a>
 					</div>
 					<div class="clearfix"></div>
 				</div>
