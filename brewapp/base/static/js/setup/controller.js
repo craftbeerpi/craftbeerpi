@@ -1,8 +1,8 @@
-angular.module('craftberpi.controllers6', []).controller('SetupController', function(ws, $scope, $http, $uibModal, $location, WizardHandler, CBPKettle) {
+angular.module('craftberpi.controllers6', []).controller('SetupController', function(ws, $scope, $rootScope, $http, $uibModal, $location,  WizardHandler, CBPKettle) {
 
 
   $scope.num = 0
-  
+
 
   $scope.gpio = []
   $scope.gpio.push({
@@ -52,8 +52,6 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
   }
 
   $scope.finish = function() {
-    console.log("OK");
-
     var count = $scope.num;
 
     for (i = 0; i < $scope.kettles.length; i++) {
@@ -66,4 +64,6 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
     }
 
   }
+
+
 });

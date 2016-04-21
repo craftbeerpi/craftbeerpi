@@ -10,3 +10,4 @@ import kleinerbrauhelfer
 import automatic
 import hardwareswitch
 import buzzer
+import setup

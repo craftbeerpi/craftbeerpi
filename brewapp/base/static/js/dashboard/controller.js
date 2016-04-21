@@ -19,10 +19,7 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   $scope.kettle_state = {}
   CBPKettle.query(function(data) {
     $scope.kettles = data.objects;
-    if ($scope.kettles.length == 0) {
-      console.log("SETUP");
-      $location.url("/setup");
-    }
+    
   });
 
   CBPSwitch.get(function(data) {

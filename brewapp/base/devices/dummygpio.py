@@ -5,7 +5,6 @@ from brewapp.base.model import *
 class DummyGPIO(SwitchBase):
 
     def init(self):
-
         hw = Hardware.query.all()
         for h in hw:
             app.logger.info(h.switch)
@@ -14,6 +13,7 @@ class DummyGPIO(SwitchBase):
         for h in hw:
             app.logger.info(h.heater)
             app.logger.info(h.agitator)
+        self.state = True
 
     def cleanup(self):
         print "CLEAN UP"

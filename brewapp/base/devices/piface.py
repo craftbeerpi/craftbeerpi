@@ -11,8 +11,13 @@ class PiFace(SwitchBase):
 
     ## initialize the piface
     def init(self):
-        piface.init()
-        pass
+        app.logger.info("INIT PIFACE")
+        try:
+            piface.init()
+            self.state = True
+        except Exception as e:
+            app.logger.error("SETUP PIFACE FAILD " + str(e))
+            self.state = False
 
     ## Returns the possible conntores as string
     def getDevices(self):

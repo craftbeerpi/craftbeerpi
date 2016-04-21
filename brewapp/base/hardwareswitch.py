@@ -14,11 +14,13 @@ def post_post(result=None, **kw):
 
 @brewinit(100)
 def init2():
-    app.brewapp_hardware.init()
-    app.brewapp_thermometer.init()
+    if(app.createdb == False):
+        app.brewapp_hardware.init()
+        app.brewapp_thermometer.init()
 
 @brewinit()
 def init():
+
     manager.create_api(Hardware, methods=['GET', 'POST', 'DELETE', 'PUT'],
     postprocessors={
         'POST': [post_post],
@@ -76,6 +78,8 @@ def switchOff(s):
 
 
 class SwitchBase(object):
+
+    state = False
 
     def init(self):
         pass

@@ -10,6 +10,7 @@ mymodule = Blueprint('mymodule', __name__, template_folder='templates', static_f
 ## Index Page for mymodule http://<server>:5000/mymodlue/
 @mymodule.route('/')
 def index():
+    
     return mymodule.send_static_file("index.html")
 
 ## Web Socket Connection

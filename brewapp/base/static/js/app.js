@@ -63,9 +63,6 @@ angular.module('craftberpi',
     .when('/step/:vid', {
       templateUrl: '/base/static/partials/steps/edit.html',
     })
-
-
-
     .otherwise({
       redirectTo: '/'
     });

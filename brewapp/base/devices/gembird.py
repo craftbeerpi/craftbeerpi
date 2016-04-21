@@ -3,6 +3,9 @@ from brewapp.base.hardwareswitch import SwitchBase
 from brewapp import app
 class GembirdUSB(SwitchBase):
 
+    def init(self):
+        self.state = True
+
     def getDevices(self):
         gpio = []
         for i in range(1, 5):

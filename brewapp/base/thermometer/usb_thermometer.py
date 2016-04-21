@@ -19,7 +19,7 @@ class USBThermometer(object):
                     arr.append(dirname)
             return arr
         except:
-            return ["DummySensor1","DummySensor2"]
+            return []
 
     def readTemp(self, tempSensorId):
         try:
