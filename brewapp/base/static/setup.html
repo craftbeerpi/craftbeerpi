@@ -38,11 +38,7 @@
   <!-- CraftBeerPI libs -->
   <script type="text/javascript" src="static/js/setupapp.js"></script>
 
-<style>
-  .raspi {
-    background-image: url("/static/raspi.png");
-  }
-</style>
+
 </head>
 
 <body id="skin-blur-violate">
@@ -53,9 +49,9 @@
           <wizard on-finish="finish()" template="/base/static/partials/setup/wizard.html">
             <wz-step title="Welcome" >
               <center>
-              <h2>Weclome to CraftBeerPI</h2>
-              <p>Setup your brew computer within a few steps.</p>
-              <a class="btn btn-primary" wz-next >Start Configuration</a>
+              <h2>Welcome to CraftBeerPI</h2>
+              <p>Setup your brewing computer within a few steps</p>
+              <a class="btn btn-primary" wz-next >Start Setup</a>
             </center>
             </wz-step>
             <wz-step title="hardware">
@@ -63,11 +59,11 @@
             </wz-step>
             <wz-step title="Thermometer">
               <span ng-include="'/base/static/partials/setup/thermometer.html'" /></span>
-              <a class="btn btn-primary" href="" wz-previous ><i class="fa fa-backward"></i> Back</a>
+              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> Back</a>
             </wz-step>
             <wz-step title="Kettle Setup">
               <span ng-include="'/base/static/partials/setup/select.html'" /></span>
-              <a class="btn btn-primary" href="" wz-previous ><i class="fa fa-backward"></i> Back</a>
+              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> Back</a>
             </wz-step>
             <wz-step title="Kettle Config">
               <span ng-include="'/base/static/partials/setup/kettleconfig.html'" /></span>
