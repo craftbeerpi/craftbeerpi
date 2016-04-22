@@ -1,18 +1,29 @@
-angular.module('craftberpi.controllers6', []).controller('SetupController', function(ws, $scope, $http, $uibModal, $location, WizardHandler, CBPKettle) {
+angular.module('craftberpi.controllers6', []).controller('SetupController', function(ws, $scope, $rootScope, $http, $uibModal, $location,  WizardHandler, CBPKettle) {
 
 
   $scope.num = 0
+
+
   $scope.gpio = []
   $scope.gpio.push({
     "key": undefined,
     "value": "NO GPIO",
   });
+<<<<<<< HEAD
   for(i = 1; i < 31; i++) {
     $scope.gpio.push({
       "key": i,
       "value": i
     });
   }
+=======
+
+  CBPKettle.getDevices({}, function(response) {
+    angular.forEach(response, function(d) {
+        $scope.gpio.push({"key":d, "value":d});
+    })
+  });
+>>>>>>> dev2.1
 
   $scope.thermometer = [];
   $scope.thermometer.push({"key":"", "value":"No Sensor"});
@@ -50,8 +61,6 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
   }
 
   $scope.finish = function() {
-    console.log("OK");
-
     var count = $scope.num;
 
     for (i = 0; i < $scope.kettles.length; i++) {
@@ -64,4 +73,6 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
     }
 
   }
+
+
 });

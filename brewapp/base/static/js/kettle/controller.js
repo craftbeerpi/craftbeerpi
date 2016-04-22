@@ -1,16 +1,28 @@
-angular.module('craftberpi.controllers5', []).controller('KettleOverviewController', function($scope, $location, CBPSteps,CBPKettle, ConfirmMessage) {
+angular.module('craftbeerpi.kettle', []).controller('KettleOverviewController', function($scope, $location, CBPSteps, CBPKettle, $uibModal, ConfirmMessage, CBPConfig) {
 
   CBPKettle.query({}, function(response) {
     $scope.kettles = response.objects
   });
 
   $scope.thermometer = [];
-  $scope.thermometer.push({"key":"", "value":""});
+  $scope.thermometer.push({
+    "key": "",
+    "value": "No Thermometer"
+  });
 
   CBPKettle.getthermometer({}, function(response) {
     angular.forEach(response, function(d) {
-        $scope.thermometer.push({"key":d, "value":d});
+      $scope.thermometer.push({
+        "key": d,
+        "value": d
+      });
     })
+  });
+
+  $scope.automatic = [];
+  CBPKettle.getautomatic({}, function(response) {
+    $scope.automatic = response;
+
   });
 
   $scope.kettle = {
@@ -18,6 +30,7 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     "sensorid": "",
     "heater": undefined,
     "agitator": undefined,
+    "target_temp": 0
   }
 
   $scope.gpio = []
@@ -25,34 +38,74 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     "key": undefined,
     "value": "NO GPIO",
   });
+<<<<<<< HEAD
   for(i = 1; i < 31; i++) {
     $scope.gpio.push({
       "key": i,
       "value": i
     });
   }
+=======
+
+  CBPKettle.getDevices({}, function(response) {
+    angular.forEach(response, function(d) {
+      $scope.gpio.push({
+        "key": d,
+        "value": d
+      });
+    })
+  });
+
+>>>>>>> dev2.1
 
   $scope.clearTempLogs = function() {
-    ConfirmMessage.open("Clear Temperature Log","Do you really want to clear all Temperature Logs?", function() {
+    ConfirmMessage.open("Clear Temperature Log", "Do you really want to clear all Temperature Logs?", function() {
       CBPKettle.clear({}, function(response) {
-
       });
-    }, function() {
-      // cancel do nothing
+    }, function() {});
+  }
+
+  $scope.create = function() {
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "KettleNewController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/kettle/form.html',
+      size: "lg"
+    });
+    modalInstance.result.then(function(data) {
+      CBPKettle.query({}, function(response) {
+        $scope.kettles = response.objects;
+      });
     });
   }
 
-  $scope.clear = function() {
-    $scope.kettle = {
-      "name": "",
-      "sensorid": "",
-      "heater": undefined,
-      "agitator": undefined,
-    }
+  $scope.edit = function(id) {
+    $scope.selected = id
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "KettleEditController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/kettle/form.html',
+      size: "lg",
+      resolve: {"id": id}
+    });
+    modalInstance.result.then(function(data) {
+      CBPKettle.query({}, function(response) {
+        $scope.kettles = response.objects;
+      });
+    });
   }
+
+}).
+controller('KettleNewController', function($scope, $uibModalInstance, CBPKettle) {
+  $scope.edit = false;
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+
   $scope.save = function() {
-    console.log( $scope.kettle.name.length)
-    if($scope.kettle.name.length == 0) {
+    if ($scope.kettle.name.length == 0) {
       return;
     }
     CBPKettle.save($scope.kettle, function(data) {
@@ -62,31 +115,13 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
         "heater": undefined,
         "agitator": undefined,
       }
-      CBPKettle.query({}, function(response) {
-        $scope.kettles = response.objects;
-      });
+      $uibModalInstance.close({});
     });
   }
 
-}).controller('KettleEditController', function($scope, CBPKettle, $routeParams) {
-  // Do something with myService
-  $scope.vid = $routeParams.vid
+}).controller('KettleEditController', function($scope, CBPKettle, $routeParams, CBPConfig, ConfirmMessage, $uibModalInstance) {
 
-    CBPKettle.get({
-      "id": $scope.vid
-    }, function(response) {
-      $scope.kettle = response;
-    });
-
-    $scope.thermometer = [];
-    $scope.thermometer.push({"key":"", "value":"No Thermometer"});
-
-    CBPKettle.getthermometer({}, function(response) {
-      angular.forEach(response, function(d) {
-          $scope.thermometer.push({"key":d, "value":d});
-      })
-    });
-
+<<<<<<< HEAD
     $scope.gpio = []
     $scope.gpio.push({
       "key": undefined,
@@ -100,22 +135,45 @@ angular.module('craftberpi.controllers5', []).controller('KettleOverviewControll
     }
 
     $scope.save = function() {
+=======
+>>>>>>> dev2.1
 
-      CBPKettle.update({
-        "id": $scope.kettle.id
-      }, $scope.kettle, function() {
-        history.back();
-      });
+  $scope.edit = true;
+  CBPKettle.get({
+    "id": $scope.selected
+  }, function(response) {
+    $scope.kettle = response;
+  });
+  $scope.save = function() {
+    console.log($scope.kettle.name)
+    if ($scope.kettle.name.length == 0) {
+      return;
     }
-    $scope.delete = function() {
+    CBPKettle.update({
+      "id": $scope.kettle.id
+    }, $scope.kettle, function() {
+      $uibModalInstance.close({});
+    });
+  }
+  $scope.delete = function() {
+    ConfirmMessage.open("Delete Kettle", "Do you really want to delete the kettle?", function() {
       CBPKettle.delete({
         "id": $scope.kettle.id
       }, function() {
-        history.back();
+        $uibModalInstance.close({});
       });
+<<<<<<< HEAD
     }
 
 
 
 
+=======
+    }, function() {
+    });
+  }
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('cancel');
+  };
+>>>>>>> dev2.1
 });

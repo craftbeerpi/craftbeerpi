@@ -1,0 +1,33 @@
+<div ng-controller="ConfigOverviewController">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+				<div class="panel-heading">
+					Config Parameter
+				</div>
+				<table class="table">
+					<thead>
+						<td>Name</td>
+						<td>Value</td>
+						<td>Description</td>
+					</thead>
+					<tr ng-repeat="item in configparams track by $index">
+						<td>
+							<a ng-click="edit(item.name)">{{ item.name }}</a>
+						</td>
+						<td>
+							{{ item.value }}
+						</td>
+						<td>
+							{{ item.description }}
+						</td>
+
+					</tr>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+
+</div>

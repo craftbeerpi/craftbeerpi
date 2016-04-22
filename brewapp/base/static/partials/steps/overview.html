@@ -1,26 +1,42 @@
 <div ng-controller="StepOverviewController">
-
 	<div class="row">
-
-
-		<div class="col-sm-7">
-
-
+		<div class="col-sm-12">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					Brew Steps
+					Brew Steps {{ config["BREWNAME"]}}
 
-					<div class="btn-group pull-right" role="group" aria-label="...">
-						<div class="btn-group" role="group">
-							<a class="btn btn-danger btn-xs" ng-click="clearAllSteps()" >Clear all Steps</a>
-						</div>
-						<div class="btn-group" role="group">
-							<a class="btn btn-warning btn-xs" href="#/step/kb" >Kleiner Brauhelfer</a>
-						</div>
+
+					<div class="btn-group pull-right hidden-xs" role="group">
+
+						<a ng-click="clearAllSteps()" class="btn btn-danger"><i class="fa fa-trash"></i> Clear all Steps</a>
+						<a ng-click="newStep()" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> New Step</a>
+						<a href  ng-click="save_to_book()" class="btn btn-default"><i class="fa fa-floppy-o"></i>  Save Recipe</a>
+						<a ng-click="showbook()" class="btn btn-primary"><i class="fa fa-book"></i> Recipe Book</a>
+						<a href="#/step/kb" class="btn btn-warning">Kleiner Brauhelfer</a>
 					</div>
+
+					<div class="dropdown pull-right visible-xs">
+						<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							Action
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><a ng-click="clearAllSteps()"><i class="fa fa-trash"></i> Clear all Steps</a></li>
+							<li><a ng-click="newStep()"><i class="fa fa-pencil-square-o"></i> New Step</a></li>
+
+							<li role="separator" class="divider"></li>
+							<li><a href  ng-click="save_to_book()" ><i class="fa fa-floppy-o"></i>  Save Recipe</a></li>
+							<li><a ng-click="showbook()"><i class="fa fa-book"></i> Recipe Book</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#/step/kb">Kleiner Brauhelfer</a></li>
+
+						</ul>
+					</div>
+
+
+
+					<div class="clearfix"></div>
 				</div>
-
-
 				<table class="table">
 					<thead>
 						<td class="col-md-1">Type</td>
@@ -38,14 +54,14 @@
 							<span class="badge">{{ item.type }}</span>
 						</td>
 						<td>
-							<a href="#/step/{{item.id}}">
+							<a ng-click="edit(item.id)">
 								<strong>{{ item.name }}</strong>
 							</a> <i ng-class="stateClassIcon(item)"></i>
 							<br>
 							<small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small>
 						</td>
 						<td>
-							<span>{{ item.temp }} °C</span>
+							<span>{{ item.temp }} °{{ config["UNIT"]}}</span>
 						</td>
 						<td>
 							<timer ng-if="item.state == 'A' && item.timer_start != null" end-time="item.timer_start + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
@@ -53,59 +69,16 @@
 					</td>
 					<td>
 						{{ getKettleName(item.kettleid) }}
-				</td>
-		</tr>
+					</td>
+				</tr>
 	</table>
+
+</div>
 </div>
 
 
+
 </div>
 
-<div class="col-sm-5">
-
-
-
-
-	<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
-		<div class="panel-heading">
-			New Step
-
-			<div class="btn-group pull-right" role="group" aria-label="...">
-
-			</div>
-		</div>
-		<div class="panel-body">
-	<form class="form">
-		<div class="form-group">
-			<label>Name</label>
-			<input type="text" ng-model="step.name" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>Type</label>
-			<select class="form-control" ng-model="step.type">
-				<option ng-repeat="t in type" value="{{t.key}}" ng-selected="step.type == t.key">{{t.value}}</option>
-			</select>
-		</div>
-
-		<div class="form-group">
-			<label>Target Temperature</label>
-			<input type="number" ng-model="step.temp" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>Timer in Minutes</label>
-			<input type="number" ng-model="step.timer" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>Kettle</label>
-			<select class="form-control" ng-model="step.kettleid">
-				<option ng-repeat="t in kettles" value="{{t.key}}" ng-selected="step.kettleid == t.key">{{t.value}}</option>
-			</select>
-		</div>
-		<a class="btn btn-danger" href="" ng-click="clear()"><i class="fa fa-times-circle"></i> Clear</a>
-		<a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
-	</form>
-</div>
-</div>
-</div>
 
 </div>

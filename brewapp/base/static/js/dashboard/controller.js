@@ -1,15 +1,48 @@
-angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, ChartFactory, $uibModal, ws) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, InfoMessage, $uibModal, ws, $timeout) {
 
+
+
+  $scope.anotherOptions = {
+				animate:{
+					duration:500,
+					enabled:true
+				},
+				barColor:'red',
+				scaleColor:true,
+				lineWidth:5,
+				lineCap:'circle'
+			};
+
+  $scope.config = {}
+
+  $scope.switch_state = {}
+  $scope.kettle_state = {}
   CBPKettle.query(function(data) {
     $scope.kettles = data.objects;
-    if ($scope.kettles.length == 0) {
-      console.log("SETUP");
-      $location.url("/setup");
-    }
+    
+  });
+
+  CBPSwitch.get(function(data) {
+    $scope.switch_state = data;
+
+  })
+
+  CBPHardware.query(function(data) {
+    $scope.hardware = data.objects;
+  });
+
+  CBPHardware.getstate(function(data) {
+    $scope.pumps_state = data;
   });
 
   CBPSteps.query(function(data) {
     $scope.steps = data.objects;
+  });
+
+  CBPConfig.query(function(data) {
+    data.objects.forEach(function(entry) {
+      $scope.config[entry.name] = entry.value
+    });
   });
 
   CBPKettle.getstate(function(data) {
@@ -17,33 +50,67 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   });
 
   $scope.getTemp = function(item) {
-    if ($scope.kettle_state == undefined) {
+    if ($scope.kettle_state[item.id] == undefined) {
       return ""
     } else {
       return $scope.kettle_state[item.id]['temp'];
     }
   }
-  $scope.buttonState = function(item, element) {
-    var state = false;
+
+  $scope.automiticState = function(item) {
 
     if ($scope.kettle_state[item.id] == undefined) {
       return "btn-default"
     }
-
-    if ($scope.kettle_state[item.id][element] != undefined) {
-      if (element == "automatic") {
-        state = $scope.kettle_state[item.id]['automatic'];
-      } else {
-        state = $scope.kettle_state[item.id][element]['state'];
-      }
-
-      if (state == true) {
-        return "btn-success"
-      } else {
-        return "btn-default"
-      }
+    if ($scope.kettle_state[item.id]['automatic'] == true) {
+      return "btn-success"
+    } else {
+      return "btn-default"
     }
   }
+
+  $scope.buttonState = function(s) {
+    var state = false;
+
+    if ($scope.switch_state[s] == undefined) {
+      return "btn-default"
+    }
+
+    if ($scope.switch_state[s] == true) {
+      return "btn-success"
+    } else {
+      return "btn-default"
+    }
+  }
+
+  $scope.hardwareType = function(s) {
+    switch (s) {
+      case "H":
+        return "fa-fire";
+        break;
+      case "A":
+        return "fa-refresh";
+        break;
+      case "P":
+        return "fa-tint"
+        break;
+      default:
+        return "fa-plug"
+        break;
+    }
+  }
+
+  $scope.columnwidth = function(s, d) {
+
+    if(s == undefined){
+        return "col-sm-"+d
+    }
+    else {
+      return "col-sm-"+s
+    }
+
+  }
+
   $scope.kettleState = function(vid) {
     if ($scope.steps == undefined) {
       return;
@@ -59,9 +126,8 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     num_of_kettles = 1;
     if (item.state == "D") {
       return "info";
-    }
-    else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps != undefined && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
-          return "active"
+    } else if (item.type == "M" && item.state == "A" && num_of_kettles > 0 && $scope.kettle_temps != undefined && $scope.kettle_temps[item["kettleid"]][1] >= item.temp) {
+      return "active"
     } else if (item.state == "A" && item.timer_start != null) {
       return "active"
     } else if (item.state == "A" && item.timer_start == null) {
@@ -112,6 +178,24 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     });
   };
 
+
+  $scope.edit = function(id) {
+    $scope.selected = id
+    var modalInstance = $uibModal.open({
+      animation: true,
+      controller: "KettleEditController",
+      scope: $scope,
+      templateUrl: '/base/static/partials/kettle/form.html',
+      size: "lg",
+      resolve: {"id": id}
+    });
+    modalInstance.result.then(function(data) {
+      CBPKettle.query({}, function(response) {
+        $scope.kettles = response.objects;
+      });
+    });
+  }
+
   $scope.calcVolume = function(item) {
     var modalInstance = $uibModal.open({
       animation: true,
@@ -135,13 +219,10 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     });
   }
 
-  $scope.switchGPIO = function(item, element) {
+  $scope.switchGPIO = function(item) {
 
-    ws.emit("switch_gipo", {
-      "vid": item.id,
-      "element": element,
-      "gpio": item[element],
-      "state": true
+    ws.emit("switch", {
+      "switch": item
     });
   }
 
@@ -150,23 +231,15 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   }
 
   $scope.kettle_state_update = function(data) {
-/*
-    console.log(data)
-    charts = ChartFactory.get();
-
-    for (var key in data) {
-      //console.log(charts[key])
-      charts[key].flow({
-        columns: [
-            ['data1', data[key].temp],
-        ],
-        length: 1
-      });
-    }
-*/
     $scope.kettle_state = data;
   }
+
+  $scope.switch_state_update = function(data) {
+    $scope.switch_state = data;
+  }
+
   $scope.step_update = function(data) {
+
     $scope.steps = data;
   }
   $scope.kettle_automatic_on = function(data) {
@@ -176,11 +249,18 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
     $scope.kettle_state[data].heater.state = false;
   }
 
+  $scope.message = function(data) {
+
+  }
+
+
   ws.on('kettle_state_update', $scope.kettle_state_update);
+  ws.on('switch_state_update', $scope.switch_state_update);
   ws.on('kettle_update', $scope.kettle_update);
   ws.on('step_update', $scope.step_update);
   ws.on('kettle_automatic_on', $scope.kettle_automatic_on);
   ws.on('kettle_automatic_off', $scope.kettle_automatic_off);
+  ws.on('message', $scope.message);
 
 }).controller('TargetTempController', function($scope, $uibModalInstance, kettle) {
 

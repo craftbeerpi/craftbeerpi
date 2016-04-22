@@ -1,0 +1,13 @@
+<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+  <div class="panel-heading">
+
+    <span class="headline"><i class="fa fa-chevron-circle-right"></i> Additional Hardware</span>
+  </div>
+  <div class="panel-body">
+    <div class="btn-group-vertical" role="group">
+      <button class="btn btn-default" ng-class="buttonState(p.switch)" ng-click="switchGPIO(p.switch)" ng-repeat="p in hardware">
+        <span class="badge"><i class="fa" ng-class="hardwareType(p.type)"></i></span> {{p.name}}
+      </button>
+    </div>
+  </div>
+</div>

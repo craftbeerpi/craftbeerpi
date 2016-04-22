@@ -1,7 +1,7 @@
 <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top"  >
 
   <div class="panel-heading">
-      <span class="panel-title"><i class="fa fa-list"></i> {{brew_name}}</span>
+      <span class="panel-title"><i class="fa fa-list"></i> {{ config["BREWNAME"]}}</span>
 
       <div class="btn-group pull-right" role="group" aria-label="...">
 
@@ -19,27 +19,28 @@
         <thead>
             <td class="col-md-1">Type</td>
             <td>Step</td>
-            <td><i class="wi wi-thermometer"></i> <span class="hidden-xs">Temp</span></td>
-            <td><i class="fa fa-clock-o"></i> <span class="hidden-xs">Timer</span></td>
+            <td><i class="wi wi-thermometer"></i> </td>
+            <td><i class="fa fa-clock-o"></i> </td>
             <td></td>
         </thead>
         <tr ng-class="stepStyle(item)" ng-repeat="item in steps track by $index">
             <td class="col-md-1"><span class="badge">{{ item.type }}</span></td>
-            <td><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
+            <td style="overflow: hidden;"><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
                 <br>
-                <small>{{ item.start | date:'HH:mm:ss' }} - {{ item.end | date:'HH:mm:ss' }}</small><br/>
+                <small>{{ item.timer_start | date:'HH:mm:ss'  }} - {{ item.end | date:'HH:mm:ss' : 'UTC'}}</small><br/>
                 </td>
-            <td><span>{{ item.temp }} °C</span></td>
+            <td><span>{{ item.temp }} °{{ config["UNIT"]}}</span></td>
             <td>
-                <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
-                </timer> ({{ item.timer }} min)<br>
-                <small ng-if="item.timer_start">Started: {{ item.timer_start | date:'HH:mm:ss' }}</small><br>
-
-
+                 <nobr>({{ item.timer }} min)</nobr><br>
+                <small ng-if="item.timer_start">
+                  <timer ng-if="item.timer <= 1440 && item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000"> {{hhours}}:{{mminutes}}:{{sseconds}}
+                  </timer>
+                  <timer ng-if="item.timer > 1440 && item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000"> {{days}} days {{hhours}}:{{mminutes}}:{{sseconds}}
+                  </timer>
+                </small><br>
                 <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
             </td>
             <td>
-
                 <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm"><i class="fa fa-forward"></i></button>
             </td>
         </tr>

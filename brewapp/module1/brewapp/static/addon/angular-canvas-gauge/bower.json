@@ -1,0 +1,29 @@
+{
+  "name": "angular-canvas-gauge",
+  "main": "angular-canvas-gauge.js",
+  "version": "1.0.1",
+  "homepage": "https://github.com/dec/angular-canvas-gauge",
+  "authors": [
+    "David Esperalta <info@davidesperalta.com>"
+  ],
+  "description": "This is an AngularJS 1.x directive for the excellent Mikhus's canv-gauge project we can found at https://github.com/Mikhus/canv-gauge",
+  "moduleType": [],
+  "keywords": [
+    "angular",
+    "gauge",
+    "html5"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "Sample"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "canv-gauge": "^1.0.1"
+  }
+}
