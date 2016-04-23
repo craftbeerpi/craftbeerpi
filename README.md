@@ -5,15 +5,20 @@ Website: www.CraftBeerPI.com
 
 ## Features
 
+* Simple and easy installation script
 * Flexible Kettle Setup - From simple 1 kettle preserving cooker to 3 kettle RIMS or HERMS setup
 * Flexible Brew Step Configuraiton - Configure your own brew steps. From mashing over boiling to whirlpool
-* Automatic Timer Control. The Step Control will take care of your brew steps
+* Automatic Timer Control. The Step Control will take care of your brew steps.
 * Import Recipes from "Kleiner Brauhelfer" -Plan your brew at "Kleiner Brauhelfer" and import the recipes to CraftBeerPI
 * Heater & Agitator Control - Control heater and agitator via web interface
-* PID Controller - The PID Controller takes care to meeting the target temperatue of your kettle
 * Temperature Chart - Temprature data is recorded and display as a line chart
 * Mobile Device UI - Control your brew form Smartphone or Tablet
-
+* Additional Hardware like pumps or vents can be controlled
+* Brew Automatic with Overshoot Logic, PID Logic, Fermentation Logic.
+* Custom Automatic logics can be add
+* Recipe Book
+* Support für GPIO, PiFace or Gembird USB Socket
+* Temprature can be measured in Fahrenheit or Celcius
 
 ## Screenshots
 
@@ -25,7 +30,7 @@ Website: www.CraftBeerPI.com
 
 ### Raspbian (Noobs)
 
-Here you will find the guide to install Raspbina
+Here you will find the guide to install Raspbian
 
 https://www.raspberrypi.org/help/noobs-setup/
 
@@ -33,13 +38,15 @@ Please select Raspbina as operating system.
 
 
 ### CraftBeer PI Installation
-Clone CraftBeerPI from GitHub
+Clone CraftBeerPI from GitHub.
+Open the shell on your Raspberry PI and type the follwing command.
 ```
 git clone https://github.com/Manuel83/craftbeerpi.git
 ```
-### Python Pakete Installieren
+### Seutp Script
 
-Run the installation script
+After cloning the program to your Raspberry PI you just have to run the install.sh script.
+The script will guide you through the installation process.
 ```
 sudo ./install.sh
 ```
