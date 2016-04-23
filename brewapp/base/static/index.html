@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CraftBeerPi 2.1</title>
+  <title>CraftBeerPi 2.0</title>
   <!-- http://fonts.googleapis.com/css?family=Tangerine -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="/base/static/addon/css/google.css">
@@ -12,7 +12,6 @@
   <link rel="stylesheet" type="text/css" href="/base/static/addon/css/c3.min.css" type="text/css">
   <link rel="stylesheet" type="text/css" href="/base/static/addon/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/base/static/addon/css/angular-wizard.min.css">
-
   <!-- Charting lib -->
   <script src="/base/static/addon/js/d3.min.js" charset="utf-8"></script>
   <script src="/base/static/addon/js/c3.min.js"></script>
@@ -32,8 +31,6 @@
   <script type="text/javascript" src="/base/static/addon/js/angular-timer-all.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-file-upload.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-wizard.min.js"></script>
-  <script type="text/javascript" src="/base/static/addon/js/angular.easypiechart.min.js"></script>
-
   <!-- CraftBeerPI libs -->
   <script type="text/javascript" src="static/js/app.js"></script>
   <script type="text/javascript" src="static/js/service.js"></script>
@@ -42,15 +39,11 @@
   <script src="static/js/dashboard/controller.js"></script>
   <script src="static/js/chart/controller.js"></script>
   <script src="static/js/setup/controller.js"></script>
-  <script src="static/js/hardware/controller.js"></script>
-  <script src="static/js/config/controller.js"></script>
-  <script src="static/js/recipebook/controller.js"></script>
-
 </head>
-<body id="skin-blur-violate">
+<body>
   <div ng-app="craftberpi">
     <navigation></navigation>
-    <div class="container"  ng-view></div>
+    <div class="container" ng-view></div>
   </div>
 </body>
 </html>

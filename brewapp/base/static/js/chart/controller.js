@@ -46,12 +46,11 @@ angular.module('craftberpi.controllers3', []).controller('ChartController', func
             format: '%H:%M:%S',
             count: 10
           },
-          localtime: false,
           label: 'Zeit'
         },
         y: {
           label: 'Temperatur',
-
+          max: 110,
           min: 10,
         },
 

@@ -1,4 +1,4 @@
-angular.module('craftbeerpi.services', []).factory("CBPSteps", function($resource) {
+angular.module('craftberpi.services', []).factory("CBPSteps", function($resource) {
   return $resource("/api/step/:id", {}, {
     query: {
       method: 'GET',
@@ -16,7 +16,7 @@ angular.module('craftbeerpi.services', []).factory("CBPSteps", function($resourc
   });
 }).
 factory("CBPKettle", function($resource) {
-  return $resource("/api/kettle/:id", {}, {
+  return $resource("/api/kettle2/:id", {}, {
     query: {
       method: 'GET',
       isArray: false
@@ -26,87 +26,26 @@ factory("CBPKettle", function($resource) {
     },
     getstate: {
       method: 'GET',
-      url: '/api/kettle/state',
+      url: '/api/kettle2/state',
       isArray: false
     },
     getthermometer: {
       method: 'GET',
-      url: '/api/kettle/thermometer',
-      isArray: true
-    },
-    getDevices: {
-      method: 'GET',
-      url: '/api/kettle/devices',
+      url: '/api/kettle2/thermometer',
       isArray: true
     },
     getchart: {
       method: 'GET',
-      url: '/api/kettle/chart/:id',
-      isArray: true
-    },
-    getautomatic: {
-      method: 'GET',
-      url: '/api/automatic/paramter',
+      url: '/api/kettle2/chart/:id',
       isArray: true
     },
     clear: {
       method: 'POST',
-      url: '/api/kettle/clear',
+      url: '/api/kettle2/clear',
       isArray: false
     }
   });
-}).
-factory("CBPHardware", function($resource) {
-  return $resource("/api/hardware/:id", {}, {
-    query: {
-      method: 'GET',
-      isArray: false
-    },
-    update: {
-      method: 'PUT'
-    },
-    getstate: {
-      method: 'GET',
-      url: '/api/hardware/state',
-      isArray: false
-    }
-  });
-}).
-factory("CBPRecipeBook", function($resource) {
-  return $resource("/api/recipe_books/:id", {}, {
-    query: {
-      method: 'GET',
-      isArray: false
-    },
-    update: {
-      method: 'PUT'
-    },
-    load: {
-      method: 'POST',
-      params: {id: '@id'},
-      url: '/api/recipe_books/load/:id',
-      isArray: false
-    },
-    save: {
-      method: 'POST',
-      url: '/api/recipe_books/save',
-
-      isArray: false
-    }
-  });
-})
-.factory("CBPConfig", function($resource) {
-  return $resource("/api/config/:name", {}, {
-    query: {
-      method: 'GET',
-      isArray: false
-    },
-    update: {
-      method: 'PUT'
-    }
-  });
-})
-.factory("Braufhelfer", function($http) {
+}).factory("Braufhelfer", function($http) {
   return {
 
     get: function(okCallback) {
@@ -132,22 +71,8 @@ factory("CBPRecipeBook", function($resource) {
       });
     }
   }
-})
-.factory("CBPSwitch", function($http) {
-  return {
-    get: function(okCallback) {
-      $http({
-        method: 'GET',
-        url: '/api/switch'
-      }).then(function successCallback(response) {
-        okCallback(response.data);
-      }, function errorCallback(response) {
 
-      });
-    }
-  }
-})
-.factory('ws', ['$rootScope', function($rootScope) {
+}).factory('ws', ['$rootScope', function($rootScope) {
   'use strict';
   var socket = io.connect('/brew');
   socket.on('connect', function(msg) {
@@ -173,9 +98,7 @@ factory("CBPRecipeBook", function($resource) {
 }]).
 factory('routeNavigation', function($route, $location) {
   var routes = [];
-
   angular.forEach($route.routes, function(route, path) {
-
     if (route.name) {
       routes.push({
         path: path,
@@ -184,7 +107,6 @@ factory('routeNavigation', function($route, $location) {
     }
   });
   return {
-    //routes: routes,
     routes: routes,
     activeRoute: function(route) {
       return route.path === $location.path();
@@ -207,7 +129,7 @@ factory('ChartFactory', function($route, $location) {
 
   return {
     add: function(id, c) {
-
+      
       charts[id] = c;
     },
     get: function() {
@@ -261,8 +183,9 @@ factory('ChartFactory', function($route, $location) {
       $scope.activeRoute = routeNavigation.activeRoute;
     }
   };
-})
-.factory('ConfirmMessage', function($route, $location, $uibModal) {
+}).
+
+factory('ConfirmMessage', function($route, $location, $uibModal) {
 
     return {
       open: function(headline, message, confirm, cancel) {
@@ -281,17 +204,21 @@ factory('ChartFactory', function($route, $location) {
             }
           }
         });
+
         modalInstance.result.then(function(data) {
           confirm()
         }, function() {
-          cancel()
+          confirm(cancel)
         })
+
       }
     }
   })
   .controller('ConfirmController', function($scope, $uibModalInstance, headline, message) {
+
     $scope.message = message;
     $scope.headline = headline;
+
     $scope.ok = function() {
       $uibModalInstance.close();
     };
@@ -299,42 +226,4 @@ factory('ChartFactory', function($route, $location) {
     $scope.cancel = function() {
       $uibModalInstance.dismiss('cancel');
     };
-  }).
-  factory('InfoMessage', function($route, $location, $uibModal) {
-
-      return {
-        open: function(headline, message, confirm, cancel) {
-
-          var modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '/base/static/partials/common/info.html',
-            controller: 'InfoController',
-            size: "sm",
-            resolve: {
-              headline: function() {
-                return headline
-              },
-              message: function() {
-                return message
-              }
-            }
-          });
-          modalInstance.result.then(function(data) {
-            confirm()
-          }, function() {
-            cancel()
-          })
-        }
-      }
-    })
-    .controller('InfoController', function($scope, $uibModalInstance, headline, message) {
-      $scope.message = message;
-      $scope.headline = headline;
-      $scope.ok = function() {
-        $uibModalInstance.close();
-      };
-
-      $scope.cancel = function() {
-        $uibModalInstance.dismiss('cancel');
-      };
-    }) ;
+  });
