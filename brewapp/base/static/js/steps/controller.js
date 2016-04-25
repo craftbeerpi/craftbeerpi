@@ -143,10 +143,11 @@ angular.module('craftberpi.controllers', []).controller('StepOverviewController'
 
 
 })
-.controller('EditStepController', function($scope,$uibModalInstance, CBPSteps) {
+.controller('EditStepController', function($scope,$uibModalInstance, ConfirmMessage, CBPSteps) {
 
 
   $scope.headline = "Edit Step"
+  $scope.edit = true;
   CBPSteps.query({}, function(response) {
     $scope.hosts = response.objects;
     CBPSteps.get({
@@ -166,6 +167,17 @@ angular.module('craftberpi.controllers', []).controller('StepOverviewController'
       $uibModalInstance.close();
     });
   };
+
+  $scope.delete = function() {
+    ConfirmMessage.open("Delete Step","Do you really want to delete the step?", function() {
+      CBPSteps.delete({
+        "id": $scope.step.id
+      }, function() {
+            $uibModalInstance.close();
+      });
+    }, function() { });
+  }
+
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
   };
@@ -174,6 +186,7 @@ angular.module('craftberpi.controllers', []).controller('StepOverviewController'
 
   $scope.headline = "New Step"
 
+$scope.edit = false;
   $scope.step = {
     "type": "A",
     "kettleid": 0
@@ -254,6 +267,8 @@ angular.module('craftberpi.controllers', []).controller('StepOverviewController'
       "boil": $scope.boil
     });
   };
+
+
 
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');

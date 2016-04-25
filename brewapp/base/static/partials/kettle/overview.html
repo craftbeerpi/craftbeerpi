@@ -7,8 +7,8 @@
 				<div class="panel-heading">
 					Kettles
 					<div class="btn-group pull-right hidden-xs" role="group">
-						<a href ng-click="clearTempLogs()"class="btn btn-default" role="group">
-							<i class="fa fa-arrow-circle-left"></i> Clear Temperature Log
+						<a href ng-click="clearTempLogs()"class="btn btn-danger" role="group">
+							<i class="fa fa-trash"></i> Clear Temperature Log
 						</a>
 						<a ng-click="create()" class="btn btn-success" role="group">
 							<i class="fa fa-pencil-square-o"></i> New Kettle</a>
@@ -19,7 +19,7 @@
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a ng-click="clearTempLogs()">Clear Temperature Log</a></li>
+							<li><a ng-click="clearTempLogs()"><i class="fa fa-trash"></i> Clear Temperature Log</a></li>
 							<li><a ng-click="create()"><i class="fa fa-pencil-square-o"></i> New Kettle</a></li>
 						</ul>
 					</div>

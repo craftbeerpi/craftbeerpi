@@ -46,7 +46,7 @@ angular.module('craftberpi.controllers3', []).controller('ChartController', func
             format: '%H:%M:%S',
             count: 10
           },
-          localtime: false,
+          localtime: true,
           label: 'Zeit'
         },
         y: {

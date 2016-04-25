@@ -49,8 +49,7 @@ def nextStep():
             app.brewapp_current_step["endunix"] =  int((inactive.timer_start - datetime(1970,1,1)).total_seconds())*1000
 
     nextStepBeep()
-
-    socketio.emit('step_update', getAsArray(Step, order = "order"), namespace ='/brew')
+    socketio.emit('step_update', getSteps(), namespace ='/brew')
 
 ## WebSocket
 @socketio.on('reset', namespace='/brew')
@@ -63,7 +62,7 @@ def resetSteps():
     resetBeep()
     db.session.query(Step).update({'state': 'I', 'start': None, 'end': None, 'timer_start': None},  synchronize_session='evaluate')
     db.session.commit()
-    socketio.emit('step_update', getAsArray(Step, order = "order"), namespace ='/brew')
+    socketio.emit('step_update', getSteps(), namespace ='/brew')
 
 ## REST POST PROCESSORS
 def post_patch_many(result, **kw):
@@ -72,12 +71,20 @@ def post_patch_many(result, **kw):
 
 def post_get(result=None,**kw):
     ## SORT RESULT BY FIELD 'ORDER'
+
+    for o in result["objects"]:
+        if(o["start"] != None):
+            o["start"] = o["start"]  + "+00:00"
+        if(o["timer_start"] != None):
+            o["timer_start"] = o["timer_start"]  + "+00:00"
+        if(o["end"] != None):
+            o["end"] = o["end"]  + "+00:00"
     result["objects"] = sorted(result["objects"], key=lambda k: k['order'])
 
 @brewinit()
 def init():
     ## REST API FOR STEP
-    manager.create_api(Step, methods=['GET', 'POST', 'DELETE', 'PUT'],allow_patch_many=True, postprocessors=
+    manager.create_api(Step, methods=['GET', 'POST', 'DELETE', 'PUT'],allow_patch_many=True, results_per_page=None,postprocessors=
     {'GET_MANY': [post_get]})
     s = Step.query.filter_by(state='A').first()
     if(s != None):
@@ -110,7 +117,7 @@ def stepjob():
             timerBeep()
         db.session.add(s)
         db.session.commit()
-        socketio.emit('step_update', getAsArray(Step, order = "order"), namespace ='/brew')
+        socketio.emit('step_update', getSteps(), namespace ='/brew')
 
     ## if Automatic step and timer is started
     if(cs.get("timer_start") != None):
@@ -125,3 +132,16 @@ def stepjob():
             if(cs.get("type") == 'M' and app.brewapp_current_step.get("finished", False) == False):
                 nextStepBeep()
                 app.brewapp_current_step["finished"] = True
+
+def getSteps():
+    steps = getAsArray(Step, order = "order")
+
+    for o in steps:
+        if(o["start"] != None):
+            o["start"] = o["start"]  + "+00:00"
+        if(o["timer_start"] != None):
+            o["timer_start"] = o["timer_start"]  + "+00:00"
+        if(o["end"] != None):
+            o["end"] = o["end"]  + "+00:00"
+
+    return steps

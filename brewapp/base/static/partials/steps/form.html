@@ -37,8 +37,9 @@
     <label>Order</label>
     <input type="text" ng-model="step.order" class="form-control">
   </div>
-
+  
             <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</a>
+            <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> Delete</a>
             <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
             </form>
     </div>

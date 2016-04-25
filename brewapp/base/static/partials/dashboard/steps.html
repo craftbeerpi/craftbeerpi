@@ -27,7 +27,7 @@
             <td class="col-md-1"><span class="badge">{{ item.type }}</span></td>
             <td style="overflow: hidden;"><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
                 <br>
-                <small>{{ item.timer_start | date:'HH:mm:ss'  }} - {{ item.end | date:'HH:mm:ss' : 'UTC'}}</small><br/>
+                <small>{{ item.timer_start | date:'HH:mm:ss'}} - {{ item.end | date:'HH:mm:ss' }}</small><br/>
                 </td>
             <td><span>{{ item.temp }} °{{ config["UNIT"]}}</span></td>
             <td>
