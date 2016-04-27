@@ -12,6 +12,7 @@ angular.module('craftberpi',
 'craftbeerpi.recipebook',
 'craftbeerpi.hardware',
 'craftbeerpi.services',
+'craftbeerpi.about',
 'craftberpi.config']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
