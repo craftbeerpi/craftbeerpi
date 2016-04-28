@@ -11,14 +11,14 @@ Website: www.CraftBeerPI.com
 * Automatic Timer Control. The Step Control will take care of your brew steps.
 * Import Recipes from "Kleiner Brauhelfer" -Plan your brew at "Kleiner Brauhelfer" and import the recipes to CraftBeerPI
 * Heater & Agitator Control - Control heater and agitator via web interface
-* Temperature Chart - Temprature data is recorded and display as a line chart
+* Temperature Chart - Temperature data is recorded and display as a line chart
 * Mobile Device UI - Control your brew form Smartphone or Tablet
 * Additional Hardware like pumps or vents can be controlled
 * Brew Automatic with Overshoot Logic, PID Logic, Fermentation Logic.
 * Custom Automatic logics can be add
 * Recipe Book
 * Support für GPIO, PiFace or Gembird USB Socket
-* Temprature can be measured in Fahrenheit or Celcius
+* Temperature can be measured in Fahrenheit or Celcius
 
 ## Screenshots
 
@@ -39,11 +39,11 @@ Please select Raspbina as operating system.
 
 ### CraftBeer PI Installation
 Clone CraftBeerPI from GitHub.
-Open the shell on your Raspberry PI and type the follwing command.
+Open the shell on your Raspberry PI and type the following command.
 ```
 git clone https://github.com/Manuel83/craftbeerpi.git
 ```
-### Seutp Script
+### Setup Script
 
 After cloning the program to your Raspberry PI you just have to run the install.sh script.
 The script will guide you through the installation process.
@@ -62,13 +62,13 @@ select 'y' when you are ask if CraftBeerPI should start after boot.
 sudo python runserver.py
 ```
 
-The App is now avaibale under:  http://<server_id>:5000 im Browser aufrufbar.
+The App is now available under:  http://<server_id>:5000 im Browser aufrufbar.
 
 ## Manual
 
 ### Kleiner Brauhelfer Import
 To import the database from "Kleiner Brauhelfer" select "Steps".
-There you will find a buttton "Import Kleiner Brauhelfer". Upload the kb_daten.sqlite of
+There you will find a button "Import Kleiner Brauhelfer". Upload the kb_daten.sqlite of
 Kleiner Brauhelfer.
 
 You will find the sqlite file on your computer at.
@@ -80,7 +80,7 @@ Mac:
 USER_HOME/.kleiner-brauhelfer/kb_daten.sqlite
 
 Refresh the "Import Kleiner Brauhelfer" page. Select the brew you want to load.
-After this you will asked for the MashTun and the Boild kettle of the brew.
+After this you will asked for the MashTun and the Boil kettle of the brew.
 
 ## Hardware Setup
 
