@@ -51,8 +51,6 @@ angular.module('craftberpi.controllers3', []).controller('ChartController', func
         },
         y: {
           label: 'Temperatur',
-
-          min: 10,
         },
 
       }
