@@ -19,8 +19,8 @@
         <thead>
             <td class="col-md-1">Type</td>
             <td>Step</td>
-            <td><i class="wi wi-thermometer"></i> </td>
-            <td><i class="fa fa-clock-o"></i> </td>
+            <td><i class="wi wi-thermometer" data-toggle="tooltip" title="Target temperature"></i> </td>
+            <td><i class="fa fa-clock-o" data-toggle="tooltip" title="Step duration"></i> </td>
             <td></td>
         </thead>
         <tr ng-class="stepStyle(item)" ng-repeat="item in steps track by $index">

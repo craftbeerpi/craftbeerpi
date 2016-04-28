@@ -81,6 +81,21 @@ def doRestart():
     app.logger.info("--> RESTART EXECUTE")
     call(["/etc/init.d/craftbeerpiboot", "restart"])
 
+## Shutdown Endpoint
+@app.route('/halt')
+def halt():
+    app.logger.info("--> HALT TRIGGERED")
+    ## Do in other thread
+    start_new_thread(doHalt,())
+    return base.send_static_file("halt.html")
+
+## Execute Restart
+def doHalt():
+    time.sleep(5)
+    from subprocess import call
+    app.logger.info("--> HALT EXECUTE")
+    call("halt")
+
 ## Invoke Initializers
 app.logger.info("## INITIALIZE DATA")
 app.brewapp_init = sorted(app.brewapp_init, key=lambda k: k['order'])
