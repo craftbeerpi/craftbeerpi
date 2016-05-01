@@ -28,6 +28,8 @@ Website: www.CraftBeerPI.com
 
 ## Installation
 
+[![asciicast](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd.png)](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd)
+
 ### Raspbian (Noobs)
 
 Here you will find the guide to install Raspbian
