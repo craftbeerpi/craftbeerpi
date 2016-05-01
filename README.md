@@ -28,7 +28,7 @@ Website: www.CraftBeerPI.com
 
 ## Installation
 
-[![asciicast](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd.png)](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd)
+
 
 ### Raspbian (Noobs)
 
@@ -40,6 +40,11 @@ Please select Raspbina as operating system.
 
 
 ### CraftBeer PI Installation
+
+Watch the installation video or read the installation steps below
+
+[![asciicast](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd.png)](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd)
+
 Clone CraftBeerPI from GitHub.
 Open the shell on your Raspberry PI and type the following command.
 ```
