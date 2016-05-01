@@ -20,7 +20,7 @@ def setKettle():
 
     for k in data["kettles"]:
         print k
-        ks = Kettle(name=k["name"], automatic="null", sensorid=k.get("sensorid",""), target_temp=0, agitator=k.get("agitator",""), heater=k.get("heater",""))
+        ks = Kettle(name=k["name"], automatic="null", sensorid=k.get("sensorid",""), target_temp=0, agitator=k.get("agitator",""), heater=k.get("heater",""), height=k.get("height",""), diameter=k.get("diameter",""))
         db.session.add(ks)
 
     db.session.commit()
