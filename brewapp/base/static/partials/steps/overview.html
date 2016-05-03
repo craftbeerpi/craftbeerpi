@@ -3,15 +3,15 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					Brew Steps {{ config["BREWNAME"]}}
+					{{ 'BREW_STEPS' | translate}} {{ config["BREWNAME"]}}
 
 
 					<div class="btn-group pull-right hidden-xs" role="group">
 
-						<a ng-click="clearAllSteps()" class="btn btn-danger"><i class="fa fa-trash"></i> Clear all Steps</a>
-						<a ng-click="newStep()" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> New Step</a>
-						<a href  ng-click="save_to_book()" class="btn btn-default"><i class="fa fa-floppy-o"></i>  Save Recipe</a>
-						<a ng-click="showbook()" class="btn btn-primary"><i class="fa fa-book"></i> Recipe Book</a>
+						<a ng-click="clearAllSteps()" class="btn btn-danger"><i class="fa fa-trash"></i> {{ 'CLR_ALL_STEPS' | translate}}</a>
+						<a ng-click="newStep()" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> {{ 'NEW_STEP' | translate}}</a>
+						<a href  ng-click="save_to_book()" class="btn btn-default"><i class="fa fa-floppy-o"></i>  {{ 'SAVE_RECIPE' | translate}}</a>
+						<a ng-click="showbook()" class="btn btn-primary"><i class="fa fa-book"></i> {{ 'RECIPE_BOOK' | translate}}</a>
 						<a href="#/step/kb" class="btn btn-warning">Kleiner Brauhelfer</a>
 					</div>
 
@@ -21,12 +21,12 @@
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a ng-click="clearAllSteps()"><i class="fa fa-trash"></i> Clear all Steps</a></li>
-							<li><a ng-click="newStep()"><i class="fa fa-pencil-square-o"></i> New Step</a></li>
+							<li><a ng-click="clearAllSteps()"><i class="fa fa-trash"></i> {{ 'CLR_ALL_STEPS' | translate}}</a></li>
+							<li><a ng-click="newStep()"><i class="fa fa-pencil-square-o"></i> {{ 'NEW_STEP' | translate}}</a></li>
 
 							<li role="separator" class="divider"></li>
-							<li><a href  ng-click="save_to_book()" ><i class="fa fa-floppy-o"></i>  Save Recipe</a></li>
-							<li><a ng-click="showbook()"><i class="fa fa-book"></i> Recipe Book</a></li>
+							<li><a href  ng-click="save_to_book()" ><i class="fa fa-floppy-o"></i>  {{ 'SAVE_RECIPE' | translate}}</a></li>
+							<li><a ng-click="showbook()"><i class="fa fa-book"></i> {{ 'RECIPE_BOOK' | translate}}</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="#/step/kb">Kleiner Brauhelfer</a></li>
 
@@ -39,13 +39,13 @@
 				</div>
 				<table class="table">
 					<thead>
-						<td class="col-md-1">Type</td>
+						<td class="col-md-1">{{ 'TYPE' | translate}}</td>
 						<td>Step</td>
 						<td><i class="wi wi-thermometer"></i>
-							<span class="hidden-xs">Temp</span>
+							<span class="hidden-xs">{{ 'TEMP_SHORT' | translate}}</span>
 						</td>
 						<td><i class="fa fa-clock-o"></i>
-							<span class="hidden-xs">Timer</span>
+							<span class="hidden-xs">{{ 'TIMER' | translate}}</span>
 						</td>
 						<td>Kettle</td>
 					</thead>
