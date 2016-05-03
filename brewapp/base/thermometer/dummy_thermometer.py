@@ -29,5 +29,5 @@ class DummyThermometer(object):
                 temp_C = -99 #bad temp reading
         except Exception as e:
             temp_C = round(randint(0,50),2)
-
+            
         return float(format(temp_C, '.2f'))

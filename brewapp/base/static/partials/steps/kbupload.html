@@ -4,19 +4,19 @@
     <div class="col-sm-6">
       <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
         <div class="panel-heading">
-          Available Brew Recipes
+          {{ 'AVAILABLE_BREW_RECIPES' | translate}}
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label>Filter by Name:</label>
+            <label>{{ 'FILTER_BY_NAME' | translate}}</label>
             <input type="text" ng-model="search" />
           </div></div>
           <table class="table">
             <thead>
               <tr>
-                <th>Brew Name</th>
-                <th>Brewed</th>
-                <th>Load</th>
+                <th>{{ 'BREW' | translate}} {{ 'NAME' | translate}}</th>
+                <th>{{ 'BREWED' | translate}}</th>
+                <th>{{ 'LOAD' | translate}}</th>
               </tr>
             </thead>
             <tr ng-repeat="item in brews | filter:search">
@@ -28,7 +28,7 @@
 
               </td>
               <td>
-                <a href class="btn btn-default" ng-click="load(item.id)" >Load</a>
+                <a href class="btn btn-default" ng-click="load(item.id)" >{{ 'LOAD' | translate}}</a>
               </td>
             </tr>
           </table>
@@ -38,7 +38,7 @@
       <div class="col-sm-6">
         <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
           <div class="panel-heading">
-            Import Kleiner Brauhelfer
+            {{ 'IMPORT_KL_BH' | translate}}
           </div>
           <div class="panel-body">
 
@@ -47,10 +47,10 @@
             <table class="table" ng-if="uploader.queue.length > 0">
             	<thead>
             		<tr>
-            			<th>Name</th>
-            			<th>Size</th>
-            			<th>Status</th>
-            			<th>Actions</th>
+            			<th>{{ 'NAME' | translate}}</th>
+            			<th>{{ 'SIZE' | translate}}</th>
+            			<th>{{ 'STATUS' | translate}}</th>
+            			<th>{{ 'ACTIONS' | translate}}</th>
             		</tr>
             	</thead>
             	<tbody>
@@ -66,13 +66,13 @@
             			</td>
             			<td nowrap>
             				<button type="button" class="btn btn-success" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-            					<span class="glyphicon glyphicon-upload"></span> Upload
+            					<span class="glyphicon glyphicon-upload"></span> {{ 'UPLOAD' | translate}}
             				</button>
             				<button type="button" class="btn btn-warning " ng-click="item.cancel()" ng-disabled="!item.isUploading">
-            					<span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            					<span class="glyphicon glyphicon-ban-circle"></span> {{ 'CANCEL' | translate}}
             				</button>
             				<button type="button" class="btn btn-danger" ng-click="item.remove()">
-            					<span class="glyphicon glyphicon-trash"></span> Remove
+            					<span class="glyphicon glyphicon-trash"></span> {{ 'REMOVE' | translate}}
             				</button>
             			</td>
             		</tr>

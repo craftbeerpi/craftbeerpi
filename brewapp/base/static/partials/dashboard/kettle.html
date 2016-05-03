@@ -13,18 +13,17 @@
   <div class="panel-heading">
     <span class="headline"><i class="fa fa-chevron-circle-right"></i> {{v.name}}</span>
     <div class="btn-group pull-right" role="group" aria-label="...">
-      <div class="btn-group" data-toggle="tooltip" title="Show chart" role="group" ng-if="v.sensorid">
+      <div class="btn-group" data-toggle="tooltip" title="{{ 'TOOLTIP_SHOW_CHART' | translate}}" role="group" ng-if="v.sensorid">
         <a href="#/chart/{{v.id}}" class="btn btn-default" role="group">
           <span class="badge"><i class="fa fa-line-chart"></i></span>
         </a>
       </div>
       <div class="btn-group" uib-dropdown is-open="status.isopen">
-        <button type="button" data-toggle="tooltip" title="Kettle Utilities" class="btn btn-default " uib-dropdown-toggle ng-disabled="disabled">
+        <button type="button" data-toggle="tooltip" title="{{ 'TOOLTIP_KETTLE_UTILS' | translate}}" class="btn btn-default " uib-dropdown-toggle ng-disabled="disabled">
           <span class="badge"><i class="fa fa-wrench"></i></span>
         </button>
         <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-          <li role="menuitem"><a ng-click="calcVolume(v)">Calculate Volume</a></li>
-
+          <li role="menuitem"><a ng-click="calcVolume(v)">{{ 'CALC_VOLUME' | translate}}</a></li>
         </ul>
       </div>
     </div>
@@ -44,23 +43,23 @@
     </div>
     <div class="btn-group btn-group-justified" role="group ">
       <div class="btn-group" role="group" ng-if="v.heater">
-        <button class="btn btn-default" data-toggle="tooltip" title="Set manual target temp." role="group" ng-click="setTargetTemp(v)">
+        <button class="btn btn-default" data-toggle="tooltip" title="{{ 'TOOLTIP_KETTLE_UTILS' | translate}}" role="group" ng-click="setTargetTemp(v)">
           <span class="badge"><i class="fa fa-crosshairs"></i></span>
         </button>
       </div>
       <div class="btn-group" role="group">
-        <button class="btn btn-default" data-toggle="tooltip" title="Enable automatic mode" role="group" ng-if="v.automatic" ng-class="automiticState(v)" ng-click="switch_automatic(v)">
+        <button class="btn btn-default" data-toggle="tooltip" title="{{ 'TOOLTIP_EN_AUTO' | translate}}" role="group" ng-if="v.automatic" ng-class="automiticState(v)" ng-click="switch_automatic(v)">
           <span class="badge"><i class="fa fa-car"></i></span>
         </button>
       </div>
       <div class="btn-group" role="group">
 
-        <button class="btn btn-default" data-toggle="tooltip" title="Switch heater" role="group" ng-if="v.heater" ng-class="buttonState(v.heater)" ng-click="switchGPIO(v.heater)">
+        <button class="btn btn-default" data-toggle="tooltip" title="{{ 'TOOLTIP_SW_HEATER' | translate}}" role="group" ng-if="v.heater" ng-class="buttonState(v.heater)" ng-click="switchGPIO(v.heater)">
           <span class="badge"><i class="fa fa-fire"></i></span>
         </button>
       </div>
       <div class="btn-group" role="group">
-        <button class="btn btn-default" data-toggle="tooltip" title="Switch agitator" role="group" ng-if="v.agitator" ng-class="buttonState(v.agitator)" ng-click="switchGPIO(v.agitator)">
+        <button class="btn btn-default" data-toggle="tooltip" title="{{ 'TOOLTIP_SW_AGITATOR' | translate}}" role="group" ng-if="v.agitator" ng-class="buttonState(v.agitator)" ng-click="switchGPIO(v.agitator)">
           <span class="badge"><i class="fa fa-refresh "></i></span>
         </button>
       </div>

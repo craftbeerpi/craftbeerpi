@@ -13,6 +13,7 @@ angular.module('craftberpi',
 'craftbeerpi.hardware',
 'craftbeerpi.services',
 'craftbeerpi.about',
+'pascalprecht.translate',
 'craftberpi.config']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
@@ -67,4 +68,12 @@ angular.module('craftberpi',
     .otherwise({
       redirectTo: '/'
     });
-});
+}).config(['$translateProvider', function ($translateProvider) {
+  // configures staticFilesLoader
+  $translateProvider.useStaticFilesLoader({
+    prefix: '/static/languages/',
+    suffix: '.json'
+  });
+  // load 'en' table on startup
+  $translateProvider.preferredLanguage('en');
+}]);

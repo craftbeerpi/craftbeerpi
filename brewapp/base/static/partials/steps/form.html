@@ -9,38 +9,38 @@
   <div class="panel-body">
 <form class="form">
   <div class="form-group">
-    <label>Name</label>
+    <label>{{ 'NAME' | translate}}</label>
     <input type="text" ng-model="step.name" class="form-control">
   </div>
   <div class="form-group">
-    <label>Type</label>
+    <label>{{ 'TYPE' | translate}}</label>
     <select class="form-control" ng-model="step.type">
       <option ng-repeat="t in type" value="{{t.key}}" ng-selected="step.type == t.key">{{t.value}}</option>
     </select>
   </div>
   <div class="form-group">
 
-    <label>Target Temperature in °{{ config["UNIT"]}}</label>
+    <label>{{ 'TARGET_TEMP_IN' | translate}} °{{ config["UNIT"]}}</label>
     <input type="number" ng-model="step.temp" class="form-control">
   </div>
   <div class="form-group">
-    <label>Timer in Minutes</label>
+    <label>{{ 'TIMER_IN_MIN' | translate}}</label>
     <input type="number" ng-model="step.timer" class="form-control">
   </div>
   <div class="form-group">
-    <label>Kettle</label>
+    <label>{{ 'KETTLE' | translate}}</label>
     <select class="form-control" ng-model="step.kettleid">
       <option ng-repeat="t in kettles" value="{{t.key}}" ng-selected="step.kettleid == t.key">{{t.value}}</option>
     </select>
   </div
   <div class="form-group">
-    <label>Order</label>
+    <label>{{ 'ORDER' | translate}}</label>
     <input type="text" ng-model="step.order" class="form-control">
   </div>
-  
-            <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</a>
-            <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> Delete</a>
-            <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
+
+            <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> {{ 'CLOSE' | translate}}</a>
+            <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> {{ 'DELETE' | translate}}</a>
+            <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> {{ 'SAVE' | translate}}</a>
             </form>
     </div>
   </div>

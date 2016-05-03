@@ -25,8 +25,15 @@ angular.module('craftberpi.controllers3', []).controller('ChartController', func
               data: "Data"
         }
       },
+      subchart: {
+        show: true
+      },
+      zoom: {
+        rescale: true,
+        enabled: true
+      },
       point: {
-        show: false
+        show: true
       },
       legend: {
         show: false
@@ -47,10 +54,10 @@ angular.module('craftberpi.controllers3', []).controller('ChartController', func
             count: 10
           },
           localtime: true,
-          label: 'Zeit'
+          label: 'Time'
         },
         y: {
-          label: 'Temperatur',
+          label: 'Temperature',
         },
 
       }
