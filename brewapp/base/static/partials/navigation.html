@@ -14,9 +14,9 @@
     <div id="navbar" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li ng-repeat="route in routes" ng-class="{active: activeRoute(route)}">
-          <a href="#{{ route.path }}">{{ route.name }}</a>
+          <a href="#{{ route.path }}">{{ route.name | translate }}</a>
         </li>
-        
+
       </ul>
     </div>
   </div>

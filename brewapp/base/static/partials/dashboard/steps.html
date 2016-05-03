@@ -6,10 +6,10 @@
       <div class="btn-group pull-right" role="group" aria-label="...">
 
         <div class="btn-group" role="group">
-          <button  ng-click="reset()" class="btn btn-warning btn-xs"><i class="fa fa-fast-backward"></i> Reset </button>
+          <button  ng-click="reset()" class="btn btn-warning btn-xs"><i class="fa fa-fast-backward"></i> {{"RESET" | translate}} </button>
         </div>
         <div class="btn-group" role="group">
-          <button  ng-disabled="started()" ng-click="start()" class="btn btn-primary btn-xs"><i class="fa fa-play"></i> Start </button>
+          <button  ng-disabled="started()" ng-click="start()" class="btn btn-primary btn-xs"><i class="fa fa-play"></i> {{"START" | translate}} </button>
         </div>
 
       </div>
@@ -17,10 +17,10 @@
 
     <table class="table">
         <thead>
-            <td class="col-md-1">Type</td>
+            <td class="col-md-1">{{"TYPE" | translate}}</td>
             <td>Step</td>
-            <td><i class="wi wi-thermometer" data-toggle="tooltip" title="Target temperature"></i> </td>
-            <td><i class="fa fa-clock-o" data-toggle="tooltip" title="Step duration"></i> </td>
+            <td><i class="wi wi-thermometer" data-toggle="tooltip" title="{{'TOOLTIP_TARGET_TEMPERATURE' | translate}}"></i> </td>
+            <td><i class="fa fa-clock-o" data-toggle="tooltip" title="{{'TOOLTIP_STEP_DURATION' | translate}}"></i> </td>
             <td></td>
         </thead>
         <tr ng-class="stepStyle(item)" ng-repeat="item in steps track by $index">
