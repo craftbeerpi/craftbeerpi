@@ -49,11 +49,11 @@
     <div class="btn-group" role="group" aria-label="...">
       <div class="btn-group" role="group">
         <a href back-button class="btn btn-default" role="group">
-          <span class="badge"><i class="fa fa-arrow-circle-left"></i></span> Back</a>
+          <span class="badge"><i class="fa fa-arrow-circle-left"></i></span> {{ 'BACK' | translate}}</a>
           <a href="/restart" class="btn btn-danger" role="group">
-            <span class="badge"><i class="fa fa-bolt"></i></span> Restart CraftBeerPI</a>
+            <span class="badge"><i class="fa fa-bolt"></i></span> {{ 'RESTART' | translate}} CraftBeerPI</a>
           <a ng-click="confirmHalt()" class="btn btn-danger" role="group">
-            <span class="badge"><i class="fa fa-bolt"></i></span> Shutdown</a>
+            <span class="badge"><i class="fa fa-bolt"></i></span> {{ 'SHUTDOWN' | translate}}</a>
       </div>
     </div>
 

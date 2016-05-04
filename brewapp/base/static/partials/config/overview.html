@@ -3,13 +3,13 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					Config Parameter
+					{{ 'CONFIG_PARAMETER' | translate}}
 				</div>
 				<table class="table">
 					<thead>
-						<td>Name</td>
-						<td>Value</td>
-						<td>Description</td>
+						<td>{{ 'NAME' | translate}}</td>
+						<td>{{ 'VALUE' | translate}}</td>
+						<td>{{ 'DESCRIPTION' | translate}}</td>
 					</thead>
 					<tr ng-repeat="item in configparams track by $index">
 						<td>

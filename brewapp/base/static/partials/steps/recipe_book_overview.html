@@ -1,17 +1,17 @@
 <div class="modal-header" >
-    <h4 class="modal-title"><i class="fa fa-book"></i> Recipe Book</h4>
+    <h4 class="modal-title"><i class="fa fa-book"></i> {{ 'RECIPE_BOOK' | translate}}</h4>
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <label>Filter by Name:</label>
+    <label>{{ 'FILTER_BY_NAME' | translate}}:</label>
     <input type="text" ng-model="search" />
   </div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Recipe Name</th>
-      <th>Action</th>
+      <th>{{ 'RECIPE_NAME' | translate}}</th>
+      <th>{{ 'ACTION' | translate}}</th>
     </tr>
   </thead>
   <tr ng-repeat="item in items | filter:search">

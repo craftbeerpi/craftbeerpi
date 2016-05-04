@@ -3,19 +3,19 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					Hardware
+					{{ 'HARDWARE' | translate}}
 					<div class="btn-group pull-right" role="group">
 
 						<a ng-click="createHardware()" class="btn btn-success" role="group">
-							<i class="fa fa-pencil-square-o"></i> New Hardware</a>
+							<i class="fa fa-pencil-square-o"></i> {{ 'NEW_HW' | translate}}</a>
 					</div>
 					<div class="clearfix"></div>
 				</div>
 				<table class="table">
 					<thead>
-						<td>Name</td>
-						<td>Type</td>
-						<td>Switch</td>
+						<td>{{ 'NAME' | translate}}</td>
+						<td>{{ 'TYPE' | translate}}</td>
+						<td>{{ 'SWITCH' | translate}}</td>
 					</thead>
 					<tr ng-repeat="item in hw track by $index">
 						<td>

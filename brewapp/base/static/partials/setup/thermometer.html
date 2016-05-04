@@ -1,12 +1,12 @@
-<h3>Which type of thermometer would you like to use?</h3>
+<h3>{{ 'WHICH_TYPE_THERM' | translate}}</h3>
 <div class="row">
   <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
       <img src="/static/1wire.png"/>
       <div class="caption">
         <h3>1WIRE</h3>
-        <p>1WIRE DS18B20 Thermometer<br>&nbsp;</p>
-        <a class="btn btn-primary" role="button" ng-click="selectThermometer('1WIRE')">Select <i class="fa fa-forward"></i></a>
+        <p>1WIRE DS18B20 {{ 'THERMOMETER' | translate}}<br>&nbsp;</p>
+        <a class="btn btn-primary" role="button" ng-click="selectThermometer('1WIRE')">{{ 'SELECT' | translate}} <i class="fa fa-forward"></i></a>
       </div>
     </div>
   </div>
@@ -15,8 +15,8 @@
       <img src="/static/dummy.png"/>
       <div class="caption">
           <h3>DUMMY</h3>
-          <p>Dummy implementation for testing. No real hardware will be connected</p>
-          <a class="btn btn-primary" role="button" ng-click="selectThermometer('DUMMY')">Select <i class="fa fa-forward"></i></a>
+          <p>{{ 'DUMMY_DESC' | translate}}</p>
+          <a class="btn btn-primary" role="button" ng-click="selectThermometer('DUMMY')">{{ 'SELECT' | translate}} <i class="fa fa-forward"></i></a>
         </div>
     </div>
   </div>

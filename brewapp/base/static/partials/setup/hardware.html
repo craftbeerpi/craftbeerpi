@@ -1,13 +1,13 @@
-<h3>How would you like to connect your hardware?</h3>
+<h3>{{ 'HOW_WOULD_YOU_CONNECT' | translate}}</h3>
 <div class="row">
   <div class="col-sm-3 col-md-3">
     <div class="thumbnail">
       <img src="/static/raspi.png"/>
       <div class="caption">
         <h3>GPIO</h3>
-        <p>Plain Raspberry GPIO<br>&nbsp;
+        <p>{{ 'PLAIN' | translate}} Raspberry GPIO<br>&nbsp;
         </p>
-        <a class="btn btn-primary" role="button" ng-click="selectHardware('GPIO')">Select <i class="fa fa-forward"></i></a>
+        <a class="btn btn-primary" role="button" ng-click="selectHardware('GPIO')">{{ 'SELECT' | translate}} <i class="fa fa-forward"></i></a>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
       <div class="caption">
           <h3>PIFace</h3>
         <p>PI Face Extension Board<br>&nbsp;</p>
-          <a class="btn btn-primary" role="button" ng-click="selectHardware('PIFACE')">Select <i class="fa fa-forward"></i></a>
+          <a class="btn btn-primary" role="button" ng-click="selectHardware('PIFACE')">{{ 'SELECT' | translate}} <i class="fa fa-forward"></i></a>
         </div>
     </div>
   </div>
@@ -26,8 +26,8 @@
       <img src="/static/socket.png"/>
       <div class="caption">
           <h3>Gembrid</h3>
-            <p>USB Socket<br>&nbsp;</p>
-          <a class="btn btn-primary" role="button" ng-click="selectHardware('GEMBIRD')">Select <i class="fa fa-forward"></i></a>
+            <p>USB {{ 'SOCKET' | translate}}<br>&nbsp;</p>
+          <a class="btn btn-primary" role="button" ng-click="selectHardware('GEMBIRD')">{{ 'SELECT' | translate}} <i class="fa fa-forward"></i></a>
       </div>
     </div>
   </div>
@@ -36,8 +36,8 @@
       <img src="/static/dummy.png"/>
       <div class="caption">
           <h3>Dummy</h3>
-          <p>Dummy implementation for testing. No real hardware will be connected</p>
-          <a class="btn btn-primary" role="button" ng-click="selectHardware('DUMMY')">Select <i class="fa fa-forward"></i></a>
+          <p>{{ 'DUMMY_DESC' | translate}}</p>
+          <a class="btn btn-primary" role="button" ng-click="selectHardware('DUMMY')">{{ 'SELECT' | translate}} <i class="fa fa-forward"></i></a>
       </div>
     </div>
   </div>

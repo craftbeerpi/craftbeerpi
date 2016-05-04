@@ -1,29 +1,29 @@
 
 <div class="modal-header" >
-    <h4 class="modal-title">Hardware Configuration</h4>
+    <h4 class="modal-title">{{ 'HW_CONFIGURATION' | translate}}</h4>
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <label>Name</label>
+    <label>{{ 'NAME' | translate}}</label>
     <input type="text"  ng-model="hardware.name" class="form-control">
   </div>
   <div class="form-group">
-    <label>Switch</label>
+    <label>{{ 'SWITCH' | translate}}</label>
     <select class="form-control" ng-model="hardware.switch">
-      <option value="">---Please select---</option>
+      <option value="">---{{ 'PLS_SELECT' | translate}}---</option>
       <option ng-repeat="t in gpio" value="{{t.key}}">{{t.value}}</option>
     </select>
   </div>
   <div class="form-group">
-    <label>Type</label>
+    <label>{{ 'TYPE' | translate}}</label>
     <select class="form-control" ng-model="hardware.type">
-      <option value="">---Please select---</option>
+      <option value="">---{{ 'PLS_SELECT' | translate}}---</option>
       <option ng-repeat="t in type" value="{{t.key}}">{{t.value}}</option>
     </select>
   </div>
 </div>
 <div class="modal-footer">
-  <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</a>
-  <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> Delete</a>
-  <a class="btn btn-success" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
+  <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> {{ 'CLOSE' | translate}}</a>
+  <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> {{ 'DELETE' | translate}}</a>
+  <a class="btn btn-success" ng-click="save()"><i  class="fa fa-check-circle"></i> {{ 'SAVE' | translate}}</a>
 </div>
