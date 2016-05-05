@@ -3,22 +3,17 @@
   <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
     <div class="panel-heading"><i class="fa fa-line-chart"></i> {{kettle.name}}</span>
     </div>
-
-
       <div id="chart"></div>
-
   </div>
-
-
   <div class="btn-group" role="group" aria-label="...">
     <div class="btn-group" role="group">
       <a href back-button class="btn btn-default" role="group" ><span class="badge"><i class="fa fa-arrow-circle-left"></i></span> {{ 'BACK' | translate}}</a>
     </div>
     <div class="btn-group" role="group">
+      <a href="/api/kettle/export/csv/{{kettle.id}}" class="btn btn-default" role="group" ><span class="badge"><i class="fa fa-download"></i></span> {{ 'EXPORT_CSV' | translate}}</a>
+    </div>
+    <div class="btn-group" role="group">
       <button ng-click="load()" class="btn btn-default" role="group" ><span class="badge"><i class="fa fa-refresh"></i></span> {{ 'Reload' | translate}}</Button>
     </div>
-
   </div>
-
-
  </div>

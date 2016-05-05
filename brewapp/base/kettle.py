@@ -1,9 +1,13 @@
 from flask import Blueprint, render_template, jsonify, request
+from flask import make_response
 from util import *
 from model import *
 import time
 from brewapp import app, socketio
 from views import base
+import StringIO
+import csv
+import datetime
 
 from brewapp import manager
 from brewapp.base.automatic.automaticlogic import *
@@ -29,7 +33,22 @@ def kettleDevices():
 def kettlegetChart(vid):
     return  json.dumps(app.brewapp_kettle_temps_log[int(vid)])
 
+@app.route('/api/kettle/export/csv/<vid>')
+def export(vid):
+                si = StringIO.StringIO()
+                cw = csv.writer(si)
+                k = Kettle.query.get(int(vid))
+                print k
+                r = []
+                for d in app.brewapp_kettle_temps_log[int(vid)]:
+                    r.append([datetime.fromtimestamp((d[0]/ 1000)).strftime('%Y-%m-%d %H:%M:%S'),d[1]])
 
+                cw.writerow(["Time", "Temperature"])
+                cw.writerows(r)
+                output = make_response(si.getvalue())
+                output.headers["Content-Disposition"] = "attachment; filename=%s.csv" % (k.name)
+                output.headers["Content-type"] = "text/csv"
+                return output
 
 ## Delete all log data
 @app.route('/api/kettle/clear', methods=['POST'])
