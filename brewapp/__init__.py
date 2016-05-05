@@ -1,9 +1,7 @@
 from flask import Flask, abort, redirect, url_for, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
-import flask_admin as admin
 from flask.ext.socketio import SocketIO, emit
 from thread import start_new_thread
-from flask_admin import AdminIndexView, expose
 import logging
 import flask.ext.restless
 from logging.handlers import RotatingFileHandler
@@ -66,35 +64,7 @@ app.register_blueprint(mymodule,url_prefix='/mymodule')
 def index():
     return redirect('base')
 
-## Restart Endpoint
-@app.route('/restart')
-def restart():
-    app.logger.info("--> RESTART TRIGGERED")
-    ## Do in other thread
-    start_new_thread(doRestart,())
-    return base.send_static_file("restart.html")
 
-## Execute Restart
-def doRestart():
-    time.sleep(5)
-    from subprocess import call
-    app.logger.info("--> RESTART EXECUTE")
-    call(["/etc/init.d/craftbeerpiboot", "restart"])
-
-## Shutdown Endpoint
-@app.route('/halt')
-def halt():
-    app.logger.info("--> HALT TRIGGERED")
-    ## Do in other thread
-    start_new_thread(doHalt,())
-    return base.send_static_file("halt.html")
-
-## Execute Restart
-def doHalt():
-    time.sleep(5)
-    from subprocess import call
-    app.logger.info("--> HALT EXECUTE")
-    call("halt")
 
 ## Invoke Initializers
 app.logger.info("## INITIALIZE DATA")

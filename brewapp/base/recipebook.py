@@ -13,6 +13,10 @@ from views import base
 import sqlite3
 from buzzer import nextStepBeep, timerBeep, resetBeep
 from flask.ext.restless.helpers import to_dict
+import StringIO
+import csv
+import datetime
+from flask import make_response, Response
 
 @brewinit()
 def init():
@@ -34,6 +38,19 @@ def loadRecipe(id):
 
     setBrewName(recipe.name)
     return ('',204)
+
+@app.route('/api/recipe_books/export')
+def export_book():
+    r = RecipeBooks.query.all()
+    ar = []
+    for t in r:
+        ar.append(to_dict(t,  deep={'steps': []}))
+
+    return Response(json.dumps(ar),
+            mimetype='application/json',
+            headers={'Content-Disposition':'attachment;filename=CraftBeerPI_RecipeBook.json'})
+
+
 
 @app.route('/api/recipe_books/save', methods=['POST'])
 def save_book():
