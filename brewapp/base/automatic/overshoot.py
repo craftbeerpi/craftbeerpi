@@ -7,20 +7,27 @@ from brewapp.base.util import *
 class OvershootLogic(Automatic):
 
     ## Define config paramter as array of dicts
-    configparameter = [{"name":"overshoot","value":2}]
+    configparameter = [{"name":"Overshoot","value":0}]
 
     state = False
 
     def run(self):
+
+        try:
+            overshoot = float(self.config["Overshoot"])
+        except Exception as e:
+            app.logger.error("Wrong overshoot parameter! Set overshoot parameter to 0")
+            overshoot = 0
+
         while self.isRunning():
             currentTemp = self.getCurrentTemp() ## Current temperature
             targetTemp = self.getTargetTemp() ## Target Temperature
             ## Current Temp is below Target Temp ... switch heater on
-            if(currentTemp < targetTemp and self.state == False):
+            if(currentTemp + overshoot < targetTemp and self.state == False):
                 self.state = True
                 self.switchHeaterON()
             ## Current Temp is equal or higher than Target Temp ... switch Heater off
-            if(currentTemp >= targetTemp and self.state == True):
+            if(currentTemp + overshoot >= targetTemp and self.state == True):
                 self.state = False
                 self.switchHeaterOFF()
             time.sleep(1)
