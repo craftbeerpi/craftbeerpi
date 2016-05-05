@@ -1,45 +1,45 @@
-<h3>Please check your data</h3>
+<h3>{{ 'PLS_VALIDATE' | translate}}</h3>
 
 <div class="row">
   <div class="col-sm-6 col-md-4" ng-repeat="item in kettles track by $index">
     <div class="panel panel-default">
       <div class="panel-heading">
-        Kettle {{$index + 1}}
+        {{ 'KETTLE' | translate}} {{$index + 1}}
       </div>
       <div class="panel-body">
         <form class="form-horizontal">
           <div class="form-group">
-            <label class="col-sm-4">Name</label>
+            <label class="col-sm-4">{{ 'NAME' | translate}}</label>
             <div class="col-sm-8">
               {{item.name}}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-4">Thermometer</label>
+            <label class="col-sm-4">{{ 'THERMOMETER' | translate}}</label>
             <div class="col-sm-8">
               {{item.sensorid}}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-4">Heater GPIO</label>
+            <label class="col-sm-4">{{ 'HEATER' | translate}} GPIO</label>
             <div class="col-sm-8">
               {{item.heater}}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-4">Agitator GPIO</label>
+            <label class="col-sm-4">{{ 'AGITATOR' | translate}} GPIO</label>
             <div class="col-sm-8">
               {{item.agitator}}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-4">Heigth in cm</label>
+            <label class="col-sm-4">{{ 'HEIGHT_CM' | translate}}</label>
             <div class="col-sm-8">
               {{item.height}}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-4">Diameter in cm</label>
+            <label class="col-sm-4">{{ 'DIAMETER_CM' | translate}}</label>
             <div class="col-sm-8">
               {{item.diameter}}
             </div>
@@ -50,5 +50,5 @@
     </form>
   </div>
 </div>
-<a class="btn btn-primary" href="" wz-previous><i class="fa fa-backward"></i> Back</a>
-<a class="btn btn-primary" href="" wz-next>Let's go brewing <i  class="fa fa-beer"></i> </a>
+<a class="btn btn-primary" href="" wz-previous><i class="fa fa-backward"></i> {{ 'BACK' | translate}}</a>
+<a class="btn btn-primary" href="" wz-next>{{ 'LETS_GO_BREW' | translate}} <i  class="fa fa-beer"></i> </a>

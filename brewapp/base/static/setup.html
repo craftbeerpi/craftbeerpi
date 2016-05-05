@@ -26,6 +26,8 @@
   <script type="text/javascript" src="/base/static/addon/js/socket.io.min.js"></script>
   <!-- Angular JS Standard libs -->
   <script type="text/javascript" src="/base/static/addon/js/angular.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-translate.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-translate-loader-static-files.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-resource.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-cookies.min.js"></script>
@@ -47,25 +49,25 @@
       <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
         <div class="panel-body">
           <wizard on-finish="finish()" template="/base/static/partials/setup/wizard.html">
-            <wz-step title="Welcome" >
+            <wz-step title="{{ 'WELCOME' | translate}}" >
               <center>
-              <h2>Welcome to CraftBeerPI</h2>
-              <p>Setup your brewing computer within a few steps</p>
-              <a class="btn btn-primary" wz-next >Start Setup</a>
+              <h2>{{ 'WELCOME_TO' | translate}}</h2>
+              <p>{{ 'SETUP_DESC' | translate}}</p>
+              <a class="btn btn-primary" wz-next >{{ 'START_SETUP' | translate}}</a>
             </center>
             </wz-step>
-            <wz-step title="hardware">
+            <wz-step title="{{ 'HARDWARE' | translate}}">
               <span ng-include="'/base/static/partials/setup/hardware.html'" /></span>
             </wz-step>
-            <wz-step title="Thermometer">
+            <wz-step title="{{ 'THERMOMETER' | translate}}">
               <span ng-include="'/base/static/partials/setup/thermometer.html'" /></span>
-              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> Back</a>
+              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> {{ 'BACK' | translate}}</a>
             </wz-step>
-            <wz-step title="Kettle Setup">
+            <wz-step title="{{ 'KETTLE' | translate}} {{ 'SETUP' | translate}}">
               <span ng-include="'/base/static/partials/setup/select.html'" /></span>
-              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> Back</a>
+              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> {{ 'BACK' | translate}}</a>
             </wz-step>
-            <wz-step title="Kettle Config">
+            <wz-step title="{{ 'KETTLE' | translate}} {{ 'CONFIG' | translate}}">
               <span ng-include="'/base/static/partials/setup/kettleconfig.html'" /></span>
             </wz-step>
           </wizard>

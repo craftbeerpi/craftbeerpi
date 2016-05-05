@@ -1,21 +1,21 @@
 <div class="modal-header" >
-    <h4 class="modal-title">Please select the Kettles</h4>
+    <h4 class="modal-title">{{ 'PLS_SELECT_KETTLES' | translate}}</h4>
 </div>
 <div class="modal-body">
   <div class="form-group">
-    <label>Mash Kettle</label>
+    <label>{{ 'MASH' | translate}} {{ 'KETTLE' | translate}}</label>
     <select class="form-control" ng-model="mashtun">
       <option ng-repeat="t in kettles" value="{{t.key}}" ng-selected="mashtun == t.key">{{t.value}}</option>
     </select>
   </div>
   <div class="form-group">
-    <label>Boil Kettle</label>
+    <label>{{ 'BOIL' | translate}} {{ 'KETTLE' | translate}}</label>
     <select class="form-control" ng-model="boil">
       <option ng-repeat="t in kettles" value="{{t.key}}" ng-selected="boil == t.key">{{t.value}}</option>
     </select>
   </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-danger" type="button" ng-click="cancel()"><i class="fa fa-times-circle"></i> Cancel</button>
-    <button class="btn btn-success" type="button" ng-click="ok()"><i class="fa fa-check"></i> Load</button>
+    <button class="btn btn-danger" type="button" ng-click="cancel()"><i class="fa fa-times-circle"></i> {{ 'CANCEL' | translate}}</button>
+    <button class="btn btn-success" type="button" ng-click="ok()"><i class="fa fa-check"></i> {{ 'LOAD' | translate}}</button>
 </div>

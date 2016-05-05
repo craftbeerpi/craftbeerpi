@@ -1,29 +1,29 @@
 <div class="modal-header" >
-    <h4 class="modal-title"></i>Calculate Volume {{kettle.name}}</h4>
+    <h4 class="modal-title"></i>{{ 'CALC_VOLUME' | translate}} {{kettle.name}}</h4>
 </div>
 <div class="modal-body">
 
 
 <div class="form-group">
-  <label>Height:</label>
+  <label>{{ 'HEIGHT' | translate}}:</label>
   {{kettle.height}} cm
 </div>
 <div class="form-group">
-  <label>Diameter:</label>
+  <label>{{ 'DIAMETER' | translate}}:</label>
   {{kettle.diameter}} cm
 </div>
 <div class="form-group">
-  <label>Max Volume:</label>
-  {{maxvolume()}} Litre
+  <label>{{ 'MAX_VOL' | translate}}:</label>
+  {{maxvolume()}} {{ 'LITRE' | translate}}
 </div>
 <div class="form-group">
-  <label>Free cm from top:</label>
+  <label>{{ 'FREE_CM_TOP' | translate}}:</label>
   <input type="number" ng-model="free"  class="form-control">
 </div>
 
 <div class="form-group">
-  <label>Current Volume:</label>
-  {{volume()}} Litre
+  <label>{{ 'CURR_VOL' | translate}}:</label>
+  {{volume()}} {{ 'LITRE' | translate}}
 </div>
 </div>
 <div class="modal-footer">

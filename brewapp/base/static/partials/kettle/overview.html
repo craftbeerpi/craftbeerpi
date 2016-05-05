@@ -5,35 +5,35 @@
 		<div class="col-sm-12">
 			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
 				<div class="panel-heading">
-					Kettles
+					{{ 'KETTLES' | translate}}
 					<div class="btn-group pull-right hidden-xs" role="group">
 						<a href ng-click="clearTempLogs()"class="btn btn-danger" role="group">
-							<i class="fa fa-trash"></i> Clear Temperature Log
+							<i class="fa fa-trash"></i> {{ 'CLR_TEMP_LOG' | translate}}
 						</a>
 						<a ng-click="create()" class="btn btn-success" role="group">
-							<i class="fa fa-pencil-square-o"></i> New Kettle</a>
+							<i class="fa fa-pencil-square-o"></i> {{ 'NEW_KETTLE' | translate}}</a>
 					</div>
 					<div class="dropdown pull-right visible-xs">
 						<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							Action
+							{{ 'ACTION' | translate}}
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a ng-click="clearTempLogs()"><i class="fa fa-trash"></i> Clear Temperature Log</a></li>
-							<li><a ng-click="create()"><i class="fa fa-pencil-square-o"></i> New Kettle</a></li>
+							<li><a ng-click="clearTempLogs()"><i class="fa fa-trash"></i> {{ 'CLR_TEMP_LOG' | translate}}</a></li>
+							<li><a ng-click="create()"><i class="fa fa-pencil-square-o"></i> {{ 'NEW_KETTLE' | translate}}</a></li>
 						</ul>
 					</div>
 					<div class="clearfix"></div>
 				</div>
 				<table class="table">
 					<thead>
-						<td>Name</td>
-						<td>Sensor Id</td>
-						<td class="hidden-xs">Offset</td>
-						<td>Heater</td>
-						<td>Agitator</td>
-						<td class="hidden-xs">Automatic</td>
-						<td class="hidden-xs">Height/Diameter</td>
+						<td>{{ 'NAME' | translate}}</td>
+						<td>{{ 'SENSOR' | translate}} Id</td>
+						<td class="hidden-xs">{{ 'OFFSET' | translate}}</td>
+						<td>{{ 'HEATER' | translate}}</td>
+						<td>{{ 'AGITATOR' | translate}}</td>
+						<td class="hidden-xs">{{ 'AUTOMATIC' | translate}}</td>
+						<td class="hidden-xs">{{ 'HEIGHT' | translate}}/{{ 'DIAMETER' | translate}}</td>
 					</thead>
 					<tr ng-repeat="item in kettles track by $index">
 						<td>

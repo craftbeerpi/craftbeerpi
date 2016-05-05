@@ -1,4 +1,16 @@
-angular.module('craftbeerpisetup',['mgo-angular-wizard']).controller("SetupController", function($scope, $location, $window, $http,WizardHandler) {
+var $setup = angular.module('craftbeerpisetup',
+['mgo-angular-wizard',
+'pascalprecht.translate']).config(['$translateProvider', function ($translateProvider) {
+  // configures staticFilesLoader
+  $translateProvider.useStaticFilesLoader({
+    prefix: "/static/languages/",
+    suffix: ".json"
+  });
+  // load 'en' table on startup
+  $translateProvider.preferredLanguage('en');
+}]);
+
+$setup.controller("SetupController", function($scope, $location, $window, $http,WizardHandler) {
 
   console.log("SETUP")
 

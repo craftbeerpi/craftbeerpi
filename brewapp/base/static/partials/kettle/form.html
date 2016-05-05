@@ -4,33 +4,33 @@
       <div class="col-sm-4">
         <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
           <div class="panel-heading">
-            Basic Data
+            {{ 'BASIC_DATA' | translate}}
           </div>
           <div class="panel-body">
             <div class="form-group">
-              <label>Name</label>
+              <label>{{ 'NAME' | translate}}</label>
               <input required type="text" ng-model="kettle.name" class="form-control">
             </div>
             <div class="form-group">
-              <label>Thermometer Id</label>
+              <label>{{ 'THERMOMETER' | translate}} Id</label>
               <select class="form-control" ng-model="kettle.sensorid">
                 <option ng-repeat="t in thermometer" value="{{t.key}}" ng-selected="kettle.sensorid == t.key">{{t.value}}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Sensor Offset</label>
+              <label>{{ 'SENSOR' | translate}} {{ 'OFFSET' | translate}}</label>
               <input type="text" ng-model="kettle.sensoroffset" class="form-control">
             </div>
 
             <div class="form-group">
-              <label>Heater Switch</label>
+              <label>{{ 'HEATER' | translate}} {{ 'SWITCH' | translate}}</label>
               <select class="form-control" ng-model="kettle.heater">
                 <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="kettle.heater == t.key">{{t.value}}</option>
               </select>
             </div>
             <div class="form-group">
-              <label>Agitator Switch</label>
+              <label>{{ 'AGITATOR' | translate}} {{ 'SWITCH' | translate}}</label>
               <select class="form-control" ng-model="kettle.agitator">
                 <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="kettle.agitator == t.key">{{t.value}}</option>
               </select>
@@ -41,13 +41,13 @@
       <div class="col-sm-4">
         <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
           <div class="panel-heading">
-            Automatic
+            {{ 'AUTOMATIC' | translate}}
           </div>
           <div class="panel-body">
             <div class="form-group">
-              <label>Automatic Logic</label>
+              <label>{{ 'AUTOMATIC_LOGIC' | translate}}</label>
               <select class="form-control" ng-model="kettle.automatic" ng-options="c.name for c in automatic track by c.name">
-                <option value="">---Please select---</option>
+                <option value="">---{{ 'PLS_SELECT' | translate}}---</option>
               </select>
             </div>
 
@@ -62,15 +62,15 @@
       <div class="col-sm-4">
         <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
           <div class="panel-heading">
-            Additional Data
+            {{ 'ADDITIONAL_DATA' | translate}}
           </div>
           <div class="panel-body">
             <div class="form-group">
-              <label>Heigth in cm</label>
+              <label>{{ 'HEIGHT_CM' | translate}}</label>
               <input type="text" ng-model="kettle.height" class="form-control">
             </div>
             <div class="form-group">
-              <label>Diameter in cm</label>
+              <label>{{ 'DIAMETER_CM' | translate}}</label>
               <input type="text" ng-model="kettle.diameter" class="form-control">
             </div>
           </div>
@@ -78,9 +78,9 @@
       </div>
     </div>
     <p>
-      <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> Close</a>
-      <a class="btn btn-danger" href="" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> Delete</a>
-      <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> Save</a>
+      <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> {{ 'CLOSE' | translate}}</a>
+      <a class="btn btn-danger" href="" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> {{ 'DELETE' | translate}}</a>
+      <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> {{ 'SAVE' | translate}}</a>
     </p>
 
 
