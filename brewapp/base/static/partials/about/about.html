@@ -62,10 +62,10 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a ng-click="changeLanguage('de')">
-              <span class="badge">{{ 'DE' | translate}}</a></li>
-            <li><a ng-click="changeLanguage('en')">
-              <span class="badge">{{ 'EN' | translate}}</a></li>
+            <li ng-class="language=='de' ? 'active' : 'none'"><a ng-click="changeLanguage('de')">
+              {{ 'DE' | translate}}</a></li>
+            <li ng-class="language=='en' ? 'active' : 'none'"><a ng-click="changeLanguage('en')">
+              {{ 'EN' | translate}}</a></li>
           </ul>
         </div>
     </div>
