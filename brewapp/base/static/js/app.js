@@ -14,6 +14,7 @@ angular.module('craftberpi',
 'craftbeerpi.services',
 'craftbeerpi.about',
 'pascalprecht.translate',
+'ngCookies',
 'craftberpi.config']).config(function($routeProvider) {
   $routeProvider
     .when('/', {
@@ -73,7 +74,7 @@ angular.module('craftberpi',
   $translateProvider.useStaticFilesLoader({
     prefix: '/static/languages/',
     suffix: '.json'
-  });
-  // load 'en' table on startup
-  $translateProvider.preferredLanguage('en');
+  }).fallbackLanguage('en');
+  $translateProvider.useCookieStorage();
+  $translateProvider.determinePreferredLanguage()
 }]);

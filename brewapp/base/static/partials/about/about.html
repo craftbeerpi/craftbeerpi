@@ -55,6 +55,19 @@
           <a ng-click="confirmHalt()" class="btn btn-danger" role="group">
             <span class="badge"><i class="fa fa-bolt"></i></span> {{ 'SHUTDOWN' | translate}}</a>
       </div>
+      <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <i class="fa fa-globe"></i></span> {{ 'LANGUAGE' | translate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a ng-click="changeLanguage('de')">
+              <span class="badge">{{ 'DE' | translate}}</a></li>
+            <li><a ng-click="changeLanguage('en')">
+              <span class="badge">{{ 'EN' | translate}}</a></li>
+          </ul>
+        </div>
     </div>
 
   </div>
