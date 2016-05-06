@@ -1,4 +1,4 @@
-angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, InfoMessage, $uibModal, ws, $timeout) {
+angular.module('craftberpi.controllers2', []).controller('DashBoardController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, InfoMessage, ConfirmMessage, $uibModal, ws, $timeout) {
 
 
 
@@ -141,7 +141,12 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   }
 
   $scope.reset = function() {
-    ws.emit("reset");
+
+    ConfirmMessage.open("Reset Brew Process", "Do you really want to reset the brew process?", function() {
+      ws.emit("reset");
+    }, function() {
+    });
+
   }
 
   $scope.next = function() {
