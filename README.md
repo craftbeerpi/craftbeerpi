@@ -23,11 +23,9 @@ Website: www.CraftBeerPI.com
 ## Screenshots
 
 ![ScreenShot](http://craftbeerpi.com/img/Img1.png)
-![ScreenShot](http://craftbeerpi.com/img/Img2.png)
-![ScreenShot](http://craftbeerpi.com/img/Img3.png)
-![ScreenShot](http://craftbeerpi.com/img/Img4.png)
-![ScreenShot](http://craftbeerpi.com/img/Img5.png)
-![ScreenShot](http://craftbeerpi.com/img/Img6.png)
+
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/2zM2dnFyB5w/0.jpg)](http://www.youtube.com/watch?v=2zM2dnFyB5w)
 
 ## Installation
 
