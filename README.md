@@ -23,7 +23,8 @@ Website: www.CraftBeerPI.com
 ## Screenshots
 
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Screenshot1.png)
-![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Screenshot2.png)
+![ScreenShot](http://craftbeerpi.com/img/Img1.png)
+![ScreenShot](http://craftbeerpi.com/img/Img2.png)
 
 
 ## Installation
@@ -101,7 +102,7 @@ After this you will asked for the MashTun and the Boil kettle of the brew.
 * Raspberry Pi (Model A+, 2 Model B) + Power Cable + SDCard (Pollin.de, Conrad.de, Reichelt.de)
 
 
-![ScreenShot](http://craftbeerpi.com/img/Img1.png)
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
 
 
