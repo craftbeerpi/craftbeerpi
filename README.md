@@ -101,7 +101,7 @@ After this you will asked for the MashTun and the Boil kettle of the brew.
 * Raspberry Pi (Model A+, 2 Model B) + Power Cable + SDCard (Pollin.de, Conrad.de, Reichelt.de)
 
 
-![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
+![ScreenShot](http://craftbeerpi.com/img/Img1.png)
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
 
 
