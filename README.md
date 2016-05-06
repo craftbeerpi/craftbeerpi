@@ -22,10 +22,12 @@ Website: www.CraftBeerPI.com
 
 ## Screenshots
 
-![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Screenshot1.png)
 ![ScreenShot](http://craftbeerpi.com/img/Img1.png)
 ![ScreenShot](http://craftbeerpi.com/img/Img2.png)
-
+![ScreenShot](http://craftbeerpi.com/img/Img3.png)
+![ScreenShot](http://craftbeerpi.com/img/Img4.png)
+![ScreenShot](http://craftbeerpi.com/img/Img5.png)
+![ScreenShot](http://craftbeerpi.com/img/Img6.png)
 
 ## Installation
 
