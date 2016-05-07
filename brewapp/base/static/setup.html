@@ -28,6 +28,7 @@
   <script type="text/javascript" src="/base/static/addon/js/angular.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-translate.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-translate-loader-static-files.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-translate-storage-cookie.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-resource.min.js"></script>
   <script type="text/javascript" src="/base/static/addon/js/angular-cookies.min.js"></script>
@@ -53,6 +54,11 @@
               <center>
               <h2>{{ 'WELCOME_TO' | translate}}</h2>
               <p>{{ 'SETUP_DESC' | translate}}</p>
+              <a ng-click="changeLanguage('de')" class="btn" ng-class="language=='de' ? 'btn-success' : 'btn-default'" role="group">
+                <span class="badge"><i class="fa fa-globe"></i></span> {{ 'DE' | translate}}</a>
+              <a ng-click="changeLanguage('en')" class="btn" ng-class="language=='en' ? 'btn-success' : 'btn-default'" role="group">
+                <span class="badge"><i class="fa fa-globe"></i></span> {{ 'EN' | translate}}</a>
+
               <a class="btn btn-primary" wz-next >{{ 'START_SETUP' | translate}}</a>
             </center>
             </wz-step>

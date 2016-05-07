@@ -1,25 +1,33 @@
 var $setup = angular.module('craftbeerpisetup',
 ['mgo-angular-wizard',
+'ngCookies',
 'pascalprecht.translate']).config(['$translateProvider', function ($translateProvider) {
   // configures staticFilesLoader
   $translateProvider.useStaticFilesLoader({
-    prefix: "/static/languages/",
-    suffix: ".json"
-  });
-  // load 'en' table on startup
-  $translateProvider.preferredLanguage('en');
+    prefix: '/static/languages/',
+    suffix: '.json'
+  }).fallbackLanguage('en');
+  $translateProvider.useCookieStorage();
+  $translateProvider.determinePreferredLanguage()
 }]);
 
-$setup.controller("SetupController", function($scope, $location, $window, $http,WizardHandler) {
+$setup.controller("SetupController", function($scope, $translate, $location, $window, $http,WizardHandler) {
 
   console.log("SETUP")
 
+  $scope.language= $translate.proposedLanguage();
 
 
   $scope.setup = function(id) {
 
     WizardHandler.wizard().next();
   }
+
+  $scope.changeLanguage = function (langKey) {
+    console.log("OK");
+    $scope.language=langKey;
+    $translate.use(langKey);
+  };
 
   $scope.selectHardware = function(type) {
       $http({

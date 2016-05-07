@@ -1,4 +1,5 @@
-angular.module('craftbeerpi.about', []).controller('AboutController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, InfoMessage, $uibModal, ws, $timeout, $window) {
+angular.module('craftbeerpi.about', ['pascalprecht.translate']).controller('AboutController', function($scope, $translate, $location, CBPSteps, CBPKettle, CBPHardware, ChartFactory, CBPSwitch, CBPConfig, InfoMessage, $uibModal, ws, $timeout, $window) {
+  $scope.language= $translate.use();
 
   $scope.confirmHalt = function(item) {
     var modalInstance = $uibModal.open({
@@ -18,6 +19,10 @@ angular.module('craftbeerpi.about', []).controller('AboutController', function($
     });
   };
 
+  $scope.changeLanguage = function (langKey) {
+    $scope.language=langKey;
+    $translate.use(langKey);
+  };
 }).controller('HaltConfirmController', function($scope, $uibModalInstance) {
 
   $scope.ok = function() {
