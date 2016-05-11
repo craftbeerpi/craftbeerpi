@@ -42,7 +42,7 @@ factory("CBPKettle", function($resource) {
     getchart: {
       method: 'GET',
       url: '/api/kettle/chart/:id',
-      isArray: true
+      isArray: false
     },
     getautomatic: {
       method: 'GET',

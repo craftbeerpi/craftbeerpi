@@ -21,9 +21,13 @@
       <option ng-repeat="t in type" value="{{t.key}}">{{t.value}}</option>
     </select>
   </div>
+  <div class="form-group">
+    <label>{{ 'INVERTED' | translate}}</label>
+    <input type="checkbox">
+  </div>
 </div>
 <div class="modal-footer">
-  <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> {{ 'CLOSE' | translate}}</a>
-  <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> {{ 'DELETE' | translate}}</a>
-  <a class="btn btn-success" ng-click="save()"><i  class="fa fa-check-circle"></i> {{ 'SAVE' | translate}}</a>
+  <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i></a>
+  <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i></a>
+  <a class="btn btn-success" ng-click="save()"><i  class="fa fa-check-circle"></i></a>
 </div>

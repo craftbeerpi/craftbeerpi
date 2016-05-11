@@ -34,6 +34,7 @@ app.brewapp_kettle_state = {}
 app.brewapp_pump_state = {}
 app.brewapp_kettle = {}
 app.brewapp_kettle_temps_log = {}
+app.brewapp_kettle_target_temps_log = {}
 app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
 app.brewapp_pid = []
@@ -63,8 +64,6 @@ app.register_blueprint(mymodule,url_prefix='/mymodule')
 @app.route('/')
 def index():
     return redirect('base')
-
-
 
 ## Invoke Initializers
 app.logger.info("## INITIALIZE DATA")

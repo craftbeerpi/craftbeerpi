@@ -31,7 +31,10 @@ def kettleDevices():
 ## Returns all chart data for a particular kettle
 @app.route('/api/kettle/chart/<vid>', methods=['GET'])
 def kettlegetChart(vid):
-    return  json.dumps(app.brewapp_kettle_temps_log[int(vid)])
+    arr = {}
+    arr["temp"] = app.brewapp_kettle_temps_log[int(vid)]
+    arr["target"] = app.brewapp_kettle_target_temps_log[int(vid)]
+    return  json.dumps(arr)
 
 @app.route('/api/kettle/export/csv/<vid>')
 def export(vid):
@@ -56,6 +59,7 @@ def clearTempLog():
     kettles = Kettle.query.all()
     for v in kettles:
         app.brewapp_kettle_temps_log[v.id] = []
+        app.brewapp_kettle_target_temps_log[v.id] = []
     return ('',204)
 
 ## WebSocket METHODS
@@ -127,6 +131,7 @@ def initKettle():
     app.brewapp_kettle_state = {}
     for v in kettles:
         app.brewapp_kettle_temps_log[v.id] = []
+        app.brewapp_kettle_target_temps_log[v.id] = []
         app.brewapp_kettle_state[v.id] = {}
         app.brewapp_kettle_state[v.id]["temp"] = 0
         app.brewapp_kettle_state[v.id]["target_temp"] = v.target_temp
@@ -141,6 +146,8 @@ def initKettle():
 @brewjob(key="readtemp", interval=5)
 def readKettleTemp():
     for vid in app.brewapp_kettle_state:
+
+
         temp = app.brewapp_thermometer.readTemp(app.brewapp_kettle_state[vid]["sensorid"])
 
         if(app.brewapp_config.get("UNIT", "C") == "F"):
@@ -152,5 +159,5 @@ def readKettleTemp():
 
         timestamp = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         app.brewapp_kettle_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["temp"] ]]
-
+        app.brewapp_kettle_target_temps_log[vid] += [[timestamp, app.brewapp_kettle_state[vid]["target_temp"]]]
     socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')

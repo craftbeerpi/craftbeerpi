@@ -46,6 +46,7 @@ def initHardware(cleanup = True):
         if(v.heater != None):
             app.brewapp_switch_state[v.heater] = False
 
+    print app.brewapp_switch_state
 
 @app.route('/api/switch', methods=['GET'])
 def switchstate():
