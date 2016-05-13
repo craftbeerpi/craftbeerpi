@@ -46,5 +46,7 @@
   "Additional Hardware": "Zusätzliche Hardware",
   "Configuration": "Einstellungen",
   "About": "Über",
-  "START_SETUP": "Starte Einrichtung"
+  "START_SETUP": "Starte Einrichtung",
+  "WELCOME_TO": "Willkommen zu CraftBeerPI",
+  "SETUP_DESC": "Richte deinen Braucomputer in wenigen Schritten ein"
 }
