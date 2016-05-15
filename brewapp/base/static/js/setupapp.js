@@ -1,6 +1,6 @@
 var $setup = angular.module('craftbeerpisetup',
 ['mgo-angular-wizard',
-'ngCookies',
+'ngCookies','ui.bootstrap',
 'pascalprecht.translate']).config(['$translateProvider', function ($translateProvider) {
   // configures staticFilesLoader
   $translateProvider.useStaticFilesLoader({
@@ -13,7 +13,6 @@ var $setup = angular.module('craftbeerpisetup',
 
 $setup.controller("SetupController", function($scope, $translate, $location, $window, $http,WizardHandler) {
 
-  console.log("SETUP")
 
   $scope.language= $translate.proposedLanguage();
 
