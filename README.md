@@ -73,7 +73,7 @@ select 'y' when you are ask if CraftBeerPI should start after boot.
 sudo python runserver.py
 ```
 
-The App is now available under:  http://<server_id>:5000 im Browser aufrufbar.
+The App is now available under:  http://<server_id>:5000 
 
 ## Manual
 
