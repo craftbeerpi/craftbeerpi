@@ -36,6 +36,10 @@ angular.module('craftberpi.controllers', []).controller('StepOverviewController'
     }
   }
 
+  $scope.toTimestamp = function(timer) {
+    return new Date(timer).getTime();
+  }
+
   $scope.step = {
     "type": "A",
     "state": "I",
@@ -267,8 +271,6 @@ $scope.edit = false;
       "boil": $scope.boil
     });
   };
-
-
 
   $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');

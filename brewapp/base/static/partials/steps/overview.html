@@ -64,8 +64,11 @@
 							<span>{{ item.temp }} °{{ config["UNIT"]}}</span>
 						</td>
 						<td>
-							<timer ng-if="item.state == 'A' && item.timer_start != null" end-time="item.timer_start + (item.timer * 1000 *  60)" interval="1000">{{hhours}}:{{mminutes}}:{{sseconds}}
-							</timer> ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
+							<timer ng-if="item.state == 'A' && item.timer <= 1440 && item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000"> {{hhours}}:{{mminutes}}:{{sseconds}}
+							</timer>
+							<timer ng-if="item.state == 'A' && item.timer > 1440 && item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000"> {{days}} days {{hhours}}:{{mminutes}}:{{sseconds}}
+							</timer>
+							 ({{ item.timer }} min) <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
 					</td>
 					<td>
 						{{ getKettleName(item.kettleid) }}
