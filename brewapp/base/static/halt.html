@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CraftBeerPi 2.1</title>
+  <title>CraftBeerPi 2.2</title>
   <!-- http://fonts.googleapis.com/css?family=Tangerine -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="/base/static/addon/css/google.css">
@@ -14,12 +14,39 @@
   <link rel="stylesheet" type="text/css" href="/base/static/addon/css/angular-wizard.min.css">
   <meta http-equiv="refresh" content="30; url=/">
 
+  <!-- Angular JS Standard libs -->
+  <script type="text/javascript" src="/base/static/addon/js/angular.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-translate.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-translate-loader-static-files.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-translate-storage-cookie.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-resource.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-cookies.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-route.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-timer-all.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-file-upload.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular-wizard.min.js"></script>
+  <script type="text/javascript" src="/base/static/addon/js/angular.easypiechart.min.js"></script>
+
+  <!-- CraftBeerPI libs -->
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/service.js"></script>
+  <script src="js/steps/controller.js"></script>
+  <script src="js/kettle/controller.js"></script>
+  <script src="js/dashboard/controller.js"></script>
+  <script src="js/chart/controller.js"></script>
+  <script src="js/setup/controller.js"></script>
+  <script src="js/hardware/controller.js"></script>
+  <script src="js/config/controller.js"></script>
+  <script src="js/recipebook/controller.js"></script>
+  <script src="js/about/controller.js"></script>
+
 </head>
 <body>
   <div ng-app="craftberpi">
     <div style="text-align: center">
-        <h1>Shutting down CraftBeerPI ...</h1>
-        <h2>Please close your browser</h2>
+        <h1>{{ 'SHUTTING_DOWN' | translate}} ...</h1>
+        <h2>{{ 'PLS_CLOSE_BRW' | translate}}</h2>
         <i class="fa-5x fa fa-spinner fa-spin"></i>
 
     </div>
