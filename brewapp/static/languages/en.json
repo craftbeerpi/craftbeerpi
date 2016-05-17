@@ -65,6 +65,7 @@
   "PARAMETER": "Parameter",
   "PLAIN": "Plain",
   "PLS_CONF_KETTLE": "Please configure each kettle",
+  "PLS_CLOSE_BRW": "Please close your browser",
   "PLS_SELECT": "Please select",
   "PLS_SELECT_KETTLES": "Please select the Kettles",
   "PLS_VALIDATE": "Please check your data",
@@ -111,5 +112,6 @@
   "VALUE": "Value",
   "WELCOME": "Welcome",
   "WELCOME_TO": "Welcome to CraftBeerPI",
-  "WHICH_TYPE_THERM": "Which type of thermometer would you like to use?"
+  "WHICH_TYPE_THERM": "Which type of thermometer would you like to use?",
+  "YOU_WILL_FORWARDED": "You will be forwarded in 10 seconds"
 }
