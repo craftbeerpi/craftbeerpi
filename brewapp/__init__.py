@@ -9,6 +9,7 @@ import time
 import os
 import inspect
 
+
 app = Flask(__name__)
 socketio = SocketIO(app)
 
@@ -29,7 +30,6 @@ app.brewapp_gpio = False
 app.testMode = False
 app.brewapp_jobstate = {}
 app.brewapp_current_step = None
-app.brewapp_button = {"next": 23, "reset": 24}
 app.brewapp_kettle_state = {}
 app.brewapp_pump_state = {}
 app.brewapp_kettle = {}
@@ -39,12 +39,15 @@ app.brewapp_kettle_automatic = {}
 app.brewapp_pid_state =  {}
 app.brewapp_pid = []
 app.brewapp_switch_state = {}
+app.brewapp_hardware_config = {}
 app.brewapp_config = {}
 
 
 ## Create Database
 db = SQLAlchemy(app)
-manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+from flask_restless_swagger import SwagAPIManager as APIManager
+manager = APIManager(app, flask_sqlalchemy_db=db)
+#manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
 from .module1.views import mymodule
