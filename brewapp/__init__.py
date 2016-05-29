@@ -45,9 +45,9 @@ app.brewapp_config = {}
 
 ## Create Database
 db = SQLAlchemy(app)
-from flask_restless_swagger import SwagAPIManager as APIManager
-manager = APIManager(app, flask_sqlalchemy_db=db)
-#manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+
+
+manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 ## Import modules (Flask Blueprints)
 from .base.views import base
 from .module1.views import mymodule
