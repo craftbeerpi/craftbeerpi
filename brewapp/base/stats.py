@@ -36,6 +36,6 @@ def sendStats():
             info["hardware"].append({"name": k.name, "type":h.type, "switch":h.switch})
         import requests
         r = requests.post('http://www.craftbeerpi.com/stats.php', json=info)
-        app.logger.info("Stats Result: " + r)
+        app.logger.info(r)
     except Exception as e:
         app.logger.error("Sending stats failed: " + str(e))
