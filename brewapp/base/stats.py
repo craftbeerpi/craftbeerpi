@@ -19,6 +19,7 @@ def getserial():
 @brewinit(config_parameter="SEND_STATS")
 def sendStats():
     app.logger.info("Sending stats")
+    print "SENDING STATS"
     try:
         serial = getserial()
         info = {
