@@ -9,7 +9,7 @@ from kettle import initKettle
 from hardwareswitch import initHardware
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
-
+from brewapp.base.stats import *
 @base.route('/setup')
 def setup():
     return base.send_static_file("setup.html");
@@ -26,6 +26,7 @@ def setKettle():
     db.session.commit()
     initKettle()
     initHardware(True)
+    sendStats()
     return ('', 204)
 
 @app.route('/api/setup/thermometer', methods=['POST'])
