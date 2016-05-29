@@ -1,0 +1,370 @@
+swagger: '2.0'
+info:
+  version: '2.1.0'
+  title: CraftBeerPI REST API
+  description: Documentation of the CraftBeerPI REST API
+  contact:
+    name: CraftBeerPI
+    email: manuel@craftbeerpi.com
+    url: http://craftbeerpi.com
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /kettle:
+    get:
+      description: Returns all kettle
+      produces:
+        - application/json
+      parameters:
+        - description: searchjson
+          in: query
+          name: q
+          type: string
+      responses:
+        '200':
+          description: kettle response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/kettle'
+        default:
+          description: unexpected error
+    post:
+      description: Creates a new kettle
+      produces:
+        - application/json
+      parameters:
+        - name: step
+          in: body
+          description: Add kettle to CraftBeerPI
+          required: true
+          schema:
+            $ref: '#/definitions/kettle'
+      responses:
+        '200':
+          description: kettle response
+          schema:
+            $ref: '#/definitions/kettle'
+        default:
+          description: unexpected error
+    put:
+      description: Updates a kettle
+      produces:
+        - application/json
+      parameters:
+        - name: step
+          in: body
+          description: Add kettle to CraftBeerPI
+          required: true
+          schema:
+            $ref: '#/definitions/kettle'
+      responses:
+        '200':
+          description: kettle response
+          schema:
+            $ref: '#/definitions/kettle'
+        default:
+          description: unexpected error
+
+  /kettle/{id}:
+    get:
+      description: Returns one kettle by Id
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of kettle to fetch
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: kettle response
+          schema:
+            $ref: '#/definitions/kettle'
+        default:
+          description: unexpected error
+
+    delete:
+      description: deletes a single kettle based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of kettle to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: kettle deleted
+        default:
+          description: unexpected error
+  /step:
+    get:
+      description: Returns all steps
+      produces:
+        - application/json
+      parameters:
+        - description: searchjson
+          in: query
+          name: q
+          type: string
+      responses:
+        '200':
+          description: step response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/step'
+        default:
+          description: unexpected error
+    post:
+      description: Creates a new step
+      produces:
+        - application/json
+      parameters:
+        - name: step
+          in: body
+          description: Add step to CraftBeerPI
+          required: true
+          schema:
+            $ref: '#/definitions/step'
+      responses:
+        '200':
+          description: step response
+          schema:
+            $ref: '#/definitions/step'
+        default:
+          description: unexpected error
+    put:
+      description: Updates a step
+      produces:
+        - application/json
+      parameters:
+        - name: step
+          in: body
+          description: update step on CraftBeerPI
+          required: true
+          schema:
+            $ref: '#/definitions/step'
+      responses:
+        '200':
+          description: step response
+          schema:
+            $ref: '#/definitions/step'
+        default:
+          description: unexpected error
+
+  /step/{id}:
+    get:
+      description: Returns one step by Id
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of step to fetch
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: step response
+          schema:
+            $ref: '#/definitions/step'
+        default:
+          description: unexpected error
+
+    delete:
+      description: deletes a single step based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of step to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: step deleted
+        default:
+          description: unexpected error
+  /step/clear:
+    post:
+      description: clear all steps
+      responses:
+        '204':
+          description: all steps cleared
+        default:
+          description: unexpected error
+  /hardware:
+    get:
+      description: Returns all hardwares
+      produces:
+        - application/json
+      parameters:
+        - description: searchjson
+          in: query
+          name: q
+          type: string
+      responses:
+        '200':
+          description: hardware response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/hardware'
+        default:
+          description: unexpected error
+    post:
+      description: Creates a new hardware
+      produces:
+        - application/json
+      parameters:
+        - name: hardware
+          in: body
+          description: Add hardware to CraftBeerPI
+          required: true
+          schema:
+            $ref: '#/definitions/hardware'
+      responses:
+        '200':
+          description: hardware response
+          schema:
+            $ref: '#/definitions/hardware'
+        default:
+          description: unexpected error
+    put:
+      description: Updates a hardware
+      produces:
+        - application/json
+      parameters:
+        - name: hardware
+          in: body
+          description: update hardware on CraftBeerPI
+          required: true
+          schema:
+            $ref: '#/definitions/hardware'
+      responses:
+        '200':
+          description: hardware response
+          schema:
+            $ref: '#/definitions/hardware'
+        default:
+          description: unexpected error
+
+  /hardware/{id}:
+    get:
+      description: Returns one hardware by Id
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of hardware to fetch
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: hardware response
+          schema:
+            $ref: '#/definitions/hardware'
+        default:
+          description: unexpected error
+
+    delete:
+      description: deletes a single hardware based on the ID supplied
+      parameters:
+        - name: id
+          in: path
+          description: ID of hardware to delete
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: hardware deleted
+        default:
+          description: unexpected error
+
+
+
+definitions:
+  kettle:
+    properties:
+      agitator:
+        type: string
+      automatic:
+        type: string
+      diameter:
+        type: integer
+        format: int32
+      heater:
+        type: string
+      height:
+        type: integer
+        format: int32
+      id:
+        type: integer
+        format: int32
+      name:
+         type: string
+      sensorid:
+        type: string
+      sensoroffset:
+        type: number
+      target_temp:
+        type: integer
+        format: int32
+    type: object
+  step:
+    properties:
+      end:
+        type: string
+        format: date-time
+      id:
+        type: integer
+        format: int32
+      kettleid:
+        type: integer
+        format: int32
+      name:
+        type: string
+      order:
+        type: integer
+        format: int32
+      start:
+        type: string
+        format: date-time
+      state:
+        type: string
+      temp:
+        type: number
+      timer:
+        type: integer
+        format: int32
+      timer_start:
+        type: string
+        format: date-time
+    type: object
+  hardware:
+    properties:
+      config:
+        type: string
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      switch:
+        type: string
+      type:
+        type: string
+    type: object

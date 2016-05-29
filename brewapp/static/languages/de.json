@@ -3,7 +3,7 @@
   "ACTION": "Aktion",
   "ACTIONS": "Aktionen",
   "ADDITIONAL_DATA": "Zusätzliche Angaben",
-  "ADDITIONAL_HW": "Zusätzliche Hardware",
+  "ADDITIONAL_HW": "Hardware",
   "AGITATOR": "Rührwerk",
   "AVAILABLE_BREW_RECIPES": "Verfügbare Braurezepte",
   "AUTOMATIC": "Automatik",
@@ -43,13 +43,16 @@
   "HEATER": "Herdplatte",
   "HEIGHT": "Höhe",
   "HEIGHT_CM": "Höhe in cm",
+  "HIDE_ON_DASHBOARD": "Unsichtbar auf Dashboard",
   "HOW_MANY_KETTLES": "Wie viele Braukessel möchten Sie einrichten?",
   "HOW_WOULD_YOU_CONNECT": "Wie wollen Sie ihre Hardware anschliessen?",
   "HW_CONFIGURATION": "Einstellungen der Hardware",
   "IMPORT_KL_BH": "Import Kleiner Brauhelfer",
+  "INVERTED": "Invertiert",
   "Kettle": "Braukessel",
   "KETTLE": "Braukessel",
   "KETTLES": "Braukessel",
+  "KETTLE_CONFIGURATION": "Kessel Konfiguration",
   "LETS_GO_BREW": "Los gehts mit dem brauen",
   "LITRE": "Liter",
   "LOAD": "Laden",
@@ -113,4 +116,3 @@
   "WELCOME_TO": "Willkommen bei CraftBeerPI",
   "WHICH_TYPE_THERM": "Welches Thermometer möchten Sie verwenden?"
   }
-  

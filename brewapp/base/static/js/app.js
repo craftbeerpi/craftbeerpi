@@ -34,7 +34,7 @@ angular.module('craftberpi',
     })
     .when('/pump/overview', {
       templateUrl: '/base/static/partials/hardware/overview.html',
-      name: "Additional Hardware"
+      name: "ADDITIONAL_HW"
     })
     .when('/pump/:vid', {
       templateUrl: '/base/static/partials/hardware/edit.html',

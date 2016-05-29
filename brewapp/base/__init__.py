@@ -11,4 +11,5 @@ import automatic
 import hardwareswitch
 import buzzer
 import setup
+import stats
 import restart

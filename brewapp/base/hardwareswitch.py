@@ -4,13 +4,30 @@ from model import *
 from brewapp import app, socketio
 from views import base
 from brewapp import manager
+from flask.ext.restless.helpers import to_dict
 
 @app.route('/api/hardware/state', methods=['GET'])
 def pumpstate():
     return  json.dumps(app.brewapp_pump_state)
 
+
+def pre_post(data, **kw):
+    if(data["config"] != None):
+        data["config"] = json.dumps(data["config"])
+
 def post_post(result=None, **kw):
+    if(result["config"] != None):
+        result["config"] = json.loads(result["config"])
     initHardware()
+
+def post_get_single(result=None, **kw):
+    if(result["config"] != None):
+        result["config"] = json.loads(result["config"])
+
+def post_get_many(result, **kw):
+    for o in result["objects"]:
+        if(o["config"] != None):
+            o["config"] = json.loads(o["config"])
 
 @brewinit(100)
 def init2():
@@ -22,31 +39,54 @@ def init2():
 def init():
 
     manager.create_api(Hardware, methods=['GET', 'POST', 'DELETE', 'PUT'],
+    preprocessors={
+        'POST': [pre_post],
+        'PATCH_SINGLE': [pre_post]},
     postprocessors={
         'POST': [post_post],
+        'GET_MANY': [post_get_many],
+        'GET_SINGLE': [post_get_single],
         'PATCH_SINGLE': [post_post],
     })
     initHardware(False)
 
 def initHardware(cleanup = True):
+
+    app.brewapp_switch_state = {}
+    app.brewapp_hardware_config = {}
+    hw = Hardware.query.all()
+
+    for h in hw:
+        h1 = to_dict(h)
+        h1['config'] = json.loads(h1['config'])
+        app.brewapp_hardware_config[h1['switch']] = h1
+        if(h.switch != None):
+            app.brewapp_switch_state[h.switch] = False
+
+    '''
+    kettles = Kettle.query.all()
+    for v in kettles:
+
+        if(v.agitator != None):
+            app.brewapp_switch_state[v.agitator] = False
+            app.brewapp_hardware_config[v.agitator] = {}
+        if(v.heater != None):
+            app.brewapp_switch_state[v.heater] = False
+            app.brewapp_hardware_config[v.heater] = {}
+    '''
     if(cleanup):
         app.brewapp_hardware.cleanup()
         app.brewapp_hardware.init()
 
-    app.brewapp_switch_state = {}
-    hw = Hardware.query.all()
-    for h in hw:
-        if(h.switch != None):
-            app.brewapp_switch_state[h.switch] = False
 
-    kettles = Kettle.query.all()
-    for v in kettles:
-        if(v.agitator != None):
-            app.brewapp_switch_state[v.agitator] = False
-        if(v.heater != None):
-            app.brewapp_switch_state[v.heater] = False
 
-    print app.brewapp_switch_state
+
+
+
+
+
+
+
 
 @app.route('/api/switch', methods=['GET'])
 def switchstate():
@@ -93,6 +133,16 @@ class SwitchBase(object):
         for i in range(1, 6):
             gpio.append("GPIO"+str(i))
         return gpio
+
+    def getConfig(self, device):
+        return app.brewapp_hardware_config[device].get("config", None)
+
+    def getConfigValue(self, device, parameter, default):
+        cfg = self.getConfig(device)
+        if(cfg != None):
+            return cfg.get(parameter, default)
+        else:
+            return default
 
     def switchON(self, device):
         app.logger.info("GPIO ON" + str(device))

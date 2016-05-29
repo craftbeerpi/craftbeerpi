@@ -31,18 +31,18 @@ def setTargetTemp(kettleid, temp):
 ## Job Annotaiton
 ## key = uniquie key as string
 ## interval = interval in which the method is invoedk
-def brewjob(key, interval):
+def brewjob(key, interval, config_parameter = None):
     def real_decorator(function):
-        app.brewapp_jobs.append({"function": function, "key": key, "interval": interval})
+        app.brewapp_jobs.append({"function": function, "key": key, "interval": interval, "config_parameter": config_parameter})
         def wrapper(*args, **kwargs):
             function(*args, **kwargs)
         return wrapper
     return real_decorator
 
 ## Init Annotaiton
-def brewinit(order = 0):
+def brewinit(order = 0, config_parameter = None):
     def real_decorator(function):
-        app.brewapp_init.append({"function": function, "order": order})
+        app.brewapp_init.append({"function": function, "order": order, "config_parameter": config_parameter})
         def wrapper(*args, **kwargs):
             function(*args, **kwargs)
         return wrapper

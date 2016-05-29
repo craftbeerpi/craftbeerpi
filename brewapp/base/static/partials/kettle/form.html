@@ -1,4 +1,7 @@
-<div >
+<div class="modal-header" >
+    <h4 class="modal-title">{{ 'KETTLE_CONFIGURATION' | translate}}</h4>
+</div>
+<div class="modal-body">
   <form>
     <div class="row">
       <div class="col-sm-4">
@@ -26,13 +29,13 @@
             <div class="form-group">
               <label>{{ 'HEATER' | translate}} {{ 'SWITCH' | translate}}</label>
               <select class="form-control" ng-model="kettle.heater">
-                <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="kettle.heater == t.key">{{t.value}}</option>
+                <option ng-repeat="t in heater" value="{{t.key}}" ng-selected="kettle.heater == t.key">{{t.value}}</option>
               </select>
             </div>
             <div class="form-group">
               <label>{{ 'AGITATOR' | translate}} {{ 'SWITCH' | translate}}</label>
               <select class="form-control" ng-model="kettle.agitator">
-                <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="kettle.agitator == t.key">{{t.value}}</option>
+                <option ng-repeat="t in agitator" value="{{t.key}}" ng-selected="kettle.agitator == t.key">{{t.value}}</option>
               </select>
             </div>
           </div>
@@ -77,12 +80,10 @@
         </div>
       </div>
     </div>
-    <p>
-      <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i> {{ 'CLOSE' | translate}}</a>
-      <a class="btn btn-danger" href="" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i> {{ 'DELETE' | translate}}</a>
-      <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i> {{ 'SAVE' | translate}}</a>
-    </p>
-
-
   </form>
+</div>
+<div class="modal-footer">
+  <a class="btn btn-default" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i></a>
+  <a class="btn btn-danger" href="" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i></a>
+  <a class="btn btn-success" href="" ng-click="save()"><i  class="fa fa-check-circle"></i></a>
 </div>

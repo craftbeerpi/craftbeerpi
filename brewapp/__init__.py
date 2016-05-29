@@ -71,8 +71,12 @@ def index():
 ## Invoke Initializers
 app.logger.info("## INITIALIZE DATA")
 app.brewapp_init = sorted(app.brewapp_init, key=lambda k: k['order'])
-for i in app.brewapp_init:
 
+for i in app.brewapp_init:
+    if(i.get("config_parameter") != None):
+        param = app.brewapp_config.get(i.get("config_parameter"), False)
+        if(param == 'False'):
+            continue
     app.logger.info("--> Method: " + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
     i.get("function")()
 
@@ -84,6 +88,10 @@ def job(key, interval, method):
 
 app.logger.info("## INITIALIZE JOBS")
 for i in app.brewapp_jobs:
+    if(i.get("config_parameter") != None):
+        param = app.brewapp_config.get(i.get("config_parameter"), False)
+        if(param == 'False'):
+            continue
     app.brewapp_jobstate[i.get("key")] = True
     start_new_thread(job,(i.get("key"),i.get("interval"),i.get("function")))
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))

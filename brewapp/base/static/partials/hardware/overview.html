@@ -15,14 +15,20 @@
 					<thead>
 						<td>{{ 'NAME' | translate}}</td>
 						<td>{{ 'TYPE' | translate}}</td>
+						<td>{{ 'HIDE_ON_DASHBOARD' | translate}}</td>
 						<td>{{ 'SWITCH' | translate}}</td>
+
 					</thead>
 					<tr ng-repeat="item in hw track by $index">
 						<td>
 							<a ng-click="edit(item.id)">{{ item.name }}</a>
 						</td>
 						<td>
-							{{ item.type }}
+							<i class="fa" ng-class="hardwareType(item.type)"></i>
+						</td>
+						<td>
+							<i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+							<i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
 						</td>
 						<td>
 							{{ item.switch }}

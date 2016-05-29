@@ -46,10 +46,10 @@
 							{{ item.sensoroffset }}
 						</td>
 						<td>
-							{{ item.heater }}
+							{{ getHardwareName(heater, item.heater) }}
 						</td>
 						<td>
-							{{ item.agitator }}
+							{{ getHardwareName(agitator, item.agitator) }}
 						</td>
 						<td class="hidden-xs">
 							{{ item.automatic.name }}

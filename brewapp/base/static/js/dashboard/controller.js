@@ -28,7 +28,15 @@ angular.module('craftberpi.controllers2', []).controller('DashBoardController', 
   })
 
   CBPHardware.query(function(data) {
-    $scope.hardware = data.objects;
+
+    $scope.hardware = []
+    data.objects.forEach(function(entry) {
+        if(entry.config.hide == false) {
+            $scope.hardware.push(entry)
+        }
+
+    });
+
   });
 
   CBPHardware.getstate(function(data) {

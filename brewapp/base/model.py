@@ -64,6 +64,13 @@ class Hardware(db.Model):
     name = db.Column(db.String(80))
     type = db.Column(db.String(80))
     switch = db.Column(db.String(80))
+    config = db.Column(db.String(256))
+
+    def __repr__(self):
+        return '<Hardware %r>' % self.name
+
+    def __unicode__(self):
+        return self.id
 
 class Config(db.Model):
     name = db.Column(db.String(50), primary_key=True)

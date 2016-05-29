@@ -1,4 +1,4 @@
-angular.module('craftbeerpi.kettle', []).controller('KettleOverviewController', function($scope, $location, CBPSteps, CBPKettle, $uibModal, ConfirmMessage, CBPConfig) {
+angular.module('craftbeerpi.kettle', []).controller('KettleOverviewController', function($scope, $location, CBPSteps, CBPKettle, CBPHardware, $uibModal, ConfirmMessage, CBPConfig) {
 
   CBPKettle.query({}, function(response) {
     $scope.kettles = response.objects
@@ -19,6 +19,8 @@ angular.module('craftbeerpi.kettle', []).controller('KettleOverviewController', 
     })
   });
 
+
+
   $scope.automatic = [];
   CBPKettle.getautomatic({}, function(response) {
     $scope.automatic = response;
@@ -33,21 +35,49 @@ angular.module('craftbeerpi.kettle', []).controller('KettleOverviewController', 
     "target_temp": 0
   }
 
-  $scope.gpio = []
-  $scope.gpio.push({
+  $scope.heater = []
+  $scope.heater.push({
     "key": undefined,
-    "value": "NO GPIO",
+    "value": "NO HARDWARE",
   });
 
-  CBPKettle.getDevices({}, function(response) {
-    angular.forEach(response, function(d) {
-      $scope.gpio.push({
-        "key": d,
-        "value": d
-      });
-    })
+  $scope.agitator = []
+  $scope.agitator.push({
+    "key": undefined,
+    "value": "NO HARDWARE",
   });
 
+
+
+  CBPHardware.query(function(data) {
+    data.objects.forEach(function(entry) {
+      if(entry.type == "H") {
+        $scope.heater.push({
+          "key": entry.switch,
+          "value": entry.name
+        });
+      }
+      if(entry.type == "A") {
+        $scope.agitator.push({
+          "key": entry.switch,
+          "value": entry.name
+        });
+      }
+    });
+
+
+  });
+
+  $scope.getHardwareName = function(data, gpio) {
+
+      try {
+          return data.find(x=> x.key === gpio).value
+      }
+      catch(e) {
+        return
+      }
+
+  }
 
   $scope.clearTempLogs = function() {
     ConfirmMessage.open("Clear Temperature Log", "Do you really want to clear all Temperature Logs?", function() {

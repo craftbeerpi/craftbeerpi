@@ -9,6 +9,7 @@ from kettle import initKettle
 from hardwareswitch import initHardware
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
+from brewapp.base.stats import *
 
 @base.route('/setup')
 def setup():
@@ -19,13 +20,13 @@ def setKettle():
     data =request.get_json()
 
     for k in data["kettles"]:
-        print k
         ks = Kettle(name=k["name"], automatic="null", sensorid=k.get("sensorid",""), target_temp=0, agitator=k.get("agitator",""), heater=k.get("heater",""), height=k.get("height",""), diameter=k.get("diameter",""))
         db.session.add(ks)
 
     db.session.commit()
     initKettle()
     initHardware(True)
+    sendStats()
     return ('', 204)
 
 @app.route('/api/setup/thermometer', methods=['POST'])

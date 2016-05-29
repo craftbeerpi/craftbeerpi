@@ -57,13 +57,41 @@ angular.module('craftbeerpi.hardware', []).controller('PumpOverviewController', 
     });
   }
 
+  $scope.hardwareType = function(s) {
+    switch (s) {
+      case "H":
+        return "fa-fire";
+        break;
+      case "A":
+        return "fa-refresh";
+        break;
+      case "P":
+        return "fa-tint"
+        break;
+      default:
+        return "fa-plug"
+        break;
+    }
+  }
+
 })
 .controller("HardwareCreateController", function($scope, CBPHardware, $uibModalInstance) {
   $scope.edit=false;
+
+  $scope.hardware = {
+      "name": "",
+      "config": {
+        "inverted": false,
+        "hide": false
+      }
+
+  };
+
   $scope.save = function() {
     if ($scope.hardware.name.length == 0) {
       return;
     }
+
     CBPHardware.save($scope.hardware, function(data) {
         $uibModalInstance.close();
     });
@@ -82,6 +110,8 @@ angular.module('craftbeerpi.hardware', []).controller('PumpOverviewController', 
   });
 
   $scope.save = function() {
+    console.log("SAVE");
+    console.log($scope.hardware);
     CBPHardware.update({
       "id": $scope.hardware.id
     }, $scope.hardware, function() {
