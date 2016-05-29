@@ -83,9 +83,9 @@ class BrewGPIO(SwitchBase):
             gpio = self.translateDeviceName(device)
             #GPIO.output(gpio, 1)
             if(self.getConfigValue(device, "inverted", False)):
-                GPIO.output(g, 0)
+                GPIO.output(gpio, 0)
             else:
-                GPIO.output(g, 1)
+                GPIO.output(gpio, 1)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + str(device))
@@ -95,9 +95,9 @@ class BrewGPIO(SwitchBase):
         if(app.brewapp_gpio == True):
             gpio = self.translateDeviceName(device)
             if(self.getConfigValue(device, "inverted", False)):
-                GPIO.output(g, 1)
+                GPIO.output(gpio, 1)
             else:
-                GPIO.output(g, 0)
+                GPIO.output(gpio, 0)
             #GPIO.output(gpio, 0)
             pass
         else:
