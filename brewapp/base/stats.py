@@ -23,7 +23,7 @@ def sendStats():
         serial = getserial()
         info = {
         "id": serial,
-        "version": "2.2",
+        "version": "2.1",
         "kettle": [],
         "hardware": [],
         "thermometer": app.brewapp_thermometer.__class__.__name__,
