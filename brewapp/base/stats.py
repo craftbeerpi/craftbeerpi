@@ -39,5 +39,7 @@ def sendStats():
         import requests
         r = requests.post('http://www.craftbeerpi.com/stats.php', json=info)
         print r
-    except:
+    except Exception as e:
+        print e
+
         app.logger.error("Sending stats failed")
