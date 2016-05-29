@@ -27,30 +27,7 @@ class BrewGPIO(SwitchBase):
                         GPIO.output(g, 1)
                     else:
                         GPIO.output(g, 0)
-            '''
-            hw = Hardware.query.all()
-            for h in hw:
-                g = self.translateDeviceName(h.switch)
-                if(g != None):
-                    app.logger.info("SETUP HARDWARE: " + h.name + " GPIO: " + str(g))
-                    GPIO.setup(g, GPIO.OUT)
-                    GPIO.output(g, 0)
 
-            kettles = Kettle.query.all()
-            for k in kettles:
-                heater_gpio = self.translateDeviceName(k.heater)
-                if(heater_gpio != None and heater_gpio != ""):
-                    app.logger.info("SETUP GPIO HEATER: " + str(heater_gpio))
-                    GPIO.setup(heater_gpio, GPIO.OUT)
-                    GPIO.output(heater_gpio, 0)
-
-                ## Init agitator
-                agitator_gpio = self.translateDeviceName(k.agitator)
-                if(agitator_gpio != None and agitator_gpio != ""):
-                    app.logger.info("SETUP GPIO AGITATOR" + str(agitator_gpio))
-                    GPIO.setup(agitator_gpio, GPIO.OUT)
-                    GPIO.output(agitator_gpio, 0)
-            '''
             app.brewapp_gpio = True
             self.state = True
             app.logger.info("ALL GPIO INITIALIZED")
@@ -81,7 +58,6 @@ class BrewGPIO(SwitchBase):
         app.logger.info("GPIO ON" + str(device))
         if(app.brewapp_gpio == True):
             gpio = self.translateDeviceName(device)
-            #GPIO.output(gpio, 1)
             if(self.getConfigValue(device, "inverted", False)):
                 GPIO.output(gpio, 0)
             else:
@@ -98,7 +74,6 @@ class BrewGPIO(SwitchBase):
                 GPIO.output(gpio, 1)
             else:
                 GPIO.output(gpio, 0)
-            #GPIO.output(gpio, 0)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + str(device))
