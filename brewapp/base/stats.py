@@ -19,7 +19,6 @@ def getserial():
 @brewinit(config_parameter="SEND_STATS")
 def sendStats():
     app.logger.info("Sending stats")
-    print "SENDING STATS"
     try:
         serial = getserial()
         info = {
@@ -35,11 +34,8 @@ def sendStats():
 
         for h in Hardware.query.all():
             info["hardware"].append({"name": k.name, "type":h.type, "switch":h.switch})
-
         import requests
         r = requests.post('http://www.craftbeerpi.com/stats.php', json=info)
-        print r
+        app.logger.info("Stats Result: " + r)
     except Exception as e:
-        print e
-
-        app.logger.error("Sending stats failed")
+        app.logger.error("Sending stats failed: " + str(e))
