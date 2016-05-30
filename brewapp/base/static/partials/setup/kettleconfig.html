@@ -27,7 +27,7 @@
               <label class="col-sm-4">{{ 'HEATER' | translate}}</label>
               <div class="col-sm-8">
                 <select class="form-control" ng-model="item.heater">
-                  <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="item.heater == t.key">{{t.value}}</option>
+                  <option ng-repeat="t in heater" value="{{t.key}}" ng-selected="item.heater == t.key">{{t.value}}</option>
                 </select>
               </div>
             </div>
@@ -35,7 +35,7 @@
               <label class="col-sm-4">{{ 'AGITATOR' | translate}}</label>
               <div class="col-sm-8">
                 <select class="form-control" ng-model="item.agitator">
-                  <option ng-repeat="t in gpio" value="{{t.key}}" ng-selected="item.agitator == t.key">{{t.value}}</option>
+                  <option ng-repeat="t in agitator" value="{{t.key}}" ng-selected="item.agitator == t.key">{{t.value}}</option>
                 </select>
               </div>
             </div>

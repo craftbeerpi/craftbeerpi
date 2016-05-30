@@ -8,13 +8,13 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="/">
-        <nobr><i class="fa fa-beer"></i> CraftBeerPI 2.2</nobr>
+        <nobr><i class="fa fa-beer"></i> CraftBeerPI 2.2 </nobr>
       </a>
     </div>
     <div id="navbar" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li ng-repeat="route in routes" ng-class="{active: activeRoute(route)}">
-        
+
           <a href="#{{ route.path }}">{{ route.name | translate }}</a>
         </li>
 

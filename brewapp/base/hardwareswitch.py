@@ -58,34 +58,16 @@ def initHardware(cleanup = True):
 
     for h in hw:
         h1 = to_dict(h)
-        h1['config'] = json.loads(h1['config'])
-        app.brewapp_hardware_config[h1['switch']] = h1
+        if(h1['config'] != None):
+            h1['config'] = json.loads(h1['config'])
+            app.brewapp_hardware_config[h1['switch']] = h1
         if(h.switch != None):
             app.brewapp_switch_state[h.switch] = False
 
-    '''
-    kettles = Kettle.query.all()
-    for v in kettles:
 
-        if(v.agitator != None):
-            app.brewapp_switch_state[v.agitator] = False
-            app.brewapp_hardware_config[v.agitator] = {}
-        if(v.heater != None):
-            app.brewapp_switch_state[v.heater] = False
-            app.brewapp_hardware_config[v.heater] = {}
-    '''
     if(cleanup):
         app.brewapp_hardware.cleanup()
         app.brewapp_hardware.init()
-
-
-
-
-
-
-
-
-
 
 
 @app.route('/api/switch', methods=['GET'])

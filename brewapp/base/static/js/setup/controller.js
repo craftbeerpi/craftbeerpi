@@ -3,12 +3,17 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
 
   $scope.num = 0
 
+  console.log("HALLO");
+  $scope.hardware = [{"name": "", "type" :""}];
 
   $scope.gpio = []
   $scope.gpio.push({
     "key": undefined,
     "value": "NO GPIO",
   });
+
+
+  
 
   CBPKettle.getDevices({}, function(response) {
     angular.forEach(response, function(d) {
@@ -25,6 +30,9 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
     })
   });
 
+  $scope.setup = function(num) {
+
+/*
   $scope.setup = function(num) {
 
     $scope.num = num
@@ -50,7 +58,7 @@ angular.module('craftberpi.controllers6', []).controller('SetupController', func
 
     WizardHandler.wizard().next();
   }
-
+*/
   $scope.finish = function() {
     var count = $scope.num;
 

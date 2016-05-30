@@ -19,11 +19,19 @@ def setup():
 def setKettle():
     data =request.get_json()
 
+    print "HALLO"
+    print data
+
     for k in data["kettles"]:
         ks = Kettle(name=k["name"], automatic="null", sensorid=k.get("sensorid",""), target_temp=0, agitator=k.get("agitator",""), heater=k.get("heater",""), height=k.get("height",""), diameter=k.get("diameter",""))
         db.session.add(ks)
 
     db.session.commit()
+    for k in data["hardware"]:
+        ks = Hardware(name=k["name"], type=k["type"], switch=k["switch"], config=json.dumps(k["config"]))
+        db.session.add(ks)
+    db.session.commit()
+
     initKettle()
     initHardware(True)
     sendStats()

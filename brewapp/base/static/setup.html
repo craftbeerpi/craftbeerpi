@@ -79,10 +79,17 @@
             </wz-step>
             <wz-step title="{{ 'HARDWARE' | translate}}">
               <span ng-include="'/base/static/partials/setup/hardware.html'" /></span>
+              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> {{ 'BACK' | translate}}</a>
+
             </wz-step>
             <wz-step title="{{ 'THERMOMETER' | translate}}">
               <span ng-include="'/base/static/partials/setup/thermometer.html'" /></span>
               <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> {{ 'BACK' | translate}}</a>
+            </wz-step>
+            <wz-step title="{{ 'HARDWARE_CONFIG' | translate}}">
+              <span ng-include="'/base/static/partials/setup/hardware_config.html'" /></span>
+              <a class="btn btn-default" href="" wz-previous ><i class="fa fa-backward"></i> {{ 'BACK' | translate}}</a>
+              <a class="btn btn-primary" href="" wz-next>{{ 'CONTINUE' | translate}} <i  class="fa fa-forward"></i> </a>
             </wz-step>
             <wz-step title="{{ 'KETTLE' | translate}} {{ 'SETUP' | translate}}">
               <span ng-include="'/base/static/partials/setup/select.html'" /></span>
@@ -91,6 +98,7 @@
             <wz-step title="{{ 'KETTLE' | translate}} {{ 'CONFIG' | translate}}">
               <span ng-include="'/base/static/partials/setup/kettleconfig.html'" /></span>
             </wz-step>
+            
           </wizard>
         </div>
       </div>

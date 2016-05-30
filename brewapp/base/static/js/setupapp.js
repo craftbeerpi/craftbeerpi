@@ -16,9 +16,28 @@ $setup.controller("SetupController", function($scope, $translate, $location, $wi
 
   $scope.language= $translate.proposedLanguage();
 
+  $scope.type = [
+    {"key":"P", "value": "Pump"},
+    {"key":"A", "value": "Agitator"},
+    {"key":"H", "value": "Heater"},
+    {"key":"O", "value": "Other"},
+  ];
+
+  $scope.hardware = [{"name": "", "config": {"inverted": false, "hide": false}}];
+
+
+
+  $scope.addHardware = function () {
+      $scope.hardware.push({"name": "", "config": {"inverted": false, "hide": false}});
+  };
+  $scope.removeHardware = function (index) {
+      console.log(index);
+      $scope.hardware.splice( index, 1 );
+  };
+
+
 
   $scope.setup = function(id) {
-
     WizardHandler.wizard().next();
   }
 
@@ -66,7 +85,36 @@ $setup.controller("SetupController", function($scope, $translate, $location, $wi
   }
 
   $scope.selectkettle = function(num) {
-    $scope.num = num
+    $scope.num = num;
+
+    $scope.heater = []
+    $scope.heater.push({
+      "key": undefined,
+      "value": "NO HARDWARE",
+    });
+
+    $scope.agitator = []
+    $scope.agitator.push({
+      "key": undefined,
+      "value": "NO HARDWARE",
+    });
+
+    $scope.hardware.forEach(function(entry) {
+      console.log(entry)
+      if(entry.type == "H") {
+        $scope.heater.push({
+          "key": entry.switch,
+          "value": entry.name
+        });
+      }
+      if(entry.type == "A") {
+        $scope.agitator.push({
+          "key": entry.switch,
+          "value": entry.name
+        });
+      }
+    });
+
     $scope.kettles = [];
     for (i = 0; i < num; i++) {
       $scope.kettles.push({
@@ -86,7 +134,7 @@ $scope.finish = function() {
       $http({
         method: 'POST',
         url: '/api/setup/kettle',
-        data: { 'kettles': $scope.kettles }
+        data: { 'kettles': $scope.kettles , 'hardware': $scope.hardware}
       }).then(function successCallback(response) {
             $window.location.href = '/';
         }, function errorCallback(response) {
