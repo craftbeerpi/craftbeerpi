@@ -52,9 +52,9 @@ def initDriver():
     db.session.add(Config(name="BUZZER_GPIO", value="23", type="", default="23", description="Buzzer GPIO"))
     db.session.add(Config(name="BREWNAME", value="", type="", default="", description="Brew Name"))
     db.session.add(Config(name="UNIT", value="C", type="", default="C", description="Thermometer unit", options="C,F"))
-    db.session.add(Config(name="THERMOMETER_TYPE", value="1WIRE", type="", default="1WIRE", description="Thermometer Type !!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="1WIRE,DUMMY"))
+    db.session.add(Config(name="THERMOMETER_TYPE", value="1WIRE", type="", default="1WIRE", description="Thermometer Type !!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="1WIRE,USB,DUMMY"))
     db.session.add(Config(name="SWITCH_TYPE", value="GPIO", type="", default="GPIO", description="Hardware Control type. !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="GPIO,PIFACE,GEMBIRD,DUMMY"))
-    db.session.add(Config(name="SETUP", value="1", type="", default="1", description="Hardware Control type. !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="0,1"))
+    #db.session.add(Config(name="SETUP", value="1", type="", default="1", description="Hardware Control type. !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!", options="0,1"))
     db.session.add(Config(name="SEND_STATS", value="True", type="", default="True", description="Sending statistic informaiton to CraftBeerPI. This helps to improve CraftBeerPI in the future", options="True,False"))
     db.session.add(Config(name="USE_LCD", value="False", type="", default="False", description="Activate LCD display control", options="True,False"))
     db.session.add(Config(name="BREWERY_NAME", value="", type="", default="", description="Name of your Berwery"))
@@ -75,6 +75,7 @@ def initDriver():
     thermometer = {
         'DUMMY': dummy_thermometer.DummyThermometer(),
         '1WIRE': w1_thermometer.OneWireThermometer(),
+        'USB': usb_thermometer.USBThermometer()
     }
 
     app.brewapp_hardware = hardware.get(app.brewapp_config.get("SWITCH_TYPE", "DUMMY"), dummygpio.DummyGPIO())
