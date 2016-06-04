@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, jsonify, redirect, url_for
+from flask import Blueprint, render_template, jsonify,redirect, url_for, request
 import json
 from brewapp import app, socketio
-from util import *
-from model import *
+from thread import start_new_thread
+import logging
+import time
+from views import base
 
 ## Restart Endpoint
 @app.route('/restart')
@@ -18,10 +20,6 @@ def doRestart():
     from subprocess import call
     app.logger.info("--> RESTART EXECUTE")
     call(["/etc/init.d/craftbeerpiboot", "restart"])
-
-#import netifaces
-#print netifaces.interfaces()
-#print netifaces.ifaddresses('en0')[netifaces.AF_LINK]
 
 ## Shutdown Endpoint
 @app.route('/halt')
