@@ -71,7 +71,12 @@ angular.module('craftbeerpi.kettle', []).controller('KettleOverviewController', 
   $scope.getHardwareName = function(data, gpio) {
 
       try {
-          return data.find(x=> x.key === gpio).value
+
+          for(var i = 0; i < data.length; i++) {
+            if(data[i].key == gpio) {
+              return data[i].value;
+            }
+          }
       }
       catch(e) {
         return
