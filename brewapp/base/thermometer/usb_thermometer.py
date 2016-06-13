@@ -8,7 +8,7 @@ from subprocess import call
 class USBThermometer(object):
 
     def init(self):
-        call("/opt/owfs/bin/owfs --allow_other -u -m /mnt/1wire")
+        call("/usr/bin/owfs")
         pass
 
     def getSensors(self):
