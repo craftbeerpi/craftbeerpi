@@ -40,14 +40,14 @@
 				<table class="table">
 					<thead>
 						<td class="col-md-1">{{ 'TYPE' | translate}}</td>
-						<td>Step</td>
+						<td>{{ 'STEP' | translate}}</td>
 						<td><i class="wi wi-thermometer"></i>
 							<span class="hidden-xs">{{ 'TEMP_SHORT' | translate}}</span>
 						</td>
 						<td><i class="fa fa-clock-o"></i>
 							<span class="hidden-xs">{{ 'TIMER' | translate}}</span>
 						</td>
-						<td>Kettle</td>
+						<td>{{ 'KETTLE' | translate}}</td>
 					</thead>
 					<tr ng-class="stepStyle(item)" ng-repeat="item in steps track by $index">
 						<td class="col-md-1">
