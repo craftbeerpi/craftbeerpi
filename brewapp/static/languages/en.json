@@ -91,6 +91,7 @@
   "SHUTDOWN": "Shutdowm",
   "SHUTTING_DESC": "Raspberry Pi will shut down. You will need to toggle the power to boot it again.",
   "SHUTTING_DOWN": "Shuting down CraftBeerPI",
+  "HALT_CONFIRM": "Do you really want to halt your system?",
   "SIZE": "Size",
   "SOCKET": "Socket",
   "START_SETUP": "Start Setup",
@@ -118,5 +119,13 @@
   "WELCOME": "Welcome",
   "WELCOME_TO": "Welcome to CraftBeerPI",
   "WHICH_TYPE_THERM": "Which type of thermometer would you like to use?",
-  "YOU_WILL_FORWARDED": "You will be forwarded in 10 seconds"
+  "YOU_WILL_FORWARDED": "You will be forwarded in 10 seconds",
+  "PT-BR": "Português do Brasil",
+  "DE": "German",
+  "EN": "English",
+  "PL": "Polish",
+  "SE": "Swedish",
+  "FR": "French",
+  "NL": "Dutch",
+  "NO": "Norwegian"
 }
