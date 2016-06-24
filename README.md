@@ -31,18 +31,23 @@ Facebook:
 http://facebook.com/craftbeerpi
 
 German Forum:
+
 http://hobbybrauer.de/forum/viewtopic.php?f=58&t=3959
 
 Australian Forum:
+
 http://aussiehomebrewer.com/topic/90757-craftbeerpi-brew-controller/
 
 US Forum:
+
 http://www.homebrewtalk.com/showthread.php?t=569497
 
 Canadian Forum:
+
 https://www.canadianhomebrewers.com/viewtopic.php?f=12&t=4011&sid=d58dfec3f5959858f4ed7f2f3d3404d7
 
 Norwegian Forum
+
 https://forum.norbrygg.no/threads/craftbeerpi-styrings-software-for-raspberry-pi.33478/
 
 ## Screenshots
