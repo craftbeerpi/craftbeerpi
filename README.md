@@ -22,6 +22,29 @@ Facebook: [www.facebook.com/craftbeerpi/](https://www.facebook.com/craftbeerpi/)
 * Support für GPIO, PiFace or Gembird USB Socket
 * Temperature can be measured in Fahrenheit or Celcius
 
+## Support & Communities
+
+The Community of CraftBeerPi is quite active.
+
+Facebook:
+
+http://facebook.com/craftbeerpi
+
+German Forum:
+http://hobbybrauer.de/forum/viewtopic.php?f=58&t=3959
+
+Australian Forum:
+http://aussiehomebrewer.com/topic/90757-craftbeerpi-brew-controller/
+
+US Forum:
+http://www.homebrewtalk.com/showthread.php?t=569497
+
+Canadian Forum:
+https://www.canadianhomebrewers.com/viewtopic.php?f=12&t=4011&sid=d58dfec3f5959858f4ed7f2f3d3404d7
+
+Norwegian Forum
+https://forum.norbrygg.no/threads/craftbeerpi-styrings-software-for-raspberry-pi.33478/
+
 ## Screenshots
 
 ![ScreenShot](http://craftbeerpi.com/img/Img1.png)
@@ -73,7 +96,7 @@ select 'y' when you are ask if CraftBeerPI should start after boot.
 sudo python runserver.py
 ```
 
-The App is now available under:  http://<server_id>:5000 
+The App is now available under:  http://<server_id>:5000
 
 ## Manual
 
