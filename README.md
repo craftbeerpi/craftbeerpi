@@ -50,6 +50,9 @@ Norwegian Forum
 
 https://forum.norbrygg.no/threads/craftbeerpi-styrings-software-for-raspberry-pi.33478/
 
+Brazilian Forum
+http://www.homebrewtalk.com.br/showthread.php?t=408096
+
 ## Screenshots
 
 ![ScreenShot](http://craftbeerpi.com/img/Img1.png)
