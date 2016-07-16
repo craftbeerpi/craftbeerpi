@@ -1,0 +1,59 @@
+<div >
+
+	<div class="row">
+
+		<div class="col-sm-12">
+			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+				<div class="panel-heading">
+					{{ 'KETTLES' | translate}}
+					<div class="btn-group pull-right" role="group">
+						<a uib-tooltip="{{ 'CLEAR_TEMP_LOG' | translate }}" ng-click="clear()"class="btn btn-danger" role="group">
+							<i class="fa fa-trash"></i>
+						</a>
+						<a uib-tooltip="{{ 'ADD_NEW_KETTLE' | translate }}" ng-click="create()" class="btn btn-success" role="group">
+							<i class="fa fa-plus"></i></a>
+					</div>
+
+					<div class="clearfix"></div>
+				</div>
+				<table class="table">
+					<thead>
+						<td>{{ 'NAME' | translate}}</td>
+						<td>{{ 'SENSOR' | translate}}</td>
+
+						<td>{{ 'HEATER' | translate}}</td>
+						<td>{{ 'AGITATOR' | translate}}</td>
+						<td class="hidden-xs">{{ 'AUTOMATIC' | translate}}</td>
+						<td class="hidden-xs">{{ 'HEIGHT' | translate}}/{{ 'DIAMETER' | translate}}</td>
+					</thead>
+					<tr ng-repeat="item in kettles track by $index">
+						<td>
+							<a ng-click="edit(item)">{{ item.name }}</a>
+						</td>
+						<td>
+							{{ item.sensorid | hardware_name:hardware_dict }}
+						</td>
+						<td>
+							{{item.heater | hardware_name:hardware_dict}}
+
+						</td>
+						<td>
+							{{item.agitator | hardware_name:hardware_dict}}
+
+						</td>
+						<td class="hidden-xs">
+							{{ item.automatic.name }}
+						</td>
+						<td class="hidden-xs">
+							{{ item.height }}cm/{{ item.diameter }}cm
+						</td>
+
+					</tr>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+</div>

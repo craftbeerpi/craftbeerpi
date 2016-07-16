@@ -1,0 +1,19 @@
+<div class="panel panel-default" ng-controller="DashboardHardwareController">
+    <div class="panel-heading">
+                <span class="headline"><i class="fa fa-chevron-circle-right"></i>  {{ 'THERMOMETER' | translate }}
+                </span>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-5" ng-repeat="p in thermometer">
+                <div class="panel-body">
+                    <div>{{ p.name }}</div>
+
+                    <span class="temp" ><i
+                                class="wi wi-thermometer"></i> <b>{{ p.id | get_temp:temps }}°{{ config["UNIT"] }}</b></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

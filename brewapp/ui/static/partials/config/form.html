@@ -1,0 +1,23 @@
+
+<div class="modal-header" >
+    <h4 class="modal-title">{{item.name}}</h4>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    {{configparam.description}}
+  </div>
+  <div class="form-group" ng-if="options == undefined">
+    <label>{{ 'VALUE' | translate}}</label>
+    <input type="text"  ng-model="item.value" class="form-control">
+  </div>
+  <div class="form-group" ng-if="options.length > 0">
+    <label>{{ 'OPTION' | translate}}</label>
+    <select class="form-control" ng-model="item.value">
+      <option ng-repeat="item in options" value="{{item}}">{{item}}</option>
+    </select>
+  </div>
+</div>
+<div class="modal-footer">
+  <a class="btn btn-danger" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i></a>
+  <a class="btn btn-success" ng-click="save()"><i  class="fa fa-check-circle"></i></a>
+</div>

@@ -1,0 +1,11 @@
+<h1>{{ 'HARDWARE_TYPE' | translate }}</h1>
+<p>{{ 'HARDWARE_TYPE_SUBHEADLINE' | translate }}</p>
+<div class="row">
+
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-primary" ng-click="setHardware('GPIO')">GPIO</button>
+        <button type="button" class="btn btn-primary" ng-click="setHardware('PIFACE')">PiFace</button>
+        <button type="button" class="btn btn-primary" ng-click="setHardware('GEMBIRD')">Gembird USB</button>
+        <button type="button" class="btn btn-primary" ng-click="setHardware('DUMMY')">Dummy</button>
+    </div>
+</div>

@@ -1,15 +1,13 @@
-from flask import Blueprint, render_template, jsonify,redirect, url_for, request
-import json
-from brewapp import app, socketio
-from util import *
-from model import *
-from views import base
+from flask import request
 from brewapp.base.devices import *
-from kettle import initKettle
-from hardwareswitch import initHardware
-from brewapp.base.devices import *
-from brewapp.base.thermometer import *
 from brewapp.base.stats import *
+from brewapp.base.thermometer import *
+from hardwareswitch import initHardware
+from kettle import initKettle
+from views import base
+from brewapp import app
+import json
+
 
 @base.route('/setup')
 def setup():
@@ -19,18 +17,17 @@ def setup():
 def setKettle():
     data =request.get_json()
 
-    print "HALLO"
-    print data
-
-    for k in data["kettles"]:
-        ks = Kettle(name=k["name"], automatic="null", sensorid=k.get("sensorid",""), target_temp=0, agitator=k.get("agitator",""), heater=k.get("heater",""), height=k.get("height",""), diameter=k.get("diameter",""))
+    for hw in data["hardware"]:
+        ks = Hardware(id=hw["id"], name=hw["name"], type=hw["type"], config=json.dumps(hw["config"]))
         db.session.add(ks)
 
-    db.session.commit()
-    for k in data["hardware"]:
-        ks = Hardware(name=k["name"], type=k["type"], switch=k["switch"], config=json.dumps(k["config"]))
+    for k in data["kettle"]:
+        ks = Kettle(name=k["name"], target_temp=0, automatic="null", sensorid=k["sensorid"], agitator=k["agitator"], heater=k["heater"], diameter=50, height=50)
         db.session.add(ks)
     db.session.commit()
+
+    print data["brewery_name"]
+    setConfigParameter("BREWERY_NAME", data["brewery_name"]);
 
     initKettle()
     initHardware(True)
@@ -40,6 +37,8 @@ def setKettle():
 @app.route('/api/setup/thermometer', methods=['POST'])
 def setThermometer():
     data =request.get_json()
+
+    print data
     thermometer = {
         'DUMMY': dummy_thermometer.DummyThermometer(),
         '1WIRE': w1_thermometer.OneWireThermometer(),

@@ -1,8 +1,17 @@
 from brewapp import app
 from flask.ext.restless.helpers import to_dict
 
+def loadConfig(file):
+    import yaml
+
+    with open(file, 'r') as stream:
+        try:
+            return (yaml.load(stream))
+        except yaml.YAMLError as exc:
+            print(exc)
+
 def getAsArray(obj, order = None):
-    if(order is not None):
+    if order is not None :
         result =obj.query.order_by(order).all()
     else:
         result =obj.query.all()
@@ -11,9 +20,10 @@ def getAsArray(obj, order = None):
         ar.append(to_dict(t))
     return ar
 
+
 def getAsDict(obj, key, order = None):
-    if(order is not None):
-        result =obj.query.order_by(order).all()
+    if order is not None :
+        result = obj.query.order_by(order).all()
     else:
         result =obj.query.all()
     ar = {}
@@ -21,16 +31,17 @@ def getAsDict(obj, key, order = None):
         ar[getattr(t, key)] = t.to_json()
     return ar
 
+
 def setTargetTemp(kettleid, temp):
-    if(kettleid == None):
+    if kettleid is None:
         return
-    if(app.brewapp_target_temp_method != None):
+    if app.brewapp_target_temp_method is not None:
         app.brewapp_target_temp_method(kettleid, temp)
 
 
-## Job Annotaiton
-## key = uniquie key as string
-## interval = interval in which the method is invoedk
+# Job Annotaiton
+# key = uniquie key as string
+# interval = interval in which the method is invoedk
 def brewjob(key, interval, config_parameter = None):
     def real_decorator(function):
         app.brewapp_jobs.append({"function": function, "key": key, "interval": interval, "config_parameter": config_parameter})
@@ -39,7 +50,8 @@ def brewjob(key, interval, config_parameter = None):
         return wrapper
     return real_decorator
 
-## Init Annotaiton
+
+# Init Annotaiton
 def brewinit(order = 0, config_parameter = None):
     def real_decorator(function):
         app.brewapp_init.append({"function": function, "order": order, "config_parameter": config_parameter})
@@ -49,14 +61,6 @@ def brewinit(order = 0, config_parameter = None):
 
     return real_decorator
 
-def brewstepaction():
-    def real_decorator(function):
-        app.brewapp_stepaction.append(function)
-        def wrapper(*args, **kwargs):
-            function(*args, **kwargs)
-        return wrapper
-
-    return real_decorator
 
 def brewautomatic():
     def real_decorator(function):

@@ -6,7 +6,6 @@ from model import *
 
 base = Blueprint('base', __name__, template_folder='templates', static_folder='static')
 
-
 setup_state = False
 
 @base.route('/')

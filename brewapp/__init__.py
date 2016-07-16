@@ -1,4 +1,4 @@
-from flask import Flask, abort, redirect, url_for, render_template
+from flask import Flask, abort, redirect, url_for, render_template, request, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.socketio import SocketIO, emit
 from thread import start_new_thread
@@ -7,7 +7,9 @@ import flask.ext.restless
 from logging.handlers import RotatingFileHandler
 import time
 import os
+
 import inspect
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -41,6 +43,9 @@ app.brewapp_pid = []
 app.brewapp_switch_state = {}
 app.brewapp_hardware_config = {}
 app.brewapp_config = {}
+app.brewapp_thermometer_cfg = {}
+app.brewapp_thermometer_log = {}
+app.brewapp_thermometer_last = {}
 
 
 ## Create Database
@@ -48,9 +53,12 @@ db = SQLAlchemy(app)
 
 
 manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+
+
 ## Import modules (Flask Blueprints)
 from .base.views import base
-from .module1.views import mymodule
+#from .module1.views import mymodule
+from .ui.views import ui
 
 if os.path.exists("craftbeerpi.db"):
     app.createdb = False
@@ -62,11 +70,37 @@ db.create_all()
 
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
-app.register_blueprint(mymodule,url_prefix='/mymodule')
+#app.register_blueprint(mymodule,url_prefix='/mymodule')
+app.register_blueprint(ui,url_prefix='/ui')
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if flask.request.method == 'GET':
+        return '''
+               <form action='login' method='POST'>
+                <input type='text' name='email' id='email' placeholder='email'></input>
+                <input type='password' name='pw' id='pw' placeholder='password'></input>
+                <input type='submit' name='submit'></input>
+               </form>
+               '''
+
+    email = flask.request.form['email']
+    if flask.request.form['pw'] == users[email]['pw']:
+        user = User()
+        user.id = email
+        flask_login.login_user(user)
+        return flask.redirect(flask.url_for('protected'))
+
+    return 'Bad login'
+
+
+
 
 @app.route('/')
 def index():
-    return redirect('base')
+    return redirect('ui')
 
 ## Invoke Initializers
 app.logger.info("## INITIALIZE DATA")
@@ -77,6 +111,7 @@ for i in app.brewapp_init:
         param = app.brewapp_config.get(i.get("config_parameter"), False)
         if(param == 'False'):
             continue
+    print "INIT : %s" % (i.get("function").__name__)
     app.logger.info("--> Method: " + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
     i.get("function")()
 

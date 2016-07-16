@@ -13,6 +13,7 @@ class OvershootLogic(Automatic):
 
     def run(self):
 
+
         try:
             overshoot = float(self.config["Overshoot"])
         except Exception as e:
@@ -20,8 +21,15 @@ class OvershootLogic(Automatic):
             overshoot = 0
 
         while self.isRunning():
+            
             currentTemp = self.getCurrentTemp() ## Current temperature
             targetTemp = self.getTargetTemp() ## Target Temperature
+
+            if(currentTemp == None):
+                time.sleep(1)
+                return
+
+
             ## Current Temp is below Target Temp ... switch heater on
             if(currentTemp + overshoot < targetTemp and self.state == False):
                 self.state = True

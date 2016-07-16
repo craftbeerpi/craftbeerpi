@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, jsonify,redirect, url_for, request
-import json
-from brewapp import app, socketio
-from thread import start_new_thread
-import logging
 import time
+from thread import start_new_thread
+
+from brewapp import app
 from views import base
+
 
 ## Restart Endpoint
 @app.route('/restart')
@@ -29,7 +28,8 @@ def halt():
     start_new_thread(doHalt,())
     return base.send_static_file("halt.html")
 
-## Execute Restart
+
+# Execute Restart
 def doHalt():
     time.sleep(5)
     from subprocess import call

@@ -1,0 +1,80 @@
+<div ng-controller="StepOverviewController">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default" data-toggle="tooltip" data-placement="top">
+                <div class="panel-heading">
+                    {{ config["BREWNAME"] }}
+
+
+                    <div class="btn-group pull-right" role="group">
+
+                        <a ng-click="clear()" uib-tooltip="{{ 'DELETE_ALL_STEPS' | translate }}" class="btn btn-default btn-danger"><i class="fa fa-trash"></i></a>
+                        <a ng-click="create()" uib-tooltip="{{ 'CREATE_NEW_STEP' | translate }}" class="btn btn-success"><i class="fa fa-plus"></i></a>
+                        <a href ng-click="recipebook_save()" uib-tooltip="{{ 'SAVE_TO_RECIPE_BOOK' | translate }}" class="btn btn-default"><i class="fa fa-floppy-o"></i></a>
+                        <a ng-click="recipebook()" uib-tooltip="{{ 'SHOW_RECIPE_BOOK' | translate }}" class="btn btn-default btn-primary"><i class="fa fa-book"></i></a>
+
+
+                        <div class="btn-group pull-right" uib-tooltip="{{ 'UPLOAD_RECIPE' | translate }}" uib-dropdown keyboard-nav>
+                            <button id="simple-btn-keyboard-nav" type="button" class="btn btn-warning"
+                                    uib-dropdown-toggle>
+                                <i class="fa fa-upload"></i><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                aria-labelledby="simple-btn-keyboard-nav">
+                                <li><a href="#/test">{{ 'KBH' | translate }}</a></li>
+                                <li><a ng-click="calcVolume(v)">{{ 'Beer.xml' | translate }}</a></li>
+                            </ul>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                </div>
+                <table ui-tree="treeOptions" id="tree-root" class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th uib-tooltip="{{ 'SORT_STEPS' | translate }}"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></th>
+                        <th></th>
+                        <th>{{ 'STEP_NAME' | translate }}</th>
+                        <th><i class="wi wi-thermometer"></i></th>
+                        <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                        <th><i class="fa fa-trash-o" aria-hidden="true"></i></th>
+
+                    </tr>
+                    </thead>
+                    <tbody ui-tree-nodes ng-model="data">
+                    <tr ng-repeat="node in data" ui-tree-node>
+                        <td>
+                            <div width="40px" ui-tree-handle><i class="fa fa-align-justify fa-4"
+                                                                aria-hidden="true"> </i></div>
+                        </td>
+                        <td><span class="badge">{{ node.type }}</span></td>
+                        <td>
+                            <a ng-click="edit(node)">{{ node.name }}</a>
+                        </td>
+                        <td>
+                            {{ node.temp }} °{{ config['UNIT'] }}
+                        </td>
+                        <td>
+                            {{ node.timer }} min
+                        </td>
+                        <td>
+                            {{ node.kettleid | kettle_name:kettles_name}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>

@@ -1,0 +1,49 @@
+<h1>{{ 'KETTLE_SETUP' | translate }}</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ 'KETTLE' | translate }}
+        <div class="btn-group pull-right" role="group">
+            <a ng-click="add('K')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+               role="group">
+                <i class="fa fa-plus"></i></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <table class="table">
+        <tr>
+            <td>{{ 'KETTLE' | translate }}</td>
+            <td>{{ 'THERMOMETER' | translate }}</td>
+            <td>{{ 'HEATER' | translate }}</td>
+            <td>{{ 'AGITATOR' | translate }}</td>
+            <td>{{ 'DIAMETER' | translate }}</td>
+            <td>{{ 'HEIGHT' | translate }}</td>
+            <td>{{ 'DELETE' | translate }}</td>
+        </tr>
+        <tr ng-repeat="item in kettle track by $index">
+            <td><input type="text" ng-model="item.name" class="form-control"/></td>
+            <td>
+                <select class="form-control" ng-model="item.sensorid">
+                    <option value="">---{{ 'PLS_SELECT' | translate }}---</option>
+                    <option ng-repeat="t in thermometer" value="{{ t.id }}">{{ t.name }}</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control" ng-model="item.heater">
+                    <option value="">---{{ 'PLS_SELECT' | translate }}---</option>
+                    <option ng-repeat="t in hardware" value="{{ t.id }}">{{ t.name }}</option>
+                </select>
+            </td>
+            <td>
+                <select class="form-control" ng-model="item.agitator">
+                    <option value="">---{{ 'PLS_SELECT' | translate }}---</option>
+                    <option ng-repeat="t in hardware" value="{{ t.id }}">{{ t.name }}</option>
+                </select>
+            </td>
+            <td><input type="text" ng-model="item.diameter" class="form-control"/></td>
+             <td><input type="text" ng-model="item.height" class="form-control"/></td>
+            <td><a ng-click="remove($index, 'K')" uib-tooltip="{{ 'REMOVE' | translate }}" class="btn btn-danger"
+                   role="group">
+                <i class="fa fa-trash"></i></a></td>
+        </tr>
+    </table>
+</div>

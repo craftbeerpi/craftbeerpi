@@ -1,0 +1,39 @@
+<div class="text-center">
+    <h3>{{ 'WELCOME_HEADLINE' | translate }}</h3>
+    <h1>{{ 'SOFTWARE_NAME' | translate }}</h1>
+    <p>{{ 'SLOGAN' | translate }}</p>
+
+
+    <div class="btn-group" uib-dropdown keyboard-nav>
+        <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default"
+                uib-dropdown-toggle>
+            <i class="fa fa-globe"></i> {{ 'LANGUAGE' | translate }}<span
+                class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+            aria-labelledby="simple-btn-keyboard-nav">
+            <li ng-class="language=='de' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('de')">
+                {{ 'DE' | translate }}</a></li>
+            <li ng-class="language=='en' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('en')">
+                {{ 'EN' | translate }}</a></li>
+            <li ng-class="language=='pl' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('pl')">
+                {{ 'PL' | translate }}</a></li>
+            <li ng-class="language=='se' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('se')">
+                {{ 'SE' | translate }}</a></li>
+            <li ng-class="language=='fr' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('fr')">
+                {{ 'FR' | translate }}</a></li>
+            <li ng-class="language=='nl' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('nl')">
+                {{ 'NL' | translate }}</a></li>
+            <li ng-class="language=='nl' ? 'active' : 'none'"><a
+                    ng-click="changeLanguage('no')">
+                {{ 'NO' | translate }}</a></li>
+        </ul>
+    </div>
+    <button class="btn btn-warning" wz-next>Start Setup</button>
+</div>

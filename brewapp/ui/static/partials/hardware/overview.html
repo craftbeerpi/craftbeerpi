@@ -1,0 +1,42 @@
+<div ng-controller="HardwareOverviewController">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+				<div class="panel-heading">
+					{{ 'HARDWARE' | translate}}
+					<div class="btn-group pull-right" role="group">
+
+						<a ng-click="createHardware()" uib-tooltip="{{ 'ADD_NEW_HARDWARE' | translate }}" class="btn btn-success" role="group">
+							<i class="fa fa-plus"></i></a>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<table class="table">
+					<thead>
+						<td>{{ 'NAME' | translate}}</td>
+						<td>{{ 'TYPE' | translate}}</td>
+						<td>{{ 'VISIBILITY' | translate}}</td>
+						<td>{{ 'SWITCH' | translate}}</td>
+					</thead>
+					<tr ng-repeat="item in hw track by $index">
+
+						<td>
+							<a ng-click="edit(item.id)">{{ item.name }}</a>
+						</td>
+						<td>
+							<i class="fa" ng-class="item.type | hardware_icon"></i>
+						</td>
+						<td>
+							<i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+							<i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
+						</td>
+						<td>
+							{{ item.config.switch }}
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</div>

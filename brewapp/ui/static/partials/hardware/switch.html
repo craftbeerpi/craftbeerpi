@@ -1,0 +1,12 @@
+<div class="form-group">
+  <label>{{ 'SWITCH' | translate}}</label>
+  <select class="form-control" ng-model="hardware.config.switch">
+    <option value="">---{{ 'PLS_SELECT' | translate}}---</option>
+    <option ng-repeat="t in gpio" value="{{t.key}}">{{t.value}}</option>
+  </select>
+</div>
+<div class="form-group">
+  <label>{{ 'INVERTED' | translate}}</label>
+  <input type="checkbox" ng-model="hardware.config.inverted">
+
+</div>

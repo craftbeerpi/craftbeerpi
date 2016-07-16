@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ 'THERMOMETER' | translate }}
+        <div class="btn-group pull-right" role="group">
+            <a ng-click="add('T')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+               role="group">
+                <i class="fa fa-plus"></i></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <table class="table">
+        <tr>
+            <td>{{ 'Name' | translate }}</td>
+            <td>{{ 'SENSOR' | translate }}</td>
+            <td>{{ 'OFFSET' | translate }}</td>
+            <td>{{ 'VISIBILITY' | translate }}</td>
+            <td>{{ 'DELETE' | translate }}</td>
+        </tr>
+        <tr ng-repeat="item in thermometer track by $index">
+            <td><input type="text" ng-model="item.name" class="form-control"/></td>
+            <td><select class="form-control" ng-model="item.config.thermometer.id">
+                    <option value="">---{{ 'PLS_SELECT' | translate }}---</option>
+                    <option ng-repeat="t in sensors" value="{{ t.key }}">{{ t.value }}</option>
+                </select></td>
+            <td><input ng-model="item.config.thermometer.offset" type="text" class="form-control"/></td>
+            <td><input ng-model="item.config.hide" type="checkbox" class="form-control"/></td>
+            <td><a ng-click="remove($index, 'T')" uib-tooltip="{{ 'REMOVE' | translate }}" class="btn btn-danger"
+                   role="group">
+                <i class="fa fa-trash"></i></a></td>
+        </tr>
+    </table>
+</div>

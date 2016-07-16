@@ -13,3 +13,5 @@ import buzzer
 import setup
 import stats
 import system
+import thermo
+import securtiy

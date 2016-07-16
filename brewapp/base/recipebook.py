@@ -1,22 +1,10 @@
-import config
-import model
 from brewapp import manager
 from model import *
 from util import *
-from views import base
-from brewapp import app, socketio
-import time
+from brewapp import app
 from flask import request
-import os
-from werkzeug import secure_filename
-from views import base
-import sqlite3
-from buzzer import nextStepBeep, timerBeep, resetBeep
 from flask.ext.restless.helpers import to_dict
-import StringIO
-import csv
-import datetime
-from flask import make_response, Response
+from flask import  Response
 
 @brewinit()
 def init():
@@ -73,6 +61,8 @@ def save_book():
     return ('',204)
 
 
+def hallo():
+    pass
 
 def setBrewName(name):
     config = Config.query.get("BREWNAME");

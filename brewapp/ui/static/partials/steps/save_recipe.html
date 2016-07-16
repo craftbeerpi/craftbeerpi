@@ -1,0 +1,13 @@
+<div class="modal-header" >
+    <h4 class="modal-title"></i>{{ 'SAVE_RECIPE' | translate}}</h4>
+</div>
+<div class="modal-body">
+
+<div class="form-group">
+  <input type="text" placeholder="{{ RECIPE_NAME }}" ng-model="name"  class="form-control">
+</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()"><i class="fa fa-times-circle"></i></button>
+    <button class="btn btn-success" type="button" ng-click="save()"><i class="fa fa-check"></i></button>
+</div>

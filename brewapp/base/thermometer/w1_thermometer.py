@@ -22,7 +22,7 @@ class OneWireThermometer(object):
                     arr.append(dirname)
             return arr
         except:
-            return ["DummySensor1","DummySensor2"]
+            return ["1WDummySensor1","1W    DummySensor2"]
 
     def readTemp(self, tempSensorId):
         try:

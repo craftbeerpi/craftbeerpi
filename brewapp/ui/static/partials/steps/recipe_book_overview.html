@@ -1,0 +1,31 @@
+<div class="modal-header" >
+    <h4 class="modal-title"><i class="fa fa-book"></i> {{ 'RECIPE_BOOK' | translate}}</h4>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label>{{ 'FILTER_BY_NAME' | translate}}:</label>
+    <input type="text" ng-model="search" />
+  </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>{{ 'RECIPE_NAME' | translate}}</th>
+      <th>{{ 'ACTION' | translate}}</th>
+    </tr>
+  </thead>
+  <tr ng-repeat="item in items | filter:search">
+    <td>
+      {{item.name}}
+    </td>
+    <td>
+      <a uib-tooltip="{{ 'LOAD_RECIPE' | translate }}" class="btn btn-success" ng-click="load(item.id)"><i class="fa fa-folder-open"></i></a>
+      <a uib-tooltip="{{ 'DELETE_RECIPE' | translate }}" class="btn btn-danger" ng-click="delete(item.id)"><i class="fa fa-trash"></i></a>
+    </td>
+  </tr>
+</table>
+</div>
+<div class="modal-footer">
+  <a uib-tooltip="{{ 'EXPORT_RECIPES' | translate }}" href="/api/recipe_books/export" class="btn btn-default"><i class="fa fa-download"></i></a>
+  <button class="btn btn-danger" type="button" ng-click="cancel()"><i class="fa fa-times-circle"></i> </button>
+</div>

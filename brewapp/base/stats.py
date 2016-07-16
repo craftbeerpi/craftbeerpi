@@ -1,6 +1,7 @@
-from util import *
+import util
 from model import *
-import httplib, urllib
+from brewapp import app
+
 
 def getserial():
   # Extract serial from cpuinfo file
@@ -16,7 +17,7 @@ def getserial():
 
   return cpuserial
 
-@brewinit(config_parameter="SEND_STATS")
+@util.brewinit(config_parameter="SEND_STATS")
 def sendStats():
     app.logger.info("Sending stats")
     try:

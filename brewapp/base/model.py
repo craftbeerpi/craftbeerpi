@@ -1,8 +1,5 @@
-from brewapp import app, db
-from flask.ext.sqlalchemy import SQLAlchemy
-from datetime import datetime, timedelta
-import os.path as op
-import json
+from brewapp import db
+
 
 class Step(db.Model):
 
@@ -23,6 +20,7 @@ class Step(db.Model):
 
     def __unicode__(self):
         return self.id
+
 
 class RecipeBooks(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -45,7 +43,7 @@ class Kettle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     sensorid = db.Column(db.String(80))
-    sensoroffset = db.Column(db.Float())
+    #sensoroffset = db.Column(db.Float())
     heater = db.Column(db.String(10))
     automatic = db.Column(db.String(255))
     agitator = db.Column(db.String(10))
@@ -63,7 +61,6 @@ class Hardware(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     type = db.Column(db.String(80))
-    switch = db.Column(db.String(80))
     config = db.Column(db.String(256))
 
     def __repr__(self):
@@ -85,3 +82,36 @@ class Config(db.Model):
 
     def __unicode__(self):
         return self.name
+'''
+class Fermenter(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    sensorid = db.Column(db.String(80))
+    heater = db.Column(db.Integer())
+    cooler = db.Column(db.Integer())
+    automatic = db.Column(db.String(255))
+
+    def __repr__(self):
+        return '<Fermenter %r>' % self.name
+
+    def __unicode__(self):
+        return self.id
+
+class FermenterStep(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    fermenterid = db.Column(db.Integer())
+    temp = db.Column(db.Float())
+    hours = db.Column(db.Integer())
+    temp = db.Column(db.Integer())
+    order = db.Column(db.Integer())
+    state = db.Column(db.String(1))
+    start = db.Column(db.DateTime())
+    end = db.Column(db.DateTime())
+
+    def __repr__(self):
+        return '<FermenterStep %r>' % self.name
+
+    def __unicode__(self):
+        return self.id
+'''

@@ -3,7 +3,7 @@ import model
 from brewapp import manager
 from model import *
 from util import *
-from views import base
+#from views import base
 from brewapp import app, socketio
 import time
 from flask import request
@@ -11,9 +11,24 @@ import os
 from werkzeug import secure_filename
 from views import base
 import sqlite3
+from datetime import datetime
+
 from buzzer import nextStepBeep, timerBeep, resetBeep
 from flask.ext.restless.helpers import to_dict
 
+
+@app.route('/api/step/order', methods=['POST'])
+def order_steps():
+    data = request.get_json()
+    steps =  Step.query.all()
+
+    for s in steps:
+
+        s.order =  data[str(s.id)];
+        db.session.add(s)
+        db.session.commit()
+
+    return ('',204)
 
 @app.route('/api/step/clear', methods=['POST'])
 def getBrews():
@@ -28,7 +43,7 @@ def nextStep():
     inactive = Step.query.filter_by(state='I').order_by(Step.order).first()
 
     if(inactive == None):
-        socketio.emit('message', {"headline": "Brewing Finished", "message": "Brew Process Finished"}, namespace ='/brew')
+        socketio.emit('message', {"headline": "BREWING_FINISHED", "message": "BREWING_FINISHED_MESSAGE"}, namespace ='/brew')
 
     if(active != None):
         active.state = 'D'
@@ -104,9 +119,13 @@ def stepjob():
     cs = app.brewapp_current_step;
     ## get current temp of target kettle
     try:
-        ct = app.brewapp_kettle_state[cs.get("kettleid")]["temp"]
+        id = int(app.brewapp_kettle_state[cs.get("kettleid")]["sensorid"])
+        ct = app.brewapp_thermometer_last[id];
     except:
+
         ct = 0
+
+
     ## check if target temp reached and timer can be started
     if(cs.get("timer") > 0 and cs.get("timer_start") == None and ct >= cs.get("temp")):
         s = Step.query.get(cs.get("id"))
@@ -131,6 +150,7 @@ def stepjob():
                 nextStep()
             if(cs.get("type") == 'M' and app.brewapp_current_step.get("finished", False) == False):
                 nextStepBeep()
+
                 app.brewapp_current_step["finished"] = True
 
 def getSteps():

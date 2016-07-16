@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h4>
+        {{ headline }}
+    </h4>
+</div>
+<div class="modal-body">
+    <form class="form" name="myform" novalidate>
+        <div class="form-group">
+            <label>{{ 'NAME' | translate }}</label>
+            <input type="text" ng-model="item.name" required class="form-control">
+        </div>
+        <div class="form-group">
+            <label>{{ 'TYPE' | translate }}</label>
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="item.type" uib-btn-radio="'A'">Automatic</label>
+                <label class="btn btn-primary" ng-model="item.type" uib-btn-radio="'M'">Manuell</label>
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label>{{ 'TARGET_TEMP_IN' | translate }} °{{ config["UNIT"] }}</label>
+            <input type="number" ng-model="item.temp" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>{{ 'TIMER_IN_MIN' | translate }}</label>
+            <input type="number" ng-model="item.timer" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>{{ 'KETTLE' | translate }}</label>
+
+            <select class="form-control" ng-model="item.kettleid">
+                <option ng-repeat="t in kettles" value="{{ t.key }}"
+                        ng-selected="item.kettleid == t.key">{{ t.value }}</option>
+            </select>
+        </div>
+    </form>
+</div>
+</div>
+
+<div class="modal-footer">
+    <a class="btn btn-default" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i></a>
+    <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i></a>
+    <button class="btn btn-success" ng-click="save()" ng-disabled="myform.$invalid"><i class="fa fa-check-circle"></i></button>
+
+</div>

@@ -18,7 +18,11 @@ class Automatic(object):
         return app.brewapp_kettle_automatic[key]
 
     def getCurrentTemp(self):
-        return app.brewapp_kettle_state[self.kid]["temp"]
+        try:
+            id = int(app.brewapp_kettle_state[self.kid]["sensorid"])
+            return app.brewapp_thermometer_last[id]
+        except:
+            return None
 
     def getTargetTemp(self):
         return app.brewapp_kettle_state[self.kid]["target_temp"]

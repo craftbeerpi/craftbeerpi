@@ -1,0 +1,20 @@
+<h1>{{ 'THANK_YOU' | translate }}</h1>
+<h2>{{ 'DONATE' | translate }}</h2>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" class="ng-pristine ng-valid">
+    <input type="hidden" name="cmd" value="_donations">
+    <input type="hidden" name="business" value="manuel.fritsch@gmail.com">
+    <input type="hidden" name="lc" value="DE">
+    <input type="hidden" name="item_name" value="Carftbeer PI">
+    <input type="hidden" name="item_number" value="Carftbeer PI">
+    <input type="hidden" name="no_note" value="0">
+    <input type="hidden" name="currency_code" value="EUR">
+    <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+    <p class="text-center">
+        <button type="submit" name="submit" class="btn btn-lg btn-warning" href="#link"><i class="fa fa-paypal"></i>Donate
+            Now
+        </button>
+        <button class="btn btn-lg btn-default" wz-next>Let's go brewing</button>
+    </p>
+    <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+</form>
