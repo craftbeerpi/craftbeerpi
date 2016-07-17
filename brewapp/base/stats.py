@@ -34,7 +34,7 @@ def sendStats():
             info["kettle"].append({"name": k.name, "diameter":k.diameter, "height": k.height, "agitator": k.agitator, "heater": k.heater})
 
         for h in Hardware.query.all():
-            info["hardware"].append({"name": k.name, "type":h.type, "switch":h.switch})
+            info["hardware"].append({"name": k.name, "type":h.type})
         import requests
         r = requests.post('http://www.craftbeerpi.com/stats.php', json=info)
         app.logger.info(r)
