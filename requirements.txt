@@ -4,6 +4,7 @@ Flask-Admin==1.1.0
 Flask-DebugToolbar==0.10.0
 Flask-SocketIO==0.6.0
 Flask-SQLAlchemy==2.0
+Flask-Script==2.0.5
 gevent==1.0.2
 gevent-socketio==0.3.6
 gevent-websocket==0.9.5
