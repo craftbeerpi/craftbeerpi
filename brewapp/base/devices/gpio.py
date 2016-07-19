@@ -23,7 +23,7 @@ class BrewGPIO(SwitchBase):
                 hw = app.brewapp_hardware_config[1];
                 app.logger.info(hw)
 
-                g = self.translateDeviceName(hw["switch"])
+                g = self.translateDeviceName(hw["config"]["switch"])
                 app.logger.info(g)
 
                 if(g != None):
