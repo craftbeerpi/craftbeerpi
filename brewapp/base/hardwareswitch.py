@@ -136,6 +136,9 @@ class SwitchBase(object):
         return gpio
 
     def getConfig(self, device):
+
+        app.logger.info(brewapp_hardware_config)
+
         return app.brewapp_hardware_config[device].get("config", None)
 
     def getConfigValue(self, device, parameter, default):
