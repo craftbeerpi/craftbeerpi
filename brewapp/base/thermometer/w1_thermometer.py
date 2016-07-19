@@ -25,6 +25,7 @@ class OneWireThermometer(object):
             return ["1WDummySensor1","1W    DummySensor2"]
 
     def readTemp(self, tempSensorId):
+        print tempSensorId
         try:
             ## Test Mode
             if(tempSensorId == None or tempSensorId == ""):
