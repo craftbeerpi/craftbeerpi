@@ -18,10 +18,12 @@ class BrewGPIO(SwitchBase):
             GPIO.setmode(GPIO.BCM)
             app.logger.info(app.brewapp_hardware_config)
             for h in app.brewapp_hardware_config:
-                print h
 
-                app.logger.info(h)
-                g = self.translateDeviceName(h)
+
+                hw = app.brewapp_hardware_config[1];
+                app.logger.info(hw)
+
+                g = self.translateDeviceName(hw["switch"])
                 app.logger.info(g)
 
                 if(g != None):
