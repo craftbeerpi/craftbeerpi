@@ -65,7 +65,7 @@ class BrewGPIO(SwitchBase):
     def switchON(self, device):
         app.logger.info("GPIO ON" + str(device))
         if(app.brewapp_gpio == True):
-           
+
             switch_name = self.getConfigValue(device, "switch", None)
             if switch_name is None:
                 pass
