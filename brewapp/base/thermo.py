@@ -109,7 +109,7 @@ def readTemp():
         if tid["config"]["thermometer"]["id"] in app.brewapp_thermometer.getSensors():
 
             # Read Temp
-            temp = app.brewapp_thermometer.readTemp(t)
+            temp = app.brewapp_thermometer.readTemp(tid["config"]["thermometer"]["id"])
 
             # UNIT
             if app.brewapp_config.get("UNIT", "C") is "F":
