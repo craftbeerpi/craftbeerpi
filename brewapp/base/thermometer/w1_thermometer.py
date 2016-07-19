@@ -40,6 +40,7 @@ class OneWireThermometer(object):
             else:
                 temp_C = -1
         except Exception as e:
+            print e
             temp_C = -1
 
         return float(format(temp_C, '.2f'))
