@@ -13,10 +13,12 @@ class BrewGPIO(SwitchBase):
 
     def init(self):
         app.logger.info("INIT GPIO")
+        print "INIT GPIO"
         try:
             GPIO.setmode(GPIO.BCM)
 
             for h in app.brewapp_hardware_config:
+                print h
                 g = self.translateDeviceName(h)
                 print g
 
