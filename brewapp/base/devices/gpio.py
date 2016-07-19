@@ -16,7 +16,7 @@ class BrewGPIO(SwitchBase):
         print "INIT GPIO"
         try:
             GPIO.setmode(GPIO.BCM)
-
+            app.logger.info(app.brewapp_hardware_config)
             for h in app.brewapp_hardware_config:
                 print h
 
