@@ -19,8 +19,10 @@ class BrewGPIO(SwitchBase):
 
             for h in app.brewapp_hardware_config:
                 print h
+
+                app.logger.info(h)
                 g = self.translateDeviceName(h)
-                print g
+                app.logger.info(g)
 
                 if(g != None):
                     app.logger.info("SETUP HARDWARE: " + h + " GPIO: " + str(g))
