@@ -66,7 +66,7 @@ class BrewGPIO(SwitchBase):
         app.logger.info("GPIO ON" + str(device))
         if(app.brewapp_gpio == True):
             app.logger.info("TRUE GPIO ON" + str(device))
-                gpio = self.translateDeviceName(device)
+            gpio = self.translateDeviceName(device)
 
             if(self.getConfigValue(device, "inverted", False)):
                 GPIO.output(gpio, 0)
