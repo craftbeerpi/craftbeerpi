@@ -142,7 +142,7 @@ class SwitchBase(object):
 
         print app.brewapp_hardware_config
 
-        return app.brewapp_hardware_config[device].get("config", None)
+        return app.brewapp_hardware_config[int(device)].get("config", None)
 
     def getConfigValue(self, device, parameter, default):
         cfg = self.getConfig(device)
