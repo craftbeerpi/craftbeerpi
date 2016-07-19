@@ -96,6 +96,8 @@ def initThermo():
 @brewjob(key="readtemp2", interval=5)
 def readTemp():
 
+    print "READ TEMP"
+
     timestamp = int((datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).total_seconds())*1000
     temps = {}
 
