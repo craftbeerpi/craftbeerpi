@@ -99,13 +99,14 @@ def ws_switch(data):
 
     if(app.brewapp_switch_state[s] == True):
         app.logger.info("Switch off: " + str(s))
-        #app.brewapp_hardware.switchOFF(app.brewapp_hardware_config[s]["config"]["switch"]);
-        app.brewapp_hardware.switchOFF(str(s));
+        app.brewapp_hardware.switchOFF(app.brewapp_hardware_config[s]["config"]["switch"]);
+        #app.brewapp_hardware.switchOFF(str(s));
         app.brewapp_switch_state[s] = False
     else:
         app.logger.info("Switch on: " + str(s))
-        #app.brewapp_hardware.switchON(app.brewapp_hardware_config[s]["config"]["switch"]);
-        app.brewapp_hardware.switchON(str(s));
+        app.brewapp_hardware.switchON(app.brewapp_hardware_config[s]["config"]["switch"]);
+
+        #app.brewapp_hardware.switchON(str(s));
         app.brewapp_switch_state[s]  = True
     socketio.emit('switch_state_update', app.brewapp_switch_state, namespace ='/brew')
 
