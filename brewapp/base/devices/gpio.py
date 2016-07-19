@@ -27,7 +27,7 @@ class BrewGPIO(SwitchBase):
                 app.logger.info(g)
 
                 if(g != None):
-                    app.logger.info("SETUP HARDWARE: " + h + " GPIO: " + str(g))
+                    app.logger.info("SETUP HARDWARE: " + str(h) + " GPIO: " + str(g))
                     GPIO.setup(g, GPIO.OUT)
                     if(self.getConfigValue(h, "inverted", False)):
                         GPIO.output(g, 1)
