@@ -137,7 +137,7 @@ class SwitchBase(object):
 
     def getConfig(self, device):
 
-        app.logger.info(brewapp_hardware_config)
+        app.logger.info(app.brewapp_hardware_config)
 
         return app.brewapp_hardware_config[device].get("config", None)
 
