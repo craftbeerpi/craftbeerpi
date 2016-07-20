@@ -1,2 +1,6 @@
 0f 00 4b 46 ff ff 06 10 0c : crc=0c YES
+<<<<<<< HEAD
 0f 00 4b 46 ff ff 06 10 0c t=29000
+=======
+0f 00 4b 46 ff ff 06 10 0c t=63111
+>>>>>>> refs/remotes/Manuel83/master

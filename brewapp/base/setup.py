@@ -10,7 +10,10 @@ from hardwareswitch import initHardware
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
 from brewapp.base.stats import *
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/Manuel83/master
 @base.route('/setup')
 def setup():
     return base.send_static_file("setup.html");

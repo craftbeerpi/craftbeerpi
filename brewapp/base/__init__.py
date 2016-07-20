@@ -12,4 +12,7 @@ import hardwareswitch
 import buzzer
 import setup
 import stats
+<<<<<<< HEAD
 import system
+=======
+>>>>>>> refs/remotes/Manuel83/master

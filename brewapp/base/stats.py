@@ -16,14 +16,22 @@ def getserial():
 
   return cpuserial
 
+<<<<<<< HEAD
 @brewinit(config_parameter="SEND_STATS")
+=======
+@brewinit()
+>>>>>>> refs/remotes/Manuel83/master
 def sendStats():
     app.logger.info("Sending stats")
     try:
         serial = getserial()
         info = {
         "id": serial,
+<<<<<<< HEAD
         "version": "2.2",
+=======
+        "version": "2.1",
+>>>>>>> refs/remotes/Manuel83/master
         "kettle": [],
         "hardware": [],
         "thermometer": app.brewapp_thermometer.__class__.__name__,
