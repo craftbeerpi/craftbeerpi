@@ -102,10 +102,7 @@ def readTemp():
     temps = {}
 
     for t in app.brewapp_thermometer_cfg:
-        print t
         tid = app.brewapp_thermometer_cfg[t]
-
-        print tid
         if tid["config"]["thermometer"]["id"] in app.brewapp_thermometer.getSensors():
 
             # Read Temp

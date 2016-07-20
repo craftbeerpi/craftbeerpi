@@ -4,6 +4,14 @@ from util import *
 import time
 from thread import start_new_thread
 
+
+try:
+    import RPi.GPIO as GPIO
+    app.logger.info("SETUP GPIO Module for Buzzer")
+except Exception as e:
+    app.logger.error("SETUP GPIO Module for Buzzer Faild " + str(e))
+    pass
+
 ###
 @brewinit()
 def initBuzzer():
