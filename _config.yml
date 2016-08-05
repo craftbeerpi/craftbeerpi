@@ -1,0 +1,3 @@
+markdown: redcarpet
+baseurl: /craftbeerpi
+exclude: ['README.md']
