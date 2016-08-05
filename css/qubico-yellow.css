@@ -1,0 +1,117 @@
+a,
+a:hover,
+a:focus,
+.primary,
+.btn-qubico.white:hover,
+.btn-qubico.white:focus,
+.btn-qubico.white:active,
+.services .item:hover h3,
+.features .media:hover h4,
+.member-thumb .title,
+.team-member .member-details:before,
+.team-member .member-socials li a,
+.team-member .member-socials li a:hover,
+.project-thumb .project-title:hover,
+.pricing .item.featured .icon,
+.pricing .item:hover .icon,
+.pricing .item.featured .btn-qubico,
+.pricing .item:hover .btn-qubico,
+.contact-item .icon,
+.contact-item .icon:hover,
+.social-links li:hover a,
+.news-content .date,
+.news-content .read-more:after,
+.news-content .news-media a:after,
+.read-more:after,
+.blog-pages ul li a,
+.post-share a:hover,
+.social-likes__icon:hover,
+.prev-post a:before,
+.next-post a:after {
+  color:#FBDF29;
+}
+
+
+.section-title:after,
+.btn-qubico,
+.color-bg,
+#main-nav .nav a:before,
+.jumbotron,
+.features .media:hover .icon,
+.services .icon,
+.process-list li.colored .icon,
+.ipad-slider .flex-direction-nav .flex-prev,
+.ipad-slider .flex-direction-nav .flex-next,
+.team-member:hover .member-details,
+.chart-wrapper,
+#filter-works ul li a:hover,
+#filter-works ul li.active a,
+.project-thumb .overlay-mask,
+.imac-slider .flex-direction-nav .flex-prev,
+.imac-slider .flex-direction-nav .flex-next,
+.pricing .item:hover,
+.pricing .item.featured,
+.timeline .date-title span,
+.news-item:hover .news-content,
+.news-item .news-content:before,
+.blog-pages ul li.active,
+.blog-pages ul li:hover,
+.post-slider .flex-direction-nav .flex-prev,
+.post-slider .flex-direction-nav .flex-next,
+.post-slider .flex-control-paging li a:hover,
+.post-slider .flex-control-paging li a.flex-active,
+#blog-categories ul li a:hover,
+#blog-categories ul li.active a{
+    background:#FBDF29;
+}
+
+.process-line {
+    border-top-color:#FBDF29;
+}
+
+.team-member:hover .member-details:after,
+.news-item:hover .news-content:after {
+    border-left-color:#FBDF29;
+}
+
+.team-member.right:hover .member-details:after,
+.timeline:before,
+.timeline:after,
+.news-item.right:hover .news-content:after {
+    border-left-color:transparent;
+    border-right-color:#FBDF29;
+}
+
+@media (min-width: 768px){
+
+    #main-nav .nav li ul{
+        background:#FBDF29;
+	}
+	
+	#main-nav .nav li.submenu > a:after{
+        color:#FBDF29;
+    }
+}
+
+@media (max-width: 767px) {
+
+	.team-member:hover .member-details:after,
+    .team-member.right:hover .member-details:after {
+        border-right-color:transparent;
+        border-left-color:transparent;
+        border-bottom-color:#FBDF29;
+    }
+	
+    #main-nav .nav li.submenu > a:after{
+        color:#FBDF29;
+    }
+}
+
+
+
+
+
+
+
+
+

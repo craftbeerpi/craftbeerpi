@@ -1,5 +1,510 @@
 ---
-layout: default
 ---
+<!DOCTYPE html>
+<html lang="en-US" class="no-js">
+<head>
+	<!-- ==============================================
+		Title and Meta Tags
+		=============================================== -->
+	<meta charset="utf-8">
 
-Welcome
+	<!-- made by www.meta-tags.de -->
+	<meta name="description" content="Raspberry PI based Brew Controller" />
+	<meta name="keywords" content="electiry brewing brew controller craft beer CraftBeer raspberry pi home brewing pid hrms rims biab " />
+	<meta name="author" content="meta-tags generator">
+	<meta name="robots" content="index, follow" />
+	<meta name="revisit-after" content="1 month" />
+	<title>CraftBeerPi</title>
+	<!-- brew controller beer -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- ==============================================
+		Favicons
+		=============================================== -->
+	<link rel="shortcut icon" href="assets/favicon.ico">
+	<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/apple-touch-icon-114x114.png">
+
+	<!-- ==============================================
+		CSS
+		=============================================== -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="css/weather-icons.min.css" />
+	<link rel="stylesheet" href="css/flexslider.css">
+	<link rel="stylesheet" href="css/sequencejs-qubico.css" />
+	<link rel="stylesheet" href="css/colorbox.css" />
+	<link rel="stylesheet" href="css/qubico.css">
+	<link rel="stylesheet" href="css/qubico-cyan.css">
+
+
+	<!-- ==============================================
+		Fonts
+		=============================================== -->
+	<link href='http://fonts.googleapis.com/css?family=Dosis:600,700,800' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900' rel='stylesheet' type='text/css'>
+
+	<!-- ==============================================
+		JS
+		=============================================== -->
+
+	<!--[if lt IE 9]>
+			<script src="js/respond.min.js"></script>
+		<![endif]-->
+
+	<script type="text/javascript" src="js/libs/modernizr.min.js"></script>
+
+
+</head>
+
+<body data-spy="scroll" data-target="#main-nav" data-offset="400">
+
+{% include navigation.html %}
+{% include header.html %}
+
+{% include download.html %}
+
+{% include hardware.html %}
+
+{% include mainfeatures.html %}
+{% include video.html %}
+{% include install.html %}
+
+
+	<section id="hardware" class="white-bg padding-top">
+
+		<div class="container">
+
+
+
+
+			<h1 class="subsection-title">Control the whole brewing process</h1>
+			<p class="subsection-description"></p>
+
+			<div class="process-box scrollimation">
+
+				<ul class="process-list">
+					<li>
+						<p class="icon"><i class="fa fa-line-chart fa-fw"></i></p>
+						<h4>Mashing</h4>
+					</li>
+					<li>
+						<p class="icon"><i class="fa fa-filter fa-fw"></i></p>
+						<h4>Lautering</h4>
+					</li>
+					<li>
+						<p class="icon"><i class="fa fa-fire fa-fw"></i></p>
+						<h4>Boiling</h4>
+					</li>
+					<li>
+						<p class="icon"><i class="fa fa-refresh fa-fw"></i></p>
+						<h4>Whirlpool</h4>
+					</li>
+
+				</ul>
+
+				<div class="process-line"></div>
+
+			</div>
+
+
+		</div>
+
+	</section>
+
+	<!-- ==============================================
+		FEATURED PROJECTS
+		=============================================== -->
+
+
+	<!-- ==============================================
+		TEAM
+		=============================================== -->
+
+		<section id="license" class="color-bg light-typo cta">
+
+			<div class="container">
+	<h1 class="section-title">License</h1>
+				<div class="row">
+					<div class="col-md-7 cta-message">
+						<p>The software is free for <strong>private non-commercial use</strong> only! <br>Please contact CraftBeerPi for commercial usage</p>
+					</div>
+					<div class="col-md-4 cta-button">
+						<p class="text-center">
+							<a class="btn btn-qubico white" href="mailto:info@craftbeerpi.com"><i class="fa fa-envelope-o"></i>Contact</a>
+							</p>
+
+					</div>
+
+
+				</div>
+				<!--End row-->
+
+			</div>
+			<!--End container -->
+
+		</section>
+
+
+
+
+	<section id="team" class="white-bg padding-bottom">
+
+		<div class="container">
+
+			<h1 class="section-title">The Person behind</h1>
+			<p class="section-description"> </p>
+
+			<div class="row team-member">
+				<div class="col-sm-3 col-sm-offset-1 member-thumb scrollimation fade-right">
+					<img class="img-responsive img-center" src="assets/manuel.png" alt="" />
+					<h4>Manuel Fritsch</h4>
+					<p class="title">Lead Developer &amp; Founder</p>
+				</div>
+				<div class="col-sm-7 scrollimation fade-left">
+					<div class="member-details">
+						<p>I am a homebrewer from passion. "CraftBeerPI" automates the home brewing process and moves it to a new level. I hope you have a lot of fun with CraftBeerPI.</p>
+						<ul class="member-socials">
+							<li><a href="mailto:manuel@craftbeerpi.com"><i class="fa fa-envelope fa-fw"></i></a></li>
+
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- ==============================================
+		PORTFOLIO
+		=============================================== -->
+	<section id="portfolio" class=" padding-top-bottom">
+
+		<div class="container">
+
+			<h1 class="section-title">Screenshots</h1>
+			<p class="section-description">This are some screenshots of the application.</p>
+
+			<!--==== Portfolio Filters ====-->
+
+			<!--<div id="filter-works">
+
+					<ul>
+						<li class="active">
+							<a href="#" data-filter="*">All Categories</a>
+						</li>
+						<li>
+							<a href="#" data-filter=".web-design">Web Design</a>
+						</li>
+						<li>
+							<a href="#" data-filter=".apps">Apps</a>
+						</li>
+						<li>
+							<a href="#" data-filter=".psd">PSD</a>
+						</li>
+					</ul>
+
+				</div>-->
+			<!--End portfolio filters -->
+
+			<div class="projects-container scrollimation">
+
+				<div class="row">
+
+					<!-- ==============================================
+						SINGLE PROJECT ITEM
+						=============================================== -->
+
+					<article class="col-md-4 col-sm-6 project-item web-design apps psd">
+
+						<!--==== Project Thumbnail & Title ====-->
+
+						<div class="project-thumb">
+							<a href="#" class="main-link">
+								<img class="img-responsive img-center" src="assets/projects/dashboard.jpg" alt="" />
+								<h2 class="project-title">Dashboard</h2>
+								<span class="overlay-mask"></span>
+							</a>
+							<a class="enlarge centered" href="assets/projects/dashboard_full_size.jpg" title="Dashboard"><i class="fa fa-expand fa-fw"></i></a>
+
+						</div>
+						<!-- End Thumbnail -->
+
+						<!--==== Project Preview Content ====-->
+
+
+
+					</article>
+					<!-- ==============================================
+						END PROJECT ITEM
+						=============================================== -->
+
+					<article class="col-md-4 col-sm-6 project-item apps">
+
+						<div class="project-thumb">
+							<a href="#" class="main-link">
+								<img class="img-responsive img-center" src="assets/projects/install.jpg" alt="" />
+								<h2 class="project-title">Kettle Setup</h2>
+								<span class="overlay-mask"></span>
+							</a>
+							<a class="enlarge centered" href="assets/projects/install_full_size.jpg" title="Kettle Setup"><i class="fa fa-expand fa-fw"></i></a>
+
+						</div>
+
+
+					</article>
+
+					<article class="col-md-4 col-sm-6 project-item web-design psd">
+
+						<div class="project-thumb">
+							<a href="#" class="main-link">
+								<img class="img-responsive img-center" src="assets/projects/steps.jpg" alt="" />
+								<h2 class="project-title">Brew Steps Configuration</h2>
+								<span class="overlay-mask"></span>
+							</a>
+							<a class="enlarge centered" href="assets/projects/steps_full_size.jpg" title="Brew Steps Configuration"><i class="fa fa-expand fa-fw"></i></a>
+						</div>
+						<!-- End Thumbnail -->
+
+					</article>
+
+					<article class="col-md-4 col-sm-6 project-item apps">
+						<div class="project-thumb">
+							<a href="#" class="main-link">
+								<img class="img-responsive img-center" src="assets/projects/kbh.jpg" alt="" />
+								<h2 class="project-title">Kleiner Brauhelfer Import</h2>
+								<span class="overlay-mask"></span>
+							</a>
+							<a class="enlarge centered" href="assets/projects/kbh_full_size.jpg" title="Kleiner Brauhelfer Import"><i class="fa fa-expand fa-fw"></i></a>
+
+						</div>
+
+					</article>
+				</div>
+				<!-- End Row -->
+
+			</div>
+			<!-- End Projects Container -->
+
+		</div>
+		<!-- End container -->
+
+		<!--==== Project Preview Panel (DO NOT REMOVE)====-->
+
+		<div id="preview-scroll"></div>
+
+		<div id="project-preview">
+
+			<div class="container">
+
+				<div class="preview-header text-center">
+					<a class="close-preview" href="#">&times;</a>
+					<h1 class="preview-title"></h1>
+					<p class="preview-subtitle"></p>
+				</div>
+
+				<div class="imac-frame">
+
+					<img class="img-responsive img-center" src="assets/imac.png" alt="" />
+					<span class="loader"></span>
+					<div class="imac-screen imac-slider flexslider"></div>
+
+				</div>
+
+				<div class="row">
+					<div id="preview-content" class="col-sm-10 col-sm-offset-1"></div>
+				</div>
+
+				<div class="preview-footer text-center">
+					<a class="close-preview" href="#">&times;</a>
+				</div>
+
+
+			</div>
+			<!--End container -->
+
+		</div>
+		<!--End #project-preview panel-->
+
+	</section>
+
+	<!-- ==============================================
+		RESPONSIVE VIDEO
+		=============================================== -->
+
+
+	<!-- ==============================================
+		PRICES
+		=============================================== -->
+
+	<!-- ==============================================
+		NEWS
+		=============================================== -->
+
+
+	<!-- ==============================================
+		CALL TO ACTION
+		=============================================== -->
+	<section id="donation" class="color-bg light-typo cta">
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-9 cta-message">
+					<p><strong>Donation:</strong> In general the software is free. If you like the software I would be very happy about a donation.</p>
+				</div>
+				<div class="col-md-3 cta-button">
+
+
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" class="ng-pristine ng-valid">
+						<input type="hidden" name="cmd" value="_donations">
+						<input type="hidden" name="business" value="manuel.fritsch@gmail.com">
+						<input type="hidden" name="lc" value="EN">
+						<input type="hidden" name="item_name" value="Carftbeer PI">
+						<input type="hidden" name="item_number" value="Carftbeer PI">
+						<input type="hidden" name="no_note" value="0">
+						<input type="hidden" name="currency_code" value="EUR">
+						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+						<p class="text-center">
+							<button type="submit" name="submit" class="btn btn-qubico white" href="#link"><i class="fa fa-paypal"></i>Donate Now</button>
+						</p>
+						<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+					</form>
+				</div>
+			</div>
+			<!--End row-->
+
+		</div>
+		<!--End container -->
+
+	</section>
+	<!--End Call to Action -->
+
+	<!-- ==============================================
+		CLIENTS
+		=============================================== -->
+
+	<!-- ==============================================
+		CONTACT
+		=============================================== -->
+	<section id="contact" class="gray-bg padding-top-bottom">
+
+		<div class="container">
+
+			<h1 class="section-title">Keep in Touch</h1>
+			<p class="section-description"></p>
+
+
+			<h1 class="subsection-title">Drop me a line</h1>
+			<p class="subsection-description">Drop me a line and we will contact you as soon as possible.</p>
+
+			<div class="row">
+
+				<!--=== Contact Form ===-->
+
+				<form id="contact-form" class="col-sm-6 col-sm-offset-3" action="contact.php" method="post" novalidate>
+
+					<div class="form-group">
+						<label class="control-label" for="contact-name">Name</label>
+						<div class="controls">
+							<input id="contact-name" name="contactName" placeholder="Your name" class="form-control requiredField label_better" type="text" data-error-empty="Please enter your name">
+							<i class="fa fa-user"></i>
+						</div>
+					</div>
+					<!-- End name input -->
+
+					<div class="form-group">
+						<label class="control-label" for="contact-mail">Email</label>
+						<div class=" controls">
+							<input id="contact-mail" name="email" placeholder="Your email" class="form-control requiredField label_better" type="email" data-error-empty="Please enter your email" data-error-invalid="Invalid email address">
+							<i class="fa fa-envelope"></i>
+						</div>
+					</div>
+					<!-- End email input -->
+
+					<div class="form-group">
+						<label class="control-label" for="contact-message">Message</label>
+						<div class="controls">
+							<textarea id="contact-message" name="comments" placeholder="Your message" class="form-control requiredField label_better" rows="6" data-error-empty="Please enter your message"></textarea>
+							<i class="fa fa-comment"></i>
+						</div>
+					</div>
+					<!-- End textarea -->
+
+					<p>
+						<button name="submit" type="submit" class="btn btn-qubico btn-block" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Message Sent"><i class="fa fa-location-arrow"></i>Send Message</button>
+					</p>
+					<input type="hidden" name="submitted" id="submitted" value="true" />
+
+				</form>
+				<!-- End contact-form -->
+
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- ==============================================
+		FOOTER
+		=============================================== -->
+	<footer id="main-footer" class="color-bg light-typo">
+
+		<div class="container text-center">
+			<ul class="social-links">
+
+				<li><a href="https://www.facebook.com/craftbeerpi/"><i class="fa fa-facebook fa-fw"></i></a></li>
+
+			</ul>
+			<p>&copy;2016 CraftBeerPI 2.0</p>
+			<em></em>
+
+		</div>
+
+	</footer>
+
+
+	<!-- ==============================================
+		SCRIPTS
+		=============================================== -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script>
+		window.jQuery || document.write('<script src="js/libs/jquery-1.8.2.min.js">\x3C/script>')
+	</script>
+
+	<script src="js/libs/bootstrap.min.js"></script>
+	<script src='js/jquery.easing.1.3.min.js'></script>
+	<script src='js/jquery.scrollto.js'></script>
+	<script src='js/jquery.flexslider.min.js'></script>
+	<script src='js/jquery.fitvids.js'></script>
+	<script src='js/jquery.fittext.js'></script>
+	<script src="js/waypoints.min.js"></script>
+	<script src="js/jquery.countTo.js"></script>
+	<script src="js/jquery.easypiechart.js"></script>
+	<script src="js/jquery.sequence-min.js"></script>
+	<script src="js/jquery.colorbox-min.js"></script>
+	<script src="js/contact.js"></script>
+	<script src="js/qubico.js"></script>
+
+	<script>
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-72473288-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+</body>
+
+</html>
