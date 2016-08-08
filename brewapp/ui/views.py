@@ -24,13 +24,12 @@ def nocache(view):
 @ui.route('/')
 @nocache
 def index():
-    print "#############"
-    #return ui.send_static_file("setup.html")
-    print "###############"
-    print Kettle.query.count() is 0
-    if (Kettle.query.count() is 0):
+
+    if app.brewapp_config.get("SETUP", "Yes") == "Yes":
+        print "SEUTP"
         return ui.send_static_file("setup.html")
     else:
+        print "INDEX"
         return ui.send_static_file("index.html")
 
 

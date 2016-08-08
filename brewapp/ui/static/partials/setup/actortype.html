@@ -1,11 +1,47 @@
 <h1>{{ 'HARDWARE_TYPE' | translate }}</h1>
 <p>{{ 'HARDWARE_TYPE_SUBHEADLINE' | translate }}</p>
+
 <div class="row">
 
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-primary" ng-click="setHardware('GPIO')">GPIO</button>
-        <button type="button" class="btn btn-primary" ng-click="setHardware('PIFACE')">PiFace</button>
-        <button type="button" class="btn btn-primary" ng-click="setHardware('GEMBIRD')">Gembird USB</button>
-        <button type="button" class="btn btn-primary" ng-click="setHardware('DUMMY')">Dummy</button>
+    <div class="col-sm-3 ">
+        <div class="thumbnail ">
+            <img class="img-responsive" src="static/images/raspi.png"/>
+            <div class="caption">
+                <h3>GPIO</h3>
+                <p></p>
+                <button type="button" class="btn btn-primary" ng-click="setHardware('GPIO')">Select</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 ">
+        <div class="thumbnail ">
+            <img class="img-responsive" src="static/images/piface.png"/>
+            <div class="caption">
+                <h3>PIFACE</h3>
+                <p></p>
+                <button type="button" class="btn btn-primary" ng-click="setHardware('PIFACE')">Select</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 ">
+        <div class="thumbnail ">
+            <img class="img-responsive" src="static/images/socket.png"/>
+            <div class="caption">
+                <h3>GEMBIRD</h3>
+                <p></p>
+                <button type="button" class="btn btn-primary" ng-click="setHardware('GEMBIRD')">Select</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 ">
+        <div class="thumbnail ">
+            <img class="img-responsive" src="static/images/dummy.png"/>
+            <div class="caption">
+                <h3>DUMMY</h3>
+                <p></p>
+                <button type="button" class="btn btn-primary" ng-click="setHardware('DUMMY')">Select</button>
+            </div>
+        </div>
     </div>
 </div>
+

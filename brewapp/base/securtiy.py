@@ -24,7 +24,7 @@ def requires_auth(f):
         return f(*args, **kwargs)
     return decorated
 
-@app.before_request
+
 @requires_auth
 def detect_user_language():
     pass

@@ -1109,12 +1109,25 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
     $scope.kettle = [];
 
 
-
-    $scope.dump = function() {
+    $scope.dump = function () {
         console.log($scope.brewery);
     }
 
 
+    $scope.next = function () {
+
+        switch (WizardHandler.wizard().currentStepNumber()) {
+
+            case 5:
+                     $scope.startKettleStep();
+                break;
+            default:
+                WizardHandler.wizard().next();
+                break;
+        }
+
+
+    }
 
     $scope.changeLanguage = function (langKey) {
         $scope.language = langKey;
@@ -1147,9 +1160,27 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
 
     }
 
-    $scope.showBack = function(){
+    $scope.showNext = function () {
 
-        if(WizardHandler.wizard().currentStepNumber() > 1) {
+        switch (WizardHandler.wizard().currentStepNumber()) {
+            case 1:
+            case 3:
+            case 4:
+            case 7:
+
+                return false;
+                break;
+
+            default:
+
+                return true;
+                break;
+        }
+    }
+
+    $scope.showBack = function () {
+
+        if (WizardHandler.wizard().currentStepNumber() > 1) {
             return true;
         }
         else {
@@ -1174,19 +1205,34 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
 
         switch (type) {
             case 'H':
-                $scope.heater.push({"id": i++, "name": "Heater", "type": "H", "config": {"inverted": false, "hide": false}});
+                $scope.heater.push({
+                    "id": i++,
+                    "name": "Heater",
+                    "type": "H",
+                    "config": {"inverted": false, "hide": false}
+                });
                 break;
             case 'A':
-                $scope.agitator.push({"id": i++, "name": "Agiator", "type": "A",  "config": {"inverted": false, "hide": false}});
+                $scope.agitator.push({
+                    "id": i++,
+                    "name": "Agiator",
+                    "type": "A",
+                    "config": {"inverted": false, "hide": false}
+                });
                 break;
             case 'P':
-                $scope.pump.push({"id": i++, "name": "Pump",  "type": "P", "config": {"inverted": false, "hide": false}});
+                $scope.pump.push({
+                    "id": i++,
+                    "name": "Pump",
+                    "type": "P",
+                    "config": {"inverted": false, "hide": false}
+                });
                 break;
             case 'T':
                 $scope.thermometer.push({
                     "id": i++,
                     "name": "Thermometer",
-                     "type": "T",
+                    "type": "T",
                     "config": {"hide": false, "thermometer": {"offset": 0}}
                 });
                 break;
@@ -1219,11 +1265,15 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
 
     $scope.finish = function () {
 
-        var hw =  $scope.heater.concat($scope.agitator).concat($scope.pump).concat($scope.thermometer);
-        
-        CBPSetup.setup({},{"hardware": hw, "kettle": $scope.kettle, "brewery_name":$scope.brewery.name}, function (response) {
+        var hw = $scope.heater.concat($scope.agitator).concat($scope.pump).concat($scope.thermometer);
+
+        CBPSetup.setup({}, {
+            "hardware": hw,
+            "kettle": $scope.kettle,
+            "brewery_name": $scope.brewery.name
+        }, function (response) {
             $window.location.href = "/";
-         });
+        });
     }
 
 }

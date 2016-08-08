@@ -12,7 +12,7 @@ class DummyGPIO(SwitchBase):
 
     def getDevices(self):
         gpio = []
-        for i in range(1, 6):
+        for i in range(1, 30):
             gpio.append("GPIO"+str(i))
         return gpio
 

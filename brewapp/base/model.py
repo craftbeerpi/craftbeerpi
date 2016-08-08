@@ -43,7 +43,6 @@ class Kettle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     sensorid = db.Column(db.String(80))
-    #sensoroffset = db.Column(db.Float())
     heater = db.Column(db.String(10))
     automatic = db.Column(db.String(255))
     agitator = db.Column(db.String(10))
@@ -74,7 +73,6 @@ class Config(db.Model):
     type = db.Column(db.String(50))
     value = db.Column(db.String(255))
     description = db.Column(db.String(255))
-    default = db.Column(db.String(50))
     options = db.Column(db.String(255))
 
     def __repr__(self):

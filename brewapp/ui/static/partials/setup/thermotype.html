@@ -1,11 +1,33 @@
 <h1>{{ 'THERMOMETER_TYPE' | translate }}</h1>
 <p>{{ 'THERMOMETER_TYPE_SUBHEADLINE' | translate }}</p>
+
+
 <div class="row">
-
-    <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-primary" ng-click="setThermometer('1WIRE')">1WIRE</button>
-        <button type="button" class="btn btn-primary" ng-click="setThermometer('1WIRE')">USB</button>
-
-        <button type="button" class="btn btn-primary" ng-click="setThermometer('DUMMY')">Dummy</button>
+       <div class="col-sm-3 ">
+           </div>
+    <div class="col-sm-3 ">
+        <div class="thumbnail ">
+            <img class="img-responsive" src="static/images/1wire.png"/>
+            <div class="caption">
+                <h3>1Wire</h3>
+                <p></p>
+                <button type="button" class="btn btn-primary" ng-click="setThermometer('1WIRE')">Select</button>
+            </div>
+        </div>
     </div>
+    <div class="col-sm-3 ">
+        <div class="thumbnail ">
+            <img class="img-responsive" src="static/images/dummy.png"/>
+            <div class="caption">
+                <h3>Dummy</h3>
+                <p></p>
+                <button type="button" class="btn btn-primary" ng-click="setThermometer('DUMMY')">Select</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 ">
+           </div>
+
+
 </div>
+

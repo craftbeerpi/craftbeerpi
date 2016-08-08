@@ -26,13 +26,11 @@
                        <i class="fa fa-wrench"></i><span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
-                        <li><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
+                        <li ng-if="v.sensorid"><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
                         <li><a ng-click="calcVolume(v)">{{ 'CALC_VOLUME' | translate }}</a></li>
                     </ul>
                 </div>
-
             </div>
-
             <div class="panel-body">
 
                 <div class="row">

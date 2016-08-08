@@ -1,0 +1,54 @@
+SETUP:
+ value: 'YES'
+ options: ['Yes', 'No']
+ description: 'Setup done?'
+
+BUZZER_GPIO:
+ value: 23
+ description: 'Buzzer GPIO'
+
+BREWNAME:
+ value:
+ description: 'Brew Name'
+
+UNIT:
+ value: C
+ options: ['C','F']
+ description: 'Temperature Unit'
+
+THERMOMETER_TYPE:
+ value: 1WIRE
+ options: ['1WIRE','USB','DUMMY']
+ description: 'Thermometer Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
+
+SWITCH_TYPE:
+ value: GPIO
+ options: ['GPIO','PIFACE','GEMBIRD','DUMMY']
+ description: 'Actor Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
+
+SEND_STATS:
+ value: 'True'
+ options: ['True', 'False']
+ description: 'Sending statistic informaiton to CraftBeerPI. This helps to improve CraftBeerPI in the future'
+
+USE_LCD:
+ value: 'False'
+ options: ['True', 'False']
+ description: 'Use LCD'
+
+
+BREWERY_NAME:
+ value:
+ description: 'Name of your brewery'
+
+USERNAME:
+ value: admin
+
+PASSWORD:
+ value: 123
+
+THEME:
+ value: static/themes/dark-theme.css
+ options: ['static/themes/dark-theme.css', 'static/themes/blue-theme.css', '']
+ description: 'Color theme'
+

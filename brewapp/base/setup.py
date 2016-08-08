@@ -17,18 +17,22 @@ def setup():
 def setKettle():
     data =request.get_json()
 
+
+    Hardware.query.delete()
+    Kettle.query.delete()
+
     for hw in data["hardware"]:
         ks = Hardware(id=hw["id"], name=hw["name"], type=hw["type"], config=json.dumps(hw["config"]))
         db.session.add(ks)
 
     for k in data["kettle"]:
-        ks = Kettle(name=k["name"], target_temp=0, automatic="null", sensorid=k["sensorid"], agitator=k["agitator"], heater=k["heater"], diameter=50, height=50)
+        print k.get("name", "Non-Name")
+        ks = Kettle(name=k.get("name", "Non-Name"), target_temp=0, automatic="null", sensorid=k.get("sensorid", None), agitator=k.get("agitator", None), heater=k.get("heater", None), diameter=50, height=50)
         db.session.add(ks)
     db.session.commit()
 
-    print data["brewery_name"]
     setConfigParameter("BREWERY_NAME", data["brewery_name"]);
-
+    setConfigParameter("SETUP", "NO");
     initKettle()
     initHardware(True)
     sendStats()
@@ -69,6 +73,8 @@ def setConfigParameter(name, value):
         config.value = value
     else:
         config.value = value
+
+    app.brewapp_config[name] = value
 
     db.session.add(config)
     db.session.commit()
