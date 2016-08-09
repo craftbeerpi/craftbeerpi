@@ -21,3 +21,4 @@ Flask-Restless==0.17.0
 netifaces==0.10.4
 requests==2.9.1
 flask-login==0.3.2
+PyYAML==3.11

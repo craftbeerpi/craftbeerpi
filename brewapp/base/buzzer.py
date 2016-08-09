@@ -43,6 +43,7 @@ sound3 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
 
 ## Logic to play the sound melodie
 def playSound(melodie):
+    
     try:
         buzzer_gpio = app.brewapp_config.get("BUZZER_GPIO", None)
         if(buzzer_gpio == None):
@@ -56,4 +57,5 @@ def playSound(melodie):
             else:
                 time.sleep(i)
     except Exception as e:
-        print app.logger.error("ERROR")
+        print app.logger.error("BUZZER ERROR " + str(e))
+
