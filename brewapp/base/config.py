@@ -40,19 +40,16 @@ def yinit():
         try:
             y = yaml.load(stream)
             for k in y.keys():
-                print k
+
                 opts = y[k].get("options", None)
                 if opts is not None:
                     opts =  ",".join(opts)
-                print opts
+
                 db.session.add(Config(name=k, value=y[k].get("value", None), type=y[k].get("type", None), description=y[k].get("description", None), options=opts))
             db.session.commit()
         except yaml.YAMLError as exc:
-            print(exc)
+            app.logger.error("BUZZER ERROR " + str(exc))
 
-    config = Config.query.all()
-    for c in config:
-        print c
 
 @brewinit(order=-1000)
 def init():
