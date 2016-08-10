@@ -21,7 +21,7 @@
 
                 </span>
 
-                <div uib-tooltip="{{ 'TOOLS' | translate }}" class="btn-group pull-right" uib-dropdown keyboard-nav>
+                <div class="btn-group pull-right" uib-dropdown keyboard-nav>
                     <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
                        <i class="fa fa-wrench"></i><span class="caret"></span>
                     </button>
@@ -36,26 +36,24 @@
                 <div class="row">
                     <div class="col-xs-12">
 
-        <span uib-tooltip="{{ 'TARGET_TEMP' | translate }}" class="pull-right" ng-if="v.heater | hardware_name:hardware_dict"><i class="fa fa-crosshairs"></i>
+        <span class="pull-right" ng-if="v.heater | hardware_name:hardware_dict"><i class="fa fa-crosshairs"></i>
           <strong>{{ v.target_temp }}°{{ config["UNIT"] }}</strong>
         </span>
 
-                        <span class="temp" ng-if="v.sensorid" uib-tooltip="{{ 'CURRENT_TEMP' | translate }}"><i
+                        <span class="temp" ng-if="v.sensorid" ><i
                                 class="wi wi-thermometer"></i> <b>{{ v.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b></span>
                     </div>
 
                 </div>
                 <div class="btn-group btn-group-justified" role="group ">
                     <div class="btn-group" role="group" ng-if="v.heater | hardware_name:hardware_dict">
-                        <button class="btn btn-default" data-toggle="tooltip"
-                                uib-tooltip="{{ 'SET_TARGET_TEMP' | translate }}"
+                        <button class="btn btn-default"
                                 role="group" ng-click="setTargetTemp(v)">
                             <span class="badge"><i class="fa fa-crosshairs"></i></span>
                         </button>
                     </div>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-default" data-toggle="tooltip"
-                                uib-tooltip="{{ 'SWITCH_AUTOMATIC' | translate }}" role="group"
+                        <button class="btn btn-default" role="group"
                                 ng-if="v.automatic" ng-class="v | hardware_state:'AUTO':kettle_state"
                                 ng-click="switch_automatic(v)">
                             <span class="badge"><i class="fa fa-car"></i></span>
@@ -63,8 +61,7 @@
                     </div>
                     <div class="btn-group" role="group">
 
-                        <button class="btn btn-default" data-toggle="tooltip"
-                                uib-tooltip="{{ 'SWITCH_HEATER' | translate }}" role="group"
+                        <button class="btn btn-default"  role="group"
                                 ng-if="v.heater | hardware_name:hardware_dict"
                                 ng-class="v | hardware_state:'H':switch_state"
                                 ng-click="switchGPIO(v.heater)">
@@ -73,8 +70,7 @@
                     </div>
                     <div class="btn-group" role="group">
 
-                        <button class="btn btn-default" data-toggle="tooltip"
-                                uib-tooltip="{{ 'SWITCH_AGITATOR' | translate }}"
+                        <button class="btn btn-default"
                                 role="group" ng-if="v.agitator | hardware_name:hardware_dict"
                                 ng-class="v | hardware_state:'A':switch_state" ng-click="switchGPIO(v.agitator)">
                             <span class="badge"><i class="fa fa-refresh "></i></span>

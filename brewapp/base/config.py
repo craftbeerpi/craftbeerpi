@@ -33,10 +33,10 @@ def readConfig():
         app.brewapp_config[c.name] = c.value
 
 @brewinit(-1001)
-def yinit():
+def initConfig():
     if (app.createdb is False):
         return
-    with open("config.yaml", 'r') as stream:
+    with open("config/config.yaml", 'r') as stream:
         try:
             y = yaml.load(stream)
             for k in y.keys():
@@ -48,7 +48,7 @@ def yinit():
                 db.session.add(Config(name=k, value=y[k].get("value", None), type=y[k].get("type", None), description=y[k].get("description", None), options=opts))
             db.session.commit()
         except yaml.YAMLError as exc:
-            app.logger.error("BUZZER ERROR " + str(exc))
+            app.logger.error("Load config ERROR " + str(exc))
 
 
 @brewinit(order=-1000)

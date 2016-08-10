@@ -7,11 +7,6 @@ from flask import Flask, abort, redirect, url_for, render_template
 
 manager = Manager(app)
 
-@manager.command
-def hello():
-    print "hello"
-    config = Config.query.all()
-    print config
 
 @manager.command
 def dump():

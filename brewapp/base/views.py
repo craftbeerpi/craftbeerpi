@@ -25,4 +25,4 @@ def index2():
 
 @socketio.on('connect', namespace='/brew')
 def ws_connect():
-    print "CONNECT111"
+    print "CONNECT"

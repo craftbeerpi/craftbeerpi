@@ -675,7 +675,7 @@ function DashboardKettleController($scope, CBPKettle, ConfirmMessage, mySocket, 
     });
 
     $scope.$on('socket:switch_state_update', function (ev, data) {
-
+        console.log(data);
         $scope.switch_state = data;
     });
     $scope.$on('socket:kettle_state_update', function (ev, data) {

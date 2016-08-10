@@ -8,8 +8,6 @@
 # sudo reboot
 
 
-
-
 clear
 cat << "EOF"
 
@@ -141,7 +139,7 @@ done
 while true; do
     read -p "Would you like to start CarftBeerPI automatically after boot? (y/n): " yn
     case $yn in
-        [Yy]* ) sed "s@#DIR#@${PWD}@g" craftbeerpiboot > /etc/init.d/craftbeerpiboot
+        [Yy]* ) sed "s@#DIR#@${PWD}@g" config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
 
     chmod 755 /etc/init.d/craftbeerpiboot;
 		update-rc.d craftbeerpiboot defaults;

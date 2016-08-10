@@ -15,13 +15,16 @@ except Exception as e:
 ###
 @brewinit()
 def initBuzzer():
+
     buzzer_gpio = app.brewapp_config.get("BUZZER_GPIO", None)
     app.logger.info("BUZZER GPIO: " + str(buzzer_gpio) )
     try:
+        if buzzer_gpio is not None:
+            buzzer_gpio = int(buzzer_gpio)
         GPIO.setup(buzzer_gpio, GPIO.OUT)
         GPIO.output(buzzer_gpio, 0)
     except Exception as e:
-        app.logger.error(e)
+        print app.logger.error(e)
 
 def nextStepBeep():
     start_new_thread(playSound,(sound1,))
@@ -45,16 +48,25 @@ sound3 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
 def playSound(melodie):
 
     try:
+        print "BEEP"
         buzzer_gpio = app.brewapp_config.get("BUZZER_GPIO", None)
+        print buzzer_gpio
         if(buzzer_gpio == None):
             return
         for i in melodie:
             if(isinstance(i, str)):
-                if(i == "H"):
+                print i
+                if i == "H":
+                    print "H"
+                    print buzzer_gpio
+                    print GPIO.HIGH
                     GPIO.output(buzzer_gpio,GPIO.HIGH)
+                    print "---"
                 else:
+                    print "L"
                     GPIO.output(buzzer_gpio,GPIO.LOW)
             else:
+                print "SEEP"
                 time.sleep(i)
     except Exception as e:
         print app.logger.error("BUZZER ERROR " + str(e))
