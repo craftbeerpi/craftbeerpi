@@ -18,7 +18,7 @@ UNIT:
 
 THERMOMETER_TYPE:
  value: 1WIRE
- options: ['1WIRE','USB','DUMMY']
+ options: ['1WIRE','USB','DUMMY', '1WIRE_V2']
  description: 'Thermometer Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
 
 SWITCH_TYPE:

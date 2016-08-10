@@ -82,6 +82,7 @@ def initDriver():
     thermometer = {
         'DUMMY': dummy_thermometer.DummyThermometer(),
         '1WIRE': w1_thermometer.OneWireThermometer(),
+        '1WIRE_V2': w1_thermometer2.OneWireThermometer2(),
         'USB': usb_thermometer.USBThermometer()
     }
 
