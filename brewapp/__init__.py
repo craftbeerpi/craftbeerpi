@@ -18,7 +18,7 @@ socketio = SocketIO(app)
 logging.basicConfig(filename='app.log',level=logging.DEBUG)
 
 app.logger.info("##########################################")
-app.logger.info("### NEW STARTUP")
+app.logger.info("### NEW STARTUP Version 2.2")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'

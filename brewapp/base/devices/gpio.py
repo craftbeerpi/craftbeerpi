@@ -13,7 +13,6 @@ class BrewGPIO(SwitchBase):
 
     def init(self):
         app.logger.info("INIT GPIO")
-        print "INIT GPIO"
         try:
             GPIO.setmode(GPIO.BCM)
             app.logger.info(app.brewapp_hardware_config)
@@ -30,10 +29,11 @@ class BrewGPIO(SwitchBase):
                     app.logger.info("SETUP HARDWARE: " + str(h) + " GPIO: " + str(g))
                     GPIO.setup(g, GPIO.OUT)
 
-
                     if(self.getConfigValue(h, "inverted", False)):
+                        app.logger.warning("SETUP INVERTED")
                         GPIO.output(g, 1)
                     else:
+                        app.logger.warning("SETUP NOT INVERTED")
                         GPIO.output(g, 0)
 
             app.brewapp_gpio = True
@@ -68,15 +68,16 @@ class BrewGPIO(SwitchBase):
 
             switch_name = self.getConfigValue(device, "switch", None)
             if switch_name is None:
+                app.logger.warning("SWITCH NOT FOUND IN CONFIG")
                 pass
 
             gpio = self.translateDeviceName(switch_name)
 
             if self.getConfigValue(device, "inverted", False) :
-                print "ON"
+                app.logger.warning("SWITCH ON - Inverted")
                 GPIO.output(gpio, 0)
             else:
-                print "ON"
+                app.logger.warning("SWITCH ON - Not Inverted")
                 GPIO.output(gpio, 1)
             pass
         else:
@@ -88,13 +89,16 @@ class BrewGPIO(SwitchBase):
 
             switch_name = self.getConfigValue(device, "switch", None)
             if switch_name is None:
+                app.logger.warning("SWITCH NOT FOUND IN CONFIG")
                 pass
 
             gpio = self.translateDeviceName(switch_name)
 
             if(self.getConfigValue(device, "inverted", False)):
+                app.logger.warning("SWITCH OFF - Inverted")
                 GPIO.output(gpio, 1)
             else:
+                app.logger.warning("SWITCH OFF - Not Inverted")
                 GPIO.output(gpio, 0)
             pass
         else:
