@@ -1,42 +1,167 @@
 <div ng-controller="HardwareOverviewController">
-	<div class="row">
-		<div class="col-sm-12">
-			<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
-				<div class="panel-heading">
-					{{ 'HARDWARE' | translate}}
-					<div class="btn-group pull-right" role="group">
+    <!--<div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+                <div class="panel-heading">
+                    {{ 'HARDWARE' | translate }}
+                    <div class="btn-group pull-right" role="group">
 
-						<a ng-click="createHardware()" uib-tooltip="{{ 'ADD_NEW_HARDWARE' | translate }}" class="btn btn-success" role="group">
-							<i class="fa fa-plus"></i></a>
-					</div>
-					<div class="clearfix"></div>
-				</div>
-				<table class="table">
-					<thead>
-						<td>{{ 'NAME' | translate}}</td>
-						<td>{{ 'TYPE' | translate}}</td>
-						<td>{{ 'VISIBILITY' | translate}}</td>
-						<td>{{ 'SWITCH' | translate}}</td>
-					</thead>
-					<tr ng-repeat="item in hw track by $index">
+                        <a ng-click="createHardware()" uib-tooltip="{{ 'ADD_NEW_HARDWARE' | translate }}"
+                           class="btn btn-success" role="group">
+                            <i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+-->
 
-						<td>
-							<a ng-click="edit(item.id)">{{ item.name }}</a>
-						</td>
-						<td>
-							<i class="fa" ng-class="item.type | hardware_icon"></i>
-						</td>
-						<td>
-							<i class="fa fa-eye" ng-if="item.config.hide == false"></i>
-							<i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
-						</td>
-						<td>
-							{{ item.config.switch }}
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'HEATER' | translate }}
+                    <div class="btn-group pull-right" role="group">
+                        <a ng-click="createHardware('H')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+                           role="group">
+                            <i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <td>{{ 'NAME' | translate }}</td>
+                    <td>{{ 'VISIBILITY' | translate }}</td>
+                    <td>{{ 'SWITCH' | translate }}</td>
+                    </thead>
+                    <tr ng-repeat="item in heater track by $index">
 
-	</div>
+                        <td>
+                            <a ng-click="edit(item.id)">{{ item.name }}</a>
+                        </td>
+                        <td>
+                            <i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+                            <i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
+                        </td>
+                        <td>
+                            {{ item.config.switch }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'AGITATOR' | translate }}
+                    <div class="btn-group pull-right" role="group">
+                        <a ng-click="createHardware('A')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+                           role="group">
+                            <i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <td>{{ 'NAME' | translate }}</td>
+                    <td>{{ 'VISIBILITY' | translate }}</td>
+                    <td>{{ 'SWITCH' | translate }}</td>
+                    </thead>
+                    <tr ng-repeat="item in agitator track by $index">
+
+                        <td>
+                            <a ng-click="edit(item.id)">{{ item.name }}</a>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+                            <i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
+                        </td>
+                        <td>
+                            {{ item.config.switch }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'PUMP' | translate }}
+                    <div class="btn-group pull-right" role="group">
+                        <a ng-click="createHardware('P')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+                           role="group">
+                            <i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <td>{{ 'NAME' | translate }}</td>
+                    <td>{{ 'TYPE' | translate }}</td>
+                    <td>{{ 'VISIBILITY' | translate }}</td>
+                    <td>{{ 'SWITCH' | translate }}</td>
+                    </thead>
+                    <tr ng-repeat="item in pump track by $index">
+
+                        <td>
+                            <a ng-click="edit(item.id)">{{ item.name }}</a>
+                        </td>
+                        <td>
+                            <i class="fa" ng-class="item.type | hardware_icon"></i>
+                        </td>
+                        <td>
+                            <i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+                            <i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
+                        </td>
+                        <td>
+                            {{ item.config.switch }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'THERMOMETER' | translate }}
+                    <div class="btn-group pull-right" role="group">
+                        <a ng-click="createHardware('T')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+                           role="group">
+                            <i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td>{{ 'Name' | translate }}</td>
+                        <td>{{ 'SENSOR' | translate }}</td>
+                        <td>{{ 'OFFSET' | translate }}</td>
+                        <td>{{ 'VISIBILITY' | translate }}</td>
+
+                    </tr>
+                    <tr ng-repeat="item in thermometer track by $index">
+                        <td><a ng-click="edit(item.id)">{{ item.name }}</a></td>
+                        <td>{{ item.config.thermometer.id }}</td>
+                        <td>{{ item.config.thermometer.offset }}</td>
+                        <td><i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+                            <i class="fa fa-eye-slash" ng-if="item.config.hide"></i></td>
+
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!--
+
+
+</div>
+</div>
+
+</div>
+-->
 </div>

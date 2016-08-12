@@ -8,13 +8,6 @@
     <input type="text"  ng-model="hardware.name" class="form-control">
   </div>
 
-  <div class="form-group">
-    <label>{{ 'TYPE' | translate}}</label>
-    <select class="form-control" ng-model="hardware.type">
-      <option value="">---{{ 'PLS_SELECT' | translate}}---</option>
-      <option ng-repeat="t in type" value="{{t.key}}">{{t.value | translate}}</option>
-    </select>
-  </div>
 
   <span ng-if="hardware.type != 'T'" ng-include="'static/partials/hardware/switch.html'"/>
   <span ng-if="hardware.type == 'T'"  ng-include="'static/partials/hardware/thermometer.html'"/>

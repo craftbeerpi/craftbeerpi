@@ -1,14 +1,6 @@
 from brewapp import app
 from flask.ext.restless.helpers import to_dict
 
-def loadConfig(file):
-    import yaml
-
-    with open(file, 'r') as stream:
-        try:
-            return (yaml.load(stream))
-        except yaml.YAMLError as exc:
-            print(exc)
 
 def getAsArray(obj, order = None):
     if order is not None :

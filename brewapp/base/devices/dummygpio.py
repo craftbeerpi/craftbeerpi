@@ -1,14 +1,14 @@
 from brewapp import app
-from brewapp.base.hardwareswitch import SwitchBase
+from brewapp.base.actor import ActorBase
 from brewapp.base.model import *
 
-class DummyGPIO(SwitchBase):
+class DummyGPIO(ActorBase):
 
     def init(self):
         self.state = True
 
     def cleanup(self):
-        print "CLEAN UP"
+        pass
 
     def getDevices(self):
         gpio = []

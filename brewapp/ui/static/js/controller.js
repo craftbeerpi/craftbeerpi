@@ -231,6 +231,12 @@ function ConfirmController($scope, $uibModalInstance, headline, message) {
 
 function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
 
+
+    $scope.heater = [];
+    $scope.pump = [];
+    $scope.agitator = [];
+    $scope.other = [];
+    $scope.thermometer = [];
     $scope.type = [
         {"key": "P", "value": "PUMP"},
         {"key": "A", "value": "AGITATOR"},
@@ -242,6 +248,7 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
     // Get GPIOs
     $scope.gpio = []
     CBPKettle.getDevices({}, function (response) {
+
         angular.forEach(response, function (d) {
             $scope.gpio.push({
                 "key": d,
@@ -250,11 +257,36 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
         })
     });
 
-    $scope.thermometer = [];
+    $scope.sorthardware = function (data) {
+        $scope.heater = [];
+        $scope.pump = [];
+        $scope.agitator = [];
+        $scope.other = [];
+        $scope.thermometer = [];
+        angular.forEach(data, function (d) {
+            switch (d.type) {
+                case "H":
+                    $scope.heater.push(d);
+                    break;
+                case "P":
+                    $scope.pump.push(d);
+                    break;
+                case "A":
+                    $scope.agitator.push(d);
+                    break;
+                case "T":
+                    $scope.thermometer.push(d);
+                    break;
+            }
+
+        });
+    }
+
+    $scope.sensors = [];
 
     CBPKettle.getthermometer({}, function (response) {
         angular.forEach(response, function (d) {
-            $scope.thermometer.push({
+            $scope.sensors.push({
                 "key": d,
                 "value": d
             });
@@ -262,10 +294,35 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
     });
 
     CBPHardware.query(function (response) {
+        console.log(response);
+        $scope.sorthardware(response.objects);
         $scope.hw = response.objects;
     });
 
-    $scope.createHardware = function () {
+    $scope.createHardware = function (type) {
+
+        if (type == 'T') {
+            $scope.hardware = {
+                "name": "",
+                "type": type,
+                "config": {
+                    "thermometer": {"offset": 0},
+                    "hide": false
+                }
+            };
+        }
+        else {
+            $scope.hardware = {
+                "name": "",
+                "type": type,
+                "config": {
+                    "inverted": false,
+                    "hide": false
+                }
+            };
+        }
+
+
         var modalInstance = $uibModal.open({
             animation: true,
             controller: "HardwareCreateController",
@@ -275,7 +332,7 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
         });
         modalInstance.result.then(function (data) {
             CBPHardware.query(function (response) {
-                $scope.hw = response.objects;
+                $scope.sorthardware(response.objects);
             });
         });
     }
@@ -291,7 +348,7 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
         });
         modalInstance.result.then(function (data) {
             CBPHardware.query(function (response) {
-                $scope.hw = response.objects;
+                $scope.sorthardware(response.objects);
             });
         });
     }
@@ -301,15 +358,6 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
 function HardwareCreateController($scope, CBPHardware, $uibModalInstance) {
     $scope.edit = false;
 
-
-    $scope.hardware = {
-        "name": "",
-        "config": {
-            "inverted": false,
-            "hide": false
-        }
-
-    };
 
     $scope.save = function () {
 
@@ -1119,7 +1167,7 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
         switch (WizardHandler.wizard().currentStepNumber()) {
 
             case 5:
-                     $scope.startKettleStep();
+                $scope.startKettleStep();
                 break;
             default:
                 WizardHandler.wizard().next();

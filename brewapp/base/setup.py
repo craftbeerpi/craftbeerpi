@@ -2,7 +2,7 @@ from flask import request
 from brewapp.base.devices import *
 from brewapp.base.stats import *
 from brewapp.base.thermometer import *
-from hardwareswitch import initHardware
+from actor import initHardware
 from kettle import initKettle
 from views import base
 from brewapp import app
@@ -26,7 +26,6 @@ def setKettle():
         db.session.add(ks)
 
     for k in data["kettle"]:
-        print k.get("name", "Non-Name")
         ks = Kettle(name=k.get("name", "Non-Name"), target_temp=0, automatic="null", sensorid=k.get("sensorid", None), agitator=k.get("agitator", None), heater=k.get("heater", None), diameter=50, height=50)
         db.session.add(ks)
     db.session.commit()
@@ -41,8 +40,6 @@ def setKettle():
 @app.route('/api/setup/thermometer', methods=['POST'])
 def setThermometer():
     data =request.get_json()
-
-    print data
     thermometer = {
         'DUMMY': dummy_thermometer.DummyThermometer(),
         '1WIRE': w1_thermometer.OneWireThermometer(),

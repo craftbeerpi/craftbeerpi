@@ -111,7 +111,6 @@ for i in app.brewapp_init:
         param = app.brewapp_config.get(i.get("config_parameter"), False)
         if(param == 'False'):
             continue
-    print "INIT : %s" % (i.get("function").__name__)
     app.logger.info("--> Method: " + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
     i.get("function")()
 

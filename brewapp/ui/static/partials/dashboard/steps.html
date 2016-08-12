@@ -1,4 +1,4 @@
-<div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top"
+<div class="panel panel-default kettle" data-placement="top"
      ng-controller="DashboardStepController">
 
     <div class="panel-heading">
@@ -7,12 +7,12 @@
         <div class="btn-group pull-right" role="group" aria-label="..." ng-if="steps.length > 0">
 
             <div class="btn-group" role="group">
-                <button uib-tooltip="{{ 'RESET_BREW_PROCESS' | translate }}" ng-click="reset()"
+                <button ng-click="reset()"
                         class="btn btn-warning btn-lm"><i class="fa fa-fast-backward"></i> {{ "RESET" | translate }}
                 </button>
             </div>
             <div class="btn-group" role="group">
-                <button uib-tooltip="{{ 'START_BREW_PROCESS' | translate }}" ng-disabled="started()" ng-click="start()"
+                <button ng-disabled="started()" ng-click="start()"
                         class="btn btn-primary btn-lm"><i class="fa fa-play"></i> {{ "START" | translate }} </button>
             </div>
 

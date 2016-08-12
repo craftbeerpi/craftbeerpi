@@ -6,7 +6,7 @@ from brewapp.base.model import Config
 from flask import Blueprint, render_template, jsonify, request
 import json
 from brewapp.base.model import *
-from brewapp.base.hardwareswitch import *
+from brewapp.base.actor import *
 
 class Automatic(object):
 

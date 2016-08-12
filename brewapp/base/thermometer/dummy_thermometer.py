@@ -1,4 +1,4 @@
-import os
+import os, re
 from subprocess import Popen, PIPE, call
 from random import randint, uniform
 from brewapp import app
@@ -14,20 +14,22 @@ class DummyThermometer(object):
         return ["DummySensor1","DummySensor2"]
 
     def readTemp(self, tempSensorId):
+
+        value = -1
+        path = "test/w1_slave"
+
         try:
-            ## Test Mode
-            if(tempSensorId == None or tempSensorId == ""):
-                return -1
+            f = open(path, "r")
+            line = f.readline()
+            if re.match(r"([0-9a-f]{2} ){9}: crc=[0-9a-f]{2} YES", line):
+                line = f.readline()
+                m = re.match(r"([0-9a-f]{2} ){9}t=([+-]?[0-9]+)", line)
+                if m:
+                    value = float(m.group(2)) / 1000.0
+            f.close()
+        except (Exception), e:
+            app.logger.warning("Read temp failed " + str(e))
 
-            pipe = Popen(["cat","w1_slave"], stdout=PIPE)
 
-            result = pipe.communicate()[0]
-            ## parse the file
-            if (result.split('\n')[0].split(' ')[11] == "YES"):
-                temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
-            else:
-                temp_C = -99 #bad temp reading
-        except Exception as e:
-            temp_C = round(randint(0,50),2)
+        return value
 
-        return float(format(temp_C, '.2f'))

@@ -40,10 +40,9 @@ def initConfig():
         try:
             y = yaml.load(stream)
             for k in y.keys():
-
                 opts = y[k].get("options", None)
                 if opts is not None:
-                    opts =  ",".join(opts)
+                    opts = ",".join(opts)
 
                 db.session.add(Config(name=k, value=y[k].get("value", None), type=y[k].get("type", None), description=y[k].get("description", None), options=opts))
             db.session.commit()

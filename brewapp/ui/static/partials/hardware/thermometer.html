@@ -2,7 +2,7 @@
   <label>{{ 'THERMOMETER' | translate}}</label>
   <select class="form-control" ng-model="hardware.config.thermometer.id">
     <option value="">---{{ 'PLS_SELECT' | translate}}---</option>
-    <option ng-repeat="t in thermometer" value="{{t.key}}">{{t.value}}</option>
+    <option ng-repeat="t in sensors" value="{{t.key}}">{{t.value}}</option>
   </select>
 </div>
 <div class="form-group">

@@ -40,7 +40,7 @@ class OneWireThermometer2(object):
                     value = float(m.group(2)) / 1000.0
             f.close()
         except (Exception), e:
-            print app.logger.error("Read temp failed " + str(e))
+            app.logger.warning("Read temp failed " + str(e))
 
         return value
 

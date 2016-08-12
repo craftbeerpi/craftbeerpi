@@ -16,7 +16,7 @@ def loadRecipe(id):
 
     Step.query.delete()
     db.session.commit()
-    print id
+
     recipe = RecipeBooks.query.get(id);
 
     for a in recipe.steps:

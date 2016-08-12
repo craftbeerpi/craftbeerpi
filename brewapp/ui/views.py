@@ -26,10 +26,10 @@ def nocache(view):
 def index():
 
     if app.brewapp_config.get("SETUP", "Yes") == "Yes":
-        print "SEUTP"
+        app.logger.info("SHOW SETUP HTML")
         return ui.send_static_file("setup.html")
     else:
-        print "INDEX"
+        app.logger.info("SHOW INDEX HTML")
         return ui.send_static_file("index.html")
 
 

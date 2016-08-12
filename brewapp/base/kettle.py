@@ -47,7 +47,6 @@ def setTargetTemp(id, temp):
 def post_post(result=None, **kw):
     result["automatic"] = json.loads(result["automatic"])
     if(result != None):
-        print "INIT KETTEL"
         initKettle()
         initHardware()
 

@@ -8,7 +8,7 @@ import step
 import recipebook
 import kleinerbrauhelfer
 import automatic
-import hardwareswitch
+import actor
 import buzzer
 import setup
 import stats

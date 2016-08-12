@@ -4,12 +4,11 @@ import datetime
 from datetime import date
 from flask import make_response
 
-from brewapp.base.hardwareswitch import *
+from brewapp.base.actor import *
 
 app.brewapp_thermometers = {}
 app.brewapp_thermometers_log = {}
 app.brewapp_thermometer_last = {}
-
 
 @app.route('/api/thermometer/<id>/export')
 def exportTemp(id):
@@ -20,7 +19,7 @@ def exportTemp(id):
 
         r = []
         for d in app.brewapp_thermometers_log[id]:
-            r.append([date.fromtimestamp((d[0]/ 1000)).strftime('%Y-%m-%d %H:%M:%S'),d[1]])
+            r.append([datetime.datetime.fromtimestamp((d[0]/ 1000)).strftime('%Y-%m-%d %H:%M:%S'),d[1]])
 
         cw.writerow(["Time", "Temperature"])
         cw.writerows(r)
@@ -73,7 +72,6 @@ def getTargetTempLog(id):
 @app.route('/api/thermometer/kettle/<id>', methods=['GET'])
 def getKettleTemp(id):
     sensorid =  app.brewapp_kettle_state[int(id)]["sensorid"]
-    print sensorid
     return json.dumps({"target": app.brewapp_kettle_target_temps_log[int(id)], "temp": app.brewapp_thermometers_log[int(sensorid)]})
 
 # Clear all temp logs

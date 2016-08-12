@@ -12,7 +12,7 @@ def getHardwareDevices():
 
 @app.route('/api/hardware/state', methods=['GET'])
 def pumpstate():
-    return  json.dumps(app.brewapp_pump_state)
+    return  json.dumps(app.brewapp_switch_state)
 
 
 def pre_post(data, **kw):
@@ -83,18 +83,20 @@ def initHardware(cleanup = True):
 
 @app.route('/api/switch', methods=['GET'])
 def switchstate():
-    return  json.dumps(app.brewapp_switch_state)
+    return json.dumps(app.brewapp_switch_state)
 
 @socketio.on('switch', namespace='/brew')
 def ws_switch(data):
     s = int(data["switch"])
 
     if(app.brewapp_switch_state.get(s, None) == None):
+        socketio.emit('message', {"headline": "HARDWARE_ERROR", "message": "PLEASE_CHECK_YOUR_HARDWARE_CONFIG"},
+                      namespace='/brew')
+
         return
 
     if(app.brewapp_hardware_config[s]["config"].get("switch", None) is None):
-        socketio.emit('message', {"headline": "HARDWARE_ERROR", "message": "PLEASE_CHECK_YOUR_HARDWARE_CONFIG"},
-                      namespace='/brew')
+        socketio.emit('message', {"headline": "HARDWARE_ERROR", "message": "PLEASE_CHECK_YOUR_HARDWARE_CONFIG"}, namespace='/brew')
         return
 
     if(app.brewapp_switch_state[s] == True):
@@ -121,7 +123,7 @@ def switchOff(s):
     socketio.emit('switch_state_update', app.brewapp_switch_state, namespace ='/brew')
 
 
-class SwitchBase(object):
+class ActorBase(object):
 
     state = False
 
@@ -138,9 +140,6 @@ class SwitchBase(object):
         return gpio
 
     def getConfig(self, device):
-
-        print app.brewapp_hardware_config
-
         return app.brewapp_hardware_config[int(device)].get("config", None)
 
     def getConfigValue(self, device, parameter, default):

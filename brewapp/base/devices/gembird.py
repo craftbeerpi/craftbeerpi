@@ -1,7 +1,7 @@
 import subprocess
-from brewapp.base.hardwareswitch import SwitchBase
+from brewapp.base.actor import ActorBase
 from brewapp import app
-class GembirdUSB(SwitchBase):
+class GembirdUSB(ActorBase):
 
     def init(self):
         self.state = True

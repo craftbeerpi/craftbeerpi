@@ -14,7 +14,7 @@ class CustomLogic(Automatic):
         # loop for automatic
         while self.isRunning():
             # access config paramter at runtime
-            print self.config
+
 
             # make sure to add a sleep to the while loop
             time.sleep(1)

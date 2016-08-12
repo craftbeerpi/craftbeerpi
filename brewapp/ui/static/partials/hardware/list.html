@@ -1,0 +1,38 @@
+
+
+#{{ data }}#
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ 'HEATER' | translate }}
+        <div class="btn-group pull-right" role="group">
+            <a ng-click="add('H')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+               role="group">
+                <i class="fa fa-plus"></i></a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <table class="table">
+					<thead>
+						<td>{{ 'NAME' | translate}}</td>
+						<td>{{ 'TYPE' | translate}}</td>
+						<td>{{ 'VISIBILITY' | translate}}</td>
+						<td>{{ 'SWITCH' | translate}}</td>
+					</thead>
+					<tr ng-repeat="item in data track by $index">
+
+						<td>
+							<a ng-click="edit(item.id)">{{ item.name }}</a>
+						</td>
+						<td>
+							<i class="fa" ng-class="item.type | hardware_icon"></i>
+						</td>
+						<td>
+							<i class="fa fa-eye" ng-if="item.config.hide == false"></i>
+							<i class="fa fa-eye-slash" ng-if="item.config.hide"></i>
+						</td>
+						<td>
+							{{ item.config.switch }}
+						</td>
+					</tr>
+				</table>
+    </div>
