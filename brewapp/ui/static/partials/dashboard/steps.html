@@ -6,10 +6,15 @@
 
         <div class="btn-group pull-right" role="group" aria-label="..." ng-if="steps.length > 0">
 
-            <div class="btn-group" role="group">
-                <button ng-click="reset()"
-                        class="btn btn-warning btn-lm"><i class="fa fa-fast-backward"></i> {{ "RESET" | translate }}
+
+            <div class="btn-group" uib-dropdown keyboard-nav>
+                <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
+                    <i class="fa fa-fast-backward"></i> {{ 'RESET' | translate }}<span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                    <li><a ng-click="reset()">{{ 'RESET_ALL' | translate }}</a></li>
+                    <li><a ng-click="reset_current()">{{ 'RESET_CURRENT_STEP' | translate }}</a></li>
+                </ul>
             </div>
             <div class="btn-group" role="group">
                 <button ng-disabled="started()" ng-click="start()"

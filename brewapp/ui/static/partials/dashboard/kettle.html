@@ -1,6 +1,10 @@
 <style>
     .temp {
         font-size: 3.0em;
+        text-align: center;
+        margin: 10px;
+        vertical-align: middle !important;
+
     }
 
     .headline {
@@ -23,7 +27,7 @@
 
                 <div class="btn-group pull-right" uib-dropdown keyboard-nav>
                     <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
-                       <i class="fa fa-wrench"></i><span class="caret"></span>
+                        <i class="fa fa-wrench"></i><span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
                         <li ng-if="v.sensorid"><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
@@ -36,12 +40,15 @@
                 <div class="row">
                     <div class="col-xs-12">
 
-        <span class="pull-right" ng-if="v.heater | hardware_name:hardware_dict"><i class="fa fa-crosshairs"></i>
-          <strong>{{ v.target_temp }}°{{ config["UNIT"] }}</strong>
-        </span>
+                        <span class="pull-right" ng-if="v.heater | hardware_name:hardware_dict"><i
+                                class="fa fa-crosshairs"></i>
+                            <strong>{{ v.target_temp }}°{{ config["UNIT"] }}</strong>
+                        </span>
 
-                        <span class="temp" ng-if="v.sensorid" ><i
-                                class="wi wi-thermometer"></i> <b>{{ v.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b></span>
+                        <div  class="temp" ng-if="v.sensorid">
+                            <i class="wi wi-thermometer"></i>
+                            <b>{{ v.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b>
+                        </div>
                     </div>
 
                 </div>
@@ -61,7 +68,7 @@
                     </div>
                     <div class="btn-group" role="group">
 
-                        <button class="btn btn-default"  role="group"
+                        <button class="btn btn-default" role="group"
                                 ng-if="v.heater | hardware_name:hardware_dict"
                                 ng-class="v | hardware_state:'H':switch_state"
                                 ng-click="switchGPIO(v.heater)">
@@ -69,7 +76,6 @@
                         </button>
                     </div>
                     <div class="btn-group" role="group">
-
                         <button class="btn btn-default"
                                 role="group" ng-if="v.agitator | hardware_name:hardware_dict"
                                 ng-class="v | hardware_state:'A':switch_state" ng-click="switchGPIO(v.agitator)">
@@ -79,7 +85,8 @@
                 </div>
 
             </div>
-
         </div>
+
     </div>
+</div>
 </div>

@@ -80,21 +80,24 @@ class Config(db.Model):
 
     def __unicode__(self):
         return self.name
-'''
+
+
 class Fermenter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    sensorid = db.Column(db.String(80))
-    heater = db.Column(db.Integer())
-    cooler = db.Column(db.Integer())
+    brewname = db.Column(db.String(80))
+    sensorid = db.Column(db.Integer())
+    heaterid = db.Column(db.Integer())
+    coolerid = db.Column(db.Integer())
     automatic = db.Column(db.String(255))
+    target_temp = db.Column(db.Integer())
 
     def __repr__(self):
         return '<Fermenter %r>' % self.name
 
     def __unicode__(self):
         return self.id
-
+'''
 class FermenterStep(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))

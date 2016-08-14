@@ -1,6 +1,7 @@
 <style>
     .temp {
         font-size: 3.0em;
+        text-align: center;
     }
 
     .headline {
@@ -31,67 +32,66 @@
 
 </style>
 
-<div>
+<div ng-controller="FermenterController">
 
+ <div class="row">
+     <div class="col-sm-12">
+    <div class="btn-group pull-right" role="group">
+
+                        <a class="btn btn-success"  ng-click="create()" role="group"><i class="fa fa-plus"></i></a>
+
+					</div>
+         </div>
+  </div>
     <div class="row">
-        <div class="col-sm-3" ng-repeat="n in [1,2,3,4]">
+        <div class="col-sm-3" ng-repeat="n in fermenters">
             <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
                 <div class="panel-heading">
-                    <span class="headline"><i class="fa fa-chevron-circle-right"></i> FERMENTER</span>
+                    <span class="headline"><i class="fa fa-chevron-circle-right"></i> {{n.name}}</span>
                     <div class="btn-group pull-right" role="group">
-                        <a ng-click="createHardware()" class="btn btn-success" role="group">
+                        <a ng-click="edit(n.id)" class="btn btn-success" role="group">
                             <i class="fa fa-wrench"></i></a>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="panel-body">
-                    <div>{{ 'BEER_NAME' | translate }}: Pale Ale</div>
+                        <div style="width: 100%;">
+                            <div style="display: inline-block; width: 49%; ">{{n.brewname}}</div>
+                            <div style="display: inline-block; width: 49%; text-align: right"><i class="fa fa-crosshairs"></i><strong>{{n.target_temp}}°{{ config["UNIT"] }}</strong></div>
+                        </div>
 
-                    <span class="pull-right"><i class="fa fa-crosshairs"></i>
-          <strong>99°{{ config["UNIT"] }}</strong>
-        </span>
-
-                        <span class="temp"><i
-                                class="wi wi-thermometer"></i> <b>99°{{ config["UNIT"] }}</b></span>
+                        <div class="temp"><i
+                                class="wi wi-thermometer"></i> <b>{{ n.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b></div>
                 </div>
 
                 <div class="panel-footer">
                     <div class="btn-group btn-group-justified" role="group ">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-default" data-toggle="tooltip"
-                                    title="{{ 'TOOLTIP_KETTLE_UTILS' | translate }}"
-                                    role="group" ng-click="setTargetTemp(v)">
+                            <button class="btn btn-default"
+                                    role="group" ng-click="setTargetTemp(n)">
                                 <span class="badge"><i class="fa fa-crosshairs"></i></span>
                             </button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button class="btn btn-default" data-toggle="tooltip"
-                                    title="{{ 'TOOLTIP_EN_AUTO' | translate }}" role="group">
+                            <button class="btn btn-default" role="group">
                                 <span class="badge"><i class="fa fa-car"></i></span>
                             </button>
                         </div>
                         <div class="btn-group" role="group">
-
-                            <button class="btn btn-default" data-toggle="tooltip"
-                                    title="{{ 'TOOLTIP_SW_HEATER' | translate }}" role="group">
+                            <button class="btn btn-default" ng-if="n.heaterid" ng-class="n.heaterid | switch_state2:switch_state"  ng-click="switchGPIO(n.heaterid)" role="group">
                                 <span class="badge"><i class="fa fa-fire"></i></span>
                             </button>
                         </div>
                         <div class="btn-group" role="group">
 
-                            <button class="btn btn-default" data-toggle="tooltip"
-                                    title="{{ 'TOOLTIP_SW_AGITATOR' | translate }}"
-                                    role="group">
+                            <button class="btn btn-default" ng-if="n.coolerid" ng-class="n.coolerid | switch_state2:switch_state"  ng-click="switchGPIO(n.coolerid)" role="group">
                                 <span class="badge"><i class="wi wi-snowflake-cold"></i></span>
                             </button>
                         </div>
                         <div class="btn-group" role="group">
-
-                            <button class="btn btn-default" data-toggle="tooltip"
-                                    title="{{ 'TOOLTIP_SW_AGITATOR' | translate }}"
-                                    role="group">
+                            <a href="#/chart/{{ n.sensorid }}" class="btn btn-default" role="group">
                                 <span class="badge"><i class="fa fa-line-chart"></i></span>
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -102,12 +102,16 @@
 
 
                     <div class="btn-group pull-right" role="group">
-                        <a ng-click="createHardware()" class="btn btn-success" role="group">
+
+
+                        <a ng-click="createHardware()" class="btn btn-warning" role="group">
+                            <i class="fa fa-pencil-square-o"></i></a>
+                        <a ng-click="createHardware()" class="btn btn-danger" role="group">
                             <i class="fa fa-stop"></i></a>
                         <a ng-click="createHardware()" class="btn btn-success" role="group">
                             <i class="fa fa-play"></i></a>
                     </div>
-                    <uib-progressbar class="progress-striped active" value="55"></uib-progressbar>
+
                     <div class="clearfix"></div>
                 </div>
                 <table class="table">

@@ -14,4 +14,5 @@ import setup
 import stats
 import system
 import thermo
+import fermenter
 import securtiy

@@ -25,6 +25,7 @@
   "CURRENT_TEMP": "Current temperature",
   "CURR_VOL": "Current Volume",
   "DASHBOARD": "Dashboard",
+  "BREWING": "Brewing",
   "DELETE": "Delete",
   "DELETE_ALL_STEPS": "Delete all steps",
   "DELETE_KETTLE_HEADLINE": "Delete Kettle",
@@ -106,5 +107,8 @@
   "VALUE": "Value",
   "VISIBILITY": "Visibility",
   "WELCOME": "Welcome",
-  "WELCOME_HEADLINE": "Welcome to"
+  "WELCOME_HEADLINE": "Welcome to",
+
+  "RESET_CURRENT_STEP": "Reset current step",
+  "RESET_ALL": "Reset all steps"
 }

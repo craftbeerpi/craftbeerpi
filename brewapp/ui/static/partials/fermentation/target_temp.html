@@ -1,0 +1,19 @@
+<div class="modal-header" >
+    <h4 class="modal-title"><i class="fa fa-crosshairs"></i> {{ 'SET_TARGET_TEMP' | translate}} </h4>
+</div>
+<div class="modal-body">
+
+
+<div class="form-group">
+  <label>{{ 'FERMENTER' | translate}}:</label>
+  {{fermenter.name}}
+</div>
+<div class="form-group">
+  <input type="number" placeholder="{{'TARGET_TEMPERATURE' | translate }}" ng-model="target_temp"  class="form-control">
+</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" type="button" ng-click="cancel()"><i class="fa fa-times-circle"></i></button>
+    <button class="btn btn-success" type="button" ng-click="save()"><i class="fa fa-check"></i></button>
+
+</div>

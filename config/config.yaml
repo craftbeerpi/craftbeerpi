@@ -1,7 +1,7 @@
 SETUP:
  value: 'Yes'
  options: ['Yes', 'No']
- description: 'Setup done?'
+ description: 'Show Setup dialog?'
 
 BUZZER_GPIO:
  value: 23
@@ -46,6 +46,10 @@ USERNAME:
 
 PASSWORD:
  value: 123
+
+WRITE_TEMP_FILE:
+ value: 'No'
+ options: ['Yes', 'No']
 
 THEME:
  value: static/themes/dark-theme.css

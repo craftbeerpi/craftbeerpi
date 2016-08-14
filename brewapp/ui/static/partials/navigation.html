@@ -14,12 +14,52 @@
 
     <div class="collapse navbar-collapse " uib-collapse="navCollapsed">
         <ul class="nav navbar-nav navbar-right">
-        <li ng-repeat="route in routes" ng-class="{active: activeRoute(route)}">
+        <!--<li ng-repeat="route in routes" ng-class="{active: activeRoute(route)}">
           <a href="#{{ route.path }}">{{ route.name | translate }}</a>
+        </li>-->
+
+            <li class="menu-item dropdown" uib-dropdown >
+                    <a uib-dropdown-toggle id="fermentation_menu"  class="dropdown-toggle" data-toggle="dropdown">Brewing<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/dashboard" class="dropdown-toggle" data-toggle="dropdown">Dashboard</a>
+                        </li>
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/steps" class="dropdown-toggle" data-toggle="dropdown">Step Configuration</a>
+                        </li>
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/kettle" class="dropdown-toggle" data-toggle="dropdown">Kettle Configuration</a>
+                        </li>
+
+                    </ul>
+                </li>
+            <li>
+
+            <li class="menu-item dropdown" uib-dropdown >
+                    <a uib-dropdown-toggle id="fermentation_menu"  class="dropdown-toggle" data-toggle="dropdown">Fermentaiton<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/fermentation" class="dropdown-toggle" data-toggle="dropdown">Fermentation</a>
+                        </li>
+
+                    </ul>
+                </li>
+            <li>
+
+            <li class="menu-item dropdown" uib-dropdown >
+                    <a uib-dropdown-toggle id="simple-btn-keyboard-nav"  class="dropdown-toggle" data-toggle="dropdown">Configuration<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/hardware" class="dropdown-toggle" data-toggle="dropdown">Hardware</a>
+                        </li>
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/config" class="dropdown-toggle" data-toggle="dropdown">Configuration</a>
+                        </li>
+                    </ul>
+                </li>
+            <li>
+          <a href="#/about">About</a>
         </li>
-
-
-
 
         </ul>
     </div>

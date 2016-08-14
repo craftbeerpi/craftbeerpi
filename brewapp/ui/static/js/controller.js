@@ -23,8 +23,6 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
     $scope.hardware_dict = {}
 
     CBPHardware.query(function (data) {
-
-
         data.objects.forEach(function (entry) {
 
             if (entry.type == 'T') {
@@ -42,8 +40,6 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
             $scope.hardware_dict[entry.id] = entry.name;
 
         });
-
-
     });
 
     CBPKettle.get(function (data) {
@@ -706,6 +702,12 @@ function DashboardStepController($scope, CBPSteps, ConfirmMessage, mySocket) {
         });
     }
 
+     $scope.reset_current = function () {
+        ConfirmMessage.open("RESET_CURRENT_STEP", "ARE_YOU_SURE", function () {
+            mySocket.emit("reset_current_step");
+        });
+    }
+
     $scope.toTimestamp = function (timer) {
         return new Date(timer).getTime();
     }
@@ -1326,9 +1328,182 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
 
 }
 
-function SetupHardwareController($scope) {
+
+function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHardware,CBPKettle,mySocket) {
 
 
+    CBPFermenter.get(function (data) {
+        $scope.fermenters = data.objects;
+    });
+    CBPKettle.getLastTemp(function (data) {
+        $scope.temps = data;
+    });
+
+    CBPSwitch.get(function (data) {
+        $scope.switch_state = data;
+    })
+
+
+    $scope.thermometer = [];
+    $scope.thermometer.push({
+        "key": "",
+        "value": "No Thermometer"
+    });
+    $scope.hardware = []
+    $scope.hardware.push({
+        "key": undefined,
+        "value": "NO HARDWARE",
+    });
+
+
+    CBPHardware.query(function (data) {
+        console.log(data);
+        data.objects.forEach(function (entry) {
+
+            if (entry.type == 'T') {
+                console.log("PUSH T")
+                $scope.thermometer.push({
+                    "key": entry.id,
+                    "value": entry.name
+                });
+            }
+            else {
+                $scope.hardware.push({
+                    "key": entry.id,
+                    "value": entry.name
+                });
+            }
+            //$scope.hardware_dict[entry.id] = entry.name;
+
+        });
+    });
+
+    $scope.$on('socket:fermenter_update', function (ev, data) {
+        $scope.fermenters = data;
+    });
+
+    $scope.switchGPIO = function (item) {
+        mySocket.emit("switch", {"switch": item});
+    }
+
+    $scope.$on('socket:switch_state_update', function (ev, data) {
+        console.log(data);
+        $scope.switch_state = data;
+    });
+
+    $scope.$on('socket:temp_udpdate', function (ev, data) {
+        $scope.temps = data;
+    });
+
+    $scope.create = function (type) {
+
+
+        $scope.fermenter = {
+            "name": "",
+
+        };
+        var modalInstance = $uibModal.open({
+            animation: true,
+            controller: "FermentationCreateController",
+            scope: $scope,
+            templateUrl: 'static/partials/fermentation/form.html',
+            size: "lg"
+        });
+        modalInstance.result.then(function (data) {
+            CBPFermenter.get(function (data) {
+                $scope.fermenters = data.objects;
+            });
+        });
+    }
+
+    $scope.edit = function (id) {
+        $scope.selected = id
+        var modalInstance = $uibModal.open({
+            animation: true,
+            controller: "FermentationEditController",
+            scope: $scope,
+            templateUrl: 'static/partials/fermentation/form.html',
+            size: "lg"
+        });
+        modalInstance.result.then(function (data) {
+            CBPFermenter.get(function (data) {
+                $scope.fermenters = data.objects;
+            });
+        });
+    }
+
+    $scope.setTargetTemp = function (item) {
+        $scope.fermenter = item;
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'static/partials/fermentation/target_temp.html',
+            controller: 'FermenationTargetTempController',
+            size: "sm",
+            scope: $scope
+
+        });
+    };
+
+
+}
+
+function FermentationCreateController($scope, CBPFermenter, $uibModalInstance) {
+    $scope.edit = false;
+    $scope.save = function () {
+        if ($scope.fermenter.name != "") {
+            CBPFermenter.save($scope.fermenter, function (data) {
+                $uibModalInstance.close();
+            });
+        }
+    };
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+}
+
+function FermentationEditController($scope, ConfirmMessage, $uibModalInstance, CBPFermenter) {
+
+    $scope.edit = true;
+    CBPFermenter.get({
+        "id": $scope.selected
+    }, function (response) {
+        $scope.fermenter = response;
+    });
+
+
+
+    $scope.save = function () {
+        CBPFermenter.update({
+            "id": $scope.fermenter.id
+        }, $scope.fermenter, function () {
+            $uibModalInstance.close({});
+        });
+    }
+
+    $scope.delete = function () {
+        ConfirmMessage.open("Delete Hardware", "Do you really want to delete the hardware?", function () {
+            CBPFermenter.delete({
+                "id": $scope.fermenter.id
+            }, function () {
+                $uibModalInstance.close();
+            });
+        }, function () {
+        });
+    }
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+};
+
+function FermenationTargetTempController($scope, $uibModalInstance, CBPFermenter) {
+    $scope.save = function () {
+        CBPFermenter.targettemp({"id": $scope.fermenter.id}, {"temp": $scope.target_temp});
+        $uibModalInstance.close();
+
+    }
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
 }
 
 angular.module("cbpcontroller", [])
@@ -1373,6 +1548,9 @@ angular.module("cbpcontroller", [])
 
     .controller("ConfirmController", ConfirmController)
     .controller("setupController", setupController)
-    .controller("SetupHardwareController", SetupHardwareController)
+    .controller("FermenterController", FermenterController)
+    .controller("FermentationCreateController", FermentationCreateController)
+    .controller("FermentationEditController", FermentationEditController)
+    .controller("FermenationTargetTempController", FermenationTargetTempController)
 
     .factory("ConfirmMessage", ConfirmMessage);

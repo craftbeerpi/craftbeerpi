@@ -15,10 +15,11 @@ from functools import wraps
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-logging.basicConfig(filename='app.log',level=logging.DEBUG)
+logging.basicConfig(filename='./log/app.log',level=logging.DEBUG)
 
 app.logger.info("##########################################")
 app.logger.info("### NEW STARTUP Version 2.2")
+app.logger.info("##########################################")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SECRET_KEY'] = 'craftbeerpi'
@@ -116,8 +117,14 @@ for i in app.brewapp_init:
 
 ## Start Background Jobs
 def job(key, interval, method):
+
+    app.logger.error("Start Job: " + method.__name__ + " Interval:" + str(interval) + " Key:" + key)
     while app.brewapp_jobstate[key]:
-        method()
+        try:
+            method()
+        except Exception as e:
+            print e
+            app.logger.error("Exception" + method.__name__ + ": " + str(e))
         time.sleep(interval)
 
 app.logger.info("## INITIALIZE JOBS")

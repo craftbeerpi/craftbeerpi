@@ -33,6 +33,9 @@ def post_get_many(result, **kw):
         if(o["config"] != None):
             o["config"] = json.loads(o["config"])
 
+def post_delete(**kw):
+    initHardware()
+
 @brewinit(100)
 def init2():
     if(app.createdb == False):
@@ -41,7 +44,6 @@ def init2():
 
 @brewinit()
 def init():
-
     manager.create_api(Hardware, methods=['GET', 'POST', 'DELETE', 'PUT'],
     preprocessors={
         'POST': [pre_post],
@@ -51,6 +53,7 @@ def init():
         'GET_MANY': [post_get_many],
         'GET_SINGLE': [post_get_single],
         'PATCH_SINGLE': [post_post],
+        'DELETE_SINGLE': [post_delete]
     })
     initHardware(False)
 
@@ -79,6 +82,10 @@ def initHardware(cleanup = True):
     if(cleanup):
         app.brewapp_hardware.cleanup()
         app.brewapp_hardware.init()
+
+    app.logger.info("## INIT HARDWARE")
+    app.logger.info("Hardware: " + str(app.brewapp_hardware_config))
+    app.logger.info("Thermometer: " + str(app.brewapp_thermometer_cfg))
 
 
 @app.route('/api/switch', methods=['GET'])

@@ -43,7 +43,7 @@ def initConfig():
                 opts = y[k].get("options", None)
                 if opts is not None:
                     opts = ",".join(opts)
-
+                print k
                 db.session.add(Config(name=k, value=y[k].get("value", None), type=y[k].get("type", None), description=y[k].get("description", None), options=opts))
             db.session.commit()
         except yaml.YAMLError as exc:
@@ -52,7 +52,7 @@ def initConfig():
 
 @brewinit(order=-1000)
 def init():
-    manager.create_api(Config, methods=['GET', 'POST', 'DELETE', 'PUT'],
+    manager.create_api(Config, methods=['GET', 'POST', 'DELETE', 'PUT'], results_per_page=None,
     preprocessors={
     'POST':[pre_post],
     'PATCH_SINGLE': [pre_post]},

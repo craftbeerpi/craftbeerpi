@@ -54,6 +54,17 @@ def brewinit(order = 0, config_parameter = None):
     return real_decorator
 
 
+def config(name):
+    def real_decorator(function):
+        def wrapper(*args, **kwargs):
+            if(app.brewapp_config.get(name, 'No') == 'Yes'):
+                function(*args, **kwargs)
+            else:
+                pass
+        return wrapper
+
+    return real_decorator
+
 def brewautomatic():
     def real_decorator(function):
         app.brewapp_pid.append(function)

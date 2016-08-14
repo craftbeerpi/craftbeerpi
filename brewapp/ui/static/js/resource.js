@@ -209,6 +209,25 @@ function helloWorld() {
 
 }
 
+function CBPFermenter($resource) {
+    return $resource("/api/fermenter/:id", {}, {
+        query: {
+            method: 'GET',
+            isArray: false
+        },
+        update: {
+            method: 'PUT'
+        },
+        targettemp: {
+            method: 'POST',
+            url: '/api/fermenter/:id/targettemp',
+            params: {id: '@id'},
+            isArray: false
+        },
+    });
+}
+
+
 angular.module("cbpresource", [])
     .factory("CBPKettle", CBPKettle)
     .factory("CBPSetup", CBPSetup)
@@ -218,4 +237,5 @@ angular.module("cbpresource", [])
     .factory("Braufhelfer", Braufhelfer)
     .factory("CBPRecipeBook", CBPRecipeBook)
     .service("helloWorld", helloWorld)
+    .service("CBPFermenter", CBPFermenter)
     .factory("CBPHardware", CBPHardware);

@@ -59,6 +59,24 @@ function kettle_name() {
     };
 }
 
+
+function switch_state2() {
+    return function (state, states) {
+        try {
+            if(states[state]) {
+                return "btn-success";
+            }
+            else {
+                return "";
+            }
+
+        }
+        catch (err) {
+            return "";
+        }
+    }
+}
+
 function hardware_state(CBPSwitch) {
 
     return function (input, type, data) {
@@ -114,8 +132,8 @@ function kettle_state() {
     return function (input, data) {
 
 
-        for(i in data) {
-            if(data[i].state == 'A' && data[i].kettleid == input.id) {
+        for (i in data) {
+            if (data[i].state == 'A' && data[i].kettleid == input.id) {
                 return "panel-success";
             }
         }
@@ -127,6 +145,7 @@ function kettle_state() {
 angular.module("cbpfilter", [])
     .filter("hardware_icon", hardware_icon)
     .filter("step_state", step_state)
+    .filter("switch_state2", switch_state2)
     .filter("get_temp", get_temp)
     .filter("hardware_state", hardware_state)
     .filter("kettle_name", kettle_name)

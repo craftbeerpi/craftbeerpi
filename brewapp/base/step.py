@@ -72,6 +72,22 @@ def reset():
     app.brewapp_current_step  = None
     resetSteps()
 
+
+
+## Methods
+@socketio.on('reset_current_step', namespace='/brew')
+def resetCurrentSteps():
+    resetBeep()
+    active = Step.query.filter_by(state='A').first()
+    active.start = datetime.utcnow()
+    active.end = None
+    active.timer_start = None
+    setTargetTemp(active.kettleid, active.temp)
+    app.brewapp_current_step = to_dict(active)
+    db.session.add(active)
+    db.session.commit()
+    socketio.emit('step_update', getSteps(), namespace ='/brew')
+
 ## Methods
 def resetSteps():
     resetBeep()

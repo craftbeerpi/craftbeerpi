@@ -35,7 +35,7 @@ function navigationConfig($routeProvider) {
     $routeProvider
         .when('/dashboard', {
             templateUrl: '/ui/static/partials/dashboard/overview.html',
-            name: "DASHBOARD"
+            name: "BREWING"
         })
         .when('/fermentation', {
             templateUrl: '/ui/static/partials/fermentation/dashboard.html',

@@ -12,7 +12,7 @@ function mySocket (socketFactory) {
   mySocket.forward('timer_update');
   mySocket.forward('step_update');
   mySocket.forward('message');
-
+  mySocket.forward('fermenter_update');
 
 
 
