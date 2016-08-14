@@ -3,7 +3,7 @@ from model import *
 from util import *
 from brewapp import app
 from flask import request
-from flask.ext.restless.helpers import to_dict
+from flask_restless.helpers import to_dict
 from flask import  Response
 
 @brewinit()

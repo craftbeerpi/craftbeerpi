@@ -1,5 +1,5 @@
 from brewapp import app
-from flask.ext.restless.helpers import to_dict
+from flask_restless.helpers import to_dict
 
 
 def getAsArray(obj, order = None):

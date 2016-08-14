@@ -1,14 +1,15 @@
 from flask import Flask, abort, redirect, url_for, render_template, request, Response
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.socketio import SocketIO, emit
+from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO, emit
 from thread import start_new_thread
 import logging
-import flask.ext.restless
+import flask_restless
 from logging.handlers import RotatingFileHandler
 import time
 import os
 
 import inspect
+
 from functools import wraps
 
 
@@ -19,9 +20,14 @@ logging.basicConfig(filename='./log/app.log',level=logging.DEBUG)
 
 app.logger.info("##########################################")
 app.logger.info("### NEW STARTUP Version 2.2")
+from functools import wraps
+
+
+app = Flask(__name__)
 app.logger.info("##########################################")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.config['UPLOAD_FOLDER'] = './upload'
 
@@ -53,7 +59,7 @@ app.brewapp_thermometer_last = {}
 db = SQLAlchemy(app)
 
 
-manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
+manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 
 
 ## Import modules (Flask Blueprints)
