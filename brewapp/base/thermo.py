@@ -87,7 +87,6 @@ def clearTemps():
 
 @brewjob(key="readtemp", interval=5)
 def readTemp():
-
     timestamp = int((datetime.datetime.utcnow() - datetime.datetime(1970,1,1)).total_seconds())*1000
     temps = {}
 

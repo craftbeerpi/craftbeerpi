@@ -14,7 +14,7 @@ import sqlite3
 from datetime import datetime
 
 from buzzer import nextStepBeep, timerBeep, resetBeep
-from flask_restless.helpers import to_dict
+from flask.ext.restless.helpers import to_dict
 
 
 @app.route('/api/step/order', methods=['POST'])

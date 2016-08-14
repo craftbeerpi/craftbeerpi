@@ -1,9 +1,10 @@
 from flask import Flask, abort, redirect, url_for, render_template, request, Response
-from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.socketio import SocketIO, emit
 from thread import start_new_thread
 import logging
-import flask_restless
+import flask.ext.restless
+from logging.handlers import RotatingFileHandler
 import time
 import os
 
@@ -21,7 +22,6 @@ app.logger.info("### NEW STARTUP Version 2.2")
 app.logger.info("##########################################")
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.config['UPLOAD_FOLDER'] = './upload'
 
@@ -53,7 +53,7 @@ app.brewapp_thermometer_last = {}
 db = SQLAlchemy(app)
 
 
-manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
+manager = flask.ext.restless.APIManager(app, flask_sqlalchemy_db=db)
 
 
 ## Import modules (Flask Blueprints)
@@ -118,7 +118,7 @@ for i in app.brewapp_init:
 ## Start Background Jobs
 def job(key, interval, method):
 
-    app.logger.info("Start Job: " + method.__name__ + " Interval:" + str(interval) + " Key:" + key)
+    app.logger.error("Start Job: " + method.__name__ + " Interval:" + str(interval) + " Key:" + key)
     while app.brewapp_jobstate[key]:
         try:
             method()
