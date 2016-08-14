@@ -11,7 +11,7 @@ greenlet==0.4.10
 #MarkupSafe==0.23
 #mimerender==0.6.0
 #netifaces==0.10.4
-#RPi.GPIO==0.5.11
+RPi.GPIO==0.5.11
 python-dateutil==2.5.3
 python-engineio==0.9.2
 python-mimeparse==1.5.2
