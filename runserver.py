@@ -2,7 +2,7 @@
 
 from flask import Flask
 from brewapp import app, socketio
-from flask.ext.socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit
 from flask_debugtoolbar import DebugToolbarExtension
 
 

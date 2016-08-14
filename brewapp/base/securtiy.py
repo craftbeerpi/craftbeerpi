@@ -1,9 +1,9 @@
 from flask import Flask, abort, redirect, url_for, render_template, request, Response
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.socketio import SocketIO, emit
+from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO, emit
 from thread import start_new_thread
 import logging
-import flask.ext.restless
+import flask_restless
 from logging.handlers import RotatingFileHandler
 import time
 import os

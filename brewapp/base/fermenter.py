@@ -2,7 +2,7 @@ from util import *
 from model import *
 from brewapp import app, socketio
 from brewapp import manager
-from flask.ext.restless.helpers import to_dict
+from flask_restless.helpers import to_dict
 import json
 from flask import request
 
