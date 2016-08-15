@@ -1,9 +1,13 @@
 function mySocket (socketFactory) {
-  var myIoSocket = io.connect('/brew');
+
+  var url = 'http://' + document.domain + ':' + location.port + '/brew' ;
+  var myIoSocket = io.connect(url);
 
   mySocket = socketFactory({
     ioSocket: myIoSocket
   });
+
+  //mySocket.emit("coonect");
   mySocket.forward('config');
   mySocket.forward('temp_udpdate');
   mySocket.forward('kettle_update');

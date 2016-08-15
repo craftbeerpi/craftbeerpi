@@ -14,7 +14,6 @@ from functools import wraps
 
 
 app = Flask(__name__)
-socketio = SocketIO(app)
 
 logging.basicConfig(filename='./log/app.log',level=logging.DEBUG)
 
@@ -30,6 +29,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.config['UPLOAD_FOLDER'] = './upload'
+
+
+socketio = SocketIO(app)
 
 ## Custom Parameter
 app.brewapp_jobs = []
