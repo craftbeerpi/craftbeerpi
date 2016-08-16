@@ -7,6 +7,7 @@ from flask import Blueprint, render_template, jsonify, request
 import json
 from brewapp.base.model import *
 from brewapp.base.actor import *
+from brewapp import app, socketio
 
 class Automatic(object):
 
@@ -56,7 +57,9 @@ def startAutomatic(kid):
     key = str(kid)+"pid"
 
     app.brewapp_kettle_automatic[key] = True
-    start_new_thread(pidWrapper,(kid,))
+    t = socketio.start_background_task(pidWrapper, kid=kid)
+
+    #start_new_thread(pidWrapper,(kid,))
 
 def pidWrapper(kid):
     k = Kettle.query.get(kid)

@@ -2,7 +2,7 @@ from automaticlogic import *
 from brewapp import app
 import time
 from brewapp.base.util import *
-
+from brewapp import app, socketio
 
 @brewautomatic()
 class CustomLogic(Automatic):
@@ -17,4 +17,4 @@ class CustomLogic(Automatic):
 
 
             # make sure to add a sleep to the while loop
-            time.sleep(1)
+            socketio.sleep(1)

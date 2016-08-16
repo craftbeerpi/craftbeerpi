@@ -36,8 +36,14 @@ def getBrews():
     db.session.commit()
     return ('',204)
 
-@socketio.on('next', namespace='/brew')
 @socketio.on('start', namespace='/brew')
+def startStep(*kwargs):
+    nextStep()
+
+@socketio.on('next', namespace='/brew')
+def nextStep2():
+    nextStep()
+
 def nextStep():
     active = Step.query.filter_by(state='A').first()
     inactive = Step.query.filter_by(state='I').order_by(Step.order).first()
@@ -152,7 +158,8 @@ def stepjob():
             timerBeep()
         db.session.add(s)
         db.session.commit()
-        socketio.emit('step_update', getSteps(), namespace ='/brew')
+        socketio.emit('step_update', getSteps(), namespace ='/brew', broadcast=True)
+        socketio.emit('step_update', getSteps(), broadcast=True)
 
     ## if Automatic step and timer is started
     if(cs.get("timer_start") != None):
@@ -179,5 +186,4 @@ def getSteps():
             o["timer_start"] = o["timer_start"]  + "+00:00"
         if(o["end"] != None):
             o["end"] = o["end"]  + "+00:00"
-
     return steps

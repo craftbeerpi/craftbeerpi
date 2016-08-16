@@ -1,5 +1,5 @@
 from automaticlogic import *
-from brewapp import app
+from brewapp import app, socketio
 import time
 from brewapp.base.util import *
 
@@ -26,7 +26,7 @@ class OvershootLogic(Automatic):
             targetTemp = self.getTargetTemp() ## Target Temperature
 
             if(currentTemp == None):
-                time.sleep(1)
+                socketio.sleep(1)
                 return
 
 
@@ -38,7 +38,7 @@ class OvershootLogic(Automatic):
             if(currentTemp + overshoot >= targetTemp and self.state == True):
                 self.state = False
                 self.switchHeaterOFF()
-            time.sleep(1)
+            socketio.sleep(1)
 
         self.switchHeaterOFF()
         app.logger.info("Stop PID - Kettle Id: "+ str(self.kid))

@@ -2,7 +2,7 @@ from automaticlogic import *
 from brewapp import app
 import time
 from brewapp.base.util import *
-
+from brewapp import app, socketio
 
 @brewautomatic()
 class SimpleFermentationLogic(Automatic):
@@ -24,7 +24,7 @@ class SimpleFermentationLogic(Automatic):
             if currentTemp <= targetTemp and self.state is True:
                 self.state = False
                 self.switchHeaterOFF()
-            time.sleep(1)
+            socketio.sleep(1)
 
         self.switchHeaterOFF()
         app.logger.info("Stop Automatic - Kettle Id: " + str(self.kid))

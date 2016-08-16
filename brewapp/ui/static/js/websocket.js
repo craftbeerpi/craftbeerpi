@@ -1,6 +1,8 @@
 function mySocket (socketFactory) {
 
   var url = 'http://' + document.domain + ':' + location.port + '/brew' ;
+
+  //var myIoSocket = io.connect(url, {port: 5000, rememberTransport: false});
   var myIoSocket = io.connect(url);
 
   mySocket = socketFactory({

@@ -691,6 +691,7 @@ function DashboardStepController($scope, CBPSteps, ConfirmMessage, mySocket) {
 
 
     $scope.next = function () {
+        console.log("NEXT");
         mySocket.emit("next");
     }
     $scope.start = function () {

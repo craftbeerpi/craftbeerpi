@@ -1,4 +1,6 @@
 import time
+from brewapp import app, socketio
+
 from automaticlogic import *
 
 class PID(object):
@@ -73,6 +75,6 @@ class PIDLogic(Automatic):
             heating_time = sampleTime * heat_percent / 100
             wait_time = sampleTime - heating_time
             self.switchHeaterON()
-            time.sleep(heating_time)
+            socketio.sleep(heating_time)
             self.switchHeaterOFF()
-            time.sleep(wait_time)
+            socketio.sleep(wait_time)

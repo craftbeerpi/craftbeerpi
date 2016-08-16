@@ -105,8 +105,6 @@ def login():
     return 'Bad login'
 
 
-
-
 @app.route('/')
 def index():
     return redirect('ui')
@@ -133,14 +131,20 @@ def job(key, interval, method):
         except Exception as e:
             print e
             app.logger.error("Exception" + method.__name__ + ": " + str(e))
-        time.sleep(interval)
+        socketio.sleep(interval)
+
+
 
 app.logger.info("## INITIALIZE JOBS")
+
 for i in app.brewapp_jobs:
+
+    print "INIT JOBS"
     if(i.get("config_parameter") != None):
         param = app.brewapp_config.get(i.get("config_parameter"), False)
         if(param == 'False'):
             continue
     app.brewapp_jobstate[i.get("key")] = True
-    start_new_thread(job,(i.get("key"),i.get("interval"),i.get("function")))
+    t = socketio.start_background_task(target=job, key=i.get("key"), interval=i.get("interval"), method=i.get("function"))
+
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
