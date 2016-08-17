@@ -17,7 +17,7 @@ class DummyThermometer(object):
         try:
             ## Test Mode
             if(tempSensorId == None or tempSensorId == ""):
-                return -1
+                return None
 
             pipe = Popen(["cat","w1_slave"], stdout=PIPE)
 
@@ -26,8 +26,9 @@ class DummyThermometer(object):
             if (result.split('\n')[0].split(' ')[11] == "YES"):
                 temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
             else:
-                temp_C = -99 #bad temp reading
+                return None #bad temp reading
+
         except Exception as e:
-            temp_C = round(randint(0,50),2)
+            return  None
 
         return float(format(temp_C, '.2f'))

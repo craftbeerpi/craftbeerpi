@@ -28,7 +28,8 @@ class OneWireThermometer(object):
         try:
             ## Test Mode
             if(tempSensorId == None or tempSensorId == ""):
-                return -1
+                app.logger.error("Sendor Id empty")
+                return None
             if (app.testMode == True):
                 pipe = Popen(["cat","w1_slave"], stdout=PIPE)
             else:
@@ -38,8 +39,11 @@ class OneWireThermometer(object):
             if (result.split('\n')[0].split(' ')[11] == "YES"):
                 temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
             else:
-                temp_C = -1
+                app.logger.error("No valid Temperature")
+                return  None
+
         except Exception as e:
-            temp_C = -1
+            app.logger.error("SensorId" + tempSensorId + " Error while reading temp" + str(e))
+            return None
 
         return float(format(temp_C, '.2f'))
