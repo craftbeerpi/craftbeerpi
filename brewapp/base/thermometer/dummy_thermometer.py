@@ -15,7 +15,7 @@ class DummyThermometer(object):
 
     def readTemp(self, tempSensorId):
 
-        value = -1
+        value = None
         path = "test/w1_slave"
 
         try:

@@ -1,6 +1,6 @@
 <div class="panel panel-default" ng-controller="DashboardHardwareController">
     <div class="panel-heading">
-                <span class="headline"><i class="fa fa-chevron-circle-right"></i>  {{  'HARDWARE' | translate }}
+                <span class="headline"><i class="fa fa-chevron-circle-right"></i>  {{ 'HARDWARE' | translate }}
 
                 </span>
 
@@ -8,9 +8,11 @@
 
     <div class="panel-body">
 
-      <button uib-tooltip="{{ 'SWITCH_HARDWARE' | translate }}" class="btn btn-default" ng-class="p | hardware_state:'Z':switch_state" ng-click="switchGPIO(p.id)" ng-repeat="p in hardware | filter:filter_hardware ">
-        <span class="badge"><i class="fa" ng-class="p.type | hardware_icon "></i></span> {{p.name}}
-      </button>
+
+        <button class="btn btn-default" ng-class="p | hardware_state:'Z':switch_state" ng-click="switchGPIO(p.id)"
+                ng-repeat="p in hardware | filter:filter_hardware ">
+            <span class="badge"><i class="fa" ng-class="p.type | hardware_icon "></i></span> {{ p.name }}
+        </button>
 
     </div>
 </div>

@@ -98,6 +98,9 @@ def readTemp():
 
             # Read Temp
             temp = app.brewapp_thermometer.readTemp(tid["config"]["thermometer"]["id"])
+
+            if temp is None:
+                return
             # UNIT
             if app.brewapp_config.get("UNIT", "C") is "F":
                 temp = float(format(9.0/5.0 * temp + 32, '.2f'))

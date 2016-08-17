@@ -27,7 +27,7 @@ class OneWireThermometer2(object):
 
     def readTemp(self, tempSensorId):
 
-        value = -1
+        value = None
         path = "/sys/bus/w1/devices/w1_bus_master1/"+tempSensorId+"/w1_slave"
 
         try:
