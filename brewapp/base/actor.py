@@ -44,7 +44,7 @@ def init2():
 
 @brewinit()
 def init():
-    manager.create_api(Hardware, methods=['GET', 'POST', 'DELETE', 'PUT'],
+    manager.create_api(Hardware, methods=['GET', 'POST', 'DELETE', 'PUT'], results_per_page=None,
     preprocessors={
         'POST': [pre_post],
         'PATCH_SINGLE': [pre_post]},

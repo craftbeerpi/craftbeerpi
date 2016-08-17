@@ -1,0 +1,46 @@
+{
+  "name": "craftbeerpi",
+  "homepage": "http://www.craftbeerpi.com",
+  "authors": [
+    "Manuel83 <manuel.fritsch@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "private use only. copyright 2016 Manuel Fritsch",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/addon/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.0",
+    "angular": "1.5.7",
+    "HTML5-Desktop-Notifications2": "1.0.1",
+    "angular-bootstrap": "^2.0.2",
+    "angular-cookies": "^1.5.8",
+    "angular-file-upload": "^2.3.4",
+    "angular-resource": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "angular-socket-io": "^0.7.0",
+    "angular-timer": "^1.3.4",
+    "angular-translate": "^2.11.1",
+    "angular-translate-loader-static-files": "^2.11.1",
+    "angular-translate-storage-cookie": "^2.11.1",
+    "angular-ui-tree": "^2.17.0",
+    "angular-web-notification": "^0.0.91",
+    "angular-wizard": "^0.6.1",
+    "angular-slider": "^0.3.2",
+    "bootstrap": "^3.3.7",
+    "c3": "^0.4.11",
+    "font-awesome": "^4.6.3",
+    "humanize-duration": "^3.9.1",
+    "jquery": "^3.1.0",
+    "socket-io": "^1.4.5",
+    "weather-icons": "^2.0.10"
+  }
+}

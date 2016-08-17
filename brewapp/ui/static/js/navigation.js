@@ -68,6 +68,9 @@ function navigationConfig($routeProvider) {
             templateUrl: '/ui/static/partials/about/about.html',
             name: "ABOUT"
         })
+        .when('/fermentation/steps/:id', {
+            templateUrl: '/ui/static/partials/fermentation/steps.html',
+        })
 
         .otherwise({
             redirectTo: '/dashboard'

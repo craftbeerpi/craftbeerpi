@@ -461,10 +461,17 @@ function configEditController($scope, $uibModalInstance, CBPConfig) {
 }
 
 
-function aboutController($scope, ConfirmMessage, $translate) {
+function aboutController($scope, ConfirmMessage, $translate, $window) {
+
+    $scope.restart = function () {
+        ConfirmMessage.open("Shutdown", "Are you sure to restart CraftBeerPi?", function () {
+            $window.location.href = '/restart';
+        });
+    }
+
     $scope.confirmHalt = function () {
         ConfirmMessage.open("Shutdown", "Are you sure to shutdown CraftBeerPi?", function () {
-
+            $window.location.href = '/halt';
         });
     }
 

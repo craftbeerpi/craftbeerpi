@@ -26,7 +26,7 @@ def halt():
     app.logger.info("--> HALT TRIGGERED")
     ## Do in other thread
     start_new_thread(doHalt,())
-    return base.send_static_file("halt.html")
+    return app.send_static_file("halt.html")
 
 
 # Execute Restart
