@@ -3,9 +3,11 @@
     <h4 class="modal-title">{{ 'HARDWARE_CONFIGURATION' | translate}}</h4>
 </div>
 <div class="modal-body">
+     <form name="myform" novalidate>
   <div class="form-group">
+
     <label>{{ 'NAME' | translate}}</label>
-    <input type="text"  ng-model="hardware.name" class="form-control">
+    <input type="text" required  ng-model="hardware.name" class="form-control">
   </div>
 
 
@@ -17,9 +19,10 @@
     <label>{{ 'HIDE_ON_DASHBOARD' | translate}}</label>
     <input type="checkbox" ng-model="hardware.config.hide">
   </div>
+         </form>
 </div>
 <div class="modal-footer">
   <a class="btn btn-default" href="" ng-click="cancel()"><i class="fa fa-times-circle"></i></a>
-  <a class="btn btn-danger" ng-if="edit" ng-click="delete()"> <i class="fa fa-trash"></i></a>
-  <a class="btn btn-success" ng-click="save()"><i  class="fa fa-check-circle"></i></a>
+  <a class="btn btn-danger" ng-if="edit_mode" ng-click="delete()"> <i class="fa fa-trash"></i></a>
+  <a class="btn btn-success" ng-disabled="myform.$invalid"  ng-click="ok()"><i  class="fa fa-check-circle"></i></a>
 </div>

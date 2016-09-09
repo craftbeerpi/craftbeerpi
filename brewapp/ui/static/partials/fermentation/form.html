@@ -31,8 +31,24 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>{{ 'OFFSET' | translate }}</label>
-                <input type="text" class="form-control">
+                <label>{{ 'SWITCH_ON_OFFSET' | translate }}</label>
+                <input type="text" class="form-control" ng-model="fermenter.cooleroffset_min">
+            </div>
+            <div class="form-group">
+                <label>{{ 'SWITCH_OFF_OFFSET' | translate }}</label>
+                <input type="text" class="form-control" ng-model="fermenter.cooleroffset_max">
+            </div>
+            <div>
+            <label>{{ 'EXAMPLE' | translate }}</label>
+                <div>
+                    Target Temp = 20°C
+                </div>
+                <div>
+                    Temperature > {{ 20 + parseFloat(fermenter.cooleroffset_min) }}°{{ config["UNIT"] }} = switch on
+                </div>
+                <div>
+                    Temperature < {{ 20 + parseFloat(fermenter.cooleroffset_max) }}°{{ config["UNIT"] }} = switch off
+                </div>
             </div>
 
         </div>
@@ -45,8 +61,25 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>{{ 'OFFSET' | translate }}</label>
-                <input type="text" class="form-control">
+                <label>{{ 'SWITCH_ON_OFFSET' | translate }}</label>
+                <input type="text" class="form-control" ng-model="fermenter.heateroffset_min">
+            </div>
+            <div class="form-group">
+                <label>{{ 'SWITCH_OFF_OFFSET' | translate }}</label>
+                <input type="text" class="form-control" ng-model="fermenter.heateroffset_max">
+            </div>
+
+            <div>
+            <label>{{ 'EXAMPLE' | translate }}</label>
+                <div>
+                    Target Temp = 20°C
+                </div>
+                <div>
+                    Temperature < {{ 20 - parseFloat(fermenter.heateroffset_min) }}°{{ config["UNIT"] }} = switch on
+                </div>
+                <div>
+                    Temperature > {{ 20 - parseFloat(fermenter.heateroffset_max) }}°{{ config["UNIT"] }} = switch off
+                </div>
             </div>
         </div>
     </div>

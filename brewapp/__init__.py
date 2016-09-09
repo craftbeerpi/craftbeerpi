@@ -8,6 +8,7 @@ from logging.handlers import RotatingFileHandler
 import time
 import os
 
+
 import inspect
 
 from functools import wraps
@@ -34,6 +35,11 @@ app.config['UPLOAD_FOLDER'] = './upload'
 socketio = SocketIO(app)
 
 ## Custom Parameter
+app.cbp = {}
+app.brewapp_controller = {}
+app.brewapp_automatic = {}
+app.brewapp_automatic_state = {}
+app.brewapp_fermenters = {}
 app.brewapp_jobs = []
 app.brewapp_init = []
 app.brewapp_stepaction = []
@@ -69,6 +75,7 @@ from .base.views import base
 #from .module1.views import mymodule
 from .ui.views import ui
 
+
 if os.path.exists("craftbeerpi.db"):
     app.createdb = False
 else:
@@ -79,7 +86,6 @@ db.create_all()
 
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
-#app.register_blueprint(mymodule,url_prefix='/mymodule')
 app.register_blueprint(ui,url_prefix='/ui')
 
 
@@ -124,7 +130,7 @@ for i in app.brewapp_init:
 ## Start Background Jobs
 def job(key, interval, method):
 
-    app.logger.error("Start Job: " + method.__name__ + " Interval:" + str(interval) + " Key:" + key)
+    app.logger.info("Start Job: " + method.__name__ + " Interval:" + str(interval) + " Key:" + key)
     while app.brewapp_jobstate[key]:
         try:
             method()
@@ -139,7 +145,7 @@ app.logger.info("## INITIALIZE JOBS")
 
 for i in app.brewapp_jobs:
 
-    print "INIT JOBS"
+
     if(i.get("config_parameter") != None):
         param = app.brewapp_config.get(i.get("config_parameter"), False)
         if(param == 'False'):
@@ -148,3 +154,5 @@ for i in app.brewapp_jobs:
     t = socketio.start_background_task(target=job, key=i.get("key"), interval=i.get("interval"), method=i.get("function"))
 
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
+
+

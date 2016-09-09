@@ -65,8 +65,21 @@
 
                         <div class="form-group" ng-repeat="p in kettle.automatic.parameter">
                             <label>{{ p.name }}</label>
-                            <input type="text" ng-model="p.value" class="form-control">
+                            <input ng-if="p.type == undefined" type="text" ng-model="p.value" class="form-control">
+
+
+                            <select ng-if="p.type == 'H'" class="form-control" ng-model="p.value">
+                                <option ng-repeat="t in hardware" value="{{ t.key }}"
+                                        ng-selected="p.value == t.key">{{ t.value }}</option>
+                            </select>
+
+                            <select ng-if="p.type == 'T'" class="form-control" ng-model="p.value">
+                                <option ng-repeat="t in thermometer" value="{{ t.key }}"
+                                        ng-selected="p.value== t.key">{{ t.value }}</option>
+                            </select>
                         </div>
+
+
 
                     </div>
                 </div>

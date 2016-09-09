@@ -19,7 +19,7 @@ function mySocket (socketFactory) {
   mySocket.forward('step_update');
   mySocket.forward('message');
   mySocket.forward('fermenter_update');
-
+  mySocket.forward('fermenter_state_update');
 
 
   return mySocket;

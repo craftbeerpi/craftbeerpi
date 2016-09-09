@@ -1,41 +1,32 @@
-<div ng-controller="StepOverviewController">
+<div ng-controller="FermenationStepController">
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default" data-toggle="tooltip" data-placement="top">
                 <div class="panel-heading">
-
-
-
                     <div class="btn-group pull-right" role="group">
-
-                        <a ng-click="clear()" uib-tooltip="{{ 'DELETE_ALL_STEPS' | translate }}" class="btn btn-default btn-danger"><i class="fa fa-trash"></i></a>
-
-
-
-
+                        <a ng-click="clear()" class="btn btn-default btn-danger"><i class="fa fa-trash"></i></a>
+                        <a ng-click="create()" class="btn btn-default btn-success"><i class="fa fa-plus"></i></a>
                     </div>
-
-
                     <div class="clearfix"></div>
                 </div>
                 <table ui-tree="treeOptions" id="tree-root" class="table table-responsive">
                     <thead>
                     <tr>
                         <th><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></th>
+                        <th>{{ 'NAME' | translate }}</th>
                         <th>{{ 'TEMPERATURE' | translate }}</th>
                         <th>{{ 'TIME' | translate }}</th>
 
                     </tr>
                     </thead>
-                    <tbody ui-tree-nodes ng-model="data">
-                    <tr ng-repeat="node in data" ui-tree-node>
+                    <tbody ui-tree-nodes ng-model="fermentation_steps">
+                    <tr ng-repeat="node in fermentation_steps" ui-tree-node>
                         <td>
-                            <div width="40px" ui-tree-handle><i class="fa fa-align-justify fa-4"
-                                                                aria-hidden="true"> </i></div>
+                            <div width="40px" ui-tree-handle><i class="fa fa-align-justify fa-4" aria-hidden="true"> </i></div>
                         </td>
-                        <td>23°C</td>
-                        <td>2 Days</td>
-
+                        <td><a ng-click="edit(node)">{{ node.name }}</a></td>
+                        <td>{{ node.temp }}</td>
+                        <td>{{ node.days }} Days {{ node.hours }} Hours {{ node.minutes }} Minutes</td>
                     </tr>
                     </tbody>
                 </table>

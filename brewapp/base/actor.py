@@ -119,7 +119,6 @@ def ws_switch(data):
 
 
 def switchOn(s):
-
     app.brewapp_hardware.switchON(s);
     app.brewapp_switch_state[int(s)]  = True
     socketio.emit('switch_state_update', app.brewapp_switch_state, namespace ='/brew')

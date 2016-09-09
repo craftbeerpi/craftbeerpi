@@ -7,10 +7,8 @@
     </div>
 
     <div class="panel-body">
-
-
         <button class="btn btn-default" ng-class="p | hardware_state:'Z':switch_state" ng-click="switchGPIO(p.id)"
-                ng-repeat="p in hardware | filter:filter_hardware ">
+                ng-repeat="p in actors | filter:filter_hardware ">
             <span class="badge"><i class="fa" ng-class="p.type | hardware_icon "></i></span> {{ p.name }}
         </button>
 

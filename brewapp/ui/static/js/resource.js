@@ -215,6 +215,35 @@ function CBPFermenter($resource) {
             method: 'GET',
             isArray: false
         },
+        state: {
+            method: 'GET',
+            url: '/api/fermenter/state',
+            isArray: false
+        },
+        start: {
+            method: 'POST',
+            url: '/api/fermenter/:id/start',
+            params: {id: '@id'},
+            isArray: false
+        },
+        stop: {
+            method: 'POST',
+            url: '/api/fermenter/:id/stop',
+            params: {id: '@id'},
+            isArray: false
+        },
+        next:{
+            method: 'POST',
+            url: '/api/fermenter/:id/next',
+            params: {id: '@id'},
+            isArray: false
+        },
+        reset:{
+            method: 'POST',
+            url: '/api/fermenter/:id/reset',
+            params: {id: '@id'},
+            isArray: false
+        },
         update: {
             method: 'PUT'
         },
@@ -224,8 +253,38 @@ function CBPFermenter($resource) {
             params: {id: '@id'},
             isArray: false
         },
+        order: {
+            method: 'POST',
+            url: '/api/fermenter/step/order',
+            isArray: false
+        },
+        automatic: {
+            method: 'POST',
+            url: '/api/fermenter/:id/automatic',
+            params: {id: '@id'},
+            isArray: false
+        }
     });
 }
+
+function CBPFermenterSteps($resource) {
+    return $resource("/api/fermenter_step/:id", {}, {
+        query: {
+            method: 'GET',
+            isArray: false
+        },
+        update: {
+            method: 'PUT'
+        },
+        query_by_id: {
+            method: 'GET',
+            url: '/api/fermenter_step/by/fermenter/:id',
+            params: {id: '@id'},
+            isArray: true
+        }
+    });
+}
+
 
 
 angular.module("cbpresource", [])
@@ -238,4 +297,5 @@ angular.module("cbpresource", [])
     .factory("CBPRecipeBook", CBPRecipeBook)
     .service("helloWorld", helloWorld)
     .service("CBPFermenter", CBPFermenter)
+    .service("CBPFermenterSteps", CBPFermenterSteps)
     .factory("CBPHardware", CBPHardware);

@@ -11,6 +11,7 @@ angular.module("test",
         'ui.tree',
         'ui.bootstrap',
         'mgo-angular-wizard',
+        'cbpdummytemp',
         'ngResource', 'rzModule',
         'cbpcontroller'])
     .config(['$translateProvider', function ($translateProvider) {
@@ -19,8 +20,8 @@ angular.module("test",
         $translateProvider.useStaticFilesLoader({
             prefix: 'static/languages/',
             suffix: '.json'
-        }).fallbackLanguage('en');
-
+        }).fallbackLanguage('en_US');
+        $translateProvider.preferredLanguage('en_US');
         $translateProvider.useCookieStorage();
         $translateProvider.determinePreferredLanguage()
     }]);

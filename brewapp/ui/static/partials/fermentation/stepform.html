@@ -10,29 +10,22 @@
             <input type="text" ng-model="item.name" required class="form-control">
         </div>
         <div class="form-group">
-            <label>{{ 'TYPE' | translate }}</label>
-            <div class="btn-group">
-                <label class="btn btn-primary" ng-model="item.type" uib-btn-radio="'A'">Automatic</label>
-                <label class="btn btn-primary" ng-model="item.type" uib-btn-radio="'M'">Manuell</label>
-            </div>
-        </div>
-        <div class="form-group">
-
             <label>{{ 'TARGET_TEMP_IN' | translate }} °{{ config["UNIT"] }}</label>
             <input type="number" ng-model="item.temp" class="form-control">
         </div>
         <div class="form-group">
-            <label>{{ 'TIMER_IN_MIN' | translate }}</label>
-            <input type="number" ng-model="item.timer" class="form-control">
+            <label>{{ 'DAYS' | translate }}</label>
+            <input type="number" ng-model="item.days" class="form-control">
         </div>
         <div class="form-group">
-            <label>{{ 'KETTLE' | translate }}</label>
-
-            <select class="form-control" ng-model="item.kettleid">
-                <option ng-repeat="t in kettles" value="{{ t.key }}"
-                        ng-selected="item.kettleid == t.key">{{ t.value }}</option>
-            </select>
+            <label>{{ 'HOUERS' | translate }}</label>
+            <input type="number" ng-model="item.hours" class="form-control">
         </div>
+        <div class="form-group">
+            <label>{{ 'MINUTES' | translate }}</label>
+            <input type="number" ng-model="item.minutes" class="form-control">
+        </div>
+
     </form>
 </div>
 </div>

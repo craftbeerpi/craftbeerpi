@@ -16,10 +16,10 @@ class Step(db.Model):
     kettleid = db.Column(db.Integer())
 
     def __repr__(self):
-        return '<Step %r>' % self.name
+        return self.name
 
     def __unicode__(self):
-        return self.id
+        return self.name
 
 
 class RecipeBooks(db.Model):
@@ -27,6 +27,11 @@ class RecipeBooks(db.Model):
     name = db.Column(db.String(80))
     steps = db.relationship('RecipeBookSteps', backref='RecipeBooks', lazy='dynamic', cascade="all, delete-orphan")
 
+    def __repr__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.name
 
 class RecipeBookSteps(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +42,12 @@ class RecipeBookSteps(db.Model):
     type = db.Column(db.String(1))
     kettleid = db.Column(db.Integer())
     receipe_id = db.Column(db.Integer, db.ForeignKey('recipe_books.id'))
+
+    def __repr__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.name
 
 
 class Kettle(db.Model):
@@ -51,10 +62,10 @@ class Kettle(db.Model):
     diameter = db.Column(db.Integer())
 
     def __repr__(self):
-        return '<Kettle %r>' % self.name
+        return self.name
 
     def __unicode__(self):
-        return self.id
+        return self.name
 
 class Hardware(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,10 +74,10 @@ class Hardware(db.Model):
     config = db.Column(db.String(256))
 
     def __repr__(self):
-        return '<Hardware %r>' % self.name
+        return self.name
 
     def __unicode__(self):
-        return self.id
+        return self.name
 
 class Config(db.Model):
     name = db.Column(db.String(50), primary_key=True)
@@ -76,7 +87,7 @@ class Config(db.Model):
     options = db.Column(db.String(255))
 
     def __repr__(self):
-        return '<Config %r>' % self.name
+        return self.name
 
     def __unicode__(self):
         return self.name
@@ -88,31 +99,37 @@ class Fermenter(db.Model):
     brewname = db.Column(db.String(80))
     sensorid = db.Column(db.Integer())
     heaterid = db.Column(db.Integer())
+    heateroffset_min = db.Column(db.Float())
+    heateroffset_max = db.Column(db.Float())
     coolerid = db.Column(db.Integer())
-    automatic = db.Column(db.String(255))
+    cooleroffset_min = db.Column(db.Float())
+    cooleroffset_max = db.Column(db.Float())
     target_temp = db.Column(db.Integer())
+    steps = db.relationship('FermenterStep', backref='Fermenter', lazy='joined', cascade="all, delete-orphan", order_by="FermenterStep.order")
 
     def __repr__(self):
-        return '<Fermenter %r>' % self.name
+        return self.name
 
     def __unicode__(self):
-        return self.id
-'''
+        return self.name
+
 class FermenterStep(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    fermenterid = db.Column(db.Integer())
     temp = db.Column(db.Float())
     hours = db.Column(db.Integer())
+    minutes = db.Column(db.Integer())
+    days = db.Column(db.Integer())
     temp = db.Column(db.Integer())
-    order = db.Column(db.Integer())
+    order = db.Column(db.Integer(),default=999)
     state = db.Column(db.String(1))
     start = db.Column(db.DateTime())
+    timer_start = db.Column(db.DateTime())
     end = db.Column(db.DateTime())
+    fermenter_id = db.Column(db.Integer, db.ForeignKey('fermenter.id'))
 
     def __repr__(self):
-        return '<FermenterStep %r>' % self.name
+        return self.name
 
     def __unicode__(self):
-        return self.id
-'''
+        return self.name

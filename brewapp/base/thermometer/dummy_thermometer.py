@@ -4,32 +4,34 @@ from random import randint, uniform
 from brewapp import app
 from decimal import Decimal, ROUND_HALF_UP
 from subprocess import call
+import json
+from flask import Blueprint, render_template, json, request
+from brewapp.base.model import *
+from brewapp import app, socketio
 
 class DummyThermometer(object):
 
     def init(self):
         pass
+        app.cbp["TEMP"] = {"DummySensor1": 20, "DummySensor2": 20, "DummySensor3": 20}
 
     def getSensors(self):
-        return ["DummySensor1","DummySensor2"]
+        return ["DummySensor1","DummySensor2","DummySensor3"]
 
     def readTemp(self, tempSensorId):
 
-        value = None
-        path = "test/w1_slave"
-
-        try:
-            f = open(path, "r")
-            line = f.readline()
-            if re.match(r"([0-9a-f]{2} ){9}: crc=[0-9a-f]{2} YES", line):
-                line = f.readline()
-                m = re.match(r"([0-9a-f]{2} ){9}t=([+-]?[0-9]+)", line)
-                if m:
-                    value = float(m.group(2)) / 1000.0
-            f.close()
-        except (Exception), e:
-            app.logger.warning("Read temp failed " + str(e))
+        if app.cbp["TEMP"][tempSensorId]:
+            return app.cbp["TEMP"][tempSensorId]
+        else:
+            return -99
 
 
-        return value
+@app.route('/api/test/temps', methods=['GET'])
+def dummy_temps():
+    return json.dumps(app.cbp["TEMP"])
 
+@app.route('/set', methods=["POST"])
+def test_set():
+    dataDict = json.loads(request.data)
+    app.cbp["TEMP"][dataDict["id"]] = dataDict.get("value", None)
+    return ('', 204)

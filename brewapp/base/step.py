@@ -3,7 +3,6 @@ import model
 from brewapp import manager
 from model import *
 from util import *
-#from views import base
 from brewapp import app, socketio
 import time
 from flask import request
@@ -94,6 +93,18 @@ def resetCurrentSteps():
     db.session.commit()
     socketio.emit('step_update', getSteps(), namespace ='/brew')
 
+@socketio.on('start_timer_current_step', namespace='/brew')
+def start_timer_of_current_step():
+    active = Step.query.filter_by(state='A').first()
+    active.timer_start = datetime.utcnow()
+    setTargetTemp(active.kettleid, active.temp)
+    app.brewapp_current_step = to_dict(active)
+    app.brewapp_current_step["endunix"] = int((active.timer_start - datetime(1970, 1, 1)).total_seconds()) * 1000
+
+    db.session.add(active)
+    db.session.commit()
+    socketio.emit('step_update', getSteps(), namespace ='/brew')
+
 ## Methods
 def resetSteps():
     resetBeep()
@@ -144,9 +155,7 @@ def stepjob():
         id = int(app.brewapp_kettle_state[cs.get("kettleid")]["sensorid"])
         ct = app.brewapp_thermometer_last[id];
     except:
-
         ct = 0
-
 
     ## check if target temp reached and timer can be started
     if(cs.get("timer") > 0 and cs.get("timer_start") == None and ct >= cs.get("temp")):
@@ -159,7 +168,7 @@ def stepjob():
         db.session.add(s)
         db.session.commit()
         socketio.emit('step_update', getSteps(), namespace ='/brew', broadcast=True)
-        socketio.emit('step_update', getSteps(), broadcast=True)
+        #socketio.emit('step_update', getSteps(), broadcast=True)
 
     ## if Automatic step and timer is started
     if(cs.get("timer_start") != None):

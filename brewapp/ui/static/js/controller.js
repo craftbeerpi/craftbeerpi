@@ -1,18 +1,26 @@
-function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, CBPHardware) {
+function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
 
+    // Web Socket
+    $scope.$on('socket:temp_udpdate', function (ev, data) {
+        $scope.temps = data;
+    });
 
+    $scope.$on('socket:config', function (ev, data) {
+        $scope.config = data;
+    });
+
+    $scope.$on('socket:step_update', function (ev, data) {
+        $scope.steps = data;
+    });
+
+    // Basic Data
     $scope.thermometer = [];
     $scope.thermometer.push({
         "key": "",
         "value": "No Thermometer"
     });
 
-
-    $scope.automatic = [];
-    CBPKettle.getautomatic({}, function (response) {
-        $scope.automatic = response;
-
-    });
+    $scope.actors = [];
 
     $scope.hardware = []
     $scope.hardware.push({
@@ -21,6 +29,7 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
     });
 
     $scope.hardware_dict = {}
+    $scope.thermometers = [];
 
     CBPHardware.query(function (data) {
         data.objects.forEach(function (entry) {
@@ -30,8 +39,10 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
                     "key": entry.id,
                     "value": entry.name
                 });
+                $scope.thermometers.push(entry);
             }
             else {
+                $scope.actors.push(entry);
                 $scope.hardware.push({
                     "key": entry.id,
                     "value": entry.name
@@ -42,10 +53,48 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
         });
     });
 
+    $scope.config = {};
+    CBPConfig.query(function (data) {
+
+        data.objects.forEach(function (entry) {
+            $scope.config[entry.name] = entry.value
+        });
+    });
+
+    $scope.automatic = [];
+    CBPKettle.getautomatic({}, function (response) {
+        $scope.automatic = response;
+    });
+
+    $scope.kettles = [];
     CBPKettle.get(function (data) {
         $scope.kettles = data.objects;
     })
 
+    $scope.steps = [];
+    CBPSteps.query({}, function (response) {
+        $scope.steps = response.objects;
+    });
+
+    // Reload Helper
+    $scope.kettle_reload = function () {
+        CBPKettle.get(function (data) {
+            $scope.kettles = data.objects;
+        })
+    }
+
+    $scope.step_reload = function () {
+        CBPSteps.query({}, function (response) {
+            $scope.steps = response.objects;
+        });
+    }
+
+
+}
+
+function kettleOverviewController($scope, $controller, CBPKettle, $uibModal, ConfirmMessage, CBPHardware) {
+
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
     $scope.edit = function (item) {
         $scope.kettle = angular.copy(item);
@@ -59,48 +108,21 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
             size: "lg"
         });
         modalInstance.result.then(function () {
-            CBPKettle.update({
-                "id": $scope.kettle.id
-            }, $scope.kettle, function () {
-                CBPKettle.query({}, function (response) {
-                    $scope.kettles = response.objects;
-                });
-            });
+            CBPKettle.update({"id": $scope.kettle.id}, $scope.kettle, $scope.kettle_reload);
         }, function (data) {
             if ('delete' == data) {
-                CBPKettle.delete({
-                    "id": $scope.kettle.id
-                }, function () {
-                    CBPKettle.query({}, function (response) {
-                        $scope.kettles = response.objects;
-                    });
-                });
+                CBPKettle.delete({"id": $scope.kettle.id}, $scope.kettle_reload);
             }
         });
     }
 
     $scope.clear = function () {
-        ConfirmMessage.open("DELETE_TEMP_LOG", "ARE_YOU_SURE", function () {
-
-
-            CBPKettle.clear({});
-
-
-        });
+        ConfirmMessage.open("DELETE_TEMP_LOG", "ARE_YOU_SURE", CBPKettle.clear);
     }
 
-
-    $scope.master = {
-        "name": "",
-        "sensorid": "",
-        "heater": undefined,
-        "agitator": undefined,
-    };
-
     $scope.create = function () {
-        $scope.kettle = angular.copy($scope.master);
+        $scope.kettle = angular.copy({"name": "", "sensorid": "", "heater": undefined, "agitator": undefined});
         $scope.edit_mode = false;
-
         var modalInstance = $uibModal.open({
             templateUrl: 'static/partials/kettle/form.html',
             controller: 'modalController',
@@ -108,15 +130,9 @@ function kettleOverviewController($scope, CBPKettle, $uibModal, ConfirmMessage, 
             size: "lg"
         });
         modalInstance.result.then(function () {
-            CBPKettle.save($scope.kettle, function (data) {
-                CBPKettle.query({}, function (response) {
-                    $scope.kettles = response.objects;
-                });
-            });
+            CBPKettle.save($scope.kettle, $scope.kettle_reload);
         });
     }
-
-
 };
 
 function modalController($scope, $uibModalInstance, ConfirmMessage) {
@@ -133,50 +149,6 @@ function modalController($scope, $uibModalInstance, ConfirmMessage) {
     };
 }
 
-function kettleCreateController($scope, $uibModalInstance, CBPKettle) {
-    $scope.edit = false;
-    $scope.save = function () {
-        if ($scope.kettle.name != "") {
-            CBPKettle.save($scope.kettle, function (data) {
-                $uibModalInstance.close();
-            });
-        }
-    };
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}
-
-
-function kettleEditController($scope, $uibModalInstance, CBPKettle, ConfirmMessage) {
-    $scope.edit = true;
-    $scope.save = function () {
-
-        if ($scope.kettle.name.length == 0) {
-            return;
-        }
-
-        CBPKettle.update({
-            "id": $scope.kettle.id
-        }, $scope.kettle, function () {
-            $uibModalInstance.close({});
-        });
-    }
-    $scope.delete = function () {
-
-        ConfirmMessage.open("DELETE_KETTLE_HEADLINE", "DELETE_KETTLE_MESSAGE", function () {
-            CBPKettle.delete({
-                "id": $scope.kettle.id
-            }, function () {
-                $uibModalInstance.close({});
-            });
-        }, function () {
-        });
-    }
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-}
 
 function ConfirmMessage($route, $location, $uibModal) {
 
@@ -198,7 +170,6 @@ function ConfirmMessage($route, $location, $uibModal) {
                 }
             });
             modalInstance.result.then(function (data) {
-
                 if (confirm != undefined) {
                     confirm()
                 }
@@ -218,7 +189,6 @@ function ConfirmController($scope, $uibModalInstance, headline, message) {
     $scope.ok = function () {
         $uibModalInstance.close();
     };
-
     $scope.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
@@ -226,7 +196,6 @@ function ConfirmController($scope, $uibModalInstance, headline, message) {
 
 
 function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
-
 
     $scope.heater = [];
     $scope.pump = [];
@@ -254,6 +223,7 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
     });
 
     $scope.sorthardware = function (data) {
+
         $scope.heater = [];
         $scope.pump = [];
         $scope.agitator = [];
@@ -290,7 +260,6 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
     });
 
     CBPHardware.query(function (response) {
-        console.log(response);
         $scope.sorthardware(response.objects);
         $scope.hw = response.objects;
     });
@@ -318,98 +287,70 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
             };
         }
 
-
+        $scope.edit_mode = false;
         var modalInstance = $uibModal.open({
             animation: true,
-            controller: "HardwareCreateController",
+            controller: "modalController",
             scope: $scope,
             templateUrl: 'static/partials/hardware/form.html',
             size: "sm"
         });
         modalInstance.result.then(function (data) {
-            CBPHardware.query(function (response) {
-                $scope.sorthardware(response.objects);
+
+
+            if ($scope.hardware.type == 'T') {
+                delete $scope.hardware.config.switch;
+                delete $scope.hardware.config.inverted;
+            }
+
+            CBPHardware.save($scope.hardware, function (data) {
+                CBPHardware.query(function (response) {
+                    $scope.sorthardware(response.objects);
+                });
             });
+
         });
     }
 
-    $scope.edit = function (id) {
-        $scope.selected = id
+    $scope.edit = function (item) {
+        $scope.edit_mode = true;
+        $scope.hardware = angular.copy(item);
+        $scope.headline = "DELETE_KETTLE_HEADLINE";
+        $scope.message = "DELETE_KETTLE_MESSAGE";
         var modalInstance = $uibModal.open({
             animation: true,
-            controller: "HardwareEditController",
+            controller: "modalController",
             scope: $scope,
             templateUrl: 'static/partials/hardware/form.html',
             size: "sm"
         });
         modalInstance.result.then(function (data) {
-            CBPHardware.query(function (response) {
-                $scope.sorthardware(response.objects);
-            });
-        });
-    }
-}
 
-
-function HardwareCreateController($scope, CBPHardware, $uibModalInstance) {
-    $scope.edit = false;
-
-
-    $scope.save = function () {
-
-        if ($scope.hardware.name.length == 0) {
-            return;
-        }
-        if ($scope.hardware.type == 'T') {
-            delete $scope.hardware.config.switch;
-            delete $scope.hardware.config.inverted;
-        }
-
-        CBPHardware.save($scope.hardware, function (data) {
-            $uibModalInstance.close();
-        });
-    }
-    $scope.cancel = function () {
-
-        $uibModalInstance.dismiss('cancel');
-    };
-
-}
-
-function HardwareEditController($scope, CBPHardware, ConfirmMessage, $uibModalInstance, CBPKettle) {
-
-    $scope.edit = true;
-    CBPHardware.get({
-        "id": $scope.selected
-    }, function (response) {
-        $scope.hardware = response;
-    });
-
-    $scope.save = function () {
-        CBPHardware.update({
-            "id": $scope.hardware.id
-        }, $scope.hardware, function () {
-            $uibModalInstance.close({});
-        });
-    }
-
-    $scope.delete = function () {
-        ConfirmMessage.open("Delete Hardware", "Do you really want to delete the hardware?", function () {
-            CBPHardware.delete({
+            CBPHardware.update({
                 "id": $scope.hardware.id
-            }, function () {
-                $uibModalInstance.close();
+            }, $scope.hardware, function () {
+                CBPHardware.query(function (response) {
+                    $scope.sorthardware(response.objects);
+                });
             });
-        }, function () {
+        }, function (data) {
+            if ('delete' == data) {
+                CBPHardware.delete({
+                    "id": $scope.hardware.id
+                }, function () {
+                    CBPHardware.query(function (response) {
+                        $scope.sorthardware(response.objects);
+                    });
+                });
+            }
         });
+
     }
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-};
+}
 
-function configController($scope, CBPConfig, $uibModal) {
+function configController($scope, $controller, CBPConfig, $uibModal) {
 
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
     CBPConfig.query({}, function (response) {
         $scope.configparams = response.objects;
     });
@@ -447,7 +388,6 @@ function configEditController($scope, $uibModalInstance, CBPConfig) {
         }
 
     });
-
     $scope.save = function () {
         CBPConfig.update({
             "name": $scope.item.name
@@ -481,29 +421,21 @@ function aboutController($scope, ConfirmMessage, $translate, $window) {
     };
 }
 
-function StepOverviewController($scope, CBPSteps, CBPKettle, $uibModal, ConfirmMessage, CBPRecipeBook) {
+function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibModal, ConfirmMessage, CBPRecipeBook) {
+
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
     $scope.treeOptions = {
         dropped: function (event) {
 
             var d = {}
-            for (var i = 0; i < $scope.data.length; i++) {
-                d[$scope.data[i].id] = i
+            for (var i = 0; i < $scope.steps.length; i++) {
+                d[$scope.steps[i].id] = i
 
             }
             CBPSteps.order({}, d)
         },
     };
-    $scope.master = {
-        "type": "A",
-        "state": "I",
-        "kettleid": 0
-    }
-
-    CBPSteps.query({}, function (response) {
-        $scope.data = response.objects;
-
-    });
 
     $scope.kettles = [];
     $scope.kettles_name = {};
@@ -571,122 +503,54 @@ function StepOverviewController($scope, CBPSteps, CBPKettle, $uibModal, ConfirmM
     }
 
     $scope.create = function () {
+        $scope.item = angular.copy({"type": "A", "state": "I", "kettleid": 0});
+        $scope.edit_mode = false;
+        var modalInstance = $uibModal.open({
+            templateUrl: 'static/partials/steps/form.html',
+            controller: 'modalController',
+            scope: $scope,
+            size: "sm"
+        });
+        modalInstance.result.then(function () {
+            CBPSteps.save($scope.item, $scope.step_reload);
+        });
+    }
 
-        $scope.step = angular.copy($scope.master);
+
+    $scope.edit = function (item) {
+        $scope.edit_mode = true;
+        $scope.item = angular.copy(item);
+        $scope.headline = "DELETE_KETTLE_HEADLINE";
+        $scope.message = "DELETE_KETTLE_MESSAGE";
         var modalInstance = $uibModal.open({
             animation: true,
-            controller: "StepCreateController",
+            controller: "modalController",
             scope: $scope,
             templateUrl: 'static/partials/steps/form.html',
             size: "sm"
-
         });
         modalInstance.result.then(function (data) {
-            CBPSteps.query(function (response) {
-                $scope.data = response.objects;
-            });
-        });
-    }
 
-    $scope.edit = function (item) {
-        $scope.item = angular.copy(item);
-        var modalInstance = $uibModal.open({
-            animation: true,
-            controller: "StepEditController",
-            scope: $scope,
-            templateUrl: 'static/partials/steps/form.html',
-            size: "sm",
-
-        });
-        modalInstance.result.then(function (data) {
-            CBPSteps.query(function (response) {
-                $scope.data = response.objects;
-            });
-        });
-    }
-
-
-}
-
-
-function StepCreateController($scope, CBPSteps, $uibModalInstance) {
-    $scope.item = {
-        "type": "A",
-        "state": "I",
-        "kettleid": 0
-    }
-
-    $scope.save = function () {
-        CBPSteps.save($scope.item, function (data) {
-            $uibModalInstance.close();
-        });
-    }
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-
-
-}
-
-function StepEditController($scope, CBPSteps, ConfirmMessage, $uibModalInstance, CBPKettle) {
-
-    CBPSteps.get({
-        "id": $scope.item.id
-    }, function (response) {
-        $scope.item = response;
-    });
-
-    $scope.edit = true;
-    $scope.save = function () {
-        CBPSteps.update({
-            "id": $scope.item.id
-        }, $scope.item, function () {
-            $uibModalInstance.close({});
-        });
-    }
-
-    $scope.delete = function () {
-        ConfirmMessage.open("Delete Step", "Do you really want to delete the step?", function () {
-            CBPSteps.delete({
+            CBPSteps.update({
                 "id": $scope.item.id
-            }, function () {
-                $uibModalInstance.close();
-            });
-        });
-    }
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-};
+            }, $scope.item, $scope.step_reload);
 
-function DashboardMainController($scope, CBPHardware, CBPSteps) {
-    $scope.text = "MANUEL";
-
-    $scope.hardware = [];
-    $scope.thermometer = [];
-    $scope.hardware_dict = {}
-    CBPHardware.query(function (data) {
-
-        data.objects.forEach(function (entry) {
-
-            if (entry.config.hide == false) {
-                if (entry.type != "T") {
-                    $scope.hardware.push(entry);
-                }
-                else {
-                    $scope.thermometer.push(entry);
-                }
+        }, function (data) {
+            if ('delete' == data) {
+                CBPSteps.delete({
+                    "id": $scope.item.id
+                }, $scope.step_reload);
             }
-            $scope.hardware_dict[entry.id] = entry.name;
-
         });
-    });
 
-    CBPSteps.query({}, function (response) {
-        $scope.steps = response.objects;
+    }
+}
+
+function DashboardMainController($scope, $controller, CBPHardware, CBPSteps) {
 
 
-    });
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
+
 
     $scope.$on('socket:step_update', function (ev, data) {
         $scope.steps = data;
@@ -694,9 +558,10 @@ function DashboardMainController($scope, CBPHardware, CBPSteps) {
 }
 
 
-function DashboardStepController($scope, CBPSteps, ConfirmMessage, mySocket) {
+function DashboardStepController($scope, $rootScope, CBPSteps, ConfirmMessage, mySocket) {
 
 
+    $rootScope.name = "MANUEL"
     $scope.next = function () {
         console.log("NEXT");
         mySocket.emit("next");
@@ -704,13 +569,17 @@ function DashboardStepController($scope, CBPSteps, ConfirmMessage, mySocket) {
     $scope.start = function () {
         mySocket.emit("start");
     }
+
+    $scope.start_timer = function () {
+        mySocket.emit("start_timer_current_step");
+    }
     $scope.reset = function () {
         ConfirmMessage.open("RESET_BREWING_PROCESS", "ARE_YOU_SURE", function () {
             mySocket.emit("reset");
         });
     }
 
-     $scope.reset_current = function () {
+    $scope.reset_current = function () {
         ConfirmMessage.open("RESET_CURRENT_STEP", "ARE_YOU_SURE", function () {
             mySocket.emit("reset_current_step");
         });
@@ -723,17 +592,17 @@ function DashboardStepController($scope, CBPSteps, ConfirmMessage, mySocket) {
 
 }
 
-function DashboardKettleController($scope, CBPKettle, ConfirmMessage, mySocket, $uibModal, CBPHardware, CBPSwitch) {
+function DashboardKettleController($scope, $controller, CBPKettle, ConfirmMessage, mySocket, $uibModal, CBPHardware, CBPSwitch) {
 
-    $scope.$on('socket:temp_udpdate', function (ev, data) {
-        $scope.temps = data;
-    });
+
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
+
+
     $scope.$on('socket:kettle_update', function (ev, data) {
         $scope.kettles = data;
     });
 
     $scope.$on('socket:switch_state_update', function (ev, data) {
-        console.log(data);
         $scope.switch_state = data;
     });
     $scope.$on('socket:kettle_state_update', function (ev, data) {
@@ -749,9 +618,6 @@ function DashboardKettleController($scope, CBPKettle, ConfirmMessage, mySocket, 
         CBPKettle.automatic({"id": item.id});
     }
 
-    CBPKettle.get(function (data) {
-        $scope.kettles = data.objects;
-    });
     CBPKettle.getstate(function (data) {
         $scope.kettle_state = data;
     });
@@ -763,15 +629,6 @@ function DashboardKettleController($scope, CBPKettle, ConfirmMessage, mySocket, 
     CBPSwitch.get(function (data) {
         $scope.switch_state = data;
     })
-
-    $scope.hardware_dict = {}
-
-    CBPHardware.query(function (data) {
-        data.objects.forEach(function (entry) {
-            $scope.hardware_dict[entry.id] = entry.name;
-
-        });
-    });
 
     $scope.setTargetTemp = function (item) {
         $scope.kettle = item;
@@ -801,7 +658,10 @@ function DashboardKettleController($scope, CBPKettle, ConfirmMessage, mySocket, 
 
 }
 
-function DashboardHardwareController($scope, mySocket, CBPHardware, CBPSwitch, CBPKettle) {
+function DashboardHardwareController($scope, $controller, mySocket, CBPHardware, CBPSwitch, CBPKettle) {
+
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
+
 
     CBPSwitch.get(function (data) {
         $scope.switch_state = data;
@@ -1012,9 +872,7 @@ function MainController($scope, CBPConfig, ConfirmMessage, mySocket) {
     });
 
     $scope.$on('socket:message', function (ev, data) {
-
         ConfirmMessage.open(data.headline, data.message, function () {
-
         });
     });
 
@@ -1083,7 +941,6 @@ function ChartController($scope, $routeParams, CBPKettle) {
 
     $scope.load = function () {
 
-
         CBPKettle.getTemps({
             "id": $scope.vid
         }, function (response) {
@@ -1092,8 +949,6 @@ function ChartController($scope, $routeParams, CBPKettle) {
             var chart_data = $scope.downsample(response["temp"], "data", "x");
             var chart_data2 = $scope.downsample(response["target"], "data1", "x1");
             chart_data = chart_data.concat(chart_data2);
-
-
             $scope.chart = c3.generate({
                 bindto: '#chart',
                 data: {
@@ -1145,8 +1000,6 @@ function ChartController($scope, $routeParams, CBPKettle) {
 
                 }
             });
-
-
         });
 
     }
@@ -1157,6 +1010,8 @@ function ChartController($scope, $routeParams, CBPKettle) {
 }
 
 function setupController($scope, $translate, CBPSetup, $window, $location, WizardHandler) {
+
+
 
     var i = 1
     $scope.brewery = {"name": ""};
@@ -1225,12 +1080,9 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
             case 3:
             case 4:
             case 7:
-
                 return false;
                 break;
-
             default:
-
                 return true;
                 break;
         }
@@ -1320,7 +1172,6 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
         }
     }
 
-
     $scope.finish = function () {
 
         var hw = $scope.heater.concat($scope.agitator).concat($scope.pump).concat($scope.thermometer);
@@ -1334,15 +1185,84 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
         });
     }
 
+
 }
 
+function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFermenterSteps, CBPSwitch, CBPHardware, CBPKettle, mySocket) {
 
-function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHardware,CBPKettle,mySocket) {
+    angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
-
-    CBPFermenter.get(function (data) {
-        $scope.fermenters = data.objects;
+    $scope.fermenters = {};
+    $scope.state = {};
+    CBPFermenter.state(function (data) {
+        $scope.state = data;
     });
+
+
+    function compare(a, b) {
+        if (a.order < b.order)
+            return -1;
+        if (a.order > b.order)
+            return 1;
+        return 0;
+    }
+
+
+
+    $scope.toTimestamp = function (timer) {
+        if(timer == undefined)
+            return
+        return new Date(timer).getTime();
+    }
+
+    $scope.getTimer = function (n) {
+
+        start = new Date(n.start).getTime();
+        day_seconds = n.days * 24 * 60 * 60 *1000 ;
+        hour_seconds = n.hours * 60 * 60 * 1000;
+        minutes_seconds = n.minutes * 60 * 1000;
+        return start+day_seconds+hour_seconds+minutes_seconds;
+
+    }
+
+    $scope.parseFloat = function (number) {
+        return parseFloat(number, 0);
+    }
+
+    $scope.treeOptions = function (id) {
+        return {
+            accept: function (sourceNodeScope, destNodesScope, destIndex) {
+                console.log("ID");
+                if (sourceNodeScope.$treeScope != destNodesScope.$treeScope) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            dropped: function (event) {
+                var data = event.dest.nodesScope['$modelValue'];
+                var d = {}
+                for (var i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    d[data[i].id] = i
+                }
+                CBPFermenter.order({}, {"id": id, "steps": d});
+            }
+        }
+    };
+
+    reload = function () {
+        CBPFermenter.get(function (data) {
+            data.objects.map(function (obj) {
+
+                $scope.fermenters[obj.id] = obj;
+            });
+            //$scope.fermenters = data.objects;
+        });
+    }
+
+    reload();
+
     CBPKettle.getLastTemp(function (data) {
         $scope.temps = data;
     });
@@ -1351,43 +1271,15 @@ function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHard
         $scope.switch_state = data;
     })
 
-
-    $scope.thermometer = [];
-    $scope.thermometer.push({
-        "key": "",
-        "value": "No Thermometer"
-    });
-    $scope.hardware = []
-    $scope.hardware.push({
-        "key": undefined,
-        "value": "NO HARDWARE",
-    });
-
-
-    CBPHardware.query(function (data) {
-        console.log(data);
-        data.objects.forEach(function (entry) {
-
-            if (entry.type == 'T') {
-                console.log("PUSH T")
-                $scope.thermometer.push({
-                    "key": entry.id,
-                    "value": entry.name
-                });
-            }
-            else {
-                $scope.hardware.push({
-                    "key": entry.id,
-                    "value": entry.name
-                });
-            }
-            //$scope.hardware_dict[entry.id] = entry.name;
-
-        });
-    });
-
     $scope.$on('socket:fermenter_update', function (ev, data) {
+
+        $scope.fermenters[data.id] = data;
+        //console.log(data);
+        /*data.map(function (obj) {
+            obj.steps.sort(compare);
+        });
         $scope.fermenters = data;
+        */
     });
 
     $scope.switchGPIO = function (item) {
@@ -1395,17 +1287,21 @@ function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHard
     }
 
     $scope.$on('socket:switch_state_update', function (ev, data) {
-        console.log(data);
         $scope.switch_state = data;
     });
 
-    $scope.$on('socket:temp_udpdate', function (ev, data) {
-        $scope.temps = data;
+    $scope.$on('socket:fermenter_state_update', function (ev, data) {
+        $scope.state = data;
     });
 
+
+    $scope.getTime = function (item) {
+
+        return (item.days * 86400 + item.hours * 3600 + item.minutes * 60);
+
+    }
+
     $scope.create = function (type) {
-
-
         $scope.fermenter = {
             "name": "",
 
@@ -1417,11 +1313,7 @@ function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHard
             templateUrl: 'static/partials/fermentation/form.html',
             size: "lg"
         });
-        modalInstance.result.then(function (data) {
-            CBPFermenter.get(function (data) {
-                $scope.fermenters = data.objects;
-            });
-        });
+        modalInstance.result.then(reload);
     }
 
     $scope.edit = function (id) {
@@ -1433,11 +1325,7 @@ function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHard
             templateUrl: 'static/partials/fermentation/form.html',
             size: "lg"
         });
-        modalInstance.result.then(function (data) {
-            CBPFermenter.get(function (data) {
-                $scope.fermenters = data.objects;
-            });
-        });
+        modalInstance.result.then(reload);
     }
 
     $scope.setTargetTemp = function (item) {
@@ -1452,7 +1340,78 @@ function FermenterController($scope, $uibModal, CBPFermenter, CBPSwitch, CBPHard
         });
     };
 
+    $scope.switchAutomatic = function (item) {
+        CBPFermenter.automatic({"id": item.id})
+    }
 
+    $scope.start = function (item) {
+        CBPFermenter.start({"id": item.id})
+    }
+
+    $scope.stop = function (item) {
+        CBPFermenter.stop({"id": item.id})
+    }
+
+    $scope.next = function (item) {
+        CBPFermenter.next({"id": item.id})
+    }
+
+    $scope.reset = function (item) {
+        CBPFermenter.reset({"id": item.id})
+    }
+
+    $scope.editStep = function (item) {
+        $scope.edit_mode = true;
+        $scope.item = angular.copy(item);
+        $scope.headline = "DELETE_KETTLE_HEADLINE";
+        $scope.message = "DELETE_KETTLE_MESSAGE";
+        var modalInstance = $uibModal.open({
+            animation: true,
+            controller: "modalController",
+            scope: $scope,
+            templateUrl: 'static/partials/fermentation/stepform.html',
+            size: "sm"
+        });
+        modalInstance.result.then(function (data) {
+
+            CBPFermenterSteps.update({
+                "id": $scope.item.id
+            }, $scope.item, reload);
+
+        }, function (data) {
+            if ('delete' == data) {
+                CBPFermenterSteps.delete({
+                    "id": $scope.item.id
+                }, reload);
+            }
+        });
+
+    }
+
+
+    $scope.createStep = function (item) {
+
+        $scope.item = angular.copy({
+            "name": "",
+            "fermenter_id": item.id,
+            "temp": 0,
+            "days": 0,
+            "minutes": 0,
+            "hours": 0,
+            "state": "I"
+        });
+        $scope.edit_mode = false;
+        var modalInstance = $uibModal.open({
+            templateUrl: 'static/partials/fermentation/stepform.html',
+            controller: 'modalController',
+            scope: $scope,
+            size: "sm"
+        });
+        modalInstance.result.then(function () {
+            console.log($scope.item);
+            CBPFermenterSteps.save($scope.item, reload);
+        });
+    }
 }
 
 function FermentationCreateController($scope, CBPFermenter, $uibModalInstance) {
@@ -1477,7 +1436,6 @@ function FermentationEditController($scope, ConfirmMessage, $uibModalInstance, C
     }, function (response) {
         $scope.fermenter = response;
     });
-
 
 
     $scope.save = function () {
@@ -1514,51 +1472,104 @@ function FermenationTargetTempController($scope, $uibModalInstance, CBPFermenter
     };
 }
 
-angular.module("cbpcontroller", [])
+function FermenationStepController($scope, $uibModal, CBPFermenter, CBPFermenterSteps, $routeParams) {
 
+    console.log($routeParams.id);
+
+
+    var reload = function () {
+        CBPFermenter.get({"id": $routeParams.id}, function (data) {
+
+            console.log(data);
+            $scope.fermentation_steps = data.steps;
+        });
+    }
+
+    reload();
+
+    $scope.create = function () {
+
+        $scope.item = angular.copy({
+            "name": "",
+            "fermenter_id": $routeParams.id,
+            "temp": 0,
+            "days": 0,
+            "minutes": 0,
+            "hours": 0
+        });
+        $scope.edit_mode = false;
+        var modalInstance = $uibModal.open({
+            templateUrl: 'static/partials/fermentation/stepform.html',
+            controller: 'modalController',
+            scope: $scope,
+            size: "sm"
+        });
+        modalInstance.result.then(function () {
+            console.log($scope.item);
+            CBPFermenterSteps.save($scope.item, reload);
+            //CBPSteps.save($scope.item, $scope.step_reload);
+        });
+    }
+
+    $scope.edit = function (item) {
+        $scope.edit_mode = true;
+        $scope.item = angular.copy(item);
+        $scope.headline = "DELETE_KETTLE_HEADLINE";
+        $scope.message = "DELETE_KETTLE_MESSAGE";
+        var modalInstance = $uibModal.open({
+            animation: true,
+            controller: "modalController",
+            scope: $scope,
+            templateUrl: 'static/partials/fermentation/stepform.html',
+            size: "sm"
+        });
+        modalInstance.result.then(function (data) {
+
+            CBPFermenterSteps.update({
+                "id": $scope.item.id
+            }, $scope.item, reload);
+
+        }, function (data) {
+            if ('delete' == data) {
+                CBPFermenterSteps.delete({
+                    "id": $scope.item.id
+                }, reload);
+            }
+        });
+
+    }
+
+}
+
+
+angular.module("cbpcontroller", [])
+    .controller("BaseController", BaseController)
     .controller("MainController", MainController)
     .controller("kettleOverviewController", kettleOverviewController)
-    .controller("kettleCreateController", kettleCreateController)
-    .controller("kettleEditController", kettleEditController)
-
     .controller("HardwareOverviewController", HardwareOverviewController)
-    .controller("HardwareCreateController", HardwareCreateController)
-    .controller("HardwareEditController", HardwareEditController)
-
     .controller("configController", configController)
     .controller("configEditController", configEditController)
-
     .controller("aboutController", aboutController)
     .controller("modalController", modalController)
     .controller("StepOverviewController", StepOverviewController)
-    .controller("StepCreateController", StepCreateController)
-
-    .controller("StepEditController", StepEditController)
-
-
     .controller("DashboardMainController", DashboardMainController)
     .controller("DashboardStepController", DashboardStepController)
     .controller("DashboardKettleController", DashboardKettleController)
     .controller("DashboardHardwareController", DashboardHardwareController)
-
     .controller("TargetTempController", TargetTempController)
     .controller("VolumeController", VolumeController)
     .controller("ChartController", ChartController)
-
-
     .controller("KBHController", KBHController)
     .controller("KBHSelectController", KBHSelectController)
     .controller("KBHUploadController", KBHUploadController)
-
-
     .controller("RecipeBook", RecipeBook)
     .controller("RecipeBookSave", RecipeBookSave)
-
     .controller("ConfirmController", ConfirmController)
     .controller("setupController", setupController)
     .controller("FermenterController", FermenterController)
     .controller("FermentationCreateController", FermentationCreateController)
     .controller("FermentationEditController", FermentationEditController)
     .controller("FermenationTargetTempController", FermenationTargetTempController)
+    .controller("FermenationStepController", FermenationStepController)
 
     .factory("ConfirmMessage", ConfirmMessage);

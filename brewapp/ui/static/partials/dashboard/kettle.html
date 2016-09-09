@@ -26,13 +26,24 @@
                 </span>
 
                 <div class="btn-group pull-right" uib-dropdown keyboard-nav>
-                    <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
+                    <div class="btn-group" uib-dropdown keyboard-nav>
+                        <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
+                            <i class="fa fa-wrench"></i><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                            aria-labelledby="simple-btn-keyboard-nav">
+                            <li ng-if="v.sensorid"><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
+                        <li><a ng-click="calcVolume(v)">{{ 'CALC_VOLUME' | translate }}</a></li>
+                        </ul>
+                    </div>
+                    <!--
+                    <button id="simple-btn-keyboard-nav" type="button" class="btn" uib-dropdown-toggle>
                         <i class="fa fa-wrench"></i><span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
                         <li ng-if="v.sensorid"><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
                         <li><a ng-click="calcVolume(v)">{{ 'CALC_VOLUME' | translate }}</a></li>
-                    </ul>
+                    </ul>-->
                 </div>
             </div>
             <div class="panel-body">
@@ -45,7 +56,7 @@
                             <strong>{{ v.target_temp }}°{{ config["UNIT"] }}</strong>
                         </span>
 
-                        <div  class="temp" ng-if="v.sensorid">
+                        <div class="temp" ng-if="v.sensorid">
                             <i class="wi wi-thermometer"></i>
                             <b>{{ v.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b>
                         </div>

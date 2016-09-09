@@ -135,3 +135,4 @@ def writeTempToFile(id, timestamp, current_temp, target_temp):
     filename = "log/Kettle-" + str(id) + ".templog"
     with open(filename, "a") as myfile:
         myfile.write(msg)
+

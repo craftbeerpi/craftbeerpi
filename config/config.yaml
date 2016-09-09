@@ -47,12 +47,16 @@ USERNAME:
 PASSWORD:
  value: 123
 
+DUMMY_TEMP_SIMULATOR:
+ value: 'No'
+ options: ['Yes', 'No']
+
 WRITE_TEMP_FILE:
  value: 'No'
  options: ['Yes', 'No']
 
 THEME:
  value: static/themes/dark-theme.css
- options: ['static/themes/dark-theme.css', 'static/themes/blue-theme.css', '']
+ options: ['static/themes/dark-theme.css', 'static/themes/blue-theme.css', 'static/themes/paper-theme.css','']
  description: 'Color theme'
 

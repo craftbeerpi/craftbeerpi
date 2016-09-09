@@ -63,7 +63,7 @@ function kettle_name() {
 function switch_state2() {
     return function (state, states) {
         try {
-            if(states[state]) {
+            if (states[state]) {
                 return "btn-success";
             }
             else {
@@ -74,6 +74,21 @@ function switch_state2() {
         catch (err) {
             return "";
         }
+    }
+}
+
+function fermenter_state() {
+    return function (id, state) {
+
+        var key = "F" + id;
+
+        if (state[key] == true) {
+            return "btn-success";
+        }
+        else {
+            return;
+        }
+
     }
 }
 
@@ -130,15 +145,12 @@ function get_temp() {
 
 function kettle_state() {
     return function (input, data) {
-
-
         for (i in data) {
             if (data[i].state == 'A' && data[i].kettleid == input.id) {
+                console.log("HALLOs");
                 return "panel-success";
             }
         }
-
-
     }
 }
 
@@ -150,4 +162,5 @@ angular.module("cbpfilter", [])
     .filter("hardware_state", hardware_state)
     .filter("kettle_name", kettle_name)
     .filter("kettle_state", kettle_state)
-    .filter("hardware_name", hardware_name);
+    .filter("hardware_name", hardware_name)
+    .filter("fermenter_state", fermenter_state);
