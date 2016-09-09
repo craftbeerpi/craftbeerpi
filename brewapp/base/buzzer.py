@@ -12,17 +12,21 @@ except Exception as e:
     app.logger.error("SETUP GPIO Module for Buzzer Faild " + str(e))
     pass
 
+
 ###
 @brewinit()
 def initBuzzer():
 
+    print "INIT BUZZER"
     buzzer_gpio = app.brewapp_config.get("BUZZER_GPIO", None)
     app.logger.info("BUZZER GPIO: " + str(buzzer_gpio) )
     try:
         if buzzer_gpio is not None:
             buzzer_gpio = int(buzzer_gpio)
+        GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(buzzer_gpio, GPIO.IN)
         GPIO.setup(buzzer_gpio, GPIO.OUT)
-        GPIO.output(buzzer_gpio, 0)
+
     except Exception as e:
         app.logger.error(e)
 
@@ -35,12 +39,13 @@ def timerBeep():
 def resetBeep():
     start_new_thread(playSound,(sound3,))
 
+
 ## Melodie Pattern
 ## H = HIGH
 ## L = LOW
 ## Float value as pause
 ## it must be a L at the end to turn the sound off
-sound1 = ["H",1.0,"L"]
+sound1 = ["H",0.5,"L",0.5,"H",0.5,"L"]
 sound2 = ["H",0.2,"L",0.2,"H",0.2,"L",0.2,"H",0.2,"L"]
 sound3 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
 
@@ -48,21 +53,21 @@ sound3 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
 def playSound(melodie):
 
     try:
-        print "BEEP"
-
         buzzer_gpio = app.brewapp_config.get("BUZZER_GPIO", None)
-
         if(buzzer_gpio == None):
             return
         for i in melodie:
             if(isinstance(i, str)):
                 if i == "H":
-                    GPIO.output(buzzer_gpio,GPIO.HIGH)
+                    GPIO.output(int(buzzer_gpio),GPIO.HIGH)
                 else:
-                    GPIO.output(buzzer_gpio,GPIO.LOW)
+                    GPIO.output(int(buzzer_gpio),GPIO.LOW)
             else:
                 time.sleep(i)
+
     except Exception as e:
         print e
         app.logger.error("BUZZER ERROR " + str(e))
+
+
 

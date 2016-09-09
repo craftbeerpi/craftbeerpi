@@ -4,7 +4,7 @@ SETUP:
  description: 'Show Setup dialog?'
 
 BUZZER_GPIO:
- value: 23
+ value: 16
  description: 'Buzzer GPIO'
 
 BREWNAME:
