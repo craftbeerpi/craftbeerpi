@@ -95,6 +95,7 @@ def resetCurrentSteps():
 
 @socketio.on('start_timer_current_step', namespace='/brew')
 def start_timer_of_current_step():
+    resetBeep()
     active = Step.query.filter_by(state='A').first()
     active.timer_start = datetime.utcnow()
     setTargetTemp(active.kettleid, active.temp)

@@ -45,8 +45,8 @@ def resetBeep():
 ## L = LOW
 ## Float value as pause
 ## it must be a L at the end to turn the sound off
-sound1 = ["H",0.5,"L",0.5,"H",0.5,"L"]
-sound2 = ["H",0.2,"L",0.2,"H",0.2,"L",0.2,"H",0.2,"L"]
+sound1 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
+sound2 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
 sound3 = ["H",0.1,"L",0.1,"H",0.1,"L",0.1,"H",0.1,"L"]
 
 ## Logic to play the sound melodie
