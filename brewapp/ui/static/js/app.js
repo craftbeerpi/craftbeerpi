@@ -24,4 +24,4 @@ angular.module("test",
         $translateProvider.preferredLanguage('en_US');
         $translateProvider.useCookieStorage();
         $translateProvider.determinePreferredLanguage()
-    }]);
+    }]);        
