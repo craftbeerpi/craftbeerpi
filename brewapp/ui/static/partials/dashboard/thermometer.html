@@ -6,8 +6,8 @@
 
     <div class="panel-body">
         <div class="row">
-            {{  }}
-            <div class="col-sm-5" ng-repeat="p in thermometers">
+
+            <div class="col-sm-5" ng-repeat="p in thermometers" ng-if="p.config.hide != true">
 
                 <div class="panel-body">
                     <div>{{ p.name }}</div>
