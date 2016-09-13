@@ -1,4 +1,4 @@
-from flask import Flask,jsonify, json, request
+from flask import Flask,jsonify, json, request, send_from_directory
 from flask_socketio import SocketIO, emit
 import flask_restless
 import time
@@ -28,8 +28,9 @@ def load():
     app.logger.info(app.cbp['CURRENT_TASK'])
 
 def post_patch(result, **kw):
+    print result
     if app.cbp['CURRENT_TASK'].get(result["id"], None) is not None and  app.cbp['CURRENT_TASK'][result["id"]]["id"] == result["id"]:
-        for key in ["name", "temp"]:
+        for key in ["name", "target_temp"]:
             app.cbp['CURRENT_TASK'][result["id"]][key] = result[key]
 
 
@@ -163,17 +164,7 @@ def fermenter_automatic(id):
     socketio.emit('fermenter_state_update', app.brewapp_automatic_state, namespace='/brew')
     return ('', 204)
 
-@app.route('/api/fermenter/<id>/templog')
-def read_csv(id):
-    import csv
-    array = {"temp": [], "target_temp": []}
-    with open('./log/F_' + id + '.templog', 'rb') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            time = int((datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
-            array["temp"].append([time, row[1]])
-            array["target_temp"].append([time, row[2]])
-    return json.dumps(array)
+
 
 @brewjob(key="fermenter", interval=60)
 def fermenterjob():
@@ -216,3 +207,51 @@ def start_timer(stepid, fermenter_id):
     app.cbp['CURRENT_TASK'][fermenter_id]["endunix"] = int((d - datetime.datetime(1970, 1, 1)).total_seconds())
 
     reload_fermenter(fermenter_id)
+
+
+### Temp Logging
+from flask import make_response
+from functools import wraps, update_wrapper
+def nocache(view):
+    @wraps(view)
+    def no_cache(*args, **kwargs):
+        response = make_response(view(*args, **kwargs))
+        response.headers['Last-Modified'] = datetime.datetime.now()
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '-1'
+        return response
+
+    return update_wrapper(no_cache, view)
+
+@app.route('/api/file/fermenter/<id>')
+@nocache
+def send_fermenter_file(id):
+    return send_from_directory('../log', 'F_' + id + '.templog'"", as_attachment=True,
+                               attachment_filename=app.cbp['FERMENTERS'][int(id)]["name"] + ".log")
+
+@app.route('/api/fermenter/<id>/chart')
+def read_csv(id):
+    import csv
+    array = {"temp": [], "target_temp": []}
+    with open('./log/F_' + id + '.templog', 'rb') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            time = int((datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
+            array["temp"].append([time, row[1]])
+            array["target_temp"].append([time, row[2]])
+    return json.dumps(array)
+
+@app.route('/api/fermenter/<id>/chart', methods=["DELETE"])
+def delete_fermenter_file(id):
+    import os
+    os.remove(os.path.join("./log", "F_"+id+".templog"))
+    return ('', 204)
+
+@brewjob(key="fermenter", interval=5)
+def fermenterjob():
+    for id in app.cbp['FERMENTERS']:
+        fermenter = app.cbp['FERMENTERS'][id]
+        temp = app.brewapp_thermometer_last[fermenter["sensorid"]]
+        timestamp = int((datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
+        writeTempToFile("F_" + str(fermenter["id"]), timestamp, temp, fermenter["target_temp"])

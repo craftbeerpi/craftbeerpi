@@ -258,6 +258,15 @@ function CBPFermenter($resource) {
             url: '/api/fermenter/step/order',
             isArray: false
         },
+        chart: {
+            method: 'GET',
+            url: '/api/fermenter/:id/chart',
+            isArray: false
+        },
+        remove: {
+            method: 'DELETE',
+            url: '/api/fermenter/:id/chart'
+        },
         automatic: {
             method: 'POST',
             url: '/api/fermenter/:id/automatic',

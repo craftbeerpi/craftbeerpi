@@ -1005,12 +1005,115 @@ function ChartController($scope, $routeParams, CBPKettle) {
     }
 
     $scope.load();
+}
+
+function FermentationChartController($scope, $routeParams, CBPFermenter) {
+
+    $scope.vid = $routeParams.id
+
+    $scope.downsample = function (data, x, y) {
+
+        if (typeof(x) === 'undefined') x = "P1";
+        if (typeof(y) === 'undefined') y = "x";
+
+        if (data == undefined) {
+            return
+        }
+        names = [
+            [y, x]
+        ];
+        var down = largestTriangleThreeBuckets(data, 250, 0, 1);
+        p1 = [x];
+        x = [y];
+        for (var i = 0; i < down.length; i++) {
+            p1.push(down[i][1]);
+            x.push(down[i][0]);
+        }
+        return [p1, x];
+    }
+
+    $scope.load = function () {
+
+        CBPFermenter.chart({
+            "id": $scope.vid
+        }, function (response) {
+            console.log(response);
+
+
+             $scope.chart_data = response;
+
+             var chart_data = $scope.downsample(response["temp"], "data", "x");
+             var chart_data2 = $scope.downsample(response["target_temp"], "data1", "x1");
+             chart_data = chart_data.concat(chart_data2);
+             $scope.chart = c3.generate({
+             bindto: '#chart',
+             data: {
+             xs: {
+             data: "x",
+             data1: "x1"
+             },
+             columns: chart_data,
+             type: 'area',
+             names: {
+             data: "Temperature",
+             data1: "Target Temperature"
+             }
+             },
+             subchart: {
+             show: true
+             },
+             zoom: {
+             rescale: true,
+             enabled: true
+             },
+             point: {
+             show: false
+             },
+             legend: {
+             show: false
+             },
+             grid: {
+             x: {
+             show: true
+             },
+             y: {
+             show: true
+             }
+             },
+             axis: {
+             x: {
+             type: 'timeseries',
+             tick: {
+             format: '%H:%M:%S',
+             count: 10
+             },
+             localtime: true,
+             label: 'Time'
+             },
+             y: {
+             label: 'Temperature',
+             },
+
+             }
+             });
+
+        });
+
+    }
+
+    $scope.clear = function() {
+        CBPFermenter.remove({ "id": $scope.vid}, function () {
+            $scope.chart = undefined;
+
+        });
+    }
+
+    $scope.load();
 
 
 }
 
 function setupController($scope, $translate, CBPSetup, $window, $location, WizardHandler) {
-
 
 
     var i = 1
@@ -1208,9 +1311,8 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     }
 
 
-
     $scope.toTimestamp = function (timer) {
-        if(timer == undefined)
+        if (timer == undefined)
             return
         return new Date(timer).getTime();
     }
@@ -1218,10 +1320,10 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     $scope.getTimer = function (n) {
 
         start = new Date(n.start).getTime();
-        day_seconds = n.days * 24 * 60 * 60 *1000 ;
+        day_seconds = n.days * 24 * 60 * 60 * 1000;
         hour_seconds = n.hours * 60 * 60 * 1000;
         minutes_seconds = n.minutes * 60 * 1000;
-        return start+day_seconds+hour_seconds+minutes_seconds;
+        return start + day_seconds + hour_seconds + minutes_seconds;
 
     }
 
@@ -1276,10 +1378,10 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
         $scope.fermenters[data.id] = data;
         //console.log(data);
         /*data.map(function (obj) {
-            obj.steps.sort(compare);
-        });
-        $scope.fermenters = data;
-        */
+         obj.steps.sort(compare);
+         });
+         $scope.fermenters = data;
+         */
     });
 
     $scope.switchGPIO = function (item) {
@@ -1571,5 +1673,6 @@ angular.module("cbpcontroller", [])
     .controller("FermentationEditController", FermentationEditController)
     .controller("FermenationTargetTempController", FermenationTargetTempController)
     .controller("FermenationStepController", FermenationStepController)
+    .controller("FermentationChartController", FermentationChartController)
 
     .factory("ConfirmMessage", ConfirmMessage);
