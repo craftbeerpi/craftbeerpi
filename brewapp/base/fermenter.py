@@ -248,7 +248,7 @@ def delete_fermenter_file(id):
     os.remove(os.path.join("./log", "F_"+id+".templog"))
     return ('', 204)
 
-@brewjob(key="fermenter", interval=5)
+@brewjob(key="fermenter", interval=60)
 def fermenterjob():
     for id in app.cbp['FERMENTERS']:
         fermenter = app.cbp['FERMENTERS'][id]
