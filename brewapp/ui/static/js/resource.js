@@ -62,6 +62,15 @@ function CBPKettle($resource) {
             url: '/api/kettle/chart/:id',
             isArray: false
         },
+        chart: {
+            method: 'GET',
+            url: '/api/kettle/:id/chart',
+            isArray: false
+        },
+        remove: {
+            method: 'DELETE',
+            url: '/api/kettle/:id/chart'
+        },
         getautomatic: {
             method: 'GET',
             url: '/api/automatic/paramter',
@@ -97,6 +106,34 @@ function CBPSwitch($http) {
             }, function errorCallback(response) {
 
             });
+        }
+    }
+};
+
+
+function CBPChart($http) {
+    return {
+        get: function (id, okCallback){
+            $http({
+                method: 'GET',
+                url: '/api/temp/'+id+'/chart'
+            }).then(function successCallback(response) {
+                okCallback(response.data);
+            }, function errorCallback(response) {
+
+            });
+
+        },
+        delete: function (id, okCallback){
+            $http({
+                method: 'DELETE',
+                url: '/api/temp/'+id+'/chart'
+            }).then(function successCallback(response) {
+                okCallback();
+            }, function errorCallback(response) {
+
+            });
+
         }
     }
 };
@@ -298,6 +335,7 @@ function CBPFermenterSteps($resource) {
 
 angular.module("cbpresource", [])
     .factory("CBPKettle", CBPKettle)
+    .factory("CBPChart", CBPChart)
     .factory("CBPSetup", CBPSetup)
     .factory("CBPSwitch", CBPSwitch)
     .factory("CBPSteps", CBPSteps)

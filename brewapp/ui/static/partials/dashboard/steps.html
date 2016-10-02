@@ -1,72 +1,73 @@
-<div class="panel panel-default kettle" data-placement="top"
-     ng-controller="DashboardStepController">
+<style>
+  .pad {
+    padding-left: 2px !important;
+    padding-right: 2px  !important;
+  }
 
-    <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-list"></i> {{ config["BREWNAME"] }}</span>
+  .hideOverflow
+{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
 
-        <div class="btn-group pull-right" role="group" aria-label="..." ng-if="steps.length > 0">
+    display:block;
+}
+</style>
 
-
-            <div class="btn-group" uib-dropdown keyboard-nav>
-                <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
-                    <i class="fa fa-fast-backward"></i> {{ 'RESET' | translate }}<span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
-                    <li><a ng-click="reset()">{{ 'RESET_ALL' | translate }}</a></li>
-                    <li><a ng-click="reset_current()">{{ 'RESET_CURRENT_STEP' | translate }}</a></li>
-                </ul>
+     <div class="panel panel-default" ng-controller="DashboardStepController">
+     <div class="panel-heading ">
+        <div class="row" ng-if="steps.length > 0">
+            <div class="col-xs-6 hideOverflow pad">{{ config["BREWNAME"] }}</div>
+            <div class="col-xs-6 pad text-right">
+              <div class="btn-group" role="group" aria-label="...">
+                  <button type="button" class="btn btn-xs btn-danger" ng-click="reset()" ng-disabled="running == false">{{ 'STOP' | translate }}</button>
+                  <button type="button" class="btn btn-xs btn-success" ng-disabled="running" ng-click="start()">{{ 'START' | translate }}</button>
+                  <a href="#/steps"  class="btn btn-xs btn-default"><i class="fa fa-wrench"></i>&nbsp;</a>
+              </div>
             </div>
-            <div class="btn-group" role="group">
-                <button ng-disabled="started()" ng-click="start()"
-                        class="btn btn-primary btn-lm"><i class="fa fa-play"></i> {{ "START" | translate }} </button>
-            </div>
-
         </div>
-        <div class="clearfix"></div>
-    </div>
+     </div>
+     <ul class="list-group">
+     <li class="list-group-item" ng-class="item | step_state" ng-repeat="item in steps track by $index">
 
-    <table class="table">
-        <thead>
-        <td class="col-md-1">{{ "TYPE" | translate }}</td>
-        <td>{{ "STEP" | translate }}</td>
-        <td><i class="wi wi-thermometer"></i></td>
-        <td><i class="fa fa-clock-o"></i></td>
-        <td></td>
-        </thead>
-        <tr ng-class="item | step_state" ng-repeat="item in steps track by $index">
-            <td class="col-md-1"><span class="badge">{{ item.type }}</span></td>
-            <td style="overflow: hidden;"><strong>{{ item.name }}</strong> <i ng-class="stateClassIcon(item)"></i>
-                <br>
-                <small>{{ item.start | date:'HH:mm:ss'}} - {{ item.end | date:'HH:mm:ss' }}</small>
-                <br/>
-            </td>
-            <td><span>{{ item.temp }} °{{ config["UNIT"] }}</span></td>
-            <td>
-                <nobr>({{ item.timer }} min)</nobr>
-                <br>
-                <small ng-if="item.timer_start">
+     <div class="row">
+       <div class="col-xs-7 pad hideOverflow">
+         <div>
+         <span class="badge">A</span> <strong >{{ item.name }}</strong></div>
+         <div class="text-muted"><small><i class="fa fa-flag-checkered" aria-hidden="true"></i> {{ item.start | date:'HH:mm:ss'}} - {{ item.end | date:'HH:mm:ss' }}</small></div>
+       </div>
+       <div class="col-xs-5 pad text-center">
+         <div>  <strong><i class="wi wi-thermometer"></i> {{ item.temp }} °{{ config["UNIT"] }}  </strong>
 
-                    <timer ng-if="item.state == 'A' && item.timer_start != null"
-                           end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)"
-                           interval="1000"> {{ hhours }}:{{ mminutes }}:{{ sseconds }}
-                    </timer>
-                    <small ng-if="item.state == 'D'">{{ item.timer_start | date:'HH:mm:ss'}}</small>
-                </small>
-                <br>
-                <i ng:if="item.stir_heatup == 'Y'" class="fa fa-refresh">
-            </td>
-            <td>
-                <button ng-if="item.state == 'A'" ng-click="start_timer()" class="btn btn-primary btn-sm"><i
-                        class="fa fa-clock-o"></i></button>
-                <button ng-if="item.state == 'A'" ng-click="next()" class="btn btn-primary btn-sm"><i
-                        class="fa fa-forward"></i></button>
-            </td>
-        </tr>
-    </table>
+           <div ng-if="item.state == 'A'"  class="btn-group" uib-dropdown keyboard-nav>
+               <button id="simple-btn-keyboard-nav" type="button" class="btn btn-primary btn-xs" uib-dropdown-toggle>
+                   <i class="fa fa-forward"></i>
+               </button>
+               <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                   <li><a ng-click="next()">{{ 'NEXT' | translate }}</a></li>
+                   <li><a ng-click="start_timer()">{{ 'START_TIMER' | translate }}</a></li>
+                   <li><a ng-click="reset_current()">{{ 'RESET_CURRENT_STEP' | translate }}</a></li>
+               </ul>
+           </div>
 
-    <div class="text-center" ng-if="steps.length <= 0">
-        <h2>{{ 'SETUP_STEPS' | translate }}</h2>
-    </div>
 
-</div>
+     </div>
+         <div>
+           <small><i class="fa fa-clock-o"> </i> {{ item.timer }} min</small>
+           <small ng-if="item.timer_start">
+               <timer ng-if="item.state == 'A' && item.timer_start != null" end-time="toTimestamp(item.timer_start) + (item.timer * 1000 *  60)" interval="1000"> {{ hhours }}:{{ mminutes }}:{{ sseconds }}
+               </timer>
+               <span ng-if="item.state == 'D'">{{ item.timer_start | date:'HH:mm:ss'}}</span>
+           </small>
+         </div>
+       </div>
 
+     </div>
+
+     </li>
+     </ul>
+     <div class="text-center" ng-if="steps.length <= 0">
+
+         <a href="#/steps" style="margin: 20px;" class="btn btn-lg btn-default">{{ 'SETUP_STEPS_NOW' | translate }}  <i class="fa fa-arrow-circle-right"></i></a>
+     </div>
+     </div>

@@ -13,7 +13,7 @@ class DummyThermometer(object):
 
     def init(self):
         pass
-        app.cbp["TEMP"] = {"DummySensor1": 20, "DummySensor2": 20, "DummySensor3": 20}
+        app.cbp["TEMP"] = {"DummySensor1": 20.99, "DummySensor2": 20, "DummySensor3": 20}
 
     def getSensors(self):
         return ["DummySensor1","DummySensor2","DummySensor3"]

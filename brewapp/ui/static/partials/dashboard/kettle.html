@@ -1,103 +1,54 @@
-<style>
-    .temp {
-        font-size: 3.0em;
-        text-align: center;
-        margin: 10px;
-        vertical-align: middle !important;
-
-    }
-
-    .headline {
-        font-size: 1.5em;
-        width: 70%;
-        overflow: hidden;
-        display: inline-block;
-        white-space: nowrap;
-    }
-</style>
 <div class="row" ng-controller="DashboardKettleController">
 
-    <div class="col-sm-6" ng-repeat="v in kettles track by $index">
+    <div class="text-right">
+        <div class="panel panel-default" style="padding: 5px; margin-bottom: 5px">
 
-        <div class="panel panel-default kettle" ng-class="v | kettle_state:steps">
-            <div class="panel-heading">
-                <span class="headline"><i class="fa fa-chevron-circle-right"></i> {{ v.name }}
+                <button class="btn btn-xs btn-success" ng-click="create()"><i class="fa fa-plus" aria-hidden="true"></i></button>
 
-                </span>
-
-                <div class="btn-group pull-right" uib-dropdown keyboard-nav>
-                    <div class="btn-group" uib-dropdown keyboard-nav>
-                        <button id="simple-btn-keyboard-nav" type="button" class="btn btn-default" uib-dropdown-toggle>
-                            <i class="fa fa-wrench"></i><span class="caret"></span>
+        </div>
+    </div>
+    <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 pad" ng-repeat="k in kettles track by $index">
+        <div class="panel panel-default" style="margin-bottom: 5px">
+            <div class="panel-heading pad ">
+                <div class="row">
+                    <div class="col-xs-7 hideOverflow">{{ k.name }}</div>
+                    <div class="col-xs-5 text-right">
+                        <button type="button" class="btn btn-sm btn-danger" ng-click="edit(k)"><i class="fa fa-wrench"
+                                                                                                  aria-hidden="true"></i>
                         </button>
-                        <ul class="dropdown-menu" uib-dropdown-menu role="menu"
-                            aria-labelledby="simple-btn-keyboard-nav">
-                            <li ng-if="v.sensorid"><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
-                        <li><a ng-click="calcVolume(v)">{{ 'CALC_VOLUME' | translate }}</a></li>
-                        </ul>
                     </div>
-                    <!--
-                    <button id="simple-btn-keyboard-nav" type="button" class="btn" uib-dropdown-toggle>
-                        <i class="fa fa-wrench"></i><span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
-                        <li ng-if="v.sensorid"><a href="#/chart/{{ v.id }}">{{ 'CHART' | translate }}</a></li>
-                        <li><a ng-click="calcVolume(v)">{{ 'CALC_VOLUME' | translate }}</a></li>
-                    </ul>-->
                 </div>
             </div>
-            <div class="panel-body">
-
-                <div class="row">
-                    <div class="col-xs-12">
-
-                        <span class="pull-right" ng-if="v.heater | hardware_name:hardware_dict"><i
-                                class="fa fa-crosshairs"></i>
-                            <strong>{{ v.target_temp }}°{{ config["UNIT"] }}</strong>
-                        </span>
-
-                        <div class="temp" ng-if="v.sensorid">
-                            <i class="wi wi-thermometer"></i>
-                            <b>{{ v.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="btn-group btn-group-justified" role="group ">
-                    <div class="btn-group" role="group" ng-if="v.heater | hardware_name:hardware_dict">
-                        <button class="btn btn-default"
-                                role="group" ng-click="setTargetTemp(v)">
-                            <span class="badge"><i class="fa fa-crosshairs"></i></span>
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-default" role="group"
-                                ng-if="v.automatic" ng-class="v | hardware_state:'AUTO':kettle_state"
-                                ng-click="switch_automatic(v)">
-                            <span class="badge"><i class="fa fa-car"></i></span>
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-
-                        <button class="btn btn-default" role="group"
-                                ng-if="v.heater | hardware_name:hardware_dict"
-                                ng-class="v | hardware_state:'H':switch_state"
-                                ng-click="switchGPIO(v.heater)">
-                            <span class="badge"><i class="fa fa-fire"></i></span>
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-default"
-                                role="group" ng-if="v.agitator | hardware_name:hardware_dict"
-                                ng-class="v | hardware_state:'A':switch_state" ng-click="switchGPIO(v.agitator)">
-                            <span class="badge"><i class="fa fa-refresh "></i></span>
-                        </button>
-                    </div>
+            <div class="panel-body pad text-center" style="margin-top: 5px; padding: 5px">
+                <div class="temp"><i class="wi wi-thermometer"></i>
+                    {{ k.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</div>
+                <div class="text-muted target_temp">
+                    <i class="fa fa-crosshairs" aria-hidden="true"></i> {{ k.target_temp }}°{{ config["UNIT"] }}
                 </div>
 
+
+                <div class="btn-group " role="group">
+                    <button type="button" class="btn btn-md btn-default" ng-if="k.automatic"
+                            ng-class="k | hardware_state:'AUTO':kettle_state" ng-click="switch_automatic(k)"><i
+                            class="fa fa-car" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-md btn-default" ng-if="k.heater | hardware_name:hardware_dict"
+                            ng-class="k | hardware_state:'H':switch_state" ng-click="switchGPIO(k.heater)"><i
+                            class="fa fa-fire" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-md btn-default"
+                            ng-if="k.agitator | hardware_name:hardware_dict"
+                            ng-class="k | hardware_state:'A':switch_state" ng-click="switchGPIO(k.agitator)"><i
+                            class="fa fa-refresh" aria-hidden="true"></i></button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button " class="btn btn-md btn-default" ng-click="setTargetTemp(k)"><i
+                            class="fa fa-crosshairs" aria-hidden="true"></i></button>
+                    <a href="#/brewchart/{{ k.id }}" class="btn btn-md btn-default"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
+                    <button type="button" class="btn btn-md btn-default" ng-click="calcVolume(k)"><i
+                            class="fa fa-calculator" aria-hidden="true"></i></button>
+                </div>
             </div>
         </div>
-
     </div>
-</div>
+
+
 </div>

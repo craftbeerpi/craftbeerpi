@@ -127,7 +127,14 @@ def hystresis(id):
     while app.brewapp_automatic_state["F" + id]:
 
         fermenter = app.cbp['FERMENTERS'][int(id)]
+
+
+        if type(fermenter["sensorid"]) is not int:
+            socketio.emit('message', {"headline": "NO_TERMOMETER", "message": "NO_THERMOMETER_DEFINED"}, namespace='/brew')
+            break
+
         temp = app.brewapp_thermometer_last[fermenter["sensorid"]]
+
         target_temp = fermenter["target_temp"]
         heater_min = fermenter["heateroffset_min"]
         heater_max = fermenter["heateroffset_max"]
@@ -135,22 +142,33 @@ def hystresis(id):
         cooler_min = fermenter["cooleroffset_min"]
         cooler_max = fermenter["cooleroffset_max"]
 
-        if temp + heater_min < target_temp:
-            switchOn(fermenter["heaterid"])
+        heater_id = fermenter["heaterid"] if type(fermenter["heaterid"]) is int else None
+        cooler_id = fermenter["coolerid"] if type(fermenter["coolerid"]) is int else None
 
-        if temp + heater_max > target_temp:
-            switchOff(fermenter["heaterid"])
 
-        if temp > target_temp + cooler_min:
-            switchOn(fermenter["coolerid"])
+        if heater_id is not None:
+            if temp + heater_min < target_temp:
+                switchOn(fermenter["heaterid"])
 
-        if temp < target_temp + cooler_max:
-            switchOff(fermenter["coolerid"])
+            if temp + heater_max > target_temp:
+                switchOff(fermenter["heaterid"])
+
+        if cooler_id is not None:
+            if temp > target_temp + cooler_min:
+                switchOn(fermenter["coolerid"])
+
+            if temp < target_temp + cooler_max:
+                switchOff(fermenter["coolerid"])
 
         socketio.sleep(1)
 
-    switchOff(fermenter["heaterid"])
-    switchOff(fermenter["coolerid"])
+    app.brewapp_automatic_state["F" + id] = False
+
+    print "BREAK!   "
+    if type(fermenter["heaterid"]) is int:
+        switchOff(fermenter["heaterid"])
+    if type(fermenter["coolerid"]) is int:
+        switchOff(fermenter["coolerid"])
 
 
 @app.route('/api/fermenter/<id>/automatic', methods=['POST'])
@@ -210,45 +228,27 @@ def start_timer(stepid, fermenter_id):
 
 
 ### Temp Logging
-from flask import make_response
-from functools import wraps, update_wrapper
-def nocache(view):
-    @wraps(view)
-    def no_cache(*args, **kwargs):
-        response = make_response(view(*args, **kwargs))
-        response.headers['Last-Modified'] = datetime.datetime.now()
-        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
-        response.headers['Pragma'] = 'no-cache'
-        response.headers['Expires'] = '-1'
-        return response
-
-    return update_wrapper(no_cache, view)
-
+'''
 @app.route('/api/file/fermenter/<id>')
 @nocache
-def send_fermenter_file(id):
-    return send_from_directory('../log', 'F_' + id + '.templog'"", as_attachment=True,
-                               attachment_filename=app.cbp['FERMENTERS'][int(id)]["name"] + ".log")
+def donwload_fermenter_temp_log(id):
+    return send_from_directory('../log', 'F_' + id + '.templog'"", as_attachment=True, attachment_filename=app.cbp['FERMENTERS'][int(id)]["name"] + ".log")
+
+
 
 @app.route('/api/fermenter/<id>/chart')
 def read_csv(id):
-    import csv
-    array = {"temp": [], "target_temp": []}
-    with open('./log/F_' + id + '.templog', 'rb') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            time = int((datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
-            array["temp"].append([time, row[1]])
-            array["target_temp"].append([time, row[2]])
-    return json.dumps(array)
+    return read_temp_log('./log/F_' + id + '.templog')
+
 
 @app.route('/api/fermenter/<id>/chart', methods=["DELETE"])
 def delete_fermenter_file(id):
     import os
     os.remove(os.path.join("./log", "F_"+id+".templog"))
     return ('', 204)
+'''
 
-@brewjob(key="fermenter", interval=60)
+#@brewjob(key="fermenter", interval=2)
 def fermenterjob():
     for id in app.cbp['FERMENTERS']:
         fermenter = app.cbp['FERMENTERS'][id]

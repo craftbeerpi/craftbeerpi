@@ -3,6 +3,7 @@ from model import *
 from brewapp import app, socketio
 from brewapp import manager
 from brewapp.base.automatic.automaticlogic import *
+from flask import send_from_directory
 
 ## Returns the all current kettle configs
 @app.route('/api/kettle/state', methods=['GET'])
@@ -95,3 +96,26 @@ def initKettle():
             "agitator": v.agitator,
             "automatic": False,
         }
+
+@app.route('/api/kettle/<id>/chart')
+def get_kettle_chart(id):
+    return read_temp_log('./log/K_' + id + '.templog')
+
+@app.route('/api/kettle/<id>/chart', methods=["DELETE"])
+def delete_kettle_file(id):
+    import os
+    os.remove(os.path.join("./log", "K_"+id+".templog"))
+    return ('', 204)
+
+@app.route('/api/kettle/<id>/download')
+@nocache
+def download_kettle_temp_log(id):
+    return send_from_directory('../log', 'K_' + id + '.templog'"", as_attachment=True, attachment_filename=app.brewapp_kettle_state[int(id)]["name"] + ".log")
+
+@brewjob(key="kettle", interval=1)
+def kettlejob():
+    for id in app.brewapp_kettle_state:
+        k = app.brewapp_kettle_state[id]
+        temp = app.brewapp_thermometer_last[int(k["sensorid"])]
+        timestamp = int((datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
+        writeTempToFile("K_" + str(id), timestamp, temp, k["target_temp"])

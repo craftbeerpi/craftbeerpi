@@ -25,6 +25,9 @@ function dummy_controller($scope, $http) {
             ceil: 101,
             id: "DummySensor1",
             onEnd: post
+        },
+        getPointerColor: function () {
+            return "red";
         }
     };
 

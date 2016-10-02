@@ -5,10 +5,6 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
         $scope.temps = data;
     });
 
-    $scope.$on('socket:config', function (ev, data) {
-        $scope.config = data;
-    });
-
     $scope.$on('socket:step_update', function (ev, data) {
         $scope.steps = data;
     });
@@ -53,13 +49,6 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
         });
     });
 
-    $scope.config = {};
-    CBPConfig.query(function (data) {
-
-        data.objects.forEach(function (entry) {
-            $scope.config[entry.name] = entry.value
-        });
-    });
 
     $scope.automatic = [];
     CBPKettle.getautomatic({}, function (response) {
@@ -70,11 +59,6 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
     CBPKettle.get(function (data) {
         $scope.kettles = data.objects;
     })
-
-    $scope.steps = [];
-    CBPSteps.query({}, function (response) {
-        $scope.steps = response.objects;
-    });
 
     // Reload Helper
     $scope.kettle_reload = function () {
@@ -150,7 +134,7 @@ function modalController($scope, $uibModalInstance, ConfirmMessage) {
 }
 
 
-function ConfirmMessage($route, $location, $uibModal) {
+function ConfirmMessage($location, $uibModal) {
 
     return {
         open: function (headline, message, confirm, cancel) {
@@ -377,7 +361,6 @@ function configController($scope, $controller, CBPConfig, $uibModal) {
 function configEditController($scope, $uibModalInstance, CBPConfig) {
 
     $scope.name = $scope.selected;
-
     CBPConfig.get({
         "name": $scope.item.name
     }, function (response) {
@@ -386,7 +369,6 @@ function configEditController($scope, $uibModalInstance, CBPConfig) {
         if ($scope.configparam.options != null) {
             $scope.options = $scope.configparam.options.split(',');
         }
-
     });
     $scope.save = function () {
         CBPConfig.update({
@@ -424,6 +406,12 @@ function aboutController($scope, ConfirmMessage, $translate, $window) {
 function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibModal, ConfirmMessage, CBPRecipeBook) {
 
     angular.extend(this, $controller('BaseController', {$scope: $scope}));
+
+    $scope.steps = []
+    CBPSteps.query({}, function (response) {
+        $scope.steps = response.objects;
+        check_running(response.objects);
+    });
 
     $scope.treeOptions = {
         dropped: function (event) {
@@ -503,8 +491,10 @@ function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibMo
     }
 
     $scope.create = function () {
+        console.log("NEW")
         $scope.item = angular.copy({"type": "A", "state": "I", "kettleid": 0});
         $scope.edit_mode = false;
+        $scope.headline = "CREATE_STEP";
         var modalInstance = $uibModal.open({
             templateUrl: 'static/partials/steps/form.html',
             controller: 'modalController',
@@ -520,8 +510,8 @@ function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibMo
     $scope.edit = function (item) {
         $scope.edit_mode = true;
         $scope.item = angular.copy(item);
-        $scope.headline = "DELETE_KETTLE_HEADLINE";
-        $scope.message = "DELETE_KETTLE_MESSAGE";
+        $scope.headline = "EDIT_STEP";
+
         var modalInstance = $uibModal.open({
             animation: true,
             controller: "modalController",
@@ -546,26 +536,43 @@ function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibMo
     }
 }
 
-function DashboardMainController($scope, $controller, CBPHardware, CBPSteps) {
 
-
-    angular.extend(this, $controller('BaseController', {$scope: $scope}));
-
-
-    $scope.$on('socket:step_update', function (ev, data) {
-        $scope.steps = data;
-    });
-}
 
 
 function DashboardStepController($scope, $rootScope, CBPSteps, ConfirmMessage, mySocket) {
 
+    $scope.steps = [];
+    $scope.running = false;
 
-    $rootScope.name = "MANUEL"
+    function check_running(data) {
+         $scope.running = false;
+         for (var d in data) {
+
+            if(data[d].state != 'I') {
+                $scope.running = true;
+                break;
+            }
+        };
+    }
+
+    CBPSteps.query({}, function (response) {
+        $scope.steps = response.objects;
+        check_running(response.objects);
+    });
+
+
+    $scope.$on('socket:step_update', function (ev, data) {
+        check_running(data);
+        $scope.steps = data;
+    });
+
+
+
+
     $scope.next = function () {
-        console.log("NEXT");
         mySocket.emit("next");
     }
+
     $scope.start = function () {
         mySocket.emit("start");
     }
@@ -573,6 +580,7 @@ function DashboardStepController($scope, $rootScope, CBPSteps, ConfirmMessage, m
     $scope.start_timer = function () {
         mySocket.emit("start_timer_current_step");
     }
+
     $scope.reset = function () {
         ConfirmMessage.open("RESET_BREWING_PROCESS", "ARE_YOU_SURE", function () {
             mySocket.emit("reset");
@@ -655,7 +663,42 @@ function DashboardKettleController($scope, $controller, CBPKettle, ConfirmMessag
         });
     };
 
+    $scope.create = function () {
 
+        $scope.kettle = angular.copy({"name": "", "sensorid": "", "heater": undefined, "agitator": undefined});
+        $scope.edit_mode = false;
+        var modalInstance = $uibModal.open({
+            animation: false,
+            templateUrl: 'static/partials/kettle/form.html',
+            controller: 'modalController',
+            scope: $scope,
+            size: "lg"
+        });
+        modalInstance.result.then(function () {
+            CBPKettle.save($scope.kettle, $scope.kettle_reload);
+        });
+    }
+
+    $scope.edit = function (item) {
+        $scope.kettle = angular.copy(item);
+        $scope.edit_mode = true;
+        $scope.headline = "DELETE_KETTLE_HEADLINE";
+        $scope.message = "DELETE_KETTLE_MESSAGE";
+        var modalInstance = $uibModal.open({
+            animation: false,
+            templateUrl: 'static/partials/kettle/form.html',
+            controller: 'modalController',
+            scope: $scope,
+            size: "lg"
+        });
+        modalInstance.result.then(function () {
+            CBPKettle.update({"id": $scope.kettle.id}, $scope.kettle, $scope.kettle_reload);
+        }, function (data) {
+            if ('delete' == data) {
+                CBPKettle.delete({"id": $scope.kettle.id}, $scope.kettle_reload);
+            }
+        });
+    }
 }
 
 function DashboardHardwareController($scope, $controller, mySocket, CBPHardware, CBPSwitch, CBPKettle) {
@@ -862,28 +905,6 @@ function RecipeBookSave($scope, $location, CBPConfig, $uibModalInstance, Confirm
     };
 }
 
-function MainController($scope, CBPConfig, ConfirmMessage, mySocket) {
-
-
-    $scope.theme = "/base/static/theme.dark.css";
-    $scope.$on('socket:config', function (ev, data) {
-        $scope.config = data;
-
-    });
-
-    $scope.$on('socket:message', function (ev, data) {
-        ConfirmMessage.open(data.headline, data.message, function () {
-        });
-    });
-
-
-    $scope.config = {};
-    CBPConfig.query(function (data) {
-        data.objects.forEach(function (entry) {
-            $scope.config[entry.name] = entry.value
-        });
-    });
-}
 
 function VolumeController($scope, $uibModalInstance) {
     $scope.free = 0
@@ -914,204 +935,186 @@ function VolumeController($scope, $uibModalInstance) {
     };
 };
 
-function ChartController($scope, $routeParams, CBPKettle) {
 
-    $scope.vid = $routeParams.id
+function ChartController($scope, CBPChart, $state, $stateParams) {
 
-    $scope.downsample = function (data, x, y) {
+    $scope.vid = $stateParams.id;
 
-        if (typeof(x) === 'undefined') x = "P1";
-        if (typeof(y) === 'undefined') y = "x";
+    $scope.type = $state.current.type;
 
-        if (data == undefined) {
-            return
-        }
-        names = [
-            [y, x]
-        ];
-        var down = largestTriangleThreeBuckets(data, 250, 0, 1);
-        p1 = [x];
-        x = [y];
-        for (var i = 0; i < down.length; i++) {
-            p1.push(down[i][1]);
-            x.push(down[i][0]);
-        }
-        return [p1, x];
-    }
 
     $scope.load = function () {
+        $scope.loading = true;
+        var legends = undefined;
+        CBPChart.get($state.current.type +$scope.vid
+            , function (response) {
 
-        CBPKettle.getTemps({
-            "id": $scope.vid
-        }, function (response) {
-            $scope.chart_data = response;
+                 $scope.loading = false;
 
-            var chart_data = $scope.downsample(response["temp"], "data", "x");
-            var chart_data2 = $scope.downsample(response["target"], "data1", "x1");
-            chart_data = chart_data.concat(chart_data2);
-            $scope.chart = c3.generate({
-                bindto: '#chart',
-                data: {
-                    xs: {
-                        data: "x",
-                        data1: "x1"
-                    },
-                    columns: chart_data,
-                    type: 'area',
-                    names: {
-                        data: "Temperature",
-                        data1: "Target Temperature"
-                    }
-                },
-                subchart: {
-                    show: true
-                },
-                zoom: {
-                    rescale: true,
-                    enabled: true
-                },
-                point: {
-                    show: false
-                },
-                legend: {
-                    show: false
-                },
-                grid: {
-                    x: {
-                        show: true
-                    },
-                    y: {
-                        show: true
-                    }
-                },
-                axis: {
-                    x: {
-                        type: 'timeseries',
-                        tick: {
-                            format: '%H:%M:%S',
-                            count: 10
-                        },
-                        localtime: true,
-                        label: 'Time'
-                    },
-                    y: {
-                        label: 'Temperature',
-                    },
+            var options = {
+             series: {
+				lines: { show: true },
+				points: { show: false },
+			},
+			xaxis: {
+				mode: "time",
+				tickLength: 5
+			},
+                crosshair: {
+				mode: "x"
+			},grid: {
+				hoverable: true,
+                    backgroundColor: '#fff',
+				autoHighlight: true
+			},
+			selection: {
+				mode: "x"
+			},
 
-                }
-            });
+		    };
+
+		    var plot = $.plot("#placeholder", [{data:response.temp, label: "Temp = -0.00"}, {data:response.target_temp, label: "TagetTemp = -0.00"}], options);
+
+            legends = $("#placeholder .legendLabel");
+            legends.each(function () {
+			    // fix the widths so they don't jump around
+			    $(this).css('width', $(this).width());
+		    });
+
+            var updateLegendTimeout = null;
+		var latestPosition = null;
+
+		function updateLegend() {
+
+
+			updateLegendTimeout = null;
+
+			var pos = latestPosition;
+
+			var axes = plot.getAxes();
+			if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
+				pos.y < axes.yaxis.min || pos.y > axes.yaxis.max) {
+
+				return;
+			}
+
+			var i, j, dataset = plot.getData();
+			for (i = 0; i < dataset.length; ++i) {
+
+				var series = dataset[i];
+				// Find the nearest points, x-wise
+				for (j = 0; j < series.data.length; ++j) {
+					if (series.data[j][0] > pos.x) {
+						break;
+					}
+				}
+				// Now Interpolate
+				var y,
+					p1 = series.data[j - 1],
+					p2 = series.data[j];
+
+				if (p1 == null) {
+					y = p2[1];
+				} else if (p2 == null) {
+					y = p1[1];
+				} else {
+					y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
+				}
+
+				legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(2)));
+			}
+		}
+
+		$("#placeholder").bind("plothover",  function (event, pos, item) {
+			latestPosition = pos;
+			if (!updateLegendTimeout) {
+				updateLegendTimeout = setTimeout(updateLegend, 50);
+			}
+		});
+
+		var overview = $.plot("#overview", [response.temp, response.target_temp], {
+			series: {
+				lines: {
+					show: true,
+					lineWidth: 1
+				},
+
+				shadowSize: 0
+			},
+            grid: {
+                backgroundColor: '#fff'
+            },
+			xaxis: {
+				ticks: [],
+				mode: "time"
+			},
+			yaxis: {
+				ticks: [],
+				min: 0,
+				autoscaleMargin: 0.1
+			},
+			selection: {
+				mode: "x"
+			}
+		});
+
+		// now connect the two
+
+		$("#placeholder").bind("plotselected", function (event, ranges) {
+
+
+			// do the zooming
+			$.each(plot.getXAxes(), function(_, axis) {
+				var opts = axis.options;
+				opts.min = ranges.xaxis.from;
+				opts.max = ranges.xaxis.to;
+			});
+			plot.setupGrid();
+			plot.draw();
+			plot.clearSelection();
+
+			// don't fire event on the overview to prevent eternal loop
+			overview.setSelection(ranges, true);
+            legends = $("#placeholder .legendLabel");
+            updateLegendTimeout = null;
+            latestPosition = null;
+
+            $("#placeholder").bind("plothover",  function (event, pos, item) {
+
+			    latestPosition = pos;
+			    if (!updateLegendTimeout) {
+				    updateLegendTimeout = setTimeout(updateLegend, 50);
+			    }
+		    });
+		});
+
+        var placeholder = $("#placeholder");
+
+		$("#overview").bind("plotselected", function (event, ranges) {
+
+			plot.setSelection(ranges);
+		});
+
         });
 
+    }
+
+    $scope.clear = function () {
+        CBPChart.delete("K_"+$scope.vid, function () {
+            $("#placeholder").empty();
+            $("#overview").empty();
+        });
+
+    }
+
+    $scope.back = function () {
+        console.log($state.current)
+        $state.go($state.current.back)
     }
 
     $scope.load();
 }
 
-function FermentationChartController($scope, $routeParams, CBPFermenter) {
-
-    $scope.vid = $routeParams.id
-
-    $scope.downsample = function (data, x, y) {
-
-        if (typeof(x) === 'undefined') x = "P1";
-        if (typeof(y) === 'undefined') y = "x";
-
-        if (data == undefined) {
-            return
-        }
-        names = [
-            [y, x]
-        ];
-        var down = largestTriangleThreeBuckets(data, 250, 0, 1);
-        p1 = [x];
-        x = [y];
-        for (var i = 0; i < down.length; i++) {
-            p1.push(down[i][1]);
-            x.push(down[i][0]);
-        }
-        return [p1, x];
-    }
-
-    $scope.load = function () {
-
-        CBPFermenter.chart({
-            "id": $scope.vid
-        }, function (response) {
-            console.log(response);
-
-
-             $scope.chart_data = response;
-
-             var chart_data = $scope.downsample(response["temp"], "data", "x");
-             var chart_data2 = $scope.downsample(response["target_temp"], "data1", "x1");
-             chart_data = chart_data.concat(chart_data2);
-             $scope.chart = c3.generate({
-             bindto: '#chart',
-             data: {
-             xs: {
-             data: "x",
-             data1: "x1"
-             },
-             columns: chart_data,
-             type: 'area',
-             names: {
-             data: "Temperature",
-             data1: "Target Temperature"
-             }
-             },
-             subchart: {
-             show: true
-             },
-             zoom: {
-             rescale: true,
-             enabled: true
-             },
-             point: {
-             show: false
-             },
-             legend: {
-             show: false
-             },
-             grid: {
-             x: {
-             show: true
-             },
-             y: {
-             show: true
-             }
-             },
-             axis: {
-             x: {
-             type: 'timeseries',
-             tick: {
-             format: '%H:%M:%S',
-             count: 10
-             },
-             localtime: true,
-             label: 'Time'
-             },
-             y: {
-             label: 'Temperature',
-             },
-
-             }
-             });
-
-        });
-
-    }
-
-    $scope.clear = function() {
-        CBPFermenter.remove({ "id": $scope.vid}, function () {
-            $scope.chart = undefined;
-
-        });
-    }
-
-    $scope.load();
-
-
-}
 
 function setupController($scope, $translate, CBPSetup, $window, $location, WizardHandler) {
 
@@ -1406,6 +1409,11 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     $scope.create = function (type) {
         $scope.fermenter = {
             "name": "",
+            "cooleroffset_min": 0.5,
+            "cooleroffset_max": 0.2,
+            "heateroffset_min": 0.5,
+            "heateroffset_max": 0.2
+
 
         };
         var modalInstance = $uibModal.open({
@@ -1574,9 +1582,9 @@ function FermenationTargetTempController($scope, $uibModalInstance, CBPFermenter
     };
 }
 
-function FermenationStepController($scope, $uibModal, CBPFermenter, CBPFermenterSteps, $routeParams) {
+function FermenationStepController($scope, $uibModal, CBPFermenter, CBPFermenterSteps) {
 
-    console.log($routeParams.id);
+
 
 
     var reload = function () {
@@ -1609,7 +1617,7 @@ function FermenationStepController($scope, $uibModal, CBPFermenter, CBPFermenter
         modalInstance.result.then(function () {
             console.log($scope.item);
             CBPFermenterSteps.save($scope.item, reload);
-            //CBPSteps.save($scope.item, $scope.step_reload);
+
         });
     }
 
@@ -1646,15 +1654,12 @@ function FermenationStepController($scope, $uibModal, CBPFermenter, CBPFermenter
 
 angular.module("cbpcontroller", [])
     .controller("BaseController", BaseController)
-    .controller("MainController", MainController)
-    .controller("kettleOverviewController", kettleOverviewController)
     .controller("HardwareOverviewController", HardwareOverviewController)
     .controller("configController", configController)
     .controller("configEditController", configEditController)
     .controller("aboutController", aboutController)
     .controller("modalController", modalController)
     .controller("StepOverviewController", StepOverviewController)
-    .controller("DashboardMainController", DashboardMainController)
     .controller("DashboardStepController", DashboardStepController)
     .controller("DashboardKettleController", DashboardKettleController)
     .controller("DashboardHardwareController", DashboardHardwareController)
@@ -1673,6 +1678,4 @@ angular.module("cbpcontroller", [])
     .controller("FermentationEditController", FermentationEditController)
     .controller("FermenationTargetTempController", FermenationTargetTempController)
     .controller("FermenationStepController", FermenationStepController)
-    .controller("FermentationChartController", FermentationChartController)
-
     .factory("ConfirmMessage", ConfirmMessage);

@@ -23,7 +23,7 @@ THERMOMETER_TYPE:
 
 SWITCH_TYPE:
  value: GPIO
- options: ['GPIO','PIFACE','GEMBIRD','DUMMY']
+ options: ['GPIO','PIFACE','GEMBIRD','WIFISOCKET','DUMMY']
  description: 'Actor Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
 
 SEND_STATS:
@@ -57,6 +57,17 @@ WRITE_TEMP_FILE:
 
 THEME:
  value: static/themes/dark-theme.css
- options: ['static/themes/dark-theme.css', 'static/themes/blue-theme.css', 'static/themes/paper-theme.css','']
+ options: ['static/themes/metal-theme.css', 'static/themes/metal2-theme.css', 'static/themes/wood-theme.css', 'static/themes/dark-theme.css', 'static/themes/blue-theme.css', 'static/themes/paper-theme.css','']
  description: 'Color theme'
 
+WIFI_SOCKET_IP:
+  value:
+  description: 'Comma separated liste of wifi socket IP addresses'
+
+WIFI_SOCKET_USER:
+  value: admin
+  description: 'username for wifi socket'
+
+WIFI_SOCKET_PASSWORD:
+  value: 12345
+  description: 'password for wifi socket'

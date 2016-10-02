@@ -1,21 +1,10 @@
-<div class="panel panel-default" ng-controller="DashboardHardwareController">
-    <div class="panel-heading">
-                <span class="headline"><i class="fa fa-chevron-circle-right"></i>  {{ 'THERMOMETER' | translate }}
-                </span>
-    </div>
-
-    <div class="panel-body">
-        <div class="row">
-
-            <div class="col-sm-5" ng-repeat="p in thermometers" ng-if="p.config.hide != true">
-
-                <div class="panel-body">
-                    <div>{{ p.name }}</div>
-
-                    <span class="temp" ><i
-                                class="wi wi-thermometer"></i> <b>{{ p.id | get_temp:temps }}°{{ config["UNIT"] }}</b></span>
-                </div>
-            </div>
+<div class="row" ng-controller="DashboardHardwareController">
+    <div class="col-xs-3 col-sm-4 col-md-4 col-lg-4 pad" style="padding-bottom: 5px" ng-repeat="p in thermometers" ng-if="p.config.hide != true">
+    <div class="panel panel-default text-center" style="font-size: 1.8em; padding: 10px">
+        <div><i class="wi wi-thermometer"></i> {{ p.id | get_temp:temps }}°{{ config["UNIT"] }}</div>
+        <div class="text-muted" style="font-size: 0.5em;">
+            {{ p.name }}
         </div>
     </div>
+</div>
 </div>

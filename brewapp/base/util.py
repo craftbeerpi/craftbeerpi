@@ -2,6 +2,8 @@ from brewapp import app
 from flask_restless.helpers import to_dict
 import datetime
 import time
+from flask import  json
+
 def getAsArray(obj, order = None):
     if order is not None :
         result =obj.query.order_by(order).all()
@@ -99,3 +101,34 @@ def writeTempToFile(file, timestamp, current_temp, target_temp):
     filename = "log/" + file + ".templog"
     with open(filename, "a") as myfile:
         myfile.write(msg)
+
+
+def read_temp_log(file):
+    import csv
+    array = {"temp": [], "target_temp": []}
+    print file
+    with open(file, 'rb') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            #print row
+            time = int((datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
+            array["temp"].append([time, float(row[1])])
+
+            array["target_temp"].append([time, float(row[2])])
+    return json.dumps(array)
+
+from flask import make_response
+from functools import wraps, update_wrapper
+
+
+def nocache(view):
+    @wraps(view)
+    def no_cache(*args, **kwargs):
+        response = make_response(view(*args, **kwargs))
+        response.headers['Last-Modified'] = datetime.datetime.now()
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '-1'
+        return response
+
+    return update_wrapper(no_cache, view)

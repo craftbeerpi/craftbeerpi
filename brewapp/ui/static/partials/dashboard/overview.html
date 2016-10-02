@@ -1,21 +1,15 @@
-<div ng-controller="DashboardMainController">
+<div >
 
 	<div class="row" >
-		<div class="col-sm-5"  ng-include="'static/partials/dashboard/steps.html'">
+		<div class="col-sm-5 col-md-4 col-lg-4" ng-include="'static/partials/dashboard/steps.html'">
 		</div>
-		<div class="col-sm-7">
+		<div class="col-sm-7 col-md-8 col-lg-8">
 
 
-			<div  ng-include="'static/partials/dashboard/kettle.html'" >
+			<div ng-include="'static/partials/dashboard/kettle.html'" ></div>
 
-			</div>
-            <div ng-if="hardware.length > 0" ng-include="'static/partials/dashboard/hardware.html'" >
-
-			</div>
-
-            <div ng-if="thermometer.length > 0" ng-include="'static/partials/dashboard/thermometer.html'" >
-
-			</div>
+      <div ng-include="'static/partials/dashboard/hardware.html'" ></div>
+      <div ng-include="'static/partials/dashboard/thermometer.html'" ></div>
 
 		</div>
 

@@ -1,21 +1,7 @@
 <div ng-controller="HardwareOverviewController">
-    <!--<div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
-                <div class="panel-heading">
-                    {{ 'HARDWARE' | translate }}
-                    <div class="btn-group pull-right" role="group">
-
-                        <a ng-click="createHardware()" uib-tooltip="{{ 'ADD_NEW_HARDWARE' | translate }}"
-                           class="btn btn-success" role="group">
-                            <i class="fa fa-plus"></i></a>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
--->
 
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ 'HEATER' | translate }}
@@ -26,7 +12,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <table class="table">
+                <table class="table" style="font-size: 1em">
                     <thead>
                     <td>{{ 'NAME' | translate }}</td>
                     <td>{{ 'VISIBILITY' | translate }}</td>
@@ -48,7 +34,7 @@
             </div>
 
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ 'AGITATOR' | translate }}
@@ -59,7 +45,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <table class="table">
+                <table class="table" style="font-size: 1em">
                     <thead>
                     <td>{{ 'NAME' | translate }}</td>
                     <td>{{ 'VISIBILITY' | translate }}</td>
@@ -83,7 +69,10 @@
             </div>
 
         </div>
-        <div class="col-sm-4">
+
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ 'PUMP' | translate }}
@@ -94,7 +83,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <table class="table">
+                <table class="table" style="font-size: 1em">
                     <thead>
                     <td>{{ 'NAME' | translate }}</td>
 
@@ -118,10 +107,9 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div class="row">
 
-        <div class="col-sm-4">
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ 'THERMOMETER' | translate }}
@@ -132,7 +120,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <table class="table">
+                <table class="table" style="font-size: 1em">
                     <tr>
                         <td>{{ 'Name' | translate }}</td>
                         <td>{{ 'SENSOR' | translate }}</td>

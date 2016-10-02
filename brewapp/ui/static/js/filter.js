@@ -27,11 +27,11 @@ function step_state() {
                 return "";
                 break;
             case "A":
-                return "warning";
+                return "list-group-item-warning";
                 break;
             case "D":
             default:
-                return "info"
+                return "list-group-item-info"
                 break;
         }
     };
@@ -147,7 +147,6 @@ function kettle_state() {
     return function (input, data) {
         for (i in data) {
             if (data[i].state == 'A' && data[i].kettleid == input.id) {
-                console.log("HALLOs");
                 return "panel-success";
             }
         }

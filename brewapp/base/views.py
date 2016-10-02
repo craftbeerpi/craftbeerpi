@@ -4,9 +4,8 @@ from brewapp import app, socketio
 from util import *
 from model import *
 
+
 base = Blueprint('base', __name__, template_folder='templates', static_folder='static')
-
-
 
 @socketio.on('connect', namespace='/brew')
 def ws_connect():

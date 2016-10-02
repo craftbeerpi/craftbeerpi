@@ -1,17 +1,84 @@
 
- body {
-     font-family: "Open Sans", "DejaVu Sans", "Sans", sans-serif;
-     font-weight: 300;
-     font-style: normal;
-     word-spacing: -0.05em;
-     letter-spacing: -0.01em;
-     text-rendering: optimizeLegibility;
-     font-size: 14px;
-     -webkit-font-smoothing: antialiased;
-     font-family: "Open Sans", "DejaVu Sans", "Sans", sans-serif;
-     font-weight: 300;
-     font-style: normal;
-     /**background: #fff;**/
-     padding-top: 70px;
+body {
+    font-family: "Open Sans", "DejaVu Sans", "Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    word-spacing: -0.05em;
+    letter-spacing: -0.01em;
+    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Open Sans", "DejaVu Sans", "Sans", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    /**background: #fff;**/
+    padding-top: 60px;
 
- }
+}
+
+.pad {
+    /*padding: 5px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;*/
+}
+
+.fill_heigth {
+    height: calc(100% - 100px);
+    overflow-y: auto;
+}
+
+.hideOverflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    display: block;
+}
+
+.temp {
+
+    font-weight: bold;
+}
+
+@media only screen and (min-width: 320px) {
+    .temp {
+        font-size: 1.8em;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+    .temp {
+        font-size: 1.8em;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+    .temp {
+        font-size: 1.8em;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+    .temp {
+        font-size: 3em;
+    }
+
+    .target_temp {
+        margin-top: -10px;
+        font-size: 1.5em;
+    }
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+    .temp {
+        font-size: 4em;
+    }
+    .target_temp {
+        margin-top: -10px !important;
+        font-size: 1.5em;
+    }
+}

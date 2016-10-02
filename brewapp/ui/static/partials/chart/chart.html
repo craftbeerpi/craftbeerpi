@@ -1,24 +1,54 @@
-<div class="container" ng-controller="ChartController">
+
+	<script type="text/javascript">
+
+
+
+	</script>
+
+<div class="container" >
 
     <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
         <div class="panel-heading"><i class="fa fa-line-chart"></i> {{ kettle.name }}</span>
         </div>
+
+
+        <i ng-if="loading" class="fa fa-refresh fa-5x fa-spin" style="position: absolute; left: 50%; top: 200px"></i>
         <div id="chart"></div>
 
+        <div id="placeholder" style="width:100%;height:70%;"></div>
 
+        <div id="overview" class="demo-placeholder" style="height: 70px; width: 100%"></div>
     </div>
 
     <div class="btn-group" role="group" aria-label="...">
-
-
         <div class="btn-group" role="group">
-
-            <a href="/api/thermometer/{{ vid }}/export" class="btn btn-default" role="group"><span class="badge"><i
-                    class="fa fa-download"></i></span></a>
+            <button ng-click="back()" class="btn btn-default" role="group">
+                <span class="badge">
+                <i class="fa fa-arrow-circle-left"></i>
+                </span>
+            </button>
         </div>
         <div class="btn-group" role="group">
-            <button ng-click="load()" class="btn btn-default" role="group"><span class="badge"><i
-                    class="fa fa-refresh"></i></span></Button>
+            <a href="/api/temp/{{ type + vid }}/download" class="btn btn-default" role="group">
+                <span class="badge">
+                <i class="fa fa-download"></i>
+                </span>
+            </a>
+        </div>
+        <div class="btn-group" role="group">
+             <button ng-click="clear()" class="btn btn-danger" role="group">
+                <span class="badge">
+                <i class="fa fa-trash"></i>
+            </span>
+            </button>
+        </div>
+        <div class="btn-group" role="group">
+            <button ng-click="load()" class="btn btn-default" role="group">
+                <span class="badge">
+                <i class="fa fa-refresh"></i>
+            </span>
+            </button>
+
         </div>
     </div>
 </div>
