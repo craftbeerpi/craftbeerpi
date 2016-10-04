@@ -1,1 +1,80 @@
-SETUP
+<div class="panel panel-default" ng-controller="setupController">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div>
+                        <wizard on-finish="finish()" hide-indicators="true">
+                            <wz-step wz-title="{{ 'WELCOME' | translate }}">
+                                <div ng-include="'static/partials/setup/welcome.html'">
+
+                                </div>
+                            </wz-step>
+
+                            <wz-step wz-title="{{ 'BREWERY_NAME' | translate }}" class="text-center">
+                                <div ng-include="'static/partials/setup/name.html'">
+                                </div>
+                            </wz-step>
+                            <wz-step wz-title="{{ 'HARDWARE_TYPE' | translate }}" class="text-center">
+                                <div ng-include="'static/partials/setup/actortype.html'">
+
+                                </div>
+                            </wz-step>
+                            <wz-step wz-title="{{ 'THERMOMETER_TYPE' | translate }}" class="text-center">
+                                <div ng-include="'static/partials/setup/thermotype.html'">
+                                </div>
+                            </wz-step>
+                            <wz-step wz-title="{{ 'HARDWARE_SETUP' | translate }}">
+                                <div class="text-center">
+                                    <h1>{{ 'HARDWARE_SETUP' | translate }}</h1>
+                                    <p>{{ 'HARDWARE_SETUP_SUBHEADLINE' | translate }}</p>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6" ng-include="'static/partials/setup/heater.html'">
+
+                                    </div>
+                                    <div class="col-sm-6" ng-include="'static/partials/setup/agitator.html'">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6" ng-include="'static/partials/setup/pump.html'">
+
+                                    </div>
+                                    <div class="col-sm-6" ng-include="'static/partials/setup/thermometer.html'">
+
+                                    </div>
+                                </div>
+
+                            </wz-step>
+                            <wz-step wz-title="{{ 'KETTLE' | translate }}">
+
+                                <div ng-include="'static/partials/setup/kettle.html'">
+
+                                </div>
+
+                            </wz-step>
+                            <wz-step wz-title="{{ 'FINISH' | translate }}" class="text-center">
+                                <div ng-include="'static/partials/setup/thanks.html'">
+
+                                </div>
+                            </wz-step>
+                        </wizard>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button class="btn btn-default" ng-if="showBack()" ng-click="back()"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> Back
+            </button>
+
+                </div>
+                <div class="col-xs-6 text-right">
+                    <button class="btn btn-warning" ng-if="showNext() > 0" ng-click="next()">{{ 'NEXT_STEP' | translate }} <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> </button>
+                </div>
+            </div>
+        </div>
+    </div>

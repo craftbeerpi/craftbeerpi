@@ -1,0 +1,50 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+
+            <!-- note the ng-init and ng-click here: -->
+            <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
+                    ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <h4>{{ 'SOFTWARE_NAME' | translate }} - {{ config['BREWERY_NAME'] }}</h4>
+        </div>
+
+        <div class="collapse navbar-collapse " uib-collapse="navCollapsed">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#/dashboard">{{ "BREWING" | translate }}</a>
+
+                </li>
+                <li>
+                    <a href="#/fermentation">{{ "FERMENTATION" | translate }}</a>
+                </li>
+                <li class="menu-item dropdown" uib-dropdown>
+                    <a uib-dropdown-toggle id="simple-btn-keyboard-nav" class="dropdown-toggle"
+                       data-toggle="dropdown">{{ "CONFIGURATION" | translate }}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/hardware" class="dropdown-toggle"
+                               data-toggle="dropdown">{{ "HARDWARE" | translate }}</a>
+                        </li>
+                        <li class="menu-item dropdown dropdown-submenu">
+                            <a href="#/config" class="dropdown-toggle"
+                               data-toggle="dropdown">{{ "CONFIGURATION" | translate }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#/about">{{ "ABOUT" | translate }}</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div ng-if="config['DUMMY_TEMP_SIMULATOR'] == 'Yes'" dummytemp></div>
+<div class="container-fluid" ui-view></div>

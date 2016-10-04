@@ -31,7 +31,7 @@ def setKettle():
     db.session.commit()
 
     setConfigParameter("BREWERY_NAME", data["brewery_name"]);
-    setConfigParameter("SETUP", "NO");
+    setConfigParameter("SETUP", "No");
     initKettle()
     initHardware(True)
     sendStats()

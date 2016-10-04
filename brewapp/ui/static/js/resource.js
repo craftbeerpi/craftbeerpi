@@ -162,6 +162,11 @@ function CBPConfig($resource) {
             method: 'GET',
             isArray: false
         },
+        setup: {
+            method: 'GET',
+            url: '/api/config/setup',
+            isArray: false
+        },
         update: {
             method: 'PUT'
         }

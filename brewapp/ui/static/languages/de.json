@@ -125,5 +125,8 @@
   "START_TIMER": "Timer starten",
   "SETUP_STEPS_NOW": "Rezept einstellen",
   "STOP": "Stop",
-  "SETTINGS": "Einstellungen"
+  "SETTINGS": "Einstellungen",
+  "PLS_SELECT_KETTLES": "Bitte Kessel auswählen",
+  "MASH": "Maische",
+  "BOIL": "Koch"
 }

@@ -118,6 +118,22 @@ def ws_switch(data):
     socketio.emit('switch_state_update', app.brewapp_switch_state, namespace ='/brew')
 
 
+def run_for_seconds(id, seconds):
+    switchOn(id)
+    socketio.sleep(seconds)
+    switchOff(id)
+
+
+@socketio.on('switch_for_seconds', namespace='/brew')
+def switch_on_for_seconds(data):
+    seconds = int(data["seconds"])
+    id = int(data["switch"])
+    t = socketio.start_background_task(run_for_seconds, id, seconds)
+    pass
+
+
+
+
 def switchOn(s):
     app.brewapp_hardware.switchON(s);
     app.brewapp_switch_state[int(s)]  = True

@@ -1,10 +1,16 @@
 <div class="row" ng-controller="DashboardHardwareController">
-    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 pad" style="padding-bottom: 5px" ng-repeat="p in actors" ng-if="p.config.hide != true">
-        <button type="button" class="btn btn-default btn-sm" style="width: 100%; font-size: 1em" ng-class="p | hardware_state:'Z':switch_state"
-                ng-click="switchGPIO(p.id)" ng-if="p.config.hide != true"><i class="fa" ng-class="p.type | hardware_icon " aria-hidden="true"></i>
+    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 pad" style="padding-bottom: 5px" ng-repeat="p in actors"
+         ng-if="p.config.hide != true">
+        <button type="button" class="btn btn-default btn-sm" style="width: 100%; font-size: 1em"
+                ng-class="p | hardware_state:'Z':switch_state"
+                ng-click="switchGPIO(p.id)" ng-if="p.config.hide != true"><i class="fa"
+                                                                             ng-class="p.type | hardware_icon "
+                                                                             aria-hidden="true"></i>
             <div>
                 <small>{{ p.name }}</small>
             </div>
         </button>
+        <!--button class="btn badge-error" ng-click="switch_for_seconds(p.id)" )>S</button-->
+
     </div>
 </div>

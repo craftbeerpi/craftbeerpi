@@ -19,14 +19,14 @@ from flask_restless.helpers import to_dict
 @app.route('/api/step/order', methods=['POST'])
 def order_steps():
     data = request.get_json()
+    print data
     steps =  Step.query.all()
-
     for s in steps:
-
-        s.order =  data[str(s.id)];
+        print s.order
+        print data[str(s.id)]
+        s.order = data[str(s.id)]
         db.session.add(s)
         db.session.commit()
-
     return ('',204)
 
 @app.route('/api/step/clear', methods=['POST'])
@@ -118,9 +118,15 @@ def post_patch_many(result, **kw):
     pass
     #init()
 
+def pre_put(data, **kw):
+    pass
+
 def post_get(result=None,**kw):
     ## SORT RESULT BY FIELD 'ORDER'
+    result["objects"] = sorted(result["objects"], key=lambda k: k['order'])
 
+    pass
+    '''
     for o in result["objects"]:
         if(o["start"] != None):
             o["start"] = o["start"]  + "+00:00"
@@ -128,12 +134,12 @@ def post_get(result=None,**kw):
             o["timer_start"] = o["timer_start"]  + "+00:00"
         if(o["end"] != None):
             o["end"] = o["end"]  + "+00:00"
-    result["objects"] = sorted(result["objects"], key=lambda k: k['order'])
+    '''
 
 @brewinit()
 def init():
     ## REST API FOR STEP
-    manager.create_api(Step, methods=['GET', 'POST', 'DELETE', 'PUT'],allow_patch_many=True, results_per_page=None,postprocessors=
+    manager.create_api(Step, methods=['GET', 'POST', 'DELETE', 'PUT'],allow_patch_many=True, results_per_page=None, postprocessors=
     {'GET_MANY': [post_get]})
     s = Step.query.filter_by(state='A').first()
     if(s != None):
@@ -158,8 +164,13 @@ def stepjob():
     except:
         ct = 0
 
+    #print cs.get("timer")
+    #print cs.get("timer_start")
+    #print cs.get("temp")
+    #print ct
     ## check if target temp reached and timer can be started
-    if(cs.get("timer") > 0 and cs.get("timer_start") == None and ct >= cs.get("temp")):
+    if(cs.get("timer") is not None and cs.get("timer_start") == None and ct >= cs.get("temp")):
+        print "start timer"
         s = Step.query.get(cs.get("id"))
         s.timer_start = datetime.utcnow()
         app.brewapp_current_step = to_dict(s)
@@ -169,7 +180,7 @@ def stepjob():
         db.session.add(s)
         db.session.commit()
         socketio.emit('step_update', getSteps(), namespace ='/brew', broadcast=True)
-        #socketio.emit('step_update', getSteps(), broadcast=True)
+
 
     ## if Automatic step and timer is started
     if(cs.get("timer_start") != None):
@@ -188,7 +199,7 @@ def stepjob():
 
 def getSteps():
     steps = getAsArray(Step, order = "order")
-
+    '''
     for o in steps:
         if(o["start"] != None):
             o["start"] = o["start"]  + "+00:00"
@@ -196,4 +207,5 @@ def getSteps():
             o["timer_start"] = o["timer_start"]  + "+00:00"
         if(o["end"] != None):
             o["end"] = o["end"]  + "+00:00"
+    '''
     return steps

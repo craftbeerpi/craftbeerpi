@@ -28,7 +28,6 @@ def load():
     app.logger.info(app.cbp['CURRENT_TASK'])
 
 def post_patch(result, **kw):
-    print result
     if app.cbp['CURRENT_TASK'].get(result["id"], None) is not None and  app.cbp['CURRENT_TASK'][result["id"]]["id"] == result["id"]:
         for key in ["name", "target_temp"]:
             app.cbp['CURRENT_TASK'][result["id"]][key] = result[key]
@@ -228,27 +227,9 @@ def start_timer(stepid, fermenter_id):
 
 
 ### Temp Logging
-'''
-@app.route('/api/file/fermenter/<id>')
-@nocache
-def donwload_fermenter_temp_log(id):
-    return send_from_directory('../log', 'F_' + id + '.templog'"", as_attachment=True, attachment_filename=app.cbp['FERMENTERS'][int(id)]["name"] + ".log")
 
 
-
-@app.route('/api/fermenter/<id>/chart')
-def read_csv(id):
-    return read_temp_log('./log/F_' + id + '.templog')
-
-
-@app.route('/api/fermenter/<id>/chart', methods=["DELETE"])
-def delete_fermenter_file(id):
-    import os
-    os.remove(os.path.join("./log", "F_"+id+".templog"))
-    return ('', 204)
-'''
-
-#@brewjob(key="fermenter", interval=2)
+@brewjob(key="fermenter", interval=60)
 def fermenterjob():
     for id in app.cbp['FERMENTERS']:
         fermenter = app.cbp['FERMENTERS'][id]

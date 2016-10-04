@@ -410,7 +410,7 @@ function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibMo
     $scope.steps = []
     CBPSteps.query({}, function (response) {
         $scope.steps = response.objects;
-        check_running(response.objects);
+
     });
 
     $scope.treeOptions = {
@@ -483,9 +483,8 @@ function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibMo
     $scope.clear = function () {
         ConfirmMessage.open("CLEAR_STEPS_HEADLINE", "ARE_YOU_SURE", function () {
             CBPSteps.clear({}, function (response) {
-                CBPSteps.query({}, function (response) {
-                    $scope.data = response.objects
-                });
+                $scope.steps = []
+
             });
         });
     }
@@ -563,6 +562,8 @@ function DashboardStepController($scope, $rootScope, CBPSteps, ConfirmMessage, m
 
     $scope.$on('socket:step_update', function (ev, data) {
         check_running(data);
+
+        console.log(data)
         $scope.steps = data;
     });
 
@@ -593,7 +594,11 @@ function DashboardStepController($scope, $rootScope, CBPSteps, ConfirmMessage, m
         });
     }
 
-    $scope.toTimestamp = function (timer) {
+
+
+     $scope.toTimestamp = function (timer) {
+        if (timer == undefined)
+            return
         return new Date(timer).getTime();
     }
 
@@ -722,6 +727,12 @@ function DashboardHardwareController($scope, $controller, mySocket, CBPHardware,
     $scope.switchGPIO = function (item) {
         mySocket.emit("switch", {"switch": item});
     }
+
+    $scope.switch_for_seconds = function (s) {
+        console.log("HALLO")
+        mySocket.emit("switch_for_seconds", {"switch": s, "seconds": 5});
+    }
+
 
     CBPKettle.getLastTemp(function (data) {
         $scope.temps = data;
@@ -1301,6 +1312,7 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     $scope.fermenters = {};
     $scope.state = {};
     CBPFermenter.state(function (data) {
+
         $scope.state = data;
     });
 
@@ -1358,11 +1370,11 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
 
     reload = function () {
         CBPFermenter.get(function (data) {
+            console.log(data);
             data.objects.map(function (obj) {
-
                 $scope.fermenters[obj.id] = obj;
             });
-            //$scope.fermenters = data.objects;
+
         });
     }
 
@@ -1379,12 +1391,7 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     $scope.$on('socket:fermenter_update', function (ev, data) {
 
         $scope.fermenters[data.id] = data;
-        //console.log(data);
-        /*data.map(function (obj) {
-         obj.steps.sort(compare);
-         });
-         $scope.fermenters = data;
-         */
+
     });
 
     $scope.switchGPIO = function (item) {
@@ -1497,7 +1504,6 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
         });
 
     }
-
 
     $scope.createStep = function (item) {
 

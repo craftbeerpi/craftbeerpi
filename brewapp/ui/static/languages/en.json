@@ -129,5 +129,8 @@
   "START_TIMER": "Start Timer",
   "SETUP_STEPS_NOW": "Setup Steps Now",
   "STOP": "Stop",
-  "SETTINGS": "Settings"
+  "SETTINGS": "Settings",
+  "PLS_SELECT_KETTLES": "Please select the kettles",
+  "MASH": "Mash",
+  "BOIL": "Boil"
 }

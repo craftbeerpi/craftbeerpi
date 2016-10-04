@@ -20,10 +20,13 @@ angular.module("test",
         $translateProvider.useStaticFilesLoader({
             prefix: 'static/languages/',
             suffix: '.json'
-        }).fallbackLanguage('en_US');
-        $translateProvider.preferredLanguage('en_US');
+        }).fallbackLanguage('en');
+        $translateProvider.preferredLanguage('en');
         $translateProvider.useCookieStorage();
-        $translateProvider.determinePreferredLanguage()
+        //$translateProvider.determinePreferredLanguage()
+
+
+
     }]).run(function ($rootScope, CBPConfig, ConfirmMessage) {
 
         $rootScope.config = {};

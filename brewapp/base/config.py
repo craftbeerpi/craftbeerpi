@@ -66,6 +66,9 @@ def init():
 from brewapp.base.devices import *
 from brewapp.base.thermometer import *
 
+@app.route('/api/config/setup', methods=['GET'])
+def config_setup():
+    return json.dumps({"setup": app.brewapp_config.get("SETUP", "NO")})
 
 @brewinit()
 def initDriver():

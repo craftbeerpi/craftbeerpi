@@ -24,13 +24,15 @@ def nocache(view):
 @ui.route('/')
 @nocache
 def index():
-
+    return ui.send_static_file("index.html")
+    '''
     if app.brewapp_config.get("SETUP", "Yes") == "Yes":
         app.logger.info("SHOW SETUP HTML")
         return ui.send_static_file("setup.html")
     else:
         app.logger.info("SHOW INDEX HTML")
         return ui.send_static_file("index.html")
+    '''
 
 
 
