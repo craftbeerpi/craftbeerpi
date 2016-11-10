@@ -117,6 +117,8 @@
   "SWITCH_ON_OFFSET": "Einschaltpunkt",
   "SWITCH_OFF_OFFSET": "Ausschaltpunkt",
   "EXAMPLE": "Beispiel",
+  "EDIT_STEP": "Schritt bearbeiten",
+  "CREATE_STEP": "Schritt erstellen",
   "FERMENTER_STEP_HEADLINE": "Gärschritt",
   "DAYS": "Tage",
   "HOUERS": "Stunden",
