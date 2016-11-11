@@ -110,10 +110,8 @@
   "VISIBILITY": "Visibility",
   "WELCOME": "Welcome",
   "WELCOME_HEADLINE": "Welcome to",
-
   "RESET_CURRENT_STEP": "Reset current step",
   "RESET_ALL": "Reset all steps",
-
   "FERMENTER_CONFIGURATION": "Fermenter Configuration",
   "COOLER": "Cooler",
   "SWITCH_ON_OFFSET": "Switch On Offset",
