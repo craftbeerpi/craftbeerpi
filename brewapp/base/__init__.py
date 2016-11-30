@@ -15,5 +15,6 @@ import stats
 import system
 import thermo
 import fermenter
+import ispindle
 import securtiy
 import admin

@@ -102,6 +102,14 @@ def writeTempToFile(file, timestamp, current_temp, target_temp):
     with open(filename, "a") as myfile:
         myfile.write(msg)
 
+def writeSpindle(file, timestamp, current_temp, angle, battery):
+    formatted_time = datetime.datetime.fromtimestamp((timestamp / 1000)).strftime('%Y-%m-%d %H:%M:%S')
+
+    msg = formatted_time + "," + str(current_temp) + "," + str(angle) + "," + str(battery) + "\n"
+    filename = "log/" + file + ".templog"
+    with open(filename, "a") as myfile:
+        myfile.write(msg)
+
 
 def read_temp_log(file):
     import csv

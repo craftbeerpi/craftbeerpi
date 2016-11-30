@@ -19,11 +19,9 @@ from flask_restless.helpers import to_dict
 @app.route('/api/step/order', methods=['POST'])
 def order_steps():
     data = request.get_json()
-    print data
+
     steps =  Step.query.all()
     for s in steps:
-        print s.order
-        print data[str(s.id)]
         s.order = data[str(s.id)]
         db.session.add(s)
         db.session.commit()

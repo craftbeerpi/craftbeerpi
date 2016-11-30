@@ -163,7 +163,6 @@ def hystresis(id):
 
     app.brewapp_automatic_state["F" + id] = False
 
-    print "BREAK!   "
     if type(fermenter["heaterid"]) is int:
         switchOff(fermenter["heaterid"])
     if type(fermenter["coolerid"]) is int:
