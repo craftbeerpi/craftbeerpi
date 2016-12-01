@@ -1305,7 +1305,7 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
 
 }
 
-function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFermenterSteps, CBPSwitch, CBPHardware, CBPKettle, mySocket) {
+function FermenterController($scope, $uibModal, $controller, CBPHydrometer, CBPFermenter, CBPFermenterSteps, CBPSwitch, CBPHardware, CBPKettle, mySocket) {
 
     angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
@@ -1315,6 +1315,12 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
 
         $scope.state = data;
     });
+
+
+    CBPHydrometer.get(function(data) {
+      console.log(data);
+        $scope.hydrometer = data;
+    })
 
 
     function compare(a, b) {
@@ -1370,7 +1376,7 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
 
     reload = function () {
         CBPFermenter.get(function (data) {
-            console.log(data);
+
             data.objects.map(function (obj) {
                 $scope.fermenters[obj.id] = obj;
             });

@@ -1,4 +1,4 @@
-from brewapp import app
+from brewapp import app, db
 from flask_restless.helpers import to_dict
 import datetime
 import time
@@ -127,6 +127,27 @@ def read_temp_log(file):
 
 from flask import make_response
 from functools import wraps, update_wrapper
+
+def updateModel(model, id, json):
+    m = model.query.get(id)
+    m.decodeJson(json)
+    db.session.commit()
+    return to_dict(m)
+
+def createModel(model, json):
+    m = model()
+    m.decodeJson(json)
+    db.session.add(m)
+    db.session.commit()
+    return to_dict(m)
+
+def deleteModel(model, id):
+    try:
+        model.query.filter_by(id=id).delete()
+        db.session.commit()
+        return True
+    except:
+        return False
 
 
 def nocache(view):

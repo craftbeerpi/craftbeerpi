@@ -1,7 +1,7 @@
 <style>
 
     .headline {
-        font-size: 1.5em;
+        font-size: 1em;
         width: 70%;
         overflow: hidden;
         display: inline-block;
@@ -54,6 +54,10 @@
                     </div>
                     <div style="margin-top: -5px" class="text-muted"><i class="fa fa-crosshairs" aria-hidden="true"></i>
                         <strong>{{ n.target_temp }}°{{ config["UNIT"] }}</strong>
+                    </div>
+
+                    <div ng-if="n.hydrometerid">
+                        {{ n.hydrometerid }}
                     </div>
                 </div>
 

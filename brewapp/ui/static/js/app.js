@@ -30,6 +30,11 @@ angular.module("test",
     }]).run(function ($rootScope, CBPConfig, ConfirmMessage) {
 
         $rootScope.config = {};
+
+        $rootScope.inArray = function (item, array) {
+            return (-1 !== array.indexOf(item));
+        };
+    
         CBPConfig.query(function (data) {
 
         data.objects.forEach(function (entry) {

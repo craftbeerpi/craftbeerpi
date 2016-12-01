@@ -11,11 +11,10 @@
   </div>
 
 
-  <span ng-if="hardware.type != 'T'" ng-include="'static/partials/hardware/switch.html'"/>
+  <span ng-if="inArray(hardware.type, ['H','A', 'P'])" ng-include="'static/partials/hardware/switch.html'"/>
   <span ng-if="hardware.type == 'T'"  ng-include="'static/partials/hardware/thermometer.html'"/>
 
-
-  <div class="form-group">
+  <div class="form-group" ng-if="inArray(hardware.type, ['H','A', 'P', 'T'])">
     <label>{{ 'HIDE_ON_DASHBOARD' | translate}}</label>
     <input type="checkbox" ng-model="hardware.config.hide">
   </div>

@@ -247,9 +247,7 @@ function CBPSetup($resource) {
     });
 }
 
-function helloWorld() {
 
-}
 
 function CBPFermenter($resource) {
     return $resource("/api/fermenter/:id", {}, {
@@ -336,6 +334,22 @@ function CBPFermenterSteps($resource) {
     });
 }
 
+function CBPHydrometer($resource) {
+    return $resource("/api/hydrometer/:id", {}, {
+        query: {
+            method: 'GET',
+            isArray: false
+        },
+        update: {
+            method: 'PUT'
+        },
+        get_last_temps: {
+            method: 'GET',
+            url: '/api/hydrometer/temps',
+            isArray: false
+        }
+    });
+}
 
 
 angular.module("cbpresource", [])
@@ -347,7 +361,8 @@ angular.module("cbpresource", [])
     .factory("CBPConfig", CBPConfig)
     .factory("Braufhelfer", Braufhelfer)
     .factory("CBPRecipeBook", CBPRecipeBook)
-    .service("helloWorld", helloWorld)
+
+    .service("CBPHydrometer", CBPHydrometer)
     .service("CBPFermenter", CBPFermenter)
     .service("CBPFermenterSteps", CBPFermenterSteps)
     .factory("CBPHardware", CBPHardware);
