@@ -4,7 +4,7 @@
 #
 
 
-cd home/pi/craftbeerpi
+cd /home/pi/craftbeerpi
 
 git clone git://git.drogon.net/wiringPi;
 cd wiringPi;
