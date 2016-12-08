@@ -27,7 +27,14 @@ def load():
     app.logger.info("CURRENT_TASK")
     app.logger.info(app.cbp['CURRENT_TASK'])
 
+
+
+def post_post(result, **kw):
+    app.cbp['FERMENTERS'][result["id"]] = result
+
+
 def post_patch(result, **kw):
+    app.cbp['FERMENTERS'][result["id"]].update(result)
     if app.cbp['CURRENT_TASK'].get(result["id"], None) is not None and  app.cbp['CURRENT_TASK'][result["id"]]["id"] == result["id"]:
         for key in ["name", "target_temp"]:
             app.cbp['CURRENT_TASK'][result["id"]][key] = result[key]
@@ -42,7 +49,7 @@ def reload_fermenter(id):
 
 
 
-manager.create_api(Fermenter, methods=['GET', 'POST', 'PUT', 'DELETE'], postprocessors={ 'PUT_SINGLE': [post_patch]})
+manager.create_api(Fermenter, methods=['GET', 'POST', 'PUT', 'DELETE'], postprocessors={ 'PUT_SINGLE': [post_patch], 'POST': [post_post]})
 manager.create_api(FermenterStep, methods=['GET', 'POST', 'PUT', 'DELETE'], postprocessors={'PUT_SINGLE': [post_patch]})
 
 @app.route('/api/fermenter/step/order', methods=['POST'])
@@ -228,7 +235,7 @@ def start_timer(stepid, fermenter_id):
 ### Temp Logging
 
 
-@brewjob(key="fermenter", interval=60)
+@brewjob(key="fermenter", interval=2)
 def fermenterjob():
     for id in app.cbp['FERMENTERS']:
         fermenter = app.cbp['FERMENTERS'][id]

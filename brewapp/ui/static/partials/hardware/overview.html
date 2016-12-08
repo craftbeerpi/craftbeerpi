@@ -149,7 +149,7 @@
                 <div class="panel-heading">
                     {{ 'HYDROMETER' | translate }}
                     <div class="btn-group pull-right" role="group">
-                        <a ng-click="createHardware('S')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+                        <a ng-click="createHydrometer('S')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
                            role="group">
                             <i class="fa fa-plus"></i></a>
                     </div>
@@ -159,9 +159,9 @@
                     <thead>
                     <td>{{ 'NAME' | translate }}</td>
                     </thead>
-                    <tr ng-repeat="item in pump track by $index">
+                    <tr ng-repeat="item in hydrometers track by $index">
                         <td>
-                            <a ng-click="edit(item)">{{ item.name }}</a>
+                            <a ng-click="editHydrometer(item)">{{ item.name }}</a>
                         </td>
                     </tr>
                 </table>

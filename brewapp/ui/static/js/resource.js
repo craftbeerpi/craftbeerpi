@@ -113,10 +113,10 @@ function CBPSwitch($http) {
 
 function CBPChart($http) {
     return {
-        get: function (id, okCallback){
+        get: function (type, id, okCallback){
             $http({
                 method: 'GET',
-                url: '/api/temp/'+id+'/chart'
+                url: '/api/temp/'+type+'/'+id+'/chart'
             }).then(function successCallback(response) {
                 okCallback(response.data);
             }, function errorCallback(response) {
@@ -124,10 +124,10 @@ function CBPChart($http) {
             });
 
         },
-        delete: function (id, okCallback){
+        delete: function (type, id, okCallback){
             $http({
                 method: 'DELETE',
-                url: '/api/temp/'+id+'/chart'
+                url: '/api/temp/'+type+'/'+id+'/chart'
             }).then(function successCallback(response) {
                 okCallback();
             }, function errorCallback(response) {

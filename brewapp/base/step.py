@@ -168,7 +168,7 @@ def stepjob():
     #print ct
     ## check if target temp reached and timer can be started
     if(cs.get("timer") is not None and cs.get("timer_start") == None and ct >= cs.get("temp")):
-        print "start timer"
+
         s = Step.query.get(cs.get("id"))
         s.timer_start = datetime.utcnow()
         app.brewapp_current_step = to_dict(s)

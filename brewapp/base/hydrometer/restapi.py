@@ -8,7 +8,7 @@ from brewapp.base.actor import *
 
 @app.route('/api/hydrometer/temps', methods=['GET'])
 def getHydrometerTemps():
-    return json.dumps(app.brewapp_hydrometer_temps)
+    return json.dumps(app.brewapp_hydrometer_cfg)
 
 @app.route('/api/hydrometer/', methods=['GET'])
 def getHydrometer():

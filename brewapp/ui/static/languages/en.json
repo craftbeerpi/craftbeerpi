@@ -130,5 +130,8 @@
   "SETTINGS": "Settings",
   "PLS_SELECT_KETTLES": "Please select the kettles",
   "MASH": "Mash",
-  "BOIL": "Boil"
+  "BOIL": "Boil",
+  "DELETE_HARDWARE_HEADLINE": "Delete Hardware",
+  "DELETE_HARDWARE_MESSAGE": "Are you sure that you want to delete the Hardware",
+  "HYDROMETER": "Hydrometer"
 }
