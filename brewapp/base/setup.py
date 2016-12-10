@@ -2,6 +2,7 @@ from flask import request
 from brewapp.base.devices import *
 from brewapp.base.stats import *
 from brewapp.base.thermometer import *
+
 from actor import initHardware
 from kettle import initKettle
 from views import base

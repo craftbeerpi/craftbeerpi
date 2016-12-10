@@ -42,6 +42,7 @@ class OneWireThermometer(object):
                 return None
         except Exception as e:
             app.logger.warning("Error" + str(e))
+
             return None
 
         return float(format(temp_C, '.2f'))

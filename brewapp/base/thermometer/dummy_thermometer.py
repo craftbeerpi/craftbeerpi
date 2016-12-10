@@ -19,13 +19,11 @@ class DummyThermometer(object):
         return ["DummySensor1","DummySensor2","DummySensor3"]
 
     def readTemp(self, tempSensorId):
-
         if app.cbp["TEMP"][tempSensorId]:
             return app.cbp["TEMP"][tempSensorId]
         else:
             return -99
-
-
+            
 @app.route('/api/test/temps', methods=['GET'])
 def dummy_temps():
     return json.dumps(app.cbp["TEMP"])

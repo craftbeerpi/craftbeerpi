@@ -88,6 +88,7 @@ def initKettle():
     app.brewapp_kettle_state = {}
     app.brewapp_kettle_target_temps_log = {}
     for v in kettles:
+
         app.brewapp_kettle_state[v.id] = {
             "name": v.name,
             "target_temp": v.target_temp,
@@ -96,7 +97,6 @@ def initKettle():
             "agitator": v.agitator,
             "automatic": False,
         }
-
 
 @brewjob(key="kettle", interval=5)
 def kettlejob():
