@@ -7,6 +7,7 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
 
     $scope.$on('socket:step_update', function (ev, data) {
         $scope.steps = data;
+        $scope.activeKettle = $scope.steps.find(findActive) || undefined
     });
 
     // Basic Data
@@ -28,7 +29,6 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
     $scope.thermometers = [];
 
     CBPHardware.query(function (data) {
-        console.log(data)
         data.objects.forEach(function (entry) {
 
             if (entry.type == 'T') {
@@ -68,11 +68,20 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
         })
     }
 
+
+    function findActive(data) {
+        return data.state == 'A'
+    }
+
     $scope.step_reload = function () {
+
         CBPSteps.query({}, function (response) {
             $scope.steps = response.objects;
+           $scope.activeKettle = $scope.steps.find(findActive) || undefined
         });
     }
+
+
 
 
 }
@@ -658,6 +667,8 @@ function DashboardKettleController($scope, $controller, CBPKettle, ConfirmMessag
 
     angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
+     $scope.step_reload()
+
 
     $scope.$on('socket:kettle_update', function (ev, data) {
         $scope.kettles = data;
@@ -670,6 +681,17 @@ function DashboardKettleController($scope, $controller, CBPKettle, ConfirmMessag
         $scope.kettle_state = data;
     });
 
+
+    $scope.isActive = function(id) {
+
+        if($scope.activeKettle && id == $scope.activeKettle.kettleid) {
+             return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 
     $scope.switchGPIO = function (item) {
         mySocket.emit("switch", {"switch": item});
@@ -1002,7 +1024,7 @@ function ChartController($scope, CBPChart, $state, $stateParams) {
 
 
     $scope.load = function () {
-        $scope.loadchart( $scope.type, $scope.vid, 'container')
+        $scope.loadchart($scope.type, $scope.vid, 'container')
     }
 
     $scope.load2 = function () {
@@ -1015,159 +1037,159 @@ function ChartController($scope, CBPChart, $state, $stateParams) {
             , function (response) {
 
                 var config = []
-       if($state.current.type == "F") {
+                if ($state.current.type == "F") {
+                    config = [
+                        {
+                            type: 'areaspline',
+                            data: response.data["temp"],
+                            name: 'Current Temperature',
+                            marker: {radius: 2},
 
-
-       config = [
-                {
-                type: 'areaspline',
-                data: response.data["temp"],
-                name: 'Current Temperature',
-                marker: {radius: 2},
-
-            },
-            {
-                type: 'spline',
-                data: response.data["target_temp"],
-                name: 'Targe Temperature',
-                marker: {radius: 2},
-            },
-            {
-                type: 'spline',
-                data: response.data["wort"],
-                name: 'Wort',
-                marker: {radius: 4},
-            },
-            {
-                type: 'spline',
-                data: response.data["hydrometer_temp"],
-                name: 'Hydrometer Temperature',
-                marker: {radius: 4},
-            },
-            {
-                type: 'spline',
-                data: response.data["battery"],
-                name: 'Battery',
-                marker: {radius: 2},
-            }]
-            }
-
-                if($state.current.type == "K") {
-
-
-       config = [
-                {
-                type: 'areaspline',
-                data: response.data["temp"],
-                name: 'Current Temperature',
-                marker: {radius: 2},
-
-            },
-            {
-                type: 'spline',
-                data: response.data["target_temp"],
-                name: 'Targe Temperature',
-                marker: {radius: 2},
-            }]
-            }
-
-        $scope.chart = Highcharts.chart(container, {
-            chart: {
-                zoomType: 'x'
-            },
-
-
-            title: {
-                text: response.name
-            },
-            xAxis: {
-
-                type: 'datetime',
-                labels: {
-                    align: 'left',
-                    x: 3,
-                    y: -3
-                }
-            },
-
-            yAxis: [{ // left y axis
-                title: {
-                    text: null
-                },
-                labels: {
-                    align: 'left',
-                    x: 3,
-                    y: 16,
-                    format: '{value:.,0f}'
-                },
-                showFirstLabel: false
-            }, { // right y axis
-                linkedTo: 0,
-                gridLineWidth: 0,
-                opposite: true,
-                title: {
-                    text: null
-                },
-                labels: {
-                    align: 'right',
-                    x: -3,
-                    y: 16,
-                    format: '{value:.,0f}'
-                },
-                showFirstLabel: false
-            }],
-
-             plotOptions: {
-                areaspline: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
                         },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
+                        {
+                            type: 'spline',
+                            data: response.data["target_temp"],
+                            name: 'Targe Temperature',
+                            marker: {radius: 2},
+                        }
+                        /*,
+                        {
+                            type: 'spline',
+                            data: response.data["wort"],
+                            name: 'Wort',
+                            marker: {radius: 4},
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["hydrometer_temp"],
+                            name: 'Hydrometer Temperature',
+                            marker: {radius: 4},
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["battery"],
+                            name: 'Battery',
+                            marker: {radius: 2},
+                        }*/
+                    ]
+                }
+
+                if ($state.current.type == "K") {
+
+
+                    config = [
+                        {
+                            type: 'areaspline',
+                            data: response.data["temp"],
+                            name: 'Current Temperature',
+                            marker: {radius: 2},
+
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["target_temp"],
+                            name: 'Targe Temperature',
+                            marker: {radius: 2},
+                        }]
+                }
+
+                $scope.chart = Highcharts.chart(container, {
+                    chart: {
+                        zoomType: 'x'
                     },
-                    marker: {
-                        radius: 4
+
+
+                    title: {
+                        text: response.name
                     },
-                    lineWidth: 5,
-                    states: {
-                        hover: {
-                            lineWidth: 1
+                    xAxis: {
+
+                        type: 'datetime',
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: -3
                         }
                     },
-                    threshold: null
-                }
-            },
 
-            legend: {
-                align: 'left',
-                verticalAlign: 'top',
-                y: 20,
-                floating: true,
-                borderWidth: 0
-            },
+                    yAxis: [{ // left y axis
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false
+                    }, { // right y axis
+                        linkedTo: 0,
+                        gridLineWidth: 0,
+                        opposite: true,
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'right',
+                            x: -3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false
+                    }],
 
-            tooltip: {
-                shared: true,
-                crosshairs: true
-            },
+                    plotOptions: {
+                        areaspline: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 4
+                            },
+                            lineWidth: 5,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
 
-            series: config
-        });
-    });
+                    legend: {
+                        align: 'left',
+                        verticalAlign: 'top',
+                        y: 20,
+                        floating: true,
+                        borderWidth: 0
+                    },
+
+                    tooltip: {
+                        shared: true,
+                        crosshairs: true
+                    },
+
+                    series: config
+                });
+            });
 
     }
 
     $scope.clear = function (id) {
-        $scope.chart.series.map(function (item,idx) {
+        $scope.chart.series.map(function (item, idx) {
             item.setData([])
         });
-        CBPChart.delete($state.current.type, id  , function () {
+        CBPChart.delete($state.current.type, id, function () {
             //$("#placeholder").empty();
             //$("#overview").empty();
 

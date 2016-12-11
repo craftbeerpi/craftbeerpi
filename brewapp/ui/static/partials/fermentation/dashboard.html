@@ -51,12 +51,12 @@
                         <div class="col-xs-6">
                             <span ng-if="n.sensorid">
                             {{ n.sensorid | get_temp:temps }}°{{ config["UNIT"] }}
-                            <div style="font-size: 0.6em; margin-top: -5px">External Temperature</div>
+                            <div style="font-size: 0.5em; margin-top: -5px">Temperature</div>
                                 </span>
                         </div>
                         <div class="col-xs-6">
                              {{ n.target_temp }}°{{ config["UNIT"] }}
-                             <div style="font-size: 0.6em; margin-top: -5px">Target Temperature</div>
+                             <div style="font-size: 0.5em; margin-top: -5px">Target Temperature</div>
                         </div>
                     </div>
                     <div class="row" ng-if="n.hydrometerid" style="margin-top: 10px">
