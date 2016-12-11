@@ -73,11 +73,30 @@ class Hardware(db.Model):
     type = db.Column(db.String(80))
     config = db.Column(db.String(256))
 
+    def decodeJson(self, json):
+        self.name = json.get("name")
+        self.type = json.get("type")
+        #self.config = json.get("config")
+
     def __repr__(self):
         return self.name
 
     def __unicode__(self):
         return self.name
+
+class Hydrometer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    tuning =  db.Column(db.String(255))
+
+    def __repr__(self):
+        return self.name
+
+    def __unicode__(self):
+        return self.name
+
+    def decodeJson(self, json):
+        self.name = json.get("name")
 
 class Config(db.Model):
     name = db.Column(db.String(50), primary_key=True)
@@ -98,6 +117,7 @@ class Fermenter(db.Model):
     name = db.Column(db.String(80))
     brewname = db.Column(db.String(80))
     sensorid = db.Column(db.Integer())
+    hydrometerid = db.Column(db.Integer())
     heaterid = db.Column(db.Integer())
     heateroffset_min = db.Column(db.Float())
     heateroffset_max = db.Column(db.Float())

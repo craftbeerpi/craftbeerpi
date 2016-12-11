@@ -43,7 +43,7 @@ def initConfig():
                 opts = y[k].get("options", None)
                 if opts is not None:
                     opts = ",".join(opts)
-                print k
+
                 db.session.add(Config(name=k, value=y[k].get("value", None), type=y[k].get("type", None), description=y[k].get("description", None), options=opts))
             db.session.commit()
         except yaml.YAMLError as exc:

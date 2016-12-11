@@ -1,24 +1,17 @@
+<style>
 
-	<script type="text/javascript">
-
-
-
-	</script>
+    .legend > table {
+        background-color: #fff !important;
+    }
+</style>
 
 <div class="container" >
 
-    <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
-        <div class="panel-heading"><i class="fa fa-line-chart"></i> {{ kettle.name }}</span>
-        </div>
 
 
-        <i ng-if="loading" class="fa fa-refresh fa-5x fa-spin" style="position: absolute; left: 50%; top: 200px"></i>
-        <div id="chart"></div>
+     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto; margin-bottom: 10px"></div>
 
-        <div id="placeholder" style="width:100%;height:70%;"></div>
 
-        <div id="overview" class="demo-placeholder" style="height: 70px; width: 100%"></div>
-    </div>
 
     <div class="btn-group" role="group" aria-label="...">
         <div class="btn-group" role="group">
@@ -36,7 +29,7 @@
             </a>
         </div>
         <div class="btn-group" role="group">
-             <button ng-click="clear()" class="btn btn-danger" role="group">
+             <button ng-click="clear( vid)" class="btn btn-danger" role="group">
                 <span class="badge">
                 <i class="fa fa-trash"></i>
             </span>

@@ -141,12 +141,35 @@
 
         </div>
     </div>
-    <!--
 
 
-</div>
-</div>
+       <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'HYDROMETER' | translate }}
+                    <div class="btn-group pull-right" role="group">
+                        <a ng-click="createHydrometer('S')" uib-tooltip="{{ 'ADD' | translate }}" class="btn btn-success"
+                           role="group">
+                            <i class="fa fa-plus"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <table class="table" style="font-size: 1em">
+                    <thead>
+                    <td>{{ 'NAME' | translate }}</td>
+                    </thead>
+                    <tr ng-repeat="item in hydrometers track by $index">
+                        <td>
+                            <a ng-click="editHydrometer(item)">{{ item.name }}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
-</div>
--->
+
+
+    </div>
+
 </div>

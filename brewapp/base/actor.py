@@ -64,16 +64,19 @@ def initHardware(cleanup = True):
     app.brewapp_switch_state = {}
     app.brewapp_hardware_config = {}
     app.brewapp_thermometer_cfg = {}
+    app.brewapp_hydrometer_cfg = {}
     hw = Hardware.query.all()
+
 
     for h in hw:
         h1 = to_dict(h)
+
         if(h1['config'] != None):
             h1['config'] = json.loads(h1['config'])
 
             if(h1["type"] == "T"):
                 app.brewapp_thermometer_cfg[h1["id"]] = h1
-            elif (h1["type"] == "F"):
+            elif (h1["type"] == "S"):
                 pass
             else:
                 app.brewapp_hardware_config[h1["id"]] = h1

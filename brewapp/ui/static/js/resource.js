@@ -113,10 +113,10 @@ function CBPSwitch($http) {
 
 function CBPChart($http) {
     return {
-        get: function (id, okCallback){
+        get: function (type, id, okCallback){
             $http({
                 method: 'GET',
-                url: '/api/temp/'+id+'/chart'
+                url: '/api/temp/'+type+'/'+id+'/chart'
             }).then(function successCallback(response) {
                 okCallback(response.data);
             }, function errorCallback(response) {
@@ -124,10 +124,10 @@ function CBPChart($http) {
             });
 
         },
-        delete: function (id, okCallback){
+        delete: function (type, id, okCallback){
             $http({
                 method: 'DELETE',
-                url: '/api/temp/'+id+'/chart'
+                url: '/api/temp/'+type+'/'+id+'/chart'
             }).then(function successCallback(response) {
                 okCallback();
             }, function errorCallback(response) {
@@ -247,9 +247,7 @@ function CBPSetup($resource) {
     });
 }
 
-function helloWorld() {
 
-}
 
 function CBPFermenter($resource) {
     return $resource("/api/fermenter/:id", {}, {
@@ -336,6 +334,22 @@ function CBPFermenterSteps($resource) {
     });
 }
 
+function CBPHydrometer($resource) {
+    return $resource("/api/hydrometer/:id", {}, {
+        query: {
+            method: 'GET',
+            isArray: false
+        },
+        update: {
+            method: 'PUT'
+        },
+        get_last_temps: {
+            method: 'GET',
+            url: '/api/hydrometer/temps',
+            isArray: false
+        }
+    });
+}
 
 
 angular.module("cbpresource", [])
@@ -347,7 +361,8 @@ angular.module("cbpresource", [])
     .factory("CBPConfig", CBPConfig)
     .factory("Braufhelfer", Braufhelfer)
     .factory("CBPRecipeBook", CBPRecipeBook)
-    .service("helloWorld", helloWorld)
+
+    .service("CBPHydrometer", CBPHydrometer)
     .service("CBPFermenter", CBPFermenter)
     .service("CBPFermenterSteps", CBPFermenterSteps)
     .factory("CBPHardware", CBPHardware);
