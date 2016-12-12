@@ -1,13 +1,18 @@
 import os
 import re
 import sys
-from brewapp import app
 from subprocess import call
+
+from brewapp import app
+from brewapp.base.tempfilter import TemperatureFilter
 
 
 class OneWireThermometer2(object):
     AVERAGE_SENSOR_ID = "average"
     MAX_SENSOR_ID = "maximum"
+
+    def __init__(self):
+        self.__filters = {}
 
     def init(self):
         try:
@@ -52,6 +57,9 @@ class OneWireThermometer2(object):
                 m = re.match(r"([0-9a-f]{2} ){9}t=([+-]?[0-9]+)", line)
                 if m:
                     value = float(m.group(2)) / 1000.0
+                    if tempSensorId not in self.__filters:
+                        self.__filters[tempSensorId] = TemperatureFilter()
+                    value = self.__filters[tempSensorId].filterTemperature(value)
             f.close()
         except Exception as e:
             app.logger.warning("Read temp failed " + str(e))
@@ -79,4 +87,3 @@ class OneWireThermometer2(object):
                 value = tmp
 
         return value
-
