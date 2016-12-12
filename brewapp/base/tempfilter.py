@@ -1,5 +1,4 @@
 from collections import deque
-import statistics as stat
 
 
 class TemperatureFilter(object):
@@ -11,7 +10,7 @@ class TemperatureFilter(object):
 
     def filterTemperature(self, temperature):
         self.__deque.append(temperature)
-        median = stat.median(self.__deque)
+        median = sorted(self.__deque)[len(self.__deque)//2]
         deviation = abs(median - temperature)
 
         print("deq:" + str(self.__deque))
