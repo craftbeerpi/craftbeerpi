@@ -1,0 +1,45 @@
+<div ng-controller="BeerXMLController">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default kettle" data-toggle="tooltip" data-placement="top">
+                <div class="panel-heading">
+                    {{ 'AVAILABLE_BREW_RECIPES' | translate }}
+
+                    <div class="btn-group pull-right" role="group">
+
+                        <a ng-click="upload()" class="btn btn-success" role="group">
+                            <i class="fa fa-upload"></i></a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>{{ 'FILTER_BY_NAME' | translate }}</label>
+                        <input type="text" ng-model="search"/>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'BREW_NAME' | translate }}</th>
+                        <th>{{ 'LOAD' | translate }}</th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="item in brews | filter:search">
+                        <td>
+                            {{ item.name }}
+                        </td>
+
+                        <td>
+                            <a href class="btn btn-success" ng-click="load(item.id)"><i
+                                    class="fa fa-folder-open"></i></a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>

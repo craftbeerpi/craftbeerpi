@@ -367,7 +367,7 @@ function HardwareOverviewController($scope, CBPHardware, ConfirmMessage, CBPHydr
         $scope.hardware = angular.copy(item);
         $scope.hardware["type"] = "S";
 
-        console.log($scope.hardware)
+
         $scope.headline = "DELETE_HARDWARE_HEADLINE";
         $scope.message = "DELETE_HARDWARE_MESSAGE";
         var modalInstance = $uibModal.open({
@@ -383,6 +383,13 @@ function HardwareOverviewController($scope, CBPHardware, ConfirmMessage, CBPHydr
         }, function (data) {
             if ('delete' == data) {
                 console.log("DELETE HYDROMETER")
+                CBPHydrometer.delete({
+                    "id": $scope.hardware.id
+                }, function(data) {
+                     CBPHydrometer.get(function(data) {
+                          $scope.hydrometers = data;
+                     })
+                });
             }
         });
 
@@ -1792,6 +1799,117 @@ function Menu($scope) {
 }
 
 
+function BeerXMLController($scope, $location, CBPSteps, CBPKettle, FileUploader, CBPBeerXML, $uibModal) {
+
+    CBPBeerXML.get(function (data) {
+        $scope.brews = data;
+    })
+    $scope.load = function (id) {
+        $scope.selectKettle(id);
+    };
+
+    $scope.uploader = new FileUploader({
+        url: '/kbupload',
+        queueLimit: 1,
+        onCompleteAll: function () {
+            Braufhelfer.get(function (data) {
+                $scope.brews = data;
+            })
+        }
+    });
+
+
+    $scope.upload = function () {
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'static/partials/beerxml/upload.html',
+            controller: 'BeerXMLUploadController',
+            size: "sl",
+
+        });
+
+        modalInstance.result.then(function (data) {
+            CBPBeerXML.get(function (data) {
+                $scope.brews = data;
+            })
+        });
+    }
+
+    $scope.selectKettle = function (item) {
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'static/partials/beerxml/select_kettle.html',
+            controller: 'BeerXMLSelectController',
+            size: "sm",
+            resolve: {
+                kettle: function () {
+                    return item
+                }
+            }
+        });
+
+        modalInstance.result.then(function (data) {
+            CBPBeerXML.load(item, data, function () {
+                $location.url("/ui/#/steps");
+            });
+        }, function () {
+
+        });
+    };
+}
+
+function BeerXMLSelectController($scope, $uibModalInstance, kettle, CBPKettle) {
+
+    $scope.kettles = [];
+    $scope.mashtun = 0;
+    $scope.boil = 0;
+    $scope.kettles.push({
+        "key": 0,
+        "value": "No Kettle"
+    })
+    CBPKettle.query({}, function (response) {
+        angular.forEach(response.objects, function (d) {
+            $scope.kettles.push({
+                "key": d.id,
+                "value": d.name
+            });
+        })
+    });
+
+    $scope.ok = function () {
+        $uibModalInstance.close({
+            "mashtun": $scope.mashtun,
+            "boil": $scope.boil
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+}
+
+function BeerXMLUploadController($scope, $uibModalInstance, CBPBeerXML, CBPKettle, FileUploader) {
+
+
+    $scope.uploader = new FileUploader({
+        url: '/api/beerxml/upload',
+        queueLimit: 1,
+        onCompleteAll: function () {
+            CBPBeerXML.get(function (data) {
+                $scope.brews = data;
+            })
+        }
+    });
+
+    $scope.ok = function () {
+        $uibModalInstance.close();
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+}
+
 angular.module("cbpcontroller", [])
     .controller("BaseController", BaseController)
     .controller("HardwareOverviewController", HardwareOverviewController)
@@ -1818,5 +1936,9 @@ angular.module("cbpcontroller", [])
     .controller("FermentationEditController", FermentationEditController)
     .controller("FermenationTargetTempController", FermenationTargetTempController)
     .controller("FermenationStepController", FermenationStepController)
+    .controller("BeerXMLController", BeerXMLController)
+    .controller("BeerXMLSelectController", BeerXMLSelectController)
+    .controller("BeerXMLUploadController", BeerXMLUploadController)
+
     .controller("Menu", Menu)
     .factory("ConfirmMessage", ConfirmMessage);
