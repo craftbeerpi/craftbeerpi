@@ -60,7 +60,7 @@ def uploadBeerXML():
             file = request.files['file']
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], "recipes.xml"))
                 return ('', 204)
             return ('', 404)
     except Exception as e:
