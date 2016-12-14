@@ -146,6 +146,18 @@ After this you will asked for the MashTun and the Boil kettle of the brew.
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
 
+## User Setups
+
+![ScreenShot](http://craftbeerpi.com/examples/img1.png)
+![ScreenShot](http://craftbeerpi.com/examples/img2.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img3.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img4.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img5.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img6.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img7.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img8.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img9.jpg)
+
 
 ## Start CraftBeerPI in Kiosk Mode
 
