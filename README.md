@@ -190,7 +190,7 @@ Reboot the Raspberry PI
 sudo reboot
 ```
 
-## User Setups
+## User Pictures
 
 ![ScreenShot](http://craftbeerpi.com/examples/img1.png)
 ![ScreenShot](http://craftbeerpi.com/examples/img2.jpg)
