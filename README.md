@@ -2,7 +2,8 @@
 The Raspberry PI base Home Brewing Software
 
 Website: www.CraftBeerPI.com
-Facebook: faceboo.com/craftbeerpi
+
+Facebook: www.facebook.com/craftbeerpi
 
 ## Features
 
