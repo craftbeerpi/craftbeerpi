@@ -20,6 +20,13 @@ Website: www.CraftBeerPI.com
 * Support für GPIO, PiFace or Gembird USB Socket
 * Temperature can be measured in Fahrenheit or Celcius
 
+## Donation
+
+CraftBeerPi is an free & open source project. If you like to support the project I happy about a donation:
+
+
+[![Donate](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2X9KR98KJ8YZQ)
+
 ## Support & Communities
 
 The Community of CraftBeerPi is quite active.
