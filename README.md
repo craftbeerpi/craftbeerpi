@@ -143,6 +143,8 @@ After this you will asked for the MashTun and the Boil kettle of the brew.
 * Raspberry Pi (Model A+, 2 Model B) + Power Cable + SDCard (Pollin.de, Conrad.de, Reichelt.de)
 
 
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
 
 
 ## Start CraftBeerPI in Kiosk Mode
@@ -186,30 +188,3 @@ Reboot the Raspberry PI
 sudo reboot
 ```
 
-### Implementing a custom thermometer protocol
-Out of the box CraftBeerPI is supporting 1-wire thermometers.
-But integrating a custom thermometer protocol is quite simple.
-
-Just overwrite 3 simple method of the w1_thermometer.py
-
-```
-## This method gets invoked only once during start time.
-## This is the right place if the Thermometer needs to be initialize
-## during server start.
-@brewinit()
-def initThermo():
-    #Custom Code here
-    # no return value
-
-## Define which Thermometers are available
-## Return the id/name of available thermometers as string array
-def getW1Thermometer():
-    ## Custom code here!
-    return ["DummySensor1","DummySensor2"]
-
-## This method gets invoked every 5 seconds for each thermometer
-## Just read the current value and return it a float
-def tempData1Wire(tempSensorId):
-    ## Custom code here!
-    return 100.00
-```
