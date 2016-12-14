@@ -2,6 +2,7 @@
 The Raspberry PI base Home Brewing Software
 
 Website: www.CraftBeerPI.com
+Facebook: faceboo.com/craftbeerpi
 
 ## Features
 
@@ -19,6 +20,10 @@ Website: www.CraftBeerPI.com
 * Recipe Book
 * Support für GPIO, PiFace or Gembird USB Socket
 * Temperature can be measured in Fahrenheit or Celcius
+* Fermentation Controller
+* Beer.xml Import
+
+You will find lots of pictures of different setup on the CraftBeerPi Facebook Page
 
 ## Donation
 
