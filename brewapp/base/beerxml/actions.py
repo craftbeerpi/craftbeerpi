@@ -34,7 +34,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def newStep(name, order, type, state, temp = 0, timer = 0, kettileid = 0):
-    s = Step(name=name, order=order, type=type, state=state, temp=temp, timer=timer, kettleid=kettileid)
+    s = Step(name=name, order=order, type=type, state=state, temp=temp, timer=timer, kettleid=kettleid)
     db.session.add(s)
     db.session.commit()
     return s
@@ -90,11 +90,12 @@ def selectFromBeerXML(id):
             s = newStep("MashIn", order, 'M' if order == 0 else 'A', "I", temp, s.get("timer", 0), data['mashtun'])
             order += 1
 
-        s = newStep("Chilling", order, "M", "I", 0, 15, 0)
-        order +=1
         s = newStep("Boil", order, "A", "I", 99, getBoilTime(int(id)), data['boil'])
         order +=1
-
+        
+        s = newStep("Add Chilling", order, "M", "I", 0, 15, 0
+        order +=1
+          
         ## Add Whirlpool step
         s = newStep("Whirlpool", order, "M", "I", 0, 15, data['boil'])
         order +=1
