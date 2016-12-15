@@ -33,7 +33,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-def newStep(name, order, type, state, temp = 0, timer = 0, kettileid = 0):
+def newStep(name, order, type, state, temp = 0, timer = 0, kettleid = 0):
     s = Step(name=name, order=order, type=type, state=state, temp=temp, timer=timer, kettleid=kettleid)
     db.session.add(s)
     db.session.commit()
