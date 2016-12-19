@@ -83,10 +83,6 @@ Please select Raspbina as operating system.
 
 ### CraftBeer PI Installation
 
-Use the iOS App to Install CraftBeerPi from your mobile device
-
-https://itunes.apple.com/us/app/craftbeerpi/id1182829195?l=de&ls=1&mt=8
-
 Watch the installation video or read the installation steps below
 
 [![asciicast](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd.png)](https://asciinema.org/a/du84msz9t56yqqg6j6qfjmvjd)
