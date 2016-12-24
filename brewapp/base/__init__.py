@@ -17,6 +17,5 @@ import thermo
 import fermenter
 import hydrometer
 import securtiy
-import lcd
 import beerxml
 import admin
