@@ -61,8 +61,6 @@ def save_book():
     return ('',204)
 
 
-def hallo():
-    pass
 
 def setBrewName(name):
     config = Config.query.get("BREWNAME");
