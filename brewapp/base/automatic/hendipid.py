@@ -60,8 +60,8 @@ class HendiPID(Automatic):
 
     configparameter = [
     {"name":"Hendi_Power_GPIO", "value":27},
-    {"name":"P", "value":140.0},
-    {"name":"I", "value":40.0},
+    {"name":"P", "value":40.0},
+    {"name":"I", "value":140.0},
     {"name":"D","value":0},
     {"name": "ts", "value":5}
     ]
