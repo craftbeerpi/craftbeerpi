@@ -6,11 +6,11 @@
 					{{ 'CONFIG_PARAMETER' | translate}}
 				</div>
 
-				<table class="table" style="font-size: 0.8em">
+				<table class="table" >
 					<thead>
 						<td>{{ 'NAME' | translate}}</td>
 						<td>{{ 'VALUE' | translate}}</td>
-						<td>{{ 'DESCRIPTION' | translate}}</td>
+						<td class="hidden-xs">{{ 'DESCRIPTION' | translate}}</td>
 					</thead>
 					<tr ng-repeat="item in configparams track by $index">
 						<td>
@@ -19,7 +19,7 @@
 						<td>
 							{{ item.value }}
 						</td>
-						<td>
+						<td class="hidden-xs">
 							{{ item.description }}
 						</td>
 

@@ -17,7 +17,7 @@ except Exception as e:
 @brewinit()
 def initBuzzer():
 
-    print "INIT BUZZER"
+
     buzzer_gpio = app.brewapp_config.get("BUZZER_GPIO", None)
     app.logger.info("BUZZER GPIO: " + str(buzzer_gpio) )
     try:
@@ -66,7 +66,7 @@ def playSound(melodie):
                 time.sleep(i)
 
     except Exception as e:
-        print e
+
         app.logger.error("BUZZER ERROR " + str(e))
 
 

@@ -1,7 +1,7 @@
 <style>
 
     .headline {
-        font-size: 1.5em;
+        font-size: 1em;
         width: 70%;
         overflow: hidden;
         display: inline-block;
@@ -46,15 +46,33 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="panel-body text-center">
-
-
-                    <div class="temp"><i
-                            class="wi wi-thermometer"></i> <b>{{ n.sensorid | get_temp:temps }}°{{ config["UNIT"] }}</b>
+                <div class="panel-body text-center" style="font-size: 1.4em">
+                    <div class="row" >
+                        <div class="col-xs-6">
+                            <span ng-if="n.sensorid">
+                            {{ n.sensorid | get_temp:temps }}°{{ config["UNIT"] }}
+                            <div style="font-size: 0.5em; margin-top: -5px">Temperature</div>
+                                </span>
+                        </div>
+                        <div class="col-xs-6">
+                             {{ n.target_temp }}°{{ config["UNIT"] }}
+                             <div style="font-size: 0.5em; margin-top: -5px">Target Temperature</div>
+                        </div>
                     </div>
-                    <div style="margin-top: -5px" class="text-muted"><i class="fa fa-crosshairs" aria-hidden="true"></i>
-                        <strong>{{ n.target_temp }}°{{ config["UNIT"] }}</strong>
+                    <div class="row" ng-if="n.hydrometerid" style="margin-top: 10px">
+                        <div class="col-xs-6">
+                                {{ hydrometer_temps[n.hydrometerid].temp }}°{{ config["UNIT"] }}
+                            <div style="font-size: 0.6em; margin-top: -5px">Hydrometer Temperature</div>
+
+                        </div>
+                        <div class="col-xs-6">
+                                 {{ hydrometer_temps[n.hydrometerid].wort }}°P
+                            <div style="font-size: 0.6em; margin-top: -5px">Original Wort</div>
+                        </div>
                     </div>
+                    <div class="row" style="font-size: 0.6em; margin-top: 10px" ng-if="n.hydrometerid">
+                        Last Update {{ hydrometer_temps[n.hydrometerid].timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
+                        </div>
                 </div>
 
                 <div class="panel-footer">

@@ -20,7 +20,7 @@ function mySocket (socketFactory) {
   mySocket.forward('message');
   mySocket.forward('fermenter_update');
   mySocket.forward('fermenter_state_update');
-
+  mySocket.forward('hydrometer_update');
 
   return mySocket;
 }

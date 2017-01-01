@@ -19,11 +19,9 @@ from flask_restless.helpers import to_dict
 @app.route('/api/step/order', methods=['POST'])
 def order_steps():
     data = request.get_json()
-    print data
+
     steps =  Step.query.all()
     for s in steps:
-        print s.order
-        print data[str(s.id)]
         s.order = data[str(s.id)]
         db.session.add(s)
         db.session.commit()
@@ -170,7 +168,7 @@ def stepjob():
     #print ct
     ## check if target temp reached and timer can be started
     if(cs.get("timer") is not None and cs.get("timer_start") == None and ct >= cs.get("temp")):
-        print "start timer"
+
         s = Step.query.get(cs.get("id"))
         s.timer_start = datetime.utcnow()
         app.brewapp_current_step = to_dict(s)

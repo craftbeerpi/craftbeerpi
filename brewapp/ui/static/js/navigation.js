@@ -55,7 +55,8 @@ function routes($stateProvider, $urlRouterProvider) {
             url: "/brewchart/:id",
             templateUrl: "/ui/static/partials/chart/chart.html",
             controller: "ChartController",
-            type: "K_",
+            type: "K",
+            title: "KETTLE_CHART",
             back: "dashboard",
             parent: 'main'
         })
@@ -63,7 +64,8 @@ function routes($stateProvider, $urlRouterProvider) {
             url: "/fermentationchart/:id",
             templateUrl: "/ui/static/partials/chart/chart.html",
             controller: "ChartController",
-            type: "F_",
+            type: "F",
+            title: "FERMENTER",
             back: "fermentation",
             parent: 'main'
         })

@@ -7,6 +7,7 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
 
     $scope.$on('socket:step_update', function (ev, data) {
         $scope.steps = data;
+        $scope.activeKettle = $scope.steps.find(findActive) || undefined
     });
 
     // Basic Data
@@ -67,11 +68,20 @@ function BaseController($scope, CBPConfig, CBPKettle, CBPHardware, CBPSteps) {
         })
     }
 
+
+    function findActive(data) {
+        return data.state == 'A'
+    }
+
     $scope.step_reload = function () {
+
         CBPSteps.query({}, function (response) {
             $scope.steps = response.objects;
+           $scope.activeKettle = $scope.steps.find(findActive) || undefined
         });
     }
+
+
 
 
 }
@@ -138,7 +148,7 @@ function ConfirmMessage($location, $uibModal) {
 
     return {
         open: function (headline, message, confirm, cancel) {
-
+            console.log(confirm)
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'static/partials/common/confirm.html',
@@ -150,6 +160,15 @@ function ConfirmMessage($location, $uibModal) {
                     },
                     message: function () {
                         return message
+                    },
+                    cancel: function() {
+                        if(cancel) {
+                            return true;
+
+                        }
+                        else {
+                            false;
+                        }
                     }
                 }
             });
@@ -167,9 +186,10 @@ function ConfirmMessage($location, $uibModal) {
     }
 }
 
-function ConfirmController($scope, $uibModalInstance, headline, message) {
+function ConfirmController($scope, $uibModalInstance, headline, message, cancel) {
     $scope.message = message;
     $scope.headline = headline;
+    $scope.showCancel = cancel;
     $scope.ok = function () {
         $uibModalInstance.close();
     };
@@ -179,7 +199,7 @@ function ConfirmController($scope, $uibModalInstance, headline, message) {
 }
 
 
-function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
+function HardwareOverviewController($scope, CBPHardware, ConfirmMessage, CBPHydrometer, CBPKettle, $uibModal) {
 
     $scope.heater = [];
     $scope.pump = [];
@@ -205,6 +225,10 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
             });
         })
     });
+
+    CBPHydrometer.get(function(data) {
+        $scope.hydrometers = data;
+    })
 
     $scope.sorthardware = function (data) {
 
@@ -299,8 +323,8 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
     $scope.edit = function (item) {
         $scope.edit_mode = true;
         $scope.hardware = angular.copy(item);
-        $scope.headline = "DELETE_KETTLE_HEADLINE";
-        $scope.message = "DELETE_KETTLE_MESSAGE";
+        $scope.headline = "DELETE_HARDWARE_HEADLINE";
+        $scope.message = "DELETE_HARDWARE_MESSAGE";
         var modalInstance = $uibModal.open({
             animation: true,
             controller: "modalController",
@@ -326,6 +350,39 @@ function HardwareOverviewController($scope, CBPHardware, CBPKettle, $uibModal) {
                         $scope.sorthardware(response.objects);
                     });
                 });
+            }
+        });
+
+    }
+
+    $scope.createHydrometer = function (type) {
+         ConfirmMessage.open("Add Hydrometer", "The Hydrometer will be added automatically when it's sending data", function () {
+
+        });
+    }
+
+    $scope.editHydrometer = function (item) {
+        $scope.edit_mode = true;
+
+        $scope.hardware = angular.copy(item);
+        $scope.hardware["type"] = "S";
+
+        console.log($scope.hardware)
+        $scope.headline = "DELETE_HARDWARE_HEADLINE";
+        $scope.message = "DELETE_HARDWARE_MESSAGE";
+        var modalInstance = $uibModal.open({
+            animation: true,
+            controller: "modalController",
+            scope: $scope,
+            templateUrl: 'static/partials/hardware/form.html',
+            size: "sm"
+        });
+        modalInstance.result.then(function (data) {
+
+            console.log("SAVE HYDROMETER", $scope.hardware)
+        }, function (data) {
+            if ('delete' == data) {
+                console.log("DELETE HYDROMETER")
             }
         });
 
@@ -610,6 +667,8 @@ function DashboardKettleController($scope, $controller, CBPKettle, ConfirmMessag
 
     angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
+     $scope.step_reload()
+
 
     $scope.$on('socket:kettle_update', function (ev, data) {
         $scope.kettles = data;
@@ -622,6 +681,17 @@ function DashboardKettleController($scope, $controller, CBPKettle, ConfirmMessag
         $scope.kettle_state = data;
     });
 
+
+    $scope.isActive = function(id) {
+
+        if($scope.activeKettle && id == $scope.activeKettle.kettleid) {
+             return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 
     $scope.switchGPIO = function (item) {
         mySocket.emit("switch", {"switch": item});
@@ -950,180 +1020,189 @@ function VolumeController($scope, $uibModalInstance) {
 function ChartController($scope, CBPChart, $state, $stateParams) {
 
     $scope.vid = $stateParams.id;
-
     $scope.type = $state.current.type;
 
 
     $scope.load = function () {
-        $scope.loading = true;
-        var legends = undefined;
-        CBPChart.get($state.current.type +$scope.vid
+        $scope.loadchart($scope.type, $scope.vid, 'container')
+    }
+
+    $scope.load2 = function () {
+        //$scope.chart("S", 2, "container2")
+    }
+
+
+    $scope.loadchart = function (type, id, container) {
+        CBPChart.get(type, id
             , function (response) {
 
-                 $scope.loading = false;
+                var config = []
+                if ($state.current.type == "F") {
+                    config = [
+                        {
+                            type: 'areaspline',
+                            data: response.data["temp"],
+                            name: 'Current Temperature',
+                            marker: {radius: 2},
 
-            var options = {
-             series: {
-				lines: { show: true },
-				points: { show: false },
-			},
-			xaxis: {
-				mode: "time",
-				tickLength: 5
-			},
-                crosshair: {
-				mode: "x"
-			},grid: {
-				hoverable: true,
-                    backgroundColor: '#fff',
-				autoHighlight: true
-			},
-			selection: {
-				mode: "x"
-			},
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["target_temp"],
+                            name: 'Targe Temperature',
+                            marker: {radius: 2},
+                        }
+                        /*,
+                        {
+                            type: 'spline',
+                            data: response.data["wort"],
+                            name: 'Wort',
+                            marker: {radius: 4},
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["hydrometer_temp"],
+                            name: 'Hydrometer Temperature',
+                            marker: {radius: 4},
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["battery"],
+                            name: 'Battery',
+                            marker: {radius: 2},
+                        }*/
+                    ]
+                }
 
-		    };
-
-		    var plot = $.plot("#placeholder", [{data:response.temp, label: "Temp = -0.00"}, {data:response.target_temp, label: "TagetTemp = -0.00"}], options);
-
-            legends = $("#placeholder .legendLabel");
-            legends.each(function () {
-			    // fix the widths so they don't jump around
-			    $(this).css('width', $(this).width());
-		    });
-
-            var updateLegendTimeout = null;
-		var latestPosition = null;
-
-		function updateLegend() {
-
-
-			updateLegendTimeout = null;
-
-			var pos = latestPosition;
-
-			var axes = plot.getAxes();
-			if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
-				pos.y < axes.yaxis.min || pos.y > axes.yaxis.max) {
-
-				return;
-			}
-
-			var i, j, dataset = plot.getData();
-			for (i = 0; i < dataset.length; ++i) {
-
-				var series = dataset[i];
-				// Find the nearest points, x-wise
-				for (j = 0; j < series.data.length; ++j) {
-					if (series.data[j][0] > pos.x) {
-						break;
-					}
-				}
-				// Now Interpolate
-				var y,
-					p1 = series.data[j - 1],
-					p2 = series.data[j];
-
-				if (p1 == null) {
-					y = p2[1];
-				} else if (p2 == null) {
-					y = p1[1];
-				} else {
-					y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
-				}
-
-				legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(2)));
-			}
-		}
-
-		$("#placeholder").bind("plothover",  function (event, pos, item) {
-			latestPosition = pos;
-			if (!updateLegendTimeout) {
-				updateLegendTimeout = setTimeout(updateLegend, 50);
-			}
-		});
-
-		var overview = $.plot("#overview", [response.temp, response.target_temp], {
-			series: {
-				lines: {
-					show: true,
-					lineWidth: 1
-				},
-
-				shadowSize: 0
-			},
-            grid: {
-                backgroundColor: '#fff'
-            },
-			xaxis: {
-				ticks: [],
-				mode: "time"
-			},
-			yaxis: {
-				ticks: [],
-				min: 0,
-				autoscaleMargin: 0.1
-			},
-			selection: {
-				mode: "x"
-			}
-		});
-
-		// now connect the two
-
-		$("#placeholder").bind("plotselected", function (event, ranges) {
+                if ($state.current.type == "K") {
 
 
-			// do the zooming
-			$.each(plot.getXAxes(), function(_, axis) {
-				var opts = axis.options;
-				opts.min = ranges.xaxis.from;
-				opts.max = ranges.xaxis.to;
-			});
-			plot.setupGrid();
-			plot.draw();
-			plot.clearSelection();
+                    config = [
+                        {
+                            type: 'areaspline',
+                            data: response.data["temp"],
+                            name: 'Current Temperature',
+                            marker: {radius: 2},
 
-			// don't fire event on the overview to prevent eternal loop
-			overview.setSelection(ranges, true);
-            legends = $("#placeholder .legendLabel");
-            updateLegendTimeout = null;
-            latestPosition = null;
+                        },
+                        {
+                            type: 'spline',
+                            data: response.data["target_temp"],
+                            name: 'Targe Temperature',
+                            marker: {radius: 2},
+                        }]
+                }
 
-            $("#placeholder").bind("plothover",  function (event, pos, item) {
+                $scope.chart = Highcharts.chart(container, {
+                    chart: {
+                        zoomType: 'x'
+                    },
 
-			    latestPosition = pos;
-			    if (!updateLegendTimeout) {
-				    updateLegendTimeout = setTimeout(updateLegend, 50);
-			    }
-		    });
-		});
 
-        var placeholder = $("#placeholder");
+                    title: {
+                        text: response.name
+                    },
+                    xAxis: {
 
-		$("#overview").bind("plotselected", function (event, ranges) {
+                        type: 'datetime',
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: -3
+                        }
+                    },
 
-			plot.setSelection(ranges);
-		});
+                    yAxis: [{ // left y axis
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'left',
+                            x: 3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false
+                    }, { // right y axis
+                        linkedTo: 0,
+                        gridLineWidth: 0,
+                        opposite: true,
+                        title: {
+                            text: null
+                        },
+                        labels: {
+                            align: 'right',
+                            x: -3,
+                            y: 16,
+                            format: '{value:.,0f}'
+                        },
+                        showFirstLabel: false
+                    }],
+
+                    plotOptions: {
+                        areaspline: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 4
+                            },
+                            lineWidth: 5,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+
+                    legend: {
+                        align: 'left',
+                        verticalAlign: 'top',
+                        y: 20,
+                        floating: true,
+                        borderWidth: 0
+                    },
+
+                    tooltip: {
+                        shared: true,
+                        crosshairs: true
+                    },
+
+                    series: config
+                });
+            });
+
+    }
+
+    $scope.clear = function (id) {
+        $scope.chart.series.map(function (item, idx) {
+            item.setData([])
+        });
+        CBPChart.delete($state.current.type, id, function () {
+            //$("#placeholder").empty();
+            //$("#overview").empty();
 
         });
 
     }
-
-    $scope.clear = function () {
-        CBPChart.delete("K_"+$scope.vid, function () {
-            $("#placeholder").empty();
-            $("#overview").empty();
-        });
-
-    }
-
     $scope.back = function () {
         console.log($state.current)
         $state.go($state.current.back)
     }
 
-    $scope.load();
+    $scope.load()
+
 }
 
 
@@ -1305,7 +1384,7 @@ function setupController($scope, $translate, CBPSetup, $window, $location, Wizar
 
 }
 
-function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFermenterSteps, CBPSwitch, CBPHardware, CBPKettle, mySocket) {
+function FermenterController($scope, $uibModal, $controller, CBPHydrometer, CBPFermenter, CBPFermenterSteps, CBPSwitch, CBPHardware, CBPKettle, mySocket) {
 
     angular.extend(this, $controller('BaseController', {$scope: $scope}));
 
@@ -1314,6 +1393,35 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     CBPFermenter.state(function (data) {
 
         $scope.state = data;
+    });
+
+
+    $scope.hydrometer = [];
+    $scope.hydrometer.push({
+        "key": "",
+        "value": "No Hydrometer"
+    });
+
+    CBPHydrometer.get(function(data) {
+
+        for (var key in data.toJSON()) {
+            console.log(key)
+            $scope.hydrometer.push({
+                "key": data[key].id,
+                "value": data[key].name
+            });
+        }
+
+
+    })
+
+    CBPHydrometer.get_last_temps(function(data) {
+        $scope.hydrometer_temps = data;
+    })
+
+    $scope.$on('socket:hydrometer_update', function (ev, data) {
+        console.log("UPDATE")
+        $scope.hydrometer_temps = data;
     });
 
 
@@ -1369,13 +1477,19 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     };
 
     reload = function () {
+
+        $scope.fermenters = {}
         CBPFermenter.get(function (data) {
-            console.log(data);
+            console.log(data)
+
             data.objects.map(function (obj) {
+                console.log("OBJ", obj)
                 $scope.fermenters[obj.id] = obj;
             });
 
         });
+
+        console.log("RELOAD", $scope.fermenters)
     }
 
     reload();
@@ -1405,6 +1519,8 @@ function FermenterController($scope, $uibModal, $controller, CBPFermenter, CBPFe
     $scope.$on('socket:fermenter_state_update', function (ev, data) {
         $scope.state = data;
     });
+
+
 
 
     $scope.getTime = function (item) {
@@ -1551,6 +1667,7 @@ function FermentationEditController($scope, ConfirmMessage, $uibModalInstance, C
         "id": $scope.selected
     }, function (response) {
         $scope.fermenter = response;
+
     });
 
 
@@ -1657,6 +1774,23 @@ function FermenationStepController($scope, $uibModal, CBPFermenter, CBPFermenter
 
 }
 
+function Menu($scope) {
+
+
+    $scope.hide = false;
+    
+    $scope.toggleMenu = function() {
+
+        console.log("TOGGLE")
+        if($scope.hide) {
+            $scope.hide = false;
+        }
+        else {
+            $scope.hide = true;
+        }
+    }
+}
+
 
 angular.module("cbpcontroller", [])
     .controller("BaseController", BaseController)
@@ -1684,4 +1818,5 @@ angular.module("cbpcontroller", [])
     .controller("FermentationEditController", FermentationEditController)
     .controller("FermenationTargetTempController", FermenationTargetTempController)
     .controller("FermenationStepController", FermenationStepController)
+    .controller("Menu", Menu)
     .factory("ConfirmMessage", ConfirmMessage);
