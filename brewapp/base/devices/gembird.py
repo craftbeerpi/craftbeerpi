@@ -11,13 +11,19 @@ class GembirdUSB(ActorBase):
         for i in range(1, 5):
             gpio.append("SOCKET"+str(i))
         return gpio
-
     def translateDeviceName(self, name):
-        return name[6:]
+        if(name == None or name == ""):
+            return None
+        return int(name[6:])
 
     def switchON(self, device):
         try:
-            no = self.translateDeviceName(device)
+            switch_name = self.getConfigValue(device, "switch", None)
+            if switch_name is None:
+                app.logger.warning("SWITCH NOT FOUND IN CONFIG")
+                pass
+
+            no = self.translateDeviceName(switch_name)
             command = "sudo sispmctl -o " + str(no)
             subprocess.call(command, shell=True)
             self.isSwitchOn(device)
@@ -26,7 +32,12 @@ class GembirdUSB(ActorBase):
 
     def switchOFF(self, device):
         try:
-            no = self.translateDeviceName(device)
+            switch_name = self.getConfigValue(device, "switch", None)
+            if switch_name is None:
+                app.logger.warning("SWITCH NOT FOUND IN CONFIG")
+                pass
+
+            no = self.translateDeviceName(switch_name)
             command = "sudo sispmctl -f " + str(no)
             subprocess.call(command, shell=True)
             self.isSwitchOn(device)
@@ -35,7 +46,12 @@ class GembirdUSB(ActorBase):
 
     def isSwitchOn(self, device):
         try:
-            no = self.translateDeviceName(device)
+            switch_name = self.getConfigValue(device, "switch", None)
+            if switch_name is None:
+                app.logger.warning("SWITCH NOT FOUND IN CONFIG")
+                pass
+
+            no = self.translateDeviceName(switch_name)
             command = "sudo sispmctl -nqg " + str(no)
             switchState = subprocess.check_output(command, shell=True)
             if (int(switchState) == int(0)):
