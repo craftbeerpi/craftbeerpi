@@ -97,9 +97,9 @@ class PIDPUMPBOILLogic(Automatic):
 				heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
 				heating_time = sampleTime * heat_percent / 100
 				wait_time = sampleTime - heating_time
-        currentTemp = self.getCurrentTemp()
-        targetTemp = self.getTargetTemp()
-        if(targetTemp > 0):
+                                currentTemp = self.getCurrentTemp()
+                                targetTemp = self.getTargetTemp()
+                                if(targetTemp > 0):
 				    self.switchHeaterON()
 				socketio.sleep(heating_time)
 				self.switchHeaterOFF()
