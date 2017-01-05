@@ -235,7 +235,7 @@ def start_timer(stepid, fermenter_id):
 ### Temp Logging
 
 
-@brewjob(key="fermenter", interval=2)
+@brewjob(key="fermenter", interval=60)
 def fermenterjob():
     for id in app.cbp['FERMENTERS']:
         fermenter = app.cbp['FERMENTERS'][id]
