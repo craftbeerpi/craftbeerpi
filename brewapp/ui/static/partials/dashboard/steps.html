@@ -34,17 +34,17 @@
             <div class="row">
 
                 <div class="col-xs-7 pad hideOverflow">
-                    <div>
+                    <div class="stepItem">
                         <span class="badge" style="font-size: 0.8em">{{ item.type }}</span>
                         <strong>{{ item.name }}</strong></div>
 
-                    <div>
+                    <div class="stepItem">
                         <small>{{ toTimestamp(item.start) | date:'HH:mm:ss'}} -
                             {{ toTimestamp(item.end) | date:'HH:mm:ss' }}</small>
                     </div>
                 </div>
                 <div class="col-xs-5 pad text-center">
-                    <div><strong> {{ item.temp }} °{{ config["UNIT"] }}  </strong>
+                    <div class="stepItem"><strong> {{ item.temp }} °{{ config["UNIT"] }}  </strong>
 
                         <div ng-if="item.state == 'A'" class="btn-group" uib-dropdown keyboard-nav>
                             <button id="simple-btn-keyboard-nav" type="button" class="btn btn-primary btn-xs"
@@ -61,7 +61,7 @@
 
 
                     </div>
-                    <div>
+                    <div class="stepItem">
                         <small> {{ item.timer }} min</small>
                         <small ng-if="item.timer_start">
                             <br>
