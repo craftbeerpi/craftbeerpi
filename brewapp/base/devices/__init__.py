@@ -1,1 +1,1 @@
-__all__ = ["dummygpio", "gembird", "gpio", "piface", "wifisocket"]
+__all__ = ["dummygpio", "gembird", "gpio", "piface", "wifisocket", "chip_gpio"]
