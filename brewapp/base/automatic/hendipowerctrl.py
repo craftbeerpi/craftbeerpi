@@ -1,6 +1,12 @@
 import time
 from automaticlogic import *
-import RPi.GPIO as GPIO
+
+try:
+    import RPi.GPIO as GPIO
+    app.logger.info("SETUP GPIO Module Loaded")
+except Exception as e:
+    app.logger.error("SETUP GPIO Module " + str(e))
+    pass
 
 
 @brewautomatic()
@@ -16,7 +22,6 @@ class HendiPowerCtrl(Automatic):
         GPIO.setup(self.config["Hendi_Power_GPIO"],GPIO.OUT)
         pwm=GPIO.PWM(self.config["Hendi_Power_GPIO"],100)
         pwm.start(0)
-
 
         while self.isRunning():
             heat_percent = self.getTargetTemp()

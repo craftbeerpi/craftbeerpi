@@ -1,6 +1,13 @@
 import time
 from automaticlogic import *
-import RPi.GPIO as GPIO
+
+
+try:
+    import RPi.GPIO as GPIO
+    app.logger.info("SETUP GPIO Module Loaded")
+except Exception as e:
+    app.logger.error("SETUP GPIO Module " + str(e))
+    pass
 
 
 class PID(object):
@@ -39,9 +46,6 @@ class PID(object):
         self.pi = self.k0 * ek  # + Kc*Ts/Ti * e[k]
         self.pd = self.k1 * (2.0 * PID.xk_1 - xk - PID.xk_2)
         PID.yk += self.pp + self.pi + self.pd
-        print ("------------")
-        print (PID.yk, self.pp, self.pi, self.pd)
-
 
         PID.xk_2 = PID.xk_1  # PV[k-2] = PV[k-1]
         PID.xk_1 = xk    # PV[k-1] = PV[k]
@@ -72,13 +76,11 @@ class HendiPID(Automatic):
         d = float(self.config["D"])
         ts = float(self.config["ts"])
 
-        print (p, i, d)
         pid = PID(ts,p,i,d)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.config["Hendi_Power_GPIO"],GPIO.OUT)
         pwm=GPIO.PWM(self.config["Hendi_Power_GPIO"],100)
         pwm.start(0)
-
 
         while self.isRunning():
             heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
@@ -89,7 +91,6 @@ class HendiPID(Automatic):
                 self.switchHeaterON()
 
             socketio.sleep(ts)
-
 
         self.switchHeaterOFF()
         pwm.ChangeDutyCycle(0)
