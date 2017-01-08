@@ -48,6 +48,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.templog
 
 # Sphinx documentation
 docs/_build/
@@ -59,5 +60,7 @@ target/
 *.db
 
 .idea/*
+
+
 
 *.DS_Store
