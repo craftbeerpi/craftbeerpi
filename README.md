@@ -75,8 +75,6 @@ http://www.homebrewtalk.com.br/showthread.php?t=408096
 
 ## Installation
 
-
-
 ### Raspbian (Noobs)
 
 Here you will find the guide to install Raspbian
