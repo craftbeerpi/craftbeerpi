@@ -3,7 +3,12 @@ The Raspberry PI base Home Brewing Software
 
 Website: www.CraftBeerPI.com
 
+
 Facebook: www.facebook.com/craftbeerpi
+
+
+Facebook User Group: www.facebook.com/groups/craftbeerpi/
+
 
 ## Features
 
@@ -69,8 +74,6 @@ http://www.homebrewtalk.com.br/showthread.php?t=408096
 ![ScreenShot](http://craftbeerpi.com/img/Img1.png)
 
 ## Installation
-
-
 
 ### Raspbian (Noobs)
 
@@ -146,7 +149,16 @@ After this you will asked for the MashTun and the Boil kettle of the brew.
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
 ![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
 
+## Use with CHIP computer
 
+NextThing Co sells the [C.H.I.P. Computer](https://www.nextthing.co/pages/chip)
+which offers similar functionality to a RaspberryPI.  It is less expensive however,
+and has 4GB storage plus wifi built in.  Access to GPIO is available, and 1wire
+thermometer devices are supported as well.
+
+The 1wire device must send data in through port LCD-D2.
+
+GPIO pin names can be found at [https://github.com/xtacocorex/CHIP_IO](https://github.com/xtacocorex/CHIP_IO)
 
 
 ## Start CraftBeerPI in Kiosk Mode

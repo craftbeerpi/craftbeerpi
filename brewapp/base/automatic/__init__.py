@@ -6,3 +6,5 @@ import pump
 import overshoot_advanced
 import hyteresis
 import pidpumpboil
+import hendipid
+import hendipowerctrl
