@@ -68,6 +68,8 @@ class PIDAutotune(object):
             raise ValueError('outputstep must be greater or equal to 1')
         if lookbacksec < 1:
             raise ValueError('lookbacksec must be greater or equal to 1')
+        if outputMin >= outputMax:
+            raise ValueError('outputMin must be less than outputMax')
 
         if lookbacksec < 25:
             self._inputs = deque(maxlen=lookbacksec * 4)
