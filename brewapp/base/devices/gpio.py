@@ -41,7 +41,7 @@ class BrewGPIO(ActorBase):
             app.logger.info("ALL GPIO INITIALIZED")
 
         except Exception as e:
-            app.logger.error("SETUP GPIO FAILD " + str(e))
+            app.logger.error("SETUP GPIO FAILED " + str(e))
             app.brewapp_gpio = False
             self.state = False
 
@@ -49,7 +49,7 @@ class BrewGPIO(ActorBase):
         try:
             GPIO.cleanup()
         except Exception as e:
-            app.logger.error("CLEAN UP OF GPIO FAILD " + str(e))
+            app.logger.error("CLEAN UP OF GPIO FAILED " + str(e))
 
     def getDevices(self):
         gpio = []
