@@ -18,11 +18,11 @@ from automaticlogic import *
 class PWM_Step_Up(Automatic):
 
    configparameter = [
-      {"name":"Duty Cycle 1 (%)", "value":90},
-      {"name":"Period (seconds) for DC 1", "value":10},
-      {"name":"Temp from target to start DC 2", "value":5},
+      {"name":"Duty Cycle 1 (%)", "value":100},
+      {"name":"Period (seconds) for DC 1", "value":1},
+      {"name":"Temp from target to start DC 2", "value":2},
       {"name":"Duty Cycle 2 (%)", "value":50},
-      {"name":"Period (seconds) for DC 2", "value":10}]
+      {"name":"Period (seconds) for DC 2", "value":1}]
 
    def run(self):
       temp_difference = float(self.config["Temp from target to start DC 2"])
