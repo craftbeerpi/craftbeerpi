@@ -1,5 +1,6 @@
 import time
 import math
+import logging
 from collections import deque
 from collections import namedtuple
 from brewapp import app, socketio
@@ -60,7 +61,7 @@ class PIDAutotune(object):
         "no-overshoot": [100, 40,  60]
     }
 
-    def __init__(self, setpoint, outputstep=10, lookbacksec=10, noiseband=0.5,
+    def __init__(self, setpoint, outputstep=10, lookbacksec=10, noiseband=0.5, getTimeMs=None,
                  outputMin=float('-inf'), outputMax=float('inf')):
         if setpoint is None:
             raise ValueError('setpoint must be specified')
@@ -78,6 +79,7 @@ class PIDAutotune(object):
             self._inputs = deque(maxlen=100)
             self._sampleTime = lookbacksec * 10
 
+        self._logger = logging.getLogger(type(self).__name__)
         self._setpoint = setpoint
         self._outputstep = outputstep
         self._noiseband = noiseband
@@ -97,6 +99,11 @@ class PIDAutotune(object):
         self._Ku = 0
         self._Pu = 0
 
+        if getTimeMs is None:
+            self._getTimeMs = PIDAutotune._currentTimeMs
+        else:
+            self._getTimeMs = getTimeMs
+
     @property
     def state(self):
         return self._state
@@ -107,7 +114,7 @@ class PIDAutotune(object):
 
     @property
     def tuningRules(self):
-        return self._tuning_rules.keys
+        return self._tuning_rules.keys()
 
     def getPIDParameters(self, tuningRule='ziegler-nichols'):
         divisors = self._tuning_rules[tuningRule]
@@ -117,7 +124,7 @@ class PIDAutotune(object):
         return PIDAutotune.PIDParams(kp, ki, kd)
 
     def run(self, inputValue):
-        now = PIDAutotune._currentTimeMs()
+        now = self._getTimeMs()
 
         if (self._state == PIDAutotune.STATE_OFF
                 or self._state == PIDAutotune.STATE_SUCCEEDED
@@ -132,9 +139,11 @@ class PIDAutotune(object):
         if (self._state == PIDAutotune.STATE_RELAY_STEP_UP
                 and inputValue > self._setpoint + self._noiseband):
             self._state = PIDAutotune.STATE_RELAY_STEP_DOWN
+            self._logger.debug('switched state: {0}'.format(self._state))
         elif (self._state == PIDAutotune.STATE_RELAY_STEP_DOWN
                 and inputValue < self._setpoint - self._noiseband):
             self._state = PIDAutotune.STATE_RELAY_STEP_UP
+            self._logger.debug('switched state: {0}'.format(self._state))
 
         # set output
         if (self._state == PIDAutotune.STATE_RELAY_STEP_UP):
@@ -182,6 +191,8 @@ class PIDAutotune(object):
             self._peakCount += 1
             self._peaks.append(inputValue)
             self._peakTimestamps.append(now)
+            self._logger.debug('found peak: {0}'.format(inputValue))
+            self._logger.debug('peak count: {0}'.format(self._peakCount))
 
         # check for convergence of induced oscillation
         # convergence of amplitude assessed on last 4 peaks (1.5 cycles)
@@ -200,6 +211,9 @@ class PIDAutotune(object):
             # check convergence criterion for amplitude of induced oscillation
             amplitudeDev = ((0.5 * (absMax - absMin) - self._inducedAmplitude)
                             / self._inducedAmplitude)
+
+            self._logger.debug('amplitude: {0}'.format(self._inducedAmplitude))
+            self._logger.debug('amplitude deviation: {0}'.format(amplitudeDev))
 
             if amplitudeDev < PIDAutotune.PEAK_AMPLITUDE_TOLERANCE:
                 self._state = PIDAutotune.STATE_SUCCEEDED

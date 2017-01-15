@@ -1,4 +1,5 @@
 import time
+import logging
 from brewapp import app, socketio
 from automaticlogic import *
 
@@ -18,7 +19,7 @@ class PIDArduinoLogic(Automatic):
         p = float(self.config["P"])
         i = float(self.config["I"])
         d = float(self.config["D"])
-        pid = PIDArduino(wait_time, p, i, d)
+        pid = PIDArduino(wait_time, p, i, d, 0, 100)
 
         while self.isRunning():
             heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
@@ -34,8 +35,8 @@ class PIDArduinoLogic(Automatic):
 # See https://github.com/br3ttb/Arduino-PID-Library
 class PIDArduino(object):
 
-    def __init__(self, kp, ki, kd, sampleTimeSec,
-                 outputMin=float('-inf'), outputMax=float('inf')):
+    def __init__(self, sampleTimeSec, kp, ki, kd, outputMin=float('-inf'),
+                 outputMax=float('inf'), getTimeMs=None):
         if kp is None:
             raise ValueError('kp must be specified')
         if ki is None:
@@ -47,6 +48,7 @@ class PIDArduino(object):
         if outputMin >= outputMax:
             raise ValueError('outputMin must be less than outputMax')
 
+        self._logger = logging.getLogger(type(self).__name__)
         self._Kp = kp
         self._Ki = ki * sampleTimeSec
         self._Kd = kd / sampleTimeSec
@@ -58,8 +60,13 @@ class PIDArduino(object):
         self._lastOutput = 0
         self._lastCalc = 0
 
+        if getTimeMs is None:
+            self._getTimeMs = PIDArduino._currentTimeMs
+        else:
+            self._getTimeMs = getTimeMs
+
     def calc(self, inputValue, setpoint):
-        now = PIDArduino._currentTimeMs()
+        now = self._getTimeMs()
 
         if (now - self._lastCalc) < self._sampleTime:
             return self._lastOutput
@@ -71,12 +78,20 @@ class PIDArduino(object):
         self._iTerm = max(self._iTerm, self._outputMin)
         dInput = inputValue - self._lastInput
 
+        p = self._Kp * error
+        i = self._iTerm
+        d = -(self._Kd * dInput)
+
         # Compute PID Output
-        self._lastOutput = self._Kp * error + self._iTerm - self._Kd * dInput
+        self._lastOutput = p + i + d
         self._lastOutput = min(self._lastOutput, self._outputMax)
         self._lastOutput = max(self._lastOutput, self._outputMin)
 
-        # Remember some variables for next time*/
+        self._logger.debug('P: {0}'.format(p))
+        self._logger.debug('I: {0}'.format(i))
+        self._logger.debug('D: {0}'.format(d))
+
+        # Remember some variables for next time
         self._lastInput = inputValue
         self._lastCalc = now
         return self._lastOutput
