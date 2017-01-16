@@ -40,7 +40,10 @@ class PWM_Step_Up(Automatic):
          heating_time2 = period2 * dutycycle2 / 100
          wait_time2 = period2 - heating_time2
 
-         if current_temp < (temp_setpoint - temp_difference):
+         if current_temp > temp_setpoint:
+            self.switchHeaterOFF()
+            socketio.sleep(heating_time1)
+         elif current_temp < (temp_setpoint - temp_difference):
             self.switchHeaterON()
             socketio.sleep(heating_time1)
             self.switchHeaterOFF()
@@ -50,5 +53,4 @@ class PWM_Step_Up(Automatic):
             socketio.sleep(heating_time2)
             self.switchHeaterOFF()
             socketio.sleep(wait_time2)
-
       self.switchHeaterOFF()
