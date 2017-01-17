@@ -71,7 +71,7 @@ class PIDAutotune(object):
         "pessen-integral": [28, 50, 133],
         "some-overshoot": [60, 40,  60],
         "no-overshoot": [100, 40,  60],
-        "brewing": [2, 3, 3600]
+        "brewing": [2.5, 3, 3600]
     }
 
     def __init__(self, setpoint, outputstep=10, sampleTimeSec=5, lookbackSec=60,

@@ -6,20 +6,25 @@ from automaticlogic import *
 
 @brewautomatic()
 class PIDArduinoLogic(Automatic):
+    KEY_P = "P"
+    KEY_I = "I"
+    KEY_D = "D"
+    KEY_MAXOUT = "max. output %"
 
     configparameter = [
-            {"name": "P", "value": 44},
-            {"name": "I", "value": 165},
-            {"name": "D", "value": 4},
-            {"name": "wait_time", "value": 5}]
+            {"name": KEY_P, "value": 44},
+            {"name": KEY_I, "value": 0.045},
+            {"name": KEY_D, "value": 36},
+            {"name": KEY_MAXOUT, "value": 100}]
 
     def run(self):
         sampleTime = 5
-        wait_time = float(self.config["wait_time"])
-        p = float(self.config["P"])
-        i = float(self.config["I"])
-        d = float(self.config["D"])
-        pid = PIDArduino(wait_time, p, i, d, 0, 100)
+        wait_time = 5
+        p = float(self.config[self.KEY_P])
+        i = float(self.config[self.KEY_I])
+        d = float(self.config[self.KEY_D])
+        maxout = float(self.config[self.KEY_MAXOUT])
+        pid = PIDArduino(sampleTime, p, i, d, 0, maxout)
 
         while self.isRunning():
             heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
@@ -61,7 +66,7 @@ class PIDArduino(object):
         self._lastCalc = 0
 
         if getTimeMs is None:
-            self._getTimeMs = PIDArduino._currentTimeMs
+            self._getTimeMs = self._currentTimeMs
         else:
             self._getTimeMs = getTimeMs
 
@@ -73,10 +78,13 @@ class PIDArduino(object):
 
         # Compute all the working error variables
         error = setpoint - inputValue
-        self._iTerm += self._Ki * error
-        self._iTerm = min(self._iTerm, self._outputMax)
-        self._iTerm = max(self._iTerm, self._outputMin)
         dInput = inputValue - self._lastInput
+
+        # In order to prevent windup, only integrate if the process is not saturated
+        if self._lastOutput < self._outputMax and self._lastOutput > self._outputMin:
+            self._iTerm += self._Ki * error
+            self._iTerm = min(self._iTerm, self._outputMax)
+            self._iTerm = max(self._iTerm, self._outputMin)
 
         p = self._Kp * error
         i = self._iTerm
@@ -87,14 +95,16 @@ class PIDArduino(object):
         self._lastOutput = min(self._lastOutput, self._outputMax)
         self._lastOutput = max(self._lastOutput, self._outputMin)
 
+        # Log some debug info
         self._logger.debug('P: {0}'.format(p))
         self._logger.debug('I: {0}'.format(i))
         self._logger.debug('D: {0}'.format(d))
+        self._logger.debug('output: {0}'.format(self._lastOutput))
 
         # Remember some variables for next time
         self._lastInput = inputValue
         self._lastCalc = now
         return self._lastOutput
 
-    def _currentTimeMs():
+    def _currentTimeMs(self):
         return time.time() * 1000
