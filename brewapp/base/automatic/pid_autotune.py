@@ -1,6 +1,7 @@
 import time
 import math
 import logging
+import io
 from collections import deque
 from collections import namedtuple
 from brewapp import app, socketio
@@ -9,18 +10,23 @@ from automaticlogic import *
 
 @brewautomatic()
 class PIDAutotuneLogic(Automatic):
+    KEY_OUTSTEP = "output step %"
+    KEY_MAXOUT = "max. output %"
+    KEY_LOOKBACK = "lookback seconds"
 
     configparameter = [
-            {"name": "P", "value": 0},
-            {"name": "I", "value": 0},
-            {"name": "D", "value": 0},
-            {"name": "wait_time", "value": 10}]
+            {"name": KEY_OUTSTEP, "value": 100},
+            {"name": KEY_MAXOUT, "value": 100},
+            {"name": KEY_LOOKBACK, "value": 30}]
 
     def run(self):
         sampleTime = 5
-        wait_time = float(self.config["wait_time"])
+        wait_time = 5
+        outstep = float(self.config[self.KEY_OUTSTEP])
+        outmax = float(self.config[self.KEY_MAXOUT])
+        lookbackSec = float(self.config[self.KEY_LOOKBACK])
         setpoint = self.getTargetTemp()
-        atune = PIDAutotune(setpoint=setpoint, outputstep=25, outputMin=0, outputMax=100)
+        atune = PIDAutotune(setpoint, outstep, sampleTime, lookbackSec, 0, outmax)
 
         while self.isRunning() and not atune.run(self.getCurrentTemp()):
             heat_percent = atune.output
@@ -31,12 +37,18 @@ class PIDAutotuneLogic(Automatic):
             self.switchHeaterOFF()
             socketio.sleep(wait_time)
 
+        app.brewapp_kettle_state[self.kid]["automatic"] = False
         stopPID(self.kid)
+        socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
+
         if atune.state == atune.STATE_SUCCEEDED:
-            params = atune.getPIDParameters('no-overshoot')
-            self.config['P'] = params.Kp
-            self.config['I'] = params.Ki
-            self.config['D'] = params.Kd
+            with io.FileIO('pidparams.txt', 'w') as file:
+                for rule in atune.tuningRules:
+                    params = atune.getPIDParameters(rule)
+                    file.write('rule: {0}\n'.format(rule))
+                    file.write('P: {0}\n'.format(params.Kp))
+                    file.write('I: {0}\n'.format(params.Ki))
+                    file.write('D: {0}\n\n'.format(params.Kd))
 
 
 # Based on a fork of Arduino PID AutoTune Library
@@ -58,28 +70,26 @@ class PIDAutotune(object):
         "ciancone-marlin": [66, 88, 162],
         "pessen-integral": [28, 50, 133],
         "some-overshoot": [60, 40,  60],
-        "no-overshoot": [100, 40,  60]
+        "no-overshoot": [100, 40,  60],
+        "brewing": [2, 3, 3600]
     }
 
-    def __init__(self, setpoint, outputstep=10, lookbacksec=10, noiseband=0.5, getTimeMs=None,
-                 outputMin=float('-inf'), outputMax=float('inf')):
+    def __init__(self, setpoint, outputstep=10, sampleTimeSec=5, lookbackSec=60,
+                 outputMin=float('-inf'), outputMax=float('inf'), noiseband=0.5, getTimeMs=None):
         if setpoint is None:
             raise ValueError('setpoint must be specified')
         if outputstep < 1:
             raise ValueError('outputstep must be greater or equal to 1')
-        if lookbacksec < 1:
-            raise ValueError('lookbacksec must be greater or equal to 1')
+        if sampleTimeSec < 1:
+            raise ValueError('sampleTimeSec must be greater or equal to 1')
+        if lookbackSec < sampleTimeSec:
+            raise ValueError('lookbackSec must be greater or equal to sampleTimeSec')
         if outputMin >= outputMax:
             raise ValueError('outputMin must be less than outputMax')
 
-        if lookbacksec < 25:
-            self._inputs = deque(maxlen=lookbacksec * 4)
-            self._sampleTime = 250
-        else:
-            self._inputs = deque(maxlen=100)
-            self._sampleTime = lookbacksec * 10
-
         self._logger = logging.getLogger(type(self).__name__)
+        self._inputs = deque(maxlen=round(lookbackSec / sampleTimeSec))
+        self._sampleTime = sampleTimeSec * 1000
         self._setpoint = setpoint
         self._outputstep = outputstep
         self._noiseband = noiseband
@@ -100,7 +110,7 @@ class PIDAutotune(object):
         self._Pu = 0
 
         if getTimeMs is None:
-            self._getTimeMs = PIDAutotune._currentTimeMs
+            self._getTimeMs = self._currentTimeMs
         else:
             self._getTimeMs = getTimeMs
 
@@ -140,10 +150,12 @@ class PIDAutotune(object):
                 and inputValue > self._setpoint + self._noiseband):
             self._state = PIDAutotune.STATE_RELAY_STEP_DOWN
             self._logger.debug('switched state: {0}'.format(self._state))
+            self._logger.debug('input: {0}'.format(inputValue))
         elif (self._state == PIDAutotune.STATE_RELAY_STEP_DOWN
                 and inputValue < self._setpoint - self._noiseband):
             self._state = PIDAutotune.STATE_RELAY_STEP_UP
             self._logger.debug('switched state: {0}'.format(self._state))
+            self._logger.debug('input: {0}'.format(inputValue))
 
         # set output
         if (self._state == PIDAutotune.STATE_RELAY_STEP_UP):
@@ -160,10 +172,8 @@ class PIDAutotune(object):
         isMin = True
 
         for val in self._inputs:
-            if isMax:
-                isMax = (inputValue >= val)
-            if isMin:
-                isMin = (inputValue <= val)
+            isMax = isMax and (inputValue >= val)
+            isMin = isMin and (inputValue <= val)
 
         self._inputs.append(inputValue)
 
@@ -239,7 +249,7 @@ class PIDAutotune(object):
 
         return False
 
-    def _currentTimeMs():
+    def _currentTimeMs(self):
         return time.time() * 1000
 
     def _initTuner(self, inputValue, timestamp):
