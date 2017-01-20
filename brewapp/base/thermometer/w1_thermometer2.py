@@ -12,7 +12,7 @@ class OneWireThermometer2(object):
     MAX_SENSOR_ID = "maximum"
 
     def __init__(self):
-        self.__filters = {}
+        self._filters = {}
 
     def init(self):
         try:
@@ -24,7 +24,7 @@ class OneWireThermometer2(object):
 
     def getSensors(self):
         try:
-            arr = self.__listW1Sensors()
+            arr = self._listW1Sensors()
             arr.extend([self.AVERAGE_SENSOR_ID, self.MAX_SENSOR_ID])
             return arr
         except:
@@ -32,20 +32,20 @@ class OneWireThermometer2(object):
 
     def readTemp(self, tempSensorId):
         if tempSensorId == self.AVERAGE_SENSOR_ID:
-            return self.__getAverageTemp()
+            return self._getAverageTemp()
         elif tempSensorId == self.MAX_SENSOR_ID:
-            return self.__getMaxTemp()
+            return self._getMaxTemp()
         else:
-            return self.__getSensorValue(tempSensorId)
+            return self._getSensorValue(tempSensorId)
 
-    def __listW1Sensors(self):
+    def _listW1Sensors(self):
         arr = []
         for dirname in os.listdir('/sys/bus/w1/devices'):
             if(dirname.startswith("28") or dirname.startswith("10")):
                 arr.append(dirname)
         return arr
 
-    def __getSensorValue(self, tempSensorId):
+    def _getSensorValue(self, tempSensorId):
         value = None
         path = "/sys/bus/w1/devices/w1_bus_master1/" + tempSensorId + "/w1_slave"
 
@@ -57,20 +57,20 @@ class OneWireThermometer2(object):
                 m = re.match(r"([0-9a-f]{2} ){9}t=([+-]?[0-9]+)", line)
                 if m:
                     value = float(m.group(2)) / 1000.0
-                    if tempSensorId not in self.__filters:
-                        self.__filters[tempSensorId] = TemperatureFilter()
-                    value = self.__filters[tempSensorId].filterTemperature(value)
+                    if tempSensorId not in self._filters:
+                        self._filters[tempSensorId] = TemperatureFilter()
+                    value = self._filters[tempSensorId].filterTemperature(value)
             f.close()
         except Exception as e:
             app.logger.warning("Read temp failed " + str(e))
 
         return value
 
-    def __getAverageTemp(self):
+    def _getAverageTemp(self):
         value = 0
         count = 0
-        for sensor in self.__listW1Sensors():
-            value += self.__getSensorValue(sensor)
+        for sensor in self._listW1Sensors():
+            value += self._getSensorValue(sensor)
             count += 1
 
         if count == 0:
@@ -78,11 +78,11 @@ class OneWireThermometer2(object):
         else:
             return value / count
 
-    def __getMaxTemp(self):
+    def _getMaxTemp(self):
         value = sys.float_info.min
 
-        for sensor in self.__listW1Sensors():
-            tmp = self.__getSensorValue(sensor)
+        for sensor in self._listW1Sensors():
+            tmp = self._getSensorValue(sensor)
             if tmp > value:
                 value = tmp
 
