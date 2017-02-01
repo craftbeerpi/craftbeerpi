@@ -7,4 +7,6 @@ import overshoot_advanced
 import hyteresis
 import hendipid
 import hendipowerctrl
+import pid_arduino
+import pid_autotune
 import pwmstep
