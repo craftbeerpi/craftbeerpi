@@ -33,6 +33,13 @@
                         ng-selected="item.kettleid == t.key">{{ t.value }}</option>
             </select>
         </div>
+        <div class="form-group">
+            <label>{{ 'ALARM' | translate }}</label>
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="item.alarm" uib-btn-radio="'Y'">YES</label>
+                <label class="btn btn-primary" ng-model="item.alarm" uib-btn-radio="'N'">No</label>
+            </div>       
+        </div>
     </form>
 </div>
 </div>
