@@ -630,6 +630,11 @@ function DashboardStepController($scope, $rootScope, CBPSteps, ConfirmMessage, m
         console.log(data)
         $scope.steps = data;
     });
+    
+    $scope.$on('socket:end_alarm', function (ev, data) {        
+        console.log(data);
+        show_SoundMessage(data["alarmtyp"]);
+    });
 
 
 
