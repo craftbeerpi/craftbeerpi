@@ -130,5 +130,6 @@
   "SETTINGS": "Einstellungen",
   "PLS_SELECT_KETTLES": "Bitte Kessel auswählen",
   "MASH": "Maische",
-  "BOIL": "Koch"
+  "BOIL": "Koch",
+  "ALARM": "Brauerruf"
 }
