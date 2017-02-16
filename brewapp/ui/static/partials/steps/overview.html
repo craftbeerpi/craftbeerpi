@@ -22,12 +22,9 @@
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu"
                                 aria-labelledby="simple-btn-keyboard-nav">
                                 <li><a href="#/kbh">{{ 'KBH' | translate }}</a></li>
-                                <li><a href="#/beerxml">{{ 'BEER_XML' | translate }}</a></li>
+                                <li><a ng-click="calcVolume(v)">{{ 'BEER_XML' | translate }}</a></li>
                             </ul>
                         </div>
-
-
-
                     </div>
 
 
@@ -42,7 +39,7 @@
                         <th><i class="wi wi-thermometer"></i></th>
                         <th><i class="fa fa-clock-o" aria-hidden="true"></i></th>
                         <th><i class="fa fa-trash-o" aria-hidden="true"></i></th>
-
+                        <th>{{ 'ALARM' | translate }}</th>
                     </tr>
                     </thead>
                     <tbody ui-tree-nodes ng-model="steps">
@@ -64,17 +61,14 @@
                         <td>
                             {{ node.kettleid | kettle_name:kettles_name}}
                         </td>
+                        <td>
+                            <span class="badge" ng-if="node.alarm == 'Y'">{{ node.alarm }}</span>
+                        </td>                        
                     </tr>
                     </tbody>
                 </table>
 
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
