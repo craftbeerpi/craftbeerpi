@@ -21,6 +21,7 @@ function mySocket (socketFactory) {
   mySocket.forward('fermenter_update');
   mySocket.forward('fermenter_state_update');
   mySocket.forward('hydrometer_update');
+  mySocket.forward('end_alarm');
 
   return mySocket;
 }
