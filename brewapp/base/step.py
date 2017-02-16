@@ -187,12 +187,22 @@ def stepjob():
         now = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
         ## switch to next step if timer is over
         if(end < now ):
-
+            
+            test = getLastID()
+            
             if(cs.get("type") == 'A'):
+                if(app.brewapp_config["END_ALARM"] == "Yes" and app.brewapp_current_step["id"] == test):
+                    socketio.emit('end_alarm', {"alarmtyp": 0}, namespace ='/brew') 
+                elif(app.brewapp_current_step["alarm"] == "Y"):
+                    socketio.emit('end_alarm', {"alarmtyp": 1}, namespace ='/brew')
                 nextStep()
             if(cs.get("type") == 'M' and app.brewapp_current_step.get("finished", False) == False):
                 nextStepBeep()
-
+                if(app.brewapp_config["END_ALARM"] == "Yes" and app.brewapp_current_step["id"] == test):
+                    socketio.emit('end_alarm', {"alarmtyp": 0}, namespace ='/brew') 
+                elif(app.brewapp_current_step["alarm"] == "Y"):
+                    socketio.emit('end_alarm', {"alarmtyp": 1}, namespace ='/brew')
+                    
                 app.brewapp_current_step["finished"] = True
 
 def getSteps():
@@ -207,3 +217,9 @@ def getSteps():
             o["end"] = o["end"]  + "+00:00"
     '''
     return steps
+
+def getLastID():
+    steps = getAsArray(Step, order = "order")
+    for o in steps:
+        test = o["id"]
+    return test
