@@ -71,3 +71,9 @@ WIFI_SOCKET_USER:
 WIFI_SOCKET_PASSWORD:
   value: 12345
   description: 'password for wifi socket'
+  
+END_ALARM:
+  value: 'Yes'
+  options: ['Yes', 'No']
+  description: 'Alarming at the end'
+  
