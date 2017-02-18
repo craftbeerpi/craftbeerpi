@@ -8,3 +8,5 @@ import hyteresis
 import hendipid
 import hendipowerctrl
 import pwm
+import pid_arduino
+import pid_autotune
