@@ -555,7 +555,7 @@ function StepOverviewController($scope, $controller, CBPSteps, CBPKettle, $uibMo
 
     $scope.create = function () {
         console.log("NEW")
-        $scope.item = angular.copy({"type": "A", "state": "I", "kettleid": 0});
+        $scope.item = angular.copy({"type": "A", "state": "I", "kettleid": 0, "alarm": "N"});
         $scope.edit_mode = false;
         $scope.headline = "CREATE_STEP";
         var modalInstance = $uibModal.open({
