@@ -150,13 +150,15 @@ def read_temp_log(file):
     if os.path.isfile(file) == False:
         return result
     with open(file, 'rb') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            #print row
-            time = int((datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
-            result["temp"].append([time, float(row[1])])
-
-            result["target_temp"].append([time, float(row[2])])
+        try:
+            reader = csv.reader(f)        
+            for row in reader:
+                ## print row
+                time = int((datetime.datetime.strptime(row[0], "%Y-%m-%d %H:%M:%S") - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
+                result["temp"].append([time, float(row[1])])
+                result["target_temp"].append([time, float(row[2])])
+        except :
+            pass
     return result
 
 
