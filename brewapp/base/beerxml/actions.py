@@ -25,7 +25,11 @@ def getSteps(id):
     e = xml.etree.ElementTree.parse(BEER_XML_FILE).getroot()
     steps = []
     for e in e.findall('./RECIPE[%s]/MASH/MASH_STEPS/MASH_STEP' % (str(id))):
-        steps.append({"name": e.find("NAME").text, "temp": e.find("STEP_TEMP").text, "timer": e.find("STEP_TIME").text})
+        if app.brewapp_config.get("UNIT", "C") == "F":
+            step_temp = format(9.0/5.0 * float(e.find("STEP_TEMP").text) + 32, 'f')
+        else:
+            step_temp = e.find("STEP_TEMP").text
+        steps.append({"name": e.find("NAME").text, "temp": step_temp, "timer": e.find("STEP_TIME").text})
 
     return steps
 
@@ -92,7 +96,11 @@ def selectFromBeerXML(id):
 
         s = newStep("Chilling", order, "M", "I", 0, 15, 0)
         order +=1
-        s = newStep("Boil", order, "A", "I", 99, getBoilTime(int(id)), data['boil'])
+        if app.brewapp_config.get("UNIT", "C") == "F":
+            boil_temp = 210
+        else:
+            boil_temp = 99
+        s = newStep("Boil", order, "A", "I", boil_temp, getBoilTime(int(id)), data['boil'])
         order +=1
 
         ## Add Whirlpool step
