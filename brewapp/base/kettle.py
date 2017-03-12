@@ -100,8 +100,11 @@ def initKettle():
 
 @brewjob(key="kettle", interval=5)
 def kettlejob():
+
     for id in app.brewapp_kettle_state:
         k = app.brewapp_kettle_state[id]
-        temp = app.brewapp_thermometer_last[int(k["sensorid"])]
+        if k["sensorid"] is None or k["sensorid"] == "":
+            continue
+        temp = app.brewapp_thermometer_last.get(int(k["sensorid"]),0)
         timestamp = int((datetime.datetime.utcnow() - datetime.datetime(1970, 1, 1)).total_seconds()) * 1000
         writeTempToFile("K_" + str(id), timestamp, temp, k["target_temp"])
