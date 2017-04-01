@@ -1,23 +1,37 @@
+import os
 from brewapp import app
 from brewapp.base.actor import ActorBase
 from brewapp.base.model import *
 
-try:
-    import RPi.GPIO as GPIO
-    app.logger.info("SETUP GPIO Module Loaded")
-except Exception as e:
-    app.logger.error("SETUP GPIO Module " + str(e))
-    pass
+GPIO_PATH = '/sys/class/gpio'
+GPIO_MAX  = 200
+GPIO_MIN  = 0
+GPIO_HIGH = '1'
+GPIO_LOW  = '0'
+GPIO_IN   = 'in'
+GPIO_OUT  = 'out'
 
-class BrewGPIO(ActorBase):
+class GPIOSys(ActorBase):
+
+    def setup(self, device, value):
+        #echo <GPIO#>  > /sys/class/gpio/export
+        #echo "in/out" > /sys/class/gpio/gpio<#>/direction
+        if not os.path.exists(GPIO_PATH + ('/gpio%d' % device)):
+            with open(GPIO_PATH + '/export', 'w') as fp:
+                fp.write(str(device))
+        with open( GPIO_PATH + ('/gpio%d/direction' % device), 'w') as fp:
+            fp.write(value)
+
+    def output(self, device, value):
+        #echo "1/0" > /sys/class//gpiogpio<#>/value
+        with open(GPIO_PATH + ('/gpio%d/value' % device), 'w') as fp:
+            fp.write(value)
 
     def init(self):
         app.logger.info("INIT GPIO")
         try:
-            GPIO.setmode(GPIO.BCM)
             app.logger.info(app.brewapp_hardware_config)
             for h in app.brewapp_hardware_config:
-
 
                 hw = app.brewapp_hardware_config[h];
                 app.logger.info(hw)
@@ -27,14 +41,14 @@ class BrewGPIO(ActorBase):
 
                 if(g != None):
                     app.logger.info("SETUP HARDWARE: " + str(h) + " GPIO: " + str(g))
-                    GPIO.setup(g, GPIO.OUT)
+                    self.setup(g, GPIO_OUT)
 
                     if(self.getConfigValue(h, "inverted", False)):
                         app.logger.warning("SETUP INVERTED")
-                        GPIO.output(g, 1)
+                        self.output(g, GPIO_HIGH)
                     else:
                         app.logger.warning("SETUP NOT INVERTED")
-                        GPIO.output(g, 0)
+                        self.output(g, GPIO_LOW)
 
             app.brewapp_gpio = True
             self.state = True
@@ -46,14 +60,16 @@ class BrewGPIO(ActorBase):
             self.state = False
 
     def cleanup(self):
-        try:
-            GPIO.cleanup()
-        except Exception as e:
-            app.logger.error("CLEAN UP OF GPIO FAILED " + str(e))
+        # Turn off switches?
+        # try:
+        #     GPIO.cleanup()
+        # except Exception as e:
+        #     app.logger.error("CLEAN UP OF GPIO FAILED " + str(e))
+        pass
 
     def getDevices(self):
         gpio = []
-        for i in range(2, 28):
+        for i in range(GPIO_MIN, GPIO_MAX):
             gpio.append("GPIO"+str(i))
         return gpio
 
@@ -75,10 +91,10 @@ class BrewGPIO(ActorBase):
 
             if self.getConfigValue(device, "inverted", False) :
                 app.logger.warning("SWITCH ON - Inverted")
-                GPIO.output(gpio, 0)
+                self.output(gpio, GPIO_LOW)
             else:
                 app.logger.warning("SWITCH ON - Not Inverted")
-                GPIO.output(gpio, 1)
+                self.output(gpio, GPIO_HIGH)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched on" + str(device))
@@ -96,10 +112,11 @@ class BrewGPIO(ActorBase):
 
             if(self.getConfigValue(device, "inverted", False)):
                 app.logger.warning("SWITCH OFF - Inverted")
-                GPIO.output(gpio, 1)
+                self.output(gpio, GPIO_HIGH)
             else:
                 app.logger.warning("SWITCH OFF - Not Inverted")
-                GPIO.output(gpio, 0)
+                self.output(gpio, GPIO_LOW)
             pass
         else:
             app.logger.warning("GPIO TEST MODE ACTIVE. GPIO is not switched off" + str(device))
+

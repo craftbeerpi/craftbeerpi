@@ -84,7 +84,11 @@ function routes($stateProvider, $urlRouterProvider) {
             templateUrl: "/ui/static/partials/hardware/overview.html",
             parent: 'main'
         })
-
+        .state('beerxml', {
+            url: "/beerxml",
+            templateUrl: "/ui/static/partials/beerxml/overview.html",
+            parent: 'main'
+        })
         .state('kbh', {
             url: "/kbh",
             templateUrl: "/ui/static/partials/kbh/overview.html",

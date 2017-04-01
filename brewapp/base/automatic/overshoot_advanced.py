@@ -42,7 +42,7 @@ class OvershootLogic_by_Norn(Automatic):
             if(currentTemp >= targetTemp and self.state == True and targetTemp == self.setpoint):
                 self.state = False
                 self.switchHeaterOFF()
-            time.sleep(1)
+            socketio.sleep(1)
 
         self.switchHeaterOFF()
         app.logger.info("Stop PID - Kettle Id: "+ str(self.kid))

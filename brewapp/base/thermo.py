@@ -52,7 +52,7 @@ def readTemp():
                 return
             # UNIT
 
-            print app.brewapp_config.get("UNIT", "C")
+
 
             if app.brewapp_config.get("UNIT", "C") == "F":
                 temp = float(format(9.0/5.0 * temp + 32, '.2f'))

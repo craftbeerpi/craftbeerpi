@@ -351,7 +351,33 @@ function CBPHydrometer($resource) {
     });
 }
 
+function CBPBeerXML($http) {
+    return {
 
+        get: function (okCallback) {
+            $http({
+                method: 'GET',
+                url: '/api/beerxml'
+            }).then(function successCallback(response) {
+                okCallback(response.data);
+            }, function errorCallback(response) {
+
+            });
+        },
+
+        load: function (id, d, okCallback) {
+            $http({
+                method: 'POST',
+                data: d,
+                url: '/api/beerxml/select/' + id
+            }).then(function successCallback(response) {
+                okCallback(response.data);
+            }, function errorCallback(response) {
+
+            });
+        }
+    }
+}
 angular.module("cbpresource", [])
     .factory("CBPKettle", CBPKettle)
     .factory("CBPChart", CBPChart)
@@ -360,8 +386,8 @@ angular.module("cbpresource", [])
     .factory("CBPSteps", CBPSteps)
     .factory("CBPConfig", CBPConfig)
     .factory("Braufhelfer", Braufhelfer)
+    .factory("CBPBeerXML", CBPBeerXML)
     .factory("CBPRecipeBook", CBPRecipeBook)
-
     .service("CBPHydrometer", CBPHydrometer)
     .service("CBPFermenter", CBPFermenter)
     .service("CBPFermenterSteps", CBPFermenterSteps)
