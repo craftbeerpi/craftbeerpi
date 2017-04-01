@@ -57,7 +57,7 @@ WRITE_TEMP_FILE:
 
 THEME:
  value: static/themes/dark-theme.css
- options: ['static/themes/metal-theme.css', 'static/themes/metal2-theme.css', 'static/themes/wood-theme.css', 'static/themes/dark-theme.css', 'static/themes/blue-theme.css', 'static/themes/paper-theme.css','']
+ options: ['static/themes/metal-theme.css', 'static/themes/metal2-theme.css', 'static/themes/wood-theme.css', 'static/themes/dark-theme.css', 'static/themes/blue-theme.css', 'static/themes/paper-theme.css', 'static/themes/black-theme.css', '']
  description: 'Color theme'
 
 WIFI_SOCKET_IP:

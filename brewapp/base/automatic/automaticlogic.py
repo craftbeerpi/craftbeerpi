@@ -33,6 +33,12 @@ class Automatic(object):
 
     def switchHeaterOFF(self):
         switchOff(app.brewapp_kettle_state[self.kid]["heater"])
+        
+    def switchAgitatorON(self):
+        switchOn(app.brewapp_kettle_state[self.kid]["agitator"])
+
+    def switchAgitatorOFF(self):
+        switchOff(app.brewapp_kettle_state[self.kid]["agitator"])
 
     def getConfig(self):
         pass
