@@ -20,7 +20,7 @@ def loadRecipe(id):
     recipe = RecipeBooks.query.get(id);
 
     for a in recipe.steps:
-        s = Step(name=a.name, order=a.order, timer=a.timer, temp=a.temp, type=a.type, state="I", kettleid=a.kettleid)
+        s = Step(name=a.name, order=a.order, timer=a.timer, temp=a.temp, type=a.type, state="I", kettleid=a.kettleid, alarm=a.alarm)
         db.session.add(s)
         db.session.commit()
 
@@ -53,7 +53,7 @@ def save_book():
     s = Step.query.all()
     steps = []
     for a in s:
-        steps.append(RecipeBookSteps(name=a.name, order=a.order, timer=a.timer, temp=a.temp, type=a.type, kettleid=a.kettleid))
+        steps.append(RecipeBookSteps(name=a.name, order=a.order, timer=a.timer, temp=a.temp, type=a.type, kettleid=a.kettleid, alarm=a.alarm))
 
     rb = RecipeBooks(name=data["name"], steps=steps)
     db.session.add(rb)

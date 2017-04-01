@@ -36,6 +36,7 @@
                 <div class="col-xs-7 pad hideOverflow">
                     <div>
                         <span class="badge" style="font-size: 0.8em">{{ item.type }}</span>
+                        <span class="badge" style="font-size: 0.8em" ng-if="item.alarm == 'Y'"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
                         <strong>{{ item.name }}</strong></div>
 
                     <div>
@@ -79,6 +80,25 @@
 
         </li>
     </ul>
+    <script type="text/javascript">
+        function show_SoundMessage(id) {
+            var dummy = document.getElementById("audio");
+            switch(id) {
+                case 0: dummy.src = "static/this_is_the_end_x.mp3";
+                        break;
+                case 1: dummy.src = "static/next_step.mp3";
+                        break;
+                default:
+                        dummy.src = "";                
+            }
+            if(dummy.src != "") dummy.play();
+        }          
+    </script>
+    
+    <audio id="audio" src="" type="audio/mpeg" controls="controls" style="visibility:hidden">
+    Dein Browser macht dies hier leider nicht mit...
+    </audio>
+    
     <div class="text-center" ng-if="steps.length <= 0">
 
         <a href="#/steps" style="margin: 20px;" class="btn btn-lg btn-default">{{ 'SETUP_STEPS_NOW' | translate }} <i

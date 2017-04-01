@@ -14,6 +14,7 @@ class Step(db.Model):
     start = db.Column(db.DateTime())
     end = db.Column(db.DateTime())
     kettleid = db.Column(db.Integer())
+    alarm = db.Column(db.String(1))
 
     def __repr__(self):
         return self.name
@@ -42,6 +43,7 @@ class RecipeBookSteps(db.Model):
     type = db.Column(db.String(1))
     kettleid = db.Column(db.Integer())
     receipe_id = db.Column(db.Integer, db.ForeignKey('recipe_books.id'))
+    alarm = db.Column(db.String(1))
 
     def __repr__(self):
         return self.name
