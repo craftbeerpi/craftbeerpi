@@ -57,7 +57,8 @@ def setHardware():
         'GPIO': gpio.BrewGPIO(),
         'GEMBIRD': gembird.GembirdUSB(),
         'PIFACE': piface.PiFace(),
-        'CHIP-GPIO': chip_gpio.BrewGPIO()
+        'CHIP-GPIO': chip_gpio.BrewGPIO(),
+        'GPIOSYS': gpiosys.GPIOSys()
     }
     app.brewapp_hardware = hardware.get(data["type"], dummygpio.DummyGPIO())
     setConfigParameter("SWITCH_TYPE",data["type"] )

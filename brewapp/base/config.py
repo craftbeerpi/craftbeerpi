@@ -80,7 +80,8 @@ def initDriver():
         'GEMBIRD': gembird.GembirdUSB(),
         'PIFACE': piface.PiFace(),
         'WIFISOCKET': wifisocket.WifiSocket(),
-        'CHIP-GPIO': chip_gpio.BrewGPIO()
+        'CHIP-GPIO': chip_gpio.BrewGPIO(),
+        'GPIOSYS': gpiosys.GPIOSys()
     }
 
     thermometer = {
