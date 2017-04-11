@@ -1,5 +1,5 @@
-import time
 import logging
+from time import time
 from brewapp import app
 from brewapp import socketio
 from automaticlogic import *

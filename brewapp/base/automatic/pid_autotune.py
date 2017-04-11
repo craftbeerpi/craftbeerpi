@@ -1,7 +1,7 @@
-import time
 import math
 import logging
 import io
+from time import time
 from collections import deque
 from collections import namedtuple
 from brewapp import app
