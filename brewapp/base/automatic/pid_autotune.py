@@ -13,6 +13,7 @@ class PIDAutotuneLogic(Automatic):
     KEY_OUTSTEP = "output step %"
     KEY_MAXOUT = "max. output %"
     KEY_LOOKBACK = "lookback seconds"
+    SAMPLETIME = 5
 
     configparameter = [
             {"name": KEY_OUTSTEP, "value": 100},
@@ -20,18 +21,18 @@ class PIDAutotuneLogic(Automatic):
             {"name": KEY_LOOKBACK, "value": 30}]
 
     def run(self):
-        sampleTime = 5
-        wait_time = 5
+        self.SAMPLETIME = 5
+        wait_time = self.SAMPLETIME
         outstep = float(self.config[self.KEY_OUTSTEP])
         outmax = float(self.config[self.KEY_MAXOUT])
         lookbackSec = float(self.config[self.KEY_LOOKBACK])
         setpoint = self.getTargetTemp()
-        atune = PIDAutotune(setpoint, outstep, sampleTime, lookbackSec, 0, outmax)
+        atune = PIDAutotune(setpoint, outstep, self.SAMPLETIME, lookbackSec, 0, outmax)
 
         while self.isRunning() and not atune.run(self.getCurrentTemp()):
             heat_percent = atune.output
-            heating_time = sampleTime * heat_percent / 100
-            wait_time = sampleTime - heating_time
+            heating_time = self.SAMPLETIME * heat_percent / 100
+            wait_time = self.SAMPLETIME - heating_time
             self.switchHeaterON()
             socketio.sleep(heating_time)
             self.switchHeaterOFF()

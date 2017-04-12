@@ -10,26 +10,26 @@ class PIDArduinoLogic(Automatic):
     KEY_I = "I"
     KEY_D = "D"
     KEY_MAXOUT = "max. output %"
+    SAMPLETIME = 5
 
     configparameter = [
-            {"name": KEY_P, "value": 44},
-            {"name": KEY_I, "value": 0.045},
-            {"name": KEY_D, "value": 36},
+            {"name": KEY_P, "value": 107},
+            {"name": KEY_I, "value": 0.9},
+            {"name": KEY_D, "value": 202},
             {"name": KEY_MAXOUT, "value": 100}]
 
     def run(self):
-        sampleTime = 5
-        wait_time = 5
-        p = float(self.config[self.KEY_P])
-        i = float(self.config[self.KEY_I])
-        d = float(self.config[self.KEY_D])
+        wait_time = self.SAMPLETIME
+        kp = float(self.config[self.KEY_P])
+        ki = float(self.config[self.KEY_I])
+        kd = float(self.config[self.KEY_D])
         maxout = float(self.config[self.KEY_MAXOUT])
-        pid = PIDArduino(sampleTime, p, i, d, 0, maxout)
+        pid = PIDArduino(self.SAMPLETIME, kp, ki, kd, 0, maxout)
 
         while self.isRunning():
             heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
-            heating_time = sampleTime * heat_percent / 100
-            wait_time = sampleTime - heating_time
+            heating_time = self.SAMPLETIME * heat_percent / 100
+            wait_time = self.SAMPLETIME - heating_time
             self.switchHeaterON()
             socketio.sleep(heating_time)
             self.switchHeaterOFF()
