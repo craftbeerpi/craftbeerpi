@@ -3,6 +3,13 @@ The Raspberry PI base Home Brewing Software
 
 Website: www.CraftBeerPI.com
 
+
+Facebook: www.facebook.com/craftbeerpi
+
+
+Facebook User Group: www.facebook.com/groups/craftbeerpi/
+
+
 ## Features
 
 * Simple and easy installation script
@@ -19,6 +26,17 @@ Website: www.CraftBeerPI.com
 * Recipe Book
 * Support für GPIO, PiFace or Gembird USB Socket
 * Temperature can be measured in Fahrenheit or Celcius
+* Fermentation Controller
+* Beer.xml Import
+
+You will find lots of pictures of different setup on the CraftBeerPi Facebook Page
+
+## Donation
+
+CraftBeerPi is a free & open source project. If you like to support the project I happy about a donation:
+
+
+[![Donate](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2X9KR98KJ8YZQ)
 
 ## Support & Communities
 
@@ -53,13 +71,9 @@ http://www.homebrewtalk.com.br/showthread.php?t=408096
 
 ## Screenshots
 
-![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Screenshot1.png)
-![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Screenshot2.png)
-
+![ScreenShot](http://craftbeerpi.com/img/Img1.png)
 
 ## Installation
-
-
 
 ### Raspbian (Noobs)
 
@@ -132,7 +146,20 @@ After this you will asked for the MashTun and the Boil kettle of the brew.
 * Raspberry Pi (Model A+, 2 Model B) + Power Cable + SDCard (Pollin.de, Conrad.de, Reichelt.de)
 
 
-![ScreenShot](http://craftbeerpi.com/img/Img1.png)
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup.png)
+![ScreenShot](https://raw.githubusercontent.com/Manuel83/craftbeerpi/master/docs/images/Hardwaresetup2.png)
+
+## Use with CHIP computer
+
+NextThing Co sells the [C.H.I.P. Computer](https://www.nextthing.co/pages/chip)
+which offers similar functionality to a RaspberryPI.  It is less expensive however,
+and has 4GB storage plus wifi built in.  Access to GPIO is available, and 1wire
+thermometer devices are supported as well.
+
+The 1wire device must send data in through port LCD-D2.
+
+GPIO pin names can be found at [https://github.com/xtacocorex/CHIP_IO](https://github.com/xtacocorex/CHIP_IO)
+
 
 ## Start CraftBeerPI in Kiosk Mode
 
@@ -175,30 +202,14 @@ Reboot the Raspberry PI
 sudo reboot
 ```
 
-### Implementing a custom thermometer protocol
-Out of the box CraftBeerPI is supporting 1-wire thermometers.
-But integrating a custom thermometer protocol is quite simple.
+## User Pictures
 
-Just overwrite 3 simple method of the w1_thermometer.py
-
-```
-## This method gets invoked only once during start time.
-## This is the right place if the Thermometer needs to be initialize
-## during server start.
-@brewinit()
-def initThermo():
-    #Custom Code here
-    # no return value
-
-## Define which Thermometers are available
-## Return the id/name of available thermometers as string array
-def getW1Thermometer():
-    ## Custom code here!
-    return ["DummySensor1","DummySensor2"]
-
-## This method gets invoked every 5 seconds for each thermometer
-## Just read the current value and return it a float
-def tempData1Wire(tempSensorId):
-    ## Custom code here!
-    return 100.00
-```
+![ScreenShot](http://craftbeerpi.com/examples/img1.png)
+![ScreenShot](http://craftbeerpi.com/examples/img2.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img3.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img4.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img5.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img6.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img7.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img8.jpg)
+![ScreenShot](http://craftbeerpi.com/examples/img9.jpg)

@@ -16,7 +16,7 @@ class PiFace(ActorBase):
             piface.init()
             self.state = True
         except Exception as e:
-            app.logger.error("SETUP PIFACE FAILD " + str(e))
+            app.logger.error("SETUP PIFACE FAILED " + str(e))
             self.state = False
 
     ## Returns the possible conntores as string

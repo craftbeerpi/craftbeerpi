@@ -49,8 +49,8 @@ def reload_fermenter(id):
 
 
 
-manager.create_api(Fermenter, methods=['GET', 'POST', 'PUT', 'DELETE'], postprocessors={ 'PUT_SINGLE': [post_patch], 'POST': [post_post]})
-manager.create_api(FermenterStep, methods=['GET', 'POST', 'PUT', 'DELETE'], postprocessors={'PUT_SINGLE': [post_patch]})
+manager.create_api(Fermenter, methods=['GET', 'POST', 'PUT', 'DELETE'],  results_per_page=None, postprocessors={ 'PUT_SINGLE': [post_patch], 'POST': [post_post]})
+manager.create_api(FermenterStep, methods=['GET', 'POST', 'PUT', 'DELETE'], results_per_page=None, postprocessors={'PUT_SINGLE': [post_patch]})
 
 @app.route('/api/fermenter/step/order', methods=['POST'])
 def fermentation_order_steps():
@@ -235,7 +235,7 @@ def start_timer(stepid, fermenter_id):
 ### Temp Logging
 
 
-@brewjob(key="fermenter", interval=2)
+@brewjob(key="fermenter", interval=60)
 def fermenterjob():
     for id in app.cbp['FERMENTERS']:
         fermenter = app.cbp['FERMENTERS'][id]

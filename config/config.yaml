@@ -23,7 +23,7 @@ THERMOMETER_TYPE:
 
 SWITCH_TYPE:
  value: GPIO
- options: ['GPIO','PIFACE','GEMBIRD','WIFISOCKET','DUMMY']
+ options: ['GPIO','CHIP-GPIO','GPIOSYS','PIFACE','GEMBIRD','WIFISOCKET','DUMMY']
  description: 'Actor Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
 
 SEND_STATS:
@@ -52,7 +52,7 @@ DUMMY_TEMP_SIMULATOR:
  options: ['Yes', 'No']
 
 WRITE_TEMP_FILE:
- value: 'No'
+ value: 'YES'
  options: ['Yes', 'No']
 
 THEME:

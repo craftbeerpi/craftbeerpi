@@ -9,7 +9,7 @@ try:
     import RPi.GPIO as GPIO
     app.logger.info("SETUP GPIO Module for Buzzer")
 except Exception as e:
-    app.logger.error("SETUP GPIO Module for Buzzer Faild " + str(e))
+    app.logger.error("SETUP GPIO Module for Buzzer Failed " + str(e))
     pass
 
 
