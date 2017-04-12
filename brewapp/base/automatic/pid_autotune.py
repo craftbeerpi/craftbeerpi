@@ -1,7 +1,7 @@
 import math
 import logging
 import io
-from time import time
+import time
 from collections import deque
 from collections import namedtuple
 from brewapp import app
@@ -96,7 +96,8 @@ class PIDAutotune(object):
     }
 
     def __init__(self, setpoint, out_step=10, sampletime=5, lookback=60,
-                 out_min=float('-inf'), out_max=float('inf'), noiseband=0.5, time=time):
+                 out_min=float('-inf'), out_max=float('inf'), noiseband=0.5,
+                 time=time.time):
         if setpoint is None:
             raise ValueError('setpoint must be specified')
         if out_step < 1:

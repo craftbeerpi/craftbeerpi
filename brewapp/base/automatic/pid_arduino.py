@@ -1,5 +1,5 @@
 import logging
-from time import time
+import time
 from brewapp import app
 from brewapp import socketio
 from automaticlogic import *
@@ -58,7 +58,7 @@ class PIDArduino(object):
     """
 
     def __init__(self, sampletime, kp, ki, kd, out_min=float('-inf'),
-                 out_max=float('inf'), time=time):
+                 out_max=float('inf'), time=time.time):
         if kp is None:
             raise ValueError('kp must be specified')
         if ki is None:
