@@ -30,10 +30,14 @@ class PIDArduinoLogic(Automatic):
             heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
             heating_time = self.SAMPLETIME * heat_percent / 100
             wait_time = self.SAMPLETIME - heating_time
-            self.switchHeaterON()
-            socketio.sleep(heating_time)
-            self.switchHeaterOFF()
-            socketio.sleep(wait_time)
+
+            if heating_time > 0:
+                self.switchHeaterON()
+                socketio.sleep(heating_time)
+            if wait_time > 0:
+                self.switchHeaterOFF()
+                socketio.sleep(wait_time)
+        self.switchHeaterOFF()
 
 
 # Based on Arduino PID Library
