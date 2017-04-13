@@ -1,11 +1,6 @@
-import automaticlogic
-import pid
-import overshoot
-import fermentation
-import pump
-import overshoot_advanced
-import hyteresis
-import hendipid
-import hendipowerctrl
-import pid_arduino
-import pid_autotune
+import os
+for module in os.listdir(os.path.dirname(__file__)):
+    if module == '__init__.py' or module[-3:] != '.py':
+        continue
+    __import__(module[:-3], locals(), globals())
+del module
