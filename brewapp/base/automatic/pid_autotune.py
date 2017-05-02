@@ -21,7 +21,6 @@ class PIDAutotuneLogic(Automatic):
             {"name": KEY_LOOKBACK, "value": 30}]
 
     def run(self):
-        self.SAMPLETIME = 5
         wait_time = self.SAMPLETIME
         outstep = float(self.config[self.KEY_OUTSTEP])
         outmax = float(self.config[self.KEY_MAXOUT])
@@ -44,12 +43,12 @@ class PIDAutotuneLogic(Automatic):
 
         app.brewapp_kettle_state[self.kid]["automatic"] = False
         stopPID(self.kid)
-        socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace ='/brew')
+        socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace='/brew')
 
         if atune.state == atune.STATE_SUCCEEDED:
             with io.FileIO('pidparams.txt', 'w') as file:
-                for rule in atune.tuningRules:
-                    params = atune.getPIDParameters(rule)
+                for rule in atune.tuning_rules:
+                    params = atune.get_pid_parameters(rule)
                     file.write('rule: {0}\n'.format(rule))
                     file.write('P: {0}\n'.format(params.Kp))
                     file.write('I: {0}\n'.format(params.Ki))
