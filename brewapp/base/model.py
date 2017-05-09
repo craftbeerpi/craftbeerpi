@@ -89,6 +89,7 @@ class Hydrometer(db.Model):
     name = db.Column(db.String(80))
     tuning =  db.Column(db.String(255))
 
+
     def __repr__(self):
         return self.name
 
@@ -125,6 +126,7 @@ class Fermenter(db.Model):
     cooleroffset_min = db.Column(db.Float())
     cooleroffset_max = db.Column(db.Float())
     target_temp = db.Column(db.Integer())
+    usehydrometer = db.Column(db.Boolean)
     steps = db.relationship('FermenterStep', backref='Fermenter', lazy='joined', cascade="all, delete-orphan", order_by="FermenterStep.order")
 
     def __repr__(self):

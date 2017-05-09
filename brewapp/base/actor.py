@@ -64,7 +64,6 @@ def initHardware(cleanup = True):
     app.brewapp_switch_state = {}
     app.brewapp_hardware_config = {}
     app.brewapp_thermometer_cfg = {}
-    app.brewapp_hydrometer_cfg = {}
     hw = Hardware.query.all()
 
 

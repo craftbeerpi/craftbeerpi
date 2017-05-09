@@ -197,12 +197,20 @@ def fermenterjob():
         timestamp = int((datetime.utcnow() - datetime(1970, 1, 1)).total_seconds()) * 1000
         writeTempToFile("F_" + str(fermenter["id"]), timestamp, temp, fermenter["target_temp"])
 
+
+
+
 @brewjob(key="fermenter_control", interval=0.1)
 def step_control():
     for i in app.cbp['CURRENT_TASK']:
         step = app.cbp['CURRENT_TASK'][i]
         fermenter = app.cbp['FERMENTERS'][i]
-        temp = app.brewapp_thermometer_last[fermenter["sensorid"]]
+
+        useHydromter = fermenter.get("usehydrometer")
+        if useHydromter is not None and useHydromter is True:
+            temp = app.brewapp_hydrometer_cfg[fermenter.get("hydrometerid")].get("temp")
+        else:
+            temp = app.brewapp_thermometer_last[fermenter["sensorid"]]
 
         if step.get("timer_start", None) is None:
             if(step.get("direction", "C") == 'C'):

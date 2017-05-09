@@ -321,6 +321,8 @@ function HardwareOverviewController($scope, CBPHardware, ConfirmMessage, CBPHydr
     }
 
     $scope.edit = function (item) {
+
+
         $scope.edit_mode = true;
         $scope.hardware = angular.copy(item);
         $scope.headline = "DELETE_HARDWARE_HEADLINE";
@@ -382,7 +384,7 @@ function HardwareOverviewController($scope, CBPHardware, ConfirmMessage, CBPHydr
             console.log("SAVE HYDROMETER", $scope.hardware)
         }, function (data) {
             if ('delete' == data) {
-                console.log("DELETE HYDROMETER")
+
                 CBPHydrometer.delete({
                     "id": $scope.hardware.id
                 }, function(data) {
