@@ -1,7 +1,7 @@
 import time
 import math
 import logging
-import io
+from datetime import datetime
 from collections import deque
 from collections import namedtuple
 from brewapp import app, socketio
@@ -22,11 +22,11 @@ class PIDAutotuneLogic(Automatic):
 
     def run(self):
         wait_time = self.SAMPLETIME
-        outstep = float(self.config[self.KEY_OUTSTEP])
-        outmax = float(self.config[self.KEY_MAXOUT])
-        lookbackSec = float(self.config[self.KEY_LOOKBACK])
+        out_step = float(self.config[self.KEY_OUTSTEP])
+        out_max = float(self.config[self.KEY_MAXOUT])
+        lookback = float(self.config[self.KEY_LOOKBACK])
         setpoint = self.getTargetTemp()
-        atune = PIDAutotune(setpoint, outstep, self.SAMPLETIME, lookbackSec, 0, outmax)
+        atune = PIDAutotune(setpoint, out_step, self.SAMPLETIME, lookback, 0, out_max)
 
         while self.isRunning() and not atune.run(self.getCurrentTemp()):
             heat_percent = atune.output
@@ -46,13 +46,20 @@ class PIDAutotuneLogic(Automatic):
         socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace='/brew')
 
         if atune.state == atune.STATE_SUCCEEDED:
-            with io.FileIO('pidparams.txt', 'w') as file:
+            with open('pidparams.txt', 'a') as file:
+                file.write('created at: {0}\n'.format(datetime.now()))
+                file.write('target temperature: {0}\n'.format(setpoint))
+                file.write('{0}: {1}\n'.format(self.KEY_OUTSTEP, out_step))
+                file.write('{0}: {1}\n'.format(self.KEY_MAXOUT, out_max))
+                file.write('{0}: {1}\n\n'.format(self.KEY_LOOKBACK, lookback))
+
                 for rule in atune.tuning_rules:
                     params = atune.get_pid_parameters(rule)
                     file.write('rule: {0}\n'.format(rule))
                     file.write('P: {0}\n'.format(params.Kp))
                     file.write('I: {0}\n'.format(params.Ki))
                     file.write('D: {0}\n\n'.format(params.Kd))
+                file.write('\n')
 
 
 # Based on a fork of Arduino PID AutoTune Library
@@ -279,9 +286,6 @@ class PIDAutotune(object):
             return True
 
         return False
-
-    def _currentTimeMs(self):
-        return time.time() * 1000
 
     def _initTuner(self, inputValue, timestamp):
         self._peak_type = 0
