@@ -1,7 +1,7 @@
 import time
 import math
 import logging
-from datetime import datetime
+from datetime import datetime as dt
 from collections import deque
 from collections import namedtuple
 from brewapp import app, socketio
@@ -21,6 +21,7 @@ class PIDAutotuneLogic(Automatic):
             {"name": KEY_LOOKBACK, "value": 30}]
 
     def run(self):
+        start_time = dt.now()
         wait_time = self.SAMPLETIME
         out_step = float(self.config[self.KEY_OUTSTEP])
         out_max = float(self.config[self.KEY_MAXOUT])
@@ -45,21 +46,27 @@ class PIDAutotuneLogic(Automatic):
         stopPID(self.kid)
         socketio.emit('kettle_state_update', app.brewapp_kettle_state, namespace='/brew')
 
-        if atune.state == atune.STATE_SUCCEEDED:
-            with open('pidparams.txt', 'a') as file:
-                file.write('created at: {0}\n'.format(datetime.now()))
-                file.write('target temperature: {0}\n'.format(setpoint))
-                file.write('{0}: {1}\n'.format(self.KEY_OUTSTEP, out_step))
-                file.write('{0}: {1}\n'.format(self.KEY_MAXOUT, out_max))
-                file.write('{0}: {1}\n\n'.format(self.KEY_LOOKBACK, lookback))
+        with open('pidparams.txt', 'a') as file:
+            file.write('tuning started at: {0}\n'.format(start_time))
+            file.write('tuning finished at: {0}\n'.format(dt.now()))
+            file.write('target temperature: {0}\n'.format(setpoint))
+            file.write('{0}: {1}\n'.format(self.KEY_OUTSTEP, out_step))
+            file.write('{0}: {1}\n'.format(self.KEY_MAXOUT, out_max))
+            file.write('{0}: {1}\n'.format(self.KEY_LOOKBACK, lookback))
 
+            if atune.state == PIDAutotune.STATE_SUCCEEDED:
+                file.write('result: tuning succeeded\n\n')
                 for rule in atune.tuning_rules:
                     params = atune.get_pid_parameters(rule)
                     file.write('rule: {0}\n'.format(rule))
                     file.write('P: {0}\n'.format(params.Kp))
                     file.write('I: {0}\n'.format(params.Ki))
                     file.write('D: {0}\n\n'.format(params.Kd))
-                file.write('\n')
+            elif atune.state == PIDAutotune.STATE_FAILED:
+                file.write('result: tuning failed\n\n')
+            else:
+                file.write('result: tuning aborted\n\n')
+            file.write('\n')
 
 
 # Based on a fork of Arduino PID AutoTune Library
