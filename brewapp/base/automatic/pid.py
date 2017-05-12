@@ -74,7 +74,11 @@ class PIDLogic(Automatic):
             heat_percent = pid.calc(self.getCurrentTemp(), self.getTargetTemp())
             heating_time = sampleTime * heat_percent / 100
             wait_time = sampleTime - heating_time
-            self.switchHeaterON()
-            socketio.sleep(heating_time)
-            self.switchHeaterOFF()
-            socketio.sleep(wait_time)
+
+            if heating_time > 0:
+                self.switchHeaterON()
+                socketio.sleep(heating_time)
+            if wait_time > 0:
+                self.switchHeaterOFF()
+                socketio.sleep(wait_time)
+        self.switchHeaterOFF()
