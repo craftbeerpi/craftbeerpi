@@ -1,3 +1,4 @@
+import flask
 from flask import Flask, abort, redirect, url_for, render_template, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, emit
@@ -7,11 +8,12 @@ import flask_restless
 from logging.handlers import RotatingFileHandler
 import time
 import os
-
-
 import inspect
-
 from functools import wraps
+## Import modules (Flask Blueprints)
+from .base.views import base
+#from .module1.views import mymodule
+from .ui.views import ui
 
 
 app = Flask(__name__)
@@ -20,7 +22,6 @@ logging.basicConfig(filename='./log/app.log',level=logging.DEBUG)
 
 app.logger.info("##########################################")
 app.logger.info("### NEW STARTUP Version 2.2")
-from functools import wraps
 
 
 app = Flask(__name__)
@@ -30,7 +31,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../craftbeerpi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'craftbeerpi'
 app.config['UPLOAD_FOLDER'] = './upload'
-
 
 socketio = SocketIO(app)
 
@@ -69,17 +69,7 @@ db = SQLAlchemy(app)
 
 manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 
-
-## Import modules (Flask Blueprints)
-from .base.views import base
-#from .module1.views import mymodule
-from .ui.views import ui
-
-
-if os.path.exists("craftbeerpi.db"):
-    app.createdb = False
-else:
-    app.createdb = True
+app.createdb = not os.path.exists("craftbeerpi.db")
 
 ## Create Database
 db.create_all()
@@ -87,7 +77,6 @@ db.create_all()
 ## Register modules (Flask Blueprints)
 app.register_blueprint(base,url_prefix='/base')
 app.register_blueprint(ui,url_prefix='/ui')
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -127,32 +116,26 @@ for i in app.brewapp_init:
     app.logger.info("--> Method: " + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
     i.get("function")()
 
+
 ## Start Background Jobs
 def job(key, interval, method):
-
     app.logger.info("Start Job: " + method.__name__ + " Interval:" + str(interval) + " Key:" + key)
     while app.brewapp_jobstate[key]:
         try:
             method()
         except Exception as e:
-            print e
+            print(e)
             app.logger.error("Exception" + method.__name__ + ": " + str(e))
         socketio.sleep(interval)
-
 
 
 app.logger.info("## INITIALIZE JOBS")
 
 for i in app.brewapp_jobs:
-
-
     if(i.get("config_parameter") != None):
         param = app.brewapp_config.get(i.get("config_parameter"), False)
         if(param == 'False'):
             continue
     app.brewapp_jobstate[i.get("key")] = True
     t = socketio.start_background_task(target=job, key=i.get("key"), interval=i.get("interval"), method=i.get("function"))
-
     app.logger.info("--> Method:" + i.get("function").__name__ + "() File: "+ inspect.getfile(i.get("function")))
-
-
