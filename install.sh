@@ -62,7 +62,7 @@ easy_install pip
 #Install Flask
 apt-get -y install python-dev
 apt-get -y install libpcre3-dev
-pip install -r requirements.txt
+pip install --index-url=https://pypi.python.org/simple/ -r requirements.txt
 
 
 if ! grep -q "dtoverlay=w1-gpio" "/boot/config.txt"; then
