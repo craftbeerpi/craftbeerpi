@@ -49,6 +49,20 @@ while true; do
     esac
 done
 
+while true; do
+	read -p "Would you like to install pilight? This is required for 433mHz sockets (y/n): " yn
+    case $yn in
+        [Yy]* ) echo "deb http://apt.pilight.org/ stable main" > /etc/apt/sources.list.d/pilight.list;
+                wget -O - http://apt.pilight.org/pilight.key | apt-key add -;
+                apt-get-update;
+                apt-get -y install pilight;
+                echo "!!! Don’t forget to configure PiLight! Add devices, and make it listen on a static port!"
+                break;;
+        [Nn]* ) break;;
+        * ) echo "(Y/N)";;
+    esac
+done
+
 #Install pip (package installer):
 apt-get -y install python-setuptools
 easy_install pip

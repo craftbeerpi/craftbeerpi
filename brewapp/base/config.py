@@ -81,7 +81,8 @@ def initDriver():
         'PIFACE': piface.PiFace(),
         'WIFISOCKET': wifisocket.WifiSocket(),
         'CHIP-GPIO': chip_gpio.BrewGPIO(),
-        'GPIOSYS': gpiosys.GPIOSys()
+        'GPIOSYS': gpiosys.GPIOSys(),
+        'PILIGHT': pilight.PiLightSwitcher()
     }
 
     thermometer = {
