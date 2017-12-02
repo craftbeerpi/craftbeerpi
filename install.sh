@@ -49,6 +49,16 @@ while true; do
     esac
 done
 
+while true ; do
+    read -p "Would you like to install digitemp? This is required for DS9097 1Wire Adaptors (y/n): " yn
+    case $yn in
+        [Yy]* ) apt-get -y install digitemp;
+        break;;
+        [Nn]* ) break;;
+        * ) echo "(Y/N)";;
+    esac
+done
+
 #Install pip (package installer):
 apt-get -y install python-setuptools
 easy_install pip
