@@ -23,7 +23,7 @@ THERMOMETER_TYPE:
 
 SWITCH_TYPE:
  value: GPIO
- options: ['GPIO','CHIP-GPIO','GPIOSYS','PIFACE','GEMBIRD','WIFISOCKET','DUMMY']
+ options: ['GPIO','CHIP-GPIO','GPIOSYS','PIFACE','GEMBIRD','WIFISOCKET','DUMMY', 'PILIGHT']
  description: 'Actor Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
 
 SEND_STATS:
@@ -71,3 +71,7 @@ WIFI_SOCKET_USER:
 WIFI_SOCKET_PASSWORD:
   value: 12345
   description: 'password for wifi socket'
+
+SW_PILIGHT_HOST_PORT:
+  value: '127.0.0.1:5005'
+  description: 'The <host>:<port> of the pilight server. Make sure to set a static port for the pilight API in its configuration!'
