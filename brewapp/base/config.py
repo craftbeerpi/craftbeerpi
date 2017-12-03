@@ -88,7 +88,8 @@ def initDriver():
         'DUMMY': dummy_thermometer.DummyThermometer(),
         '1WIRE': w1_thermometer.OneWireThermometer(),
         '1WIRE_V2': w1_thermometer2.OneWireThermometer2(),
-        'USB': usb_thermometer.USBThermometer()
+        'USB': usb_thermometer.USBThermometer(),
+        'DS9097': ds9097_thermometer.DS9097Thermometer()
     }
 
     app.brewapp_hardware = hardware.get(app.brewapp_config.get("SWITCH_TYPE", "DUMMY"), dummygpio.DummyGPIO())

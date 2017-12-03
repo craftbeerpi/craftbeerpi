@@ -18,7 +18,7 @@ UNIT:
 
 THERMOMETER_TYPE:
  value: 1WIRE
- options: ['1WIRE','USB','DUMMY', '1WIRE_V2']
+ options: ['1WIRE','USB','DUMMY', '1WIRE_V2', 'DS9097']
  description: 'Thermometer Type !!!RESTART AFTER CHANGE OF THIS PARAMETER!!!'
 
 SWITCH_TYPE:
@@ -71,3 +71,8 @@ WIFI_SOCKET_USER:
 WIFI_SOCKET_PASSWORD:
   value: 12345
   description: 'password for wifi socket'
+
+THERM_DS9097_PORT:
+  value: '/dev/ttyUSB0'
+  description: 'Serial-port devicefile to use for DS9097-communication. e.g. /dev/ttyUSB* or /dev/ttyS*'
+
