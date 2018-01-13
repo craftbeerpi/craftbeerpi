@@ -20,7 +20,14 @@
                             ng-selected="fermenter.sensorid == t.key">{{ t.value }}</option>
                 </select>
             </div>
-   <!--
+            <div class="form-group">
+                <label>{{ 'FAN' | translate }} {{ 'SWITCH' | translate }}</label>
+                <select class="form-control" ng-model="fermenter.fanid">
+                    <option ng-repeat="t in hardware" value="{{ t.key }}"
+                            ng-selected="fermenter.fanid == t.key">{{ t.value }}</option>
+                </select>
+            </div>
+    <!--
             <div class="form-group" ng-if="hydrometer.length > 1">
                 <label>{{ 'HYDROMETER' | translate }}</label>
 
