@@ -124,6 +124,7 @@ class Fermenter(db.Model):
     coolerid = db.Column(db.Integer())
     cooleroffset_min = db.Column(db.Float())
     cooleroffset_max = db.Column(db.Float())
+    fanid = db.Column(db.Integer())
     target_temp = db.Column(db.Integer())
     steps = db.relationship('FermenterStep', backref='Fermenter', lazy='joined', cascade="all, delete-orphan", order_by="FermenterStep.order")
 

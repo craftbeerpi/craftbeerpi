@@ -150,21 +150,30 @@ def hystresis(id):
 
         heater_id = fermenter["heaterid"] if type(fermenter["heaterid"]) is int else None
         cooler_id = fermenter["coolerid"] if type(fermenter["coolerid"]) is int else None
+        fan_id = fermenter["fanid"] if type(fermenter["fanid"]) is int else None
 
 
         if heater_id is not None:
             if temp + heater_min < target_temp:
                 switchOn(fermenter["heaterid"])
+                if fan_id is not None:
+                    switchOn(fermenter["fanid"])
 
             if temp + heater_max > target_temp:
                 switchOff(fermenter["heaterid"])
+                if fan_id is not None:
+                    switchOff(fermenter["fanid"])
 
         if cooler_id is not None:
             if temp > target_temp + cooler_min:
                 switchOn(fermenter["coolerid"])
+                if fan_id is not None:
+                    switchOn(fermenter["fanid"])
 
             if temp < target_temp + cooler_max:
                 switchOff(fermenter["coolerid"])
+                if fan_id is not None:
+                    switchOff(fermenter["fanid"])
 
         socketio.sleep(1)
 
@@ -172,8 +181,12 @@ def hystresis(id):
 
     if type(fermenter["heaterid"]) is int:
         switchOff(fermenter["heaterid"])
+        if type(fermenter["fanid"]) is int:
+            switchOff(fermenter["fanid"])
     if type(fermenter["coolerid"]) is int:
         switchOff(fermenter["coolerid"])
+        if type(fermenter["fanid"]) is int:
+            switchOff(fermenter["fanid"])
 
 
 @app.route('/api/fermenter/<id>/automatic', methods=['POST'])
