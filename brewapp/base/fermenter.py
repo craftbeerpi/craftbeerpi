@@ -156,23 +156,23 @@ def hystresis(id):
         if heater_id is not None:
             if temp + heater_min < target_temp:
                 switchOn(fermenter["heaterid"])
-                if type(fermenter["fanid"]) is int:
+                if fan_id is not None:
                     switchOn(fermenter["fanid"])
 
             if temp + heater_max > target_temp:
                 switchOff(fermenter["heaterid"])
-                if type(fermenter["fanid"]) is int:
+                if fan_id is not None:
                     switchOff(fermenter["fanid"])
 
         if cooler_id is not None:
             if temp > target_temp + cooler_min:
                 switchOn(fermenter["coolerid"])
-                if type(fermenter["fanid"]) is int:
+                if fan_id is not None:
                     switchOn(fermenter["fanid"])
 
             if temp < target_temp + cooler_max:
                 switchOff(fermenter["coolerid"])
-                if type(fermenter["fanid"]) is int:
+                if fan_id is not None:
                     switchOff(fermenter["fanid"])
 
         socketio.sleep(1)
