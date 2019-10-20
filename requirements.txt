@@ -11,7 +11,7 @@ python-engineio==0.9.2
 python-mimeparse==1.5.2
 python-socketio==1.4.4
 PyYAML==3.11
-requests==2.11.0
+requests==2.20.0
 SQLAlchemy==1.0.14
 Werkzeug==0.11.10
 WTForms==2.1
