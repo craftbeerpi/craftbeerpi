@@ -39,7 +39,7 @@ done
 while true; do
     read -p "Would you like to install wiringPI? This is required to control the GPIO (y/n): " yn
     case $yn in
-        [Yy]* ) git clone git://git.drogon.net/wiringPi;
+        [Yy]* ) git clone https://github.com/WiringPi/WiringPi.git;
         cd wiringPi;
         ./build; cd ..;
         rm -rf wiringPi;
@@ -137,7 +137,7 @@ while true; do
 done
 
 while true; do
-    read -p "Would you like to start CarftBeerPI automatically after boot? (y/n): " yn
+    read -p "Would you like to start CraftBeerPI automatically after boot? (y/n): " yn
     case $yn in
         [Yy]* ) sed "s@#DIR#@${PWD}@g" config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
 
