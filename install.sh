@@ -42,7 +42,7 @@ while true; do
         [Yy]* ) git clone https://github.com/WiringPi/WiringPi.git;
         cd WiringPi;
         ./build; cd ..;
-        rm -rf wiringPi;
+        rm -rf WiringPi;
         break;;
         [Nn]* ) break;;
         * ) echo "(Y/N)";;
