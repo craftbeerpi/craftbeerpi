@@ -4,7 +4,7 @@ Flask-Restless==0.17.0
 Flask-SocketIO==2.6.2
 Flask-SQLAlchemy==2.1
 eventlet==0.19.0
-greenlet==0.4.10
+greenlet==0.4.15
 RPi.GPIO==0.5.11
 python-dateutil==2.5.3
 python-engineio==0.9.2
