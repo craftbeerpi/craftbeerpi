@@ -15,6 +15,6 @@ requests==2.11.0
 SQLAlchemy==1.0.14
 Werkzeug==0.11.10
 WTForms==2.1
-httplib2==0.9.2
+httplib2==0.18.0
 Flask-SuperAdmin==1.7.1
 CHIP_IO==0.2.6
