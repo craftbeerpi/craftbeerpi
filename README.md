@@ -24,7 +24,7 @@ Facebook User Group: www.facebook.com/groups/craftbeerpi/
 * Brew Automatic with Overshoot Logic, PID Logic, Fermentation Logic.
 * Custom Automatic logics can be add
 * Recipe Book
-* Support für GPIO, PiFace or Gembird USB Socket
+* Support for GPIO, PiFace or Gembird USB Socket
 * Temperature can be measured in Fahrenheit or Celcius
 * Fermentation Controller
 * Beer.xml Import
@@ -39,7 +39,7 @@ CraftBeerPi is a free & open source project. If you like to support the project 
 [![Donate](https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2X9KR98KJ8YZQ)
 
 ## Support & Communities
-
+https://msngr.com/TUDJR6Lq8GMfNVLz
 The Community of CraftBeerPi is quite active.
 
 Facebook:
