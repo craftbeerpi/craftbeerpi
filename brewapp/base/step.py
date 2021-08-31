@@ -50,7 +50,7 @@ def nextStep():
 
     if(active != None):
         active.state = 'D'
-        active.end = datetime.utcnow()
+        active.end = datetime.now()
         setTargetTemp(active.kettleid, 0)
         db.session.add(active)
         db.session.commit()
@@ -58,7 +58,7 @@ def nextStep():
 
     if(inactive != None):
         inactive.state = 'A'
-        inactive.start = datetime.utcnow()
+        inactive.start = datetime.now()
         setTargetTemp(inactive.kettleid, inactive.temp)
         db.session.add(inactive)
         db.session.commit()
@@ -82,7 +82,7 @@ def reset():
 def resetCurrentSteps():
     resetBeep()
     active = Step.query.filter_by(state='A').first()
-    active.start = datetime.utcnow()
+    active.start = datetime.now()
     active.end = None
     active.timer_start = None
     setTargetTemp(active.kettleid, active.temp)
@@ -95,7 +95,7 @@ def resetCurrentSteps():
 def start_timer_of_current_step():
     resetBeep()
     active = Step.query.filter_by(state='A').first()
-    active.timer_start = datetime.utcnow()
+    active.timer_start = datetime.now()
     setTargetTemp(active.kettleid, active.temp)
     app.brewapp_current_step = to_dict(active)
     app.brewapp_current_step["endunix"] = int((active.timer_start - datetime(1970, 1, 1)).total_seconds()) * 1000
@@ -170,7 +170,7 @@ def stepjob():
     if(cs.get("timer") is not None and cs.get("timer_start") == None and ct >= cs.get("temp")):
 
         s = Step.query.get(cs.get("id"))
-        s.timer_start = datetime.utcnow()
+        s.timer_start = datetime.now()
         app.brewapp_current_step = to_dict(s)
         if(s.timer_start != None):
             app.brewapp_current_step["endunix"] =  int((s.timer_start - datetime(1970,1,1)).total_seconds())*1000
@@ -184,7 +184,7 @@ def stepjob():
     if(cs.get("timer_start") != None):
         # check if timer elapsed
         end = cs.get("endunix") + cs.get("timer")*60000
-        now = int((datetime.utcnow() - datetime(1970,1,1)).total_seconds())*1000
+        now = int((datetime.now() - datetime(1970,1,1)).total_seconds())*1000
         ## switch to next step if timer is over
         if(end < now ):
 
