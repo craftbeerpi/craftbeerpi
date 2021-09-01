@@ -18,3 +18,4 @@ WTForms==2.1
 httplib2==0.9.2
 Flask-SuperAdmin==1.7.1
 CHIP_IO==0.2.6
+Flask-WTF==0.14.2
