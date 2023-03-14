@@ -39,7 +39,7 @@ done
 while true; do
     read -p "Would you like to install wiringPI? This is required to control the GPIO (y/n): " yn
     case $yn in
-        [Yy]* ) git clone git://git.drogon.net/wiringPi;
+        [Yy]* ) git clone https://github.com/wiringPi/wiringPi;
         cd wiringPi;
         ./build; cd ..;
         rm -rf wiringPi;
